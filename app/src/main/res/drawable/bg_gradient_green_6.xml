@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="360"
+        android:endColor="#86D8D2"
+        android:startColor="#44C0B6" />
+    <!-- 圆角的幅度 -->
+    <corners
+        android:bottomLeftRadius="6dip"
+        android:bottomRightRadius="6dip"
+        android:topLeftRadius="6dip"
+        android:topRightRadius="6dip" />
+</shape>

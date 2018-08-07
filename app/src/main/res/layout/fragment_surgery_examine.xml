@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray_48" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/package_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="麻醉前访视及麻醉计划"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/package_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="麻醉诱导前即刻评估单"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/package_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="麻醉后随访记录单"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/package_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="手术护理单"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/package_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="手术安全核查表"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/package_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="手术风险评估表"
+        android:textColor="@color/black_50" />
+
+
+</LinearLayout>

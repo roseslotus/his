@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/green_50">
+
+        <ImageView
+            android:id="@+id/return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/return_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="手术预约详情"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/girl_icon" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="张三"
+                android:textColor="@color/black_50" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="135****4562"
+                android:textColor="@color/black_50" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_white_line_box_gray"
+        android:orientation="horizontal"
+        android:paddingTop="1px">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="手术名称："
+                android:textColor="@color/gray_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="手术医生："
+                android:textColor="@color/gray_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="预约时间："
+                android:textColor="@color/gray_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:gravity="right"
+                android:padding="10dp"
+                android:text="预  约  人："
+                android:textColor="@color/gray_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="创建时间："
+                android:textColor="@color/gray_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="咨  询  师："
+                android:textColor="@color/gray_50" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="交费情况："
+                android:textColor="@color/gray_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="门诊/住院:"
+                android:textColor="@color/gray_50" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:gravity="right"
+                android:padding="10dp"
+                android:text="备        注："
+                android:textColor="@color/gray_50" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="韩式微创无痕重脸"
+                android:textColor="@color/black_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="杜圆圆"
+                android:textColor="@color/black_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="2018-02-23   10:30~11:00"
+                android:textColor="@color/black_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="李安庆"
+                android:textColor="@color/black_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="2018-02-22 09:00"
+                android:textColor="@color/black_50" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="赵春红"
+                android:textColor="@color/black_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="全额"
+                android:textColor="@color/black_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="住院"
+                android:textColor="@color/black_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_white_line_gray_below"
+                android:padding="10dp"
+                android:text="暂无"
+                android:textColor="@color/black_50" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

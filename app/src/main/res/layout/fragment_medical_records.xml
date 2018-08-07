@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray_48" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="病案首页"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="入院记录"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="病程记录"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:padding="10dp"
+        android:text="出院记录"
+        android:textColor="@color/black_50" />
+
+
+</LinearLayout>

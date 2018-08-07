@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="30dp"
+    android:id="@+id/root"
+    android:background="@drawable/bg_number_button"
+    android:divider="@drawable/line_number_vertical"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/button_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_number_button_left"
+        android:gravity="center"
+        android:text="-"
+        android:textColor="@color/gray_50"
+        android:minWidth="30dp"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/middle_count"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:minWidth="40dp"
+        android:background="@null"
+        android:cursorVisible="true"
+        android:digits="0123456789"
+        android:gravity="center"
+        android:singleLine="true"
+        android:inputType="number"
+        android:paddingBottom="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp"
+        android:text="1"
+        android:textColor="#000"
+        android:textCursorDrawable="@null"/>
+
+    <TextView
+        android:id="@+id/button_add"
+        android:layout_width="wrap_content"
+        android:minWidth="30dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_number_button_right"
+        android:gravity="center"
+        android:text="+"
+        android:textColor="@color/gray_50"
+        android:textSize="18sp"/>
+</LinearLayout>

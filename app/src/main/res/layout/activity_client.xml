@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_47"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/green_50">
+
+        <ImageView
+            android:id="@+id/return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:src="@mipmap/return_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我的客户"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/screen_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:src="@mipmap/screen_icon" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/arc_green_icon" />
+
+        <LinearLayout
+            android:id="@+id/tag_ll"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <com.mylike.his.view.ClearEditText
+                android:id="@+id/search_edit"
+                style="@style/SearchNotLineRStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_green_right_20"
+                android:text="搜索"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tag_ll"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_white_box_10"
+            android:overScrollMode="never"
+            android:paddingRight="10dp"
+            android:scrollbars="none" />
+
+        <com.mcxtzhang.indexlib.IndexBar.widget.IndexBar
+            android:id="@+id/indexBar"
+            android:layout_width="34dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="55dp"
+            app:indexBarPressBackground="@android:color/transparent"
+            app:indexBarTextSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvSideBarHint"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_gray_10_t50_"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="48sp"
+            android:visibility="gone"
+            tools:text="A"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+    <!-- <FrameLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+         <ImageView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@mipmap/arc_green_icon" />
+         <com.mylike.his.view.ClearEditText
+             style="@style/SearchNotLineStyle"
+             android:layout_width="match_parent"
+             android:layout_height="30dp"
+             android:layout_marginRight="10dp"
+             android:hint="请输入姓名或手机号" />
+
+         <android.support.v7.widget.RecyclerView
+             android:id="@+id/rv"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:layout_marginTop="10dp"
+             android:background="@drawable/bg_white_box_10"
+             android:overScrollMode="never"
+             android:paddingRight="10dp"
+             android:scrollbars="none" />
+
+         <com.mcxtzhang.indexlib.IndexBar.widget.IndexBar
+             android:id="@+id/indexBar"
+             android:layout_width="34dp"
+             android:layout_height="match_parent"
+             android:layout_gravity="right"
+             android:layout_marginTop="15dp"
+             app:indexBarPressBackground="@android:color/transparent"
+             app:indexBarTextSize="12sp" />
+
+         <TextView
+             android:id="@+id/tvSideBarHint"
+             android:layout_width="80dp"
+             android:layout_height="80dp"
+             android:layout_gravity="center"
+             android:background="@drawable/bg_gray_10_t50_"
+             android:gravity="center"
+             android:textColor="@android:color/white"
+             android:textSize="48sp"
+             android:visibility="gone"
+             tools:text="A"
+             tools:visibility="visible" />
+
+     </FrameLayout>-->
+</LinearLayout>

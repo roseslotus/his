@@ -1,0 +1,142 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!--弹框选择器-->
+    <style name="DialogSelectStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--&lt;!&ndash; Dialog进入及退出动画 &ndash;&gt;-->
+        <!--<item name="android:windowAnimationStyle">@style/DialogAnimation</item>-->
+    </style>
+
+    <!--弹框选择器-->
+    <style name="DialogInputSelectStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--弹出软键盘-->
+        <item name="android:windowSoftInputMode">stateAlwaysVisible</item>
+    </style>
+
+    <!-- ActionSheet进出动画 -->
+    <style name="DialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/bottom_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_dialog_exit</item>
+    </style>
+
+    <!--ListView无线样式-->
+    <style name="ListViewNotLineStyle" parent="Base.Widget.AppCompat.ListView">
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
+
+    <!--ListView有线样式-->
+    <style name="ListViewLineStyle" parent="Base.Widget.AppCompat.ListView">
+        <item name="android:background">@color/white</item>
+        <item name="android:divider">@color/gray_49</item>
+        <item name="android:dividerHeight">1px</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">never</item>
+
+    </style>
+
+    <!--ListView有线圆边角样式-->
+    <style name="ListViewLineBStyle" parent="Base.Widget.AppCompat.ListView">
+        <item name="android:background">@drawable/bg_white_box_10</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:divider">@color/gray_49</item>
+        <item name="android:dividerHeight">1px</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+    </style>
+
+
+    <!--有线搜索框样式-->
+    <style name="SearchStyle" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/bg_white_line_box_gray_5</item>
+        <item name="android:drawableLeft">@mipmap/magnifying_glass_gray_icon</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--无线搜索框样式-->
+    <style name="SearchNotLineStyle" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/bg_white_box_10</item>
+        <item name="android:drawableLeft">@mipmap/magnifying_glass_gray_icon</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--无线圆边搜索框样式-->
+    <style name="SearchNotLineRStyle" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/bg_white_left_20</item>
+        <item name="android:drawableLeft">@mipmap/magnifying_glass_gray_icon</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--门诊文本样式-->
+    <style name="OutpatientServiceTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/bg_white_box_10</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/black_50</item>
+        <!--<item name="android:textSize">12sp</item>-->
+    </style>
+
+    <!--手术管理文本样式-->
+    <style name="SurgeryTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:drawableRight">@mipmap/right_arrows_icon</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/black_50</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+</resources>

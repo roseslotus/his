@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_47"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/green_50">
+
+        <ImageView
+            android:id="@+id/return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/return_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="填写订单"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tag_img"
+            android:background="@mipmap/arc_green_icon" />
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/tag_ll">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_white_box_10"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="1,3">
+
+                            <TableRow>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="客户：" />
+
+                                <TextView
+                                    android:id="@+id/user_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black_50" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="电话：" />
+
+                                <TextView
+                                    android:id="@+id/user_phone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black_50" />
+
+                            </TableRow>
+
+
+                            <TableRow android:layout_marginTop="5dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="科室：" />
+
+                                <TextView
+                                    android:id="@+id/section_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black_50" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:drawableLeft="@mipmap/emphasis_icon"
+                                    android:text="医生：" />
+
+                                <TextView
+                                    android:id="@+id/doctor_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black_50" />
+                            </TableRow>
+                        </TableLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="身份证：" />
+
+                            <EditText
+                                android:id="@+id/identity_edit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="38dp"
+                                android:background="@drawable/bg_white_line_box_gray"
+                                android:hint="请输入身份证号"
+                                android:maxLines="1"
+                                android:padding="5dp"
+                                android:textColor="@color/black_50"
+                                android:textColorHint="@color/gray_48"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="55dp"
+                            android:layout_marginTop="3dp"
+                            android:text="整形科目请填写身份证号!"
+                            android:textColor="@android:color/holo_red_light"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="9dp"
+                                android:drawableLeft="@mipmap/emphasis_icon"
+                                android:text="意向：" />
+
+                            <TextView
+                                android:id="@+id/intention_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_white_line_box_gray"
+                                android:drawablePadding="5dp"
+                                android:drawableRight="@mipmap/below_arrow_icon"
+                                android:padding="5dp"
+                                android:text="请选择"
+                                android:textColor="@color/black_50" />
+
+                            <TextView
+                                android:id="@+id/add_intention_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="新增"
+                                android:textColor="@color/green_50" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_white_box_10"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="已选产品" />
+
+                            <TextView
+                                android:id="@+id/update_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/label_line_green_3"
+                                android:paddingBottom="5dp"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:paddingTop="5dp"
+                                android:text="更改"
+                                android:textColor="@color/green_50" />
+
+                        </LinearLayout>
+
+                        <com.mylike.his.view.SListView
+                            android:id="@+id/project_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/gray_47"
+                            android:divider="@color/white"
+                            android:dividerHeight="1dp"
+                            android:listSelector="@android:color/transparent" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_white_box_10"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/subscription_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableRight="@mipmap/below_green_icon"
+                            android:padding="10dp"
+                            android:text="预约金"
+                            android:textColor="@color/green_50" />
+
+                        <LinearLayout
+                            android:id="@+id/time_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="预约时间：" />
+
+
+                            <TextView
+                                android:id="@+id/time_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:background="@drawable/bg_white_line_box_gray"
+                                android:hint="请选择时间"
+                                android:padding="5dp"
+                                android:textColor="@color/black_50"
+                                android:textColorHint="@color/gray_48"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/money_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="预约金额：" />
+
+
+                            <EditText
+                                android:id="@+id/money_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:background="@drawable/bg_white_line_box_gray"
+                                android:hint="请输入金额"
+                                android:maxLines="1"
+                                android:padding="5dp"
+                                android:textColor="@color/black_50"
+                                android:textColorHint="@color/gray_48"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_white_box_10"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="优惠方式"
+                            android:textColor="@color/green_50" />
+
+
+                        <!--   <RadioGroup
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:orientation="horizontal">
+
+                               <RadioButton
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:button="@drawable/selector_round_icon"
+                                   android:padding="10dp"
+                                   android:text="签呈优惠"
+                                   android:textColor="@color/black_50" />
+
+                               <RadioButton
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:button="@drawable/selector_round_icon"
+                                   android:padding="10dp"
+                                   android:text="OA特批优惠"
+                                   android:textColor="@color/black_50" />
+                           </RadioGroup>-->
+
+                        <CheckBox
+                            android:id="@+id/oa_box"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/selector_round_icon"
+                            android:padding="10dp"
+                            android:text="OA特批优惠"
+                            android:textColor="@color/black_50" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/gray_48" />
+
+                        <!--  <LinearLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="10dp"
+                              android:layout_marginTop="10dp"
+                              android:orientation="horizontal">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginLeft="14dp"
+                                  android:text="抵用券：" />
+
+                              <EditText
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:background="@drawable/bg_white_line_box_gray"
+                                  android:hint="请输入金额"
+                                  android:maxLines="1"
+                                  android:padding="5dp"
+                                  android:textColor="@color/black_50"
+                                  android:textColorHint="@color/gray_48"
+                                  android:textSize="14sp" />
+                          </LinearLayout>-->
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/gray_48" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="28dp"
+                                android:text="积分：" />
+
+                            <TextView
+                                android:id="@+id/integral_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="共0积分"
+                                android:textColor="@color/green_50" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="本次使用：" />
+
+                            <EditText
+                                android:id="@+id/integral_edit"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_white_line_box_gray"
+                                android:hint="请输入积分"
+                                android:inputType="number"
+                                android:maxLines="1"
+                                android:padding="5dp"
+                                android:textColor="@color/black_50"
+                                android:textColorHint="@color/gray_48"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_weight="1"
+                                android:text="积分" />
+
+                            <TextView
+                                android:id="@+id/jian_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textColor="@color/green_50"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/integral_money_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@mipmap/money_green_icon"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/green_50"
+
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_white_box_10"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="支付方式"
+                            android:textColor="@color/green_50" />
+
+                        <RadioGroup
+                            android:id="@+id/patternPayment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/move"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@drawable/selector_round_icon"
+                                android:padding="10dp"
+                                android:text="移动支付"
+                                android:textColor="@color/black_50" />
+
+                            <RadioButton
+                                android:id="@+id/not_move"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:button="@drawable/selector_round_icon"
+                                android:padding="10dp"
+                                android:text="非移动支付"
+                                android:textColor="@color/black_50" />
+                        </RadioGroup>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/gray_48" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:text="备注信息：" />
+
+                            <EditText
+                                android:id="@+id/remark_edit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_white_line_box_gray"
+                                android:gravity="top"
+                                android:hint="请输入备注信息"
+                                android:maxLines="3"
+                                android:minLines="3"
+                                android:padding="5dp"
+                                android:textColor="@color/black_50"
+                                android:textColorHint="@color/gray_48"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/tag_ll"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:elevation="10dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="实付款："
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/sum_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/money_red_icon"
+                android:text="0.00"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/save_charge_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/green_50"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="保存"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/add_charge_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/holo_red_light"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="提交订单"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <!--  <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="45dp"
+          android:background="@color/green_50">
+
+          <ImageView
+              android:id="@+id/return_btn"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:paddingLeft="15dp"
+              android:paddingRight="20dp"
+              android:src="@mipmap/return_icon" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerInParent="true"
+              android:text="开单"
+              android:textColor="@android:color/white"
+              android:textSize="16sp" />
+      </RelativeLayout>
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="#FFF3DD"
+          android:gravity="center"
+          android:padding="5dp"
+          android:text="整形项目必须经过身份核实，请确保开单客户姓名与身份证上的一致"
+          android:textColor="@android:color/holo_red_light"
+          android:textSize="11sp" />
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1px"
+          android:background="@color/orange_50" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/bg_white_line_gray_below"
+          android:orientation="vertical"
+          android:padding="10dp">
+
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+              <ImageView
+                  android:layout_width="40dp"
+                  android:layout_height="40dp"
+                  android:src="@mipmap/girl_icon" />
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dp"
+                  android:orientation="vertical">
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="张三"
+                      android:textColor="@color/black_50" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="5dp"
+                      android:text="136****4621"
+                      android:textColor="@color/black_50" />
+
+              </LinearLayout>
+          </LinearLayout>
+      </LinearLayout>
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1px"
+          android:layout_marginTop="5dp"
+          android:background="@color/gray_48" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@color/white"
+          android:orientation="vertical"
+          android:paddingLeft="10dp">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="意向："
+                  android:textColor="@color/black_50" />
+
+              <TextView
+                  android:id="@+id/intention_btn"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:text="请选择意向"
+                  android:textColor="@color/green_50" />
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="身份证号："
+                  android:textColor="@color/black_50" />
+
+              <TextView
+                  android:id="@+id/identity_card_btn"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:text="请输入身份证号"
+                  android:textColor="@color/gray_50" />
+          </LinearLayout>
+      </LinearLayout>
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1px"
+          android:background="@color/gray_47" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/bg_white_line_gray_below"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+              <LinearLayout
+                  android:id="@+id/consumption_btn"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="center"
+                  android:orientation="horizontal"
+                  android:paddingBottom="10dp"
+                  android:paddingTop="10dp">
+
+                  <ImageView
+                      android:layout_width="16dp"
+                      android:layout_height="16dp"
+                      android:background="@mipmap/package_icon" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="5dp"
+                      android:text="消费"
+                      android:textColor="@color/black_50" />
+              </LinearLayout>
+
+              <View
+                  android:id="@+id/line_view1"
+                  android:layout_width="1px"
+                  android:layout_height="20dp"
+                  android:background="@color/gray_48" />
+
+
+              <LinearLayout
+                  android:id="@+id/advance_money_btn"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="center"
+                  android:orientation="horizontal"
+                  android:paddingBottom="10dp"
+                  android:paddingTop="10dp">
+
+                  <ImageView
+                      android:layout_width="17dp"
+                      android:layout_height="17dp"
+                      android:background="@mipmap/breakdown_icon" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="5dp"
+                      android:text="预约金"
+                      android:textColor="@color/black_50" />
+
+              </LinearLayout>
+
+              <View
+                  android:id="@+id/line_view2"
+                  android:layout_width="1px"
+                  android:layout_height="20dp"
+                  android:background="@color/gray_48" />
+
+              <LinearLayout
+                  android:id="@+id/stored_value_btn"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="center"
+                  android:orientation="horizontal"
+                  android:paddingBottom="10dp"
+                  android:paddingTop="10dp">
+
+                  <ImageView
+                      android:layout_width="15dp"
+                      android:layout_height="15dp"
+                      android:background="@mipmap/stored_value_icon" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="5dp"
+
+                      android:text="储值"
+                      android:textColor="@color/black_50" />
+
+              </LinearLayout>
+
+              <View
+                  android:id="@+id/line_view3"
+                  android:layout_width="1px"
+                  android:layout_height="20dp"
+                  android:background="@color/gray_48" />
+
+              <LinearLayout
+                  android:id="@+id/deposit_hospital_btn"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="center"
+                  android:orientation="horizontal"
+                  android:paddingBottom="10dp"
+                  android:paddingTop="10dp">
+
+                  <ImageView
+                      android:layout_width="15dp"
+                      android:layout_height="15dp"
+                      android:background="@mipmap/hospital_money_icon" />
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="5dp"
+                      android:text="住院押金"
+                      android:textColor="@color/black_50" />
+
+
+              </LinearLayout>
+          </LinearLayout>
+      </LinearLayout>
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1px"
+          android:background="@color/gray_48" />
+
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="10dp"
+          android:text="交易记录" />
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1px"
+          android:background="@color/gray_48" />
+
+      <ListView
+          android:id="@+id/order_list"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@color/white"
+          android:dividerHeight="1px"
+          android:scrollbars="none" />
+  -->
+</LinearLayout>

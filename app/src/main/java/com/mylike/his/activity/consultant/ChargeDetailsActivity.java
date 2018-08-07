@@ -1,0 +1,407 @@
+package com.mylike.his.activity.consultant;
+
+import android.content.Intent;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.mylike.his.R;
+import com.mylike.his.activity.CustomerDetailsActivity;
+import com.mylike.his.core.BaseActivity;
+import com.mylike.his.entity.ChargeDateilsEntity;
+import com.mylike.his.entity.IntentionEntity;
+import com.mylike.his.http.BaseBack;
+import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.SPUtils;
+import com.mylike.his.utils.ToastUtils;
+import com.mylike.his.view.SListView;
+import com.zhy.adapter.abslistview.CommonAdapter;
+import com.zhy.adapter.abslistview.ViewHolder;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+/**
+ * Created by zhengluping on 2018/1/31.
+ * 收费单详情
+ */
+public class ChargeDetailsActivity extends BaseActivity implements View.OnClickListener {
+
+    @Bind(R.id.return_btn)
+    ImageView returnBtn;
+    @Bind(R.id.name_text)
+    TextView nameText;
+    @Bind(R.id.doctor_text)
+    TextView doctorText;
+    @Bind(R.id.intention_text)
+    TextView intentionText;
+    @Bind(R.id.project_list)
+    SListView projectList;
+    @Bind(R.id.discounts_text)
+    TextView discountsText;
+    @Bind(R.id.integral_text)
+    TextView integralText;
+    @Bind(R.id.remark_text)
+    TextView remarkText;
+    @Bind(R.id.status_text)
+    TextView statusText;
+    @Bind(R.id.again_consult_btn)
+    Button againConsultBtn;
+    @Bind(R.id.bridge_section_btn)
+    Button bridgeSectionBtn;
+    @Bind(R.id.application_drawback_btn)
+    Button applicationDrawbackBtn;
+    @Bind(R.id.compile_btn)
+    Button compileBtn;
+    @Bind(R.id.payment_btn)
+    Button paymentBtn;
+    @Bind(R.id.oa_btn)
+    Button oaBtn;
+    @Bind(R.id.doctor_ll)
+    LinearLayout doctorLl;
+    @Bind(R.id.intention_ll)
+    LinearLayout intentionLl;
+    @Bind(R.id.cash_ll)
+    LinearLayout cashLl;
+    @Bind(R.id.sv_cash)
+    TextView svCash;
+    @Bind(R.id.sv_present)
+    TextView svPresent;
+    @Bind(R.id.sv_ll)
+    LinearLayout svLl;
+    @Bind(R.id.discounts_ll)
+    LinearLayout discountsLl;
+    @Bind(R.id.integral_ll)
+    LinearLayout integralLl;
+    @Bind(R.id.name_line)
+    View nameLine;
+    @Bind(R.id.hospital_money)
+    TextView hospitalMoney;
+    @Bind(R.id.money_text)
+    TextView moneyText;
+    @Bind(R.id.money_value)
+    TextView moneyValue;
+    @Bind(R.id.payment)
+    TextView payment;
+    @Bind(R.id.order_number)
+    TextView orderNumber;
+
+    private String fid;
+    private CommonAdapter commonAdapter;
+    private List<ChargeDateilsEntity.Productlist> productlists = new ArrayList<>();//产品集合
+
+    private OptionsPickerView optionsPickerView;
+    private List<IntentionEntity> intentionEntities1 = new ArrayList<>();
+    private List<List<IntentionEntity>> intentionEntities2 = new ArrayList<>();
+    private List<List<List<IntentionEntity>>> intentionEntities3 = new ArrayList<>();
+
+    private String[] Intention;
+    private String remarkValue;
+    private String clientId;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_charge_details);
+        ButterKnife.bind(this);
+        fid = getIntent().getStringExtra("fid");
+        initView();
+        initData();
+    }
+
+    private void initView() {
+        commonAdapter = new CommonAdapter<ChargeDateilsEntity.Productlist>(this, R.layout.item_charge_product_list, productlists) {
+            @Override
+            protected void convert(ViewHolder holder, ChargeDateilsEntity.Productlist productlist, int position) {
+                holder.setText(R.id.product_name, productlist.getPNAME());
+                holder.setText(R.id.price_text, productlist.getPRICE());
+                holder.setText(R.id.money_text, setDecimalFormat(productlist.getPRICE2()));
+                holder.setText(R.id.money_count_text, setDecimalFormat(productlist.getPRICE1()));
+                holder.setText(R.id.count_text, "x" + productlist.getCOUNT());
+
+                TextView priceText = holder.getView(R.id.price_text);
+                priceText.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+        };
+
+        projectList.setAdapter(commonAdapter);
+
+    }
+
+    private void initData() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("billId", fid);
+
+        //获取收费单
+        HttpClient.getHttpApi().getChargeDetaills(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ChargeDateilsEntity>() {
+            @Override
+            protected void onSuccess(ChargeDateilsEntity chargeDateilsEntity) {
+                clientId = chargeDateilsEntity.getInfo().getINTENTION_ID();//客户ID
+
+                nameText.setText(chargeDateilsEntity.getInfo().getCFNAME() + "  " + chargeDateilsEntity.getInfo().getCFHANDSET());//姓名+手机号
+                doctorText.setText(chargeDateilsEntity.getInfo().getFDOCTORNAME());//医生
+                intentionText.setText(chargeDateilsEntity.getInfo().getINTENTION());//意向
+
+                discountsText.setText(chargeDateilsEntity.getInfo().getDISCOUNT());//优惠
+                integralText.setText(chargeDateilsEntity.getInfo().getPOINTS());//积分
+                statusText.setText(chargeDateilsEntity.getInfo().getFCHARGESTATE());//状态
+                moneyValue.setText(setDecimalFormat(chargeDateilsEntity.getInfo().getFSHOULDMONEY()));//实付款
+                remarkText.setText(chargeDateilsEntity.getInfo().getCFREMARK());//备注
+                orderNumber.setText(chargeDateilsEntity.getInfo().getFNUMBER());//订单好
+
+                if ("1".equals(chargeDateilsEntity.getInfo().getPAY_TYPE())) {
+                    payment.setText("移动支付");
+                } else {
+                    payment.setText("非移动支付");
+                }
+
+                //判断是否储值/住院押金
+                if ("3".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER())) {
+                    svLl.setVisibility(View.VISIBLE);
+                    svCash.setText(setDecimalFormat(chargeDateilsEntity.getInfo().getCFFEEALL()));//储值现金
+                    svPresent.setText(setDecimalFormat(chargeDateilsEntity.getInfo().getFPRESENTMONEY()));//储值赠送
+
+                    projectList.setVisibility(View.GONE);
+                    nameLine.setVisibility(View.GONE);
+                    doctorLl.setVisibility(View.GONE);
+                    intentionLl.setVisibility(View.GONE);
+                    discountsLl.setVisibility(View.GONE);
+                    integralLl.setVisibility(View.GONE);
+                } else if ("5".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER())) {
+                    cashLl.setVisibility(View.VISIBLE);
+                    hospitalMoney.setText(setDecimalFormat(chargeDateilsEntity.getInfo().getCFFEEALL()));//住院押金
+
+                    projectList.setVisibility(View.GONE);
+                    nameLine.setVisibility(View.GONE);
+                    doctorLl.setVisibility(View.GONE);
+                    intentionLl.setVisibility(View.GONE);
+                    discountsLl.setVisibility(View.GONE);
+                    integralLl.setVisibility(View.GONE);
+                } else {
+                    //产品列表
+                    productlists.addAll(chargeDateilsEntity.getProductlist());
+                    commonAdapter.notifyDataSetChanged();
+                }
+
+                //按钮显示隐藏
+                switch (chargeDateilsEntity.getInfo().getFCHARGESTATENUMBER()) {
+                    case "1"://暂存
+                        compileBtn.setVisibility(View.VISIBLE);//编辑
+                        break;
+                    case "3"://已结账
+                        if ("1".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER()) || "2".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER())) {//消费/预约金
+                            againConsultBtn.setVisibility(View.VISIBLE);//重咨
+                            bridgeSectionBtn.setVisibility(View.VISIBLE);//跨科
+                            getIntentionData();
+                        }
+                        moneyValue.setText(setDecimalFormat(chargeDateilsEntity.getInfo().getFFACTMONEY()));//应付款
+                        moneyText.setText("实付款");
+
+                        String paymentValue = "";
+                        if ("1".equals(chargeDateilsEntity.getInfo().getPAY_TYPE())) {
+                            for (Map<String, String> value : chargeDateilsEntity.getSubjectlist()) {
+                                if (TextUtils.isEmpty(paymentValue)) {
+                                    paymentValue += "移动支付-" + value.get("FSUBJECTNAME");
+                                } else {
+                                    paymentValue += "\n移动支付-" + value.get("FSUBJECTNAME");
+                                }
+                            }
+                        } else {
+                            for (Map<String, String> value : chargeDateilsEntity.getSubjectlist()) {
+                                if (TextUtils.isEmpty(paymentValue)) {
+                                    paymentValue += "非移动支付—" + value.get("FSUBJECTNAME");
+                                } else {
+                                    paymentValue += "\n非移动支付—" + value.get("FSUBJECTNAME");
+                                }
+                            }
+
+                        }
+                        payment.setText(paymentValue);
+
+                        break;
+                    case "7"://待OA申请
+                        oaBtn.setVisibility(View.VISIBLE);//OA申请
+                        break;
+                    case "11"://待扫码支付
+                        paymentBtn.setVisibility(View.VISIBLE);// 去支付
+                        break;
+                }
+
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+
+            }
+        });
+
+
+    }
+
+
+    private String setDecimalFormat(String numberStr) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        if (TextUtils.isEmpty(numberStr)) {
+            numberStr = "0";
+        }
+        Double number = Double.parseDouble(numberStr);
+        decimalFormat.format(number);
+        return decimalFormat.format(number);
+    }
+
+    @OnClick({R.id.return_btn, R.id.again_consult_btn, R.id.bridge_section_btn, R.id.compile_btn, R.id.payment_btn, R.id.name_text})
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.again_consult_btn://重咨
+                optionsPickerView.show();
+                break;
+            case R.id.bridge_section_btn://跨科
+                startActivity(MedicineActivity.class, "fid", fid);
+                break;
+            case R.id.compile_btn://编辑
+                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, "分诊id");
+                startActivity(OrderActivity.class, "chargeTag", "1");
+                break;
+            case R.id.payment_btn://去支付
+                Intent intent = new Intent();
+                intent.putExtra("fid", fid);
+                intent.putExtra("money", "总金额");
+                intent.setClass(ChargeDetailsActivity.this, PaymentActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.oa_btn://申请oa
+                startActivity(OAActivity.class, "fid", fid);
+                break;
+            case R.id.name_text://申请oa
+                startActivity(CustomerDetailsActivity.class, "clientId", clientId);
+                break;
+            case R.id.return_btn:
+                finish();
+                break;
+
+        }
+    }
+
+    private void getIntentionData() {
+        HttpClient.getHttpApi().getIntentionAll().enqueue(new BaseBack<List<IntentionEntity>>() {
+            @Override
+            protected void onSuccess(List<IntentionEntity> intentionEntities) {
+                intentionEntities1.addAll(intentionEntities);
+                //初始化意向数据
+                initViewData();
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+
+            }
+        });
+    }
+
+    private void initViewData() {
+        for (int i = 0; i < intentionEntities1.size(); i++) {
+            List<IntentionEntity> intentionEntityList2 = new ArrayList<>();//二级意向
+            List<List<IntentionEntity>> intentionEntityList3 = new ArrayList<>();//三级意向
+            //在第一项添加空意向，如果选择“请选择”则代表此级意向为空
+            intentionEntityList2.add(new IntentionEntity("请选择"));
+            //如果无意向，添加空对象，防止数据为null 导致三个选项长度不匹配造成崩溃
+            if (intentionEntities1.get(i).getChildren().size() == 0) {
+                intentionEntityList3.add(intentionEntityList2);
+            }
+            for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
+                //添加二级意向
+                intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
+
+                //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
+                if (j == 0) {
+                    List<IntentionEntity> IList = new ArrayList<>();
+                    IList.add(new IntentionEntity("请选择"));
+                    intentionEntityList3.add(IList);
+                }
+
+                //添加三级意向
+                List<IntentionEntity> IList3 = new ArrayList<>();
+                IList3.add(new IntentionEntity("请选择"));
+                if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
+                    IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
+                }
+                intentionEntityList3.add(IList3);
+            }
+
+            intentionEntities2.add(intentionEntityList2);
+            intentionEntities3.add(intentionEntityList3);
+        }
+
+        //重咨弹框初始化
+        optionsPickerView = new OptionsPickerBuilder(ChargeDetailsActivity.this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {//选择项
+                Intention = new String[]{intentionEntities1.get(options1).getPbtid(), intentionEntities2.get(options1).get(options2).getPbtid(), intentionEntities3.get(options1).get(options2).get(options3).getPbtid()};
+                submitData();
+            }
+        }).setLayoutRes(R.layout.dialog_again_consult, new CustomListener() {//自定义布局
+            @Override
+            public void customLayout(View v) {
+                final Button submitBtn = v.findViewById(R.id.submit_btn);
+                final EditText remarkEdit = v.findViewById(R.id.remark_edit);
+
+                submitBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        remarkValue = remarkEdit.getText().toString();
+                        optionsPickerView.returnData();
+                    }
+                });
+
+            }
+        }).setContentTextSize(14)
+                .setSelectOptions(0, 0, 0)
+                .setDividerColor(getResources().getColor(R.color.green_50))
+                .setLineSpacingMultiplier((float) 2.5)
+                .isDialog(true)
+                .build();
+        optionsPickerView.setPicker(intentionEntities1, intentionEntities2, intentionEntities3);//设置数据
+    }
+
+
+    private void submitData() {
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("fid", fid);
+        map.put("CustomerOpinion", remarkValue);
+        map.put("CustomerIntention", Intention);
+
+        //获取收费单
+        HttpClient.getHttpApi().setIntention(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
+            @Override
+            protected void onSuccess(Map<String, String> stringStringMap) {
+                optionsPickerView.dismiss();
+                ToastUtils.showToast("提交成功");
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+
+            }
+        });
+    }
+}

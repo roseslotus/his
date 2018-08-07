@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_47"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/green_50">
+
+        <ImageView
+            android:id="@+id/return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/return_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="手术排台详情"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="46dp"
+            android:background="@color/gray_48" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_box_gray"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/girl_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="张三"
+            android:textColor="@color/black_50" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="48岁"
+            android:textColor="@color/gray_50" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/vip_icon" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1px"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/right_arrows_icon" />
+    </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/surgery_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_white_line_gray_below"
+        app:tabIndicatorColor="@color/theme_color"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/theme_color"
+        app:tabTextColor="@color/gray_50" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/surgery_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:scrollbars="none">
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="@drawable/bg_white_line_gray_below"
+                 android:orientation="vertical"
+                 android:padding="10dp">
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:src="@mipmap/girl_icon" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="5dp"
+                         android:text="张三"
+                         android:textColor="@color/black_50" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="48岁" />
+
+                     <ImageView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:src="@mipmap/vip_icon" />
+
+                     <View
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1" />
+
+                     <ImageView
+                         android:id="@+id/check_record_btn"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:src="@mipmap/round_right_icon" />
+
+                 </LinearLayout>
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <View
+                         android:layout_width="5dp"
+                         android:layout_height="match_parent"
+                         android:layout_marginLeft="8dp"
+                         android:background="#502980b9" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="手术室："
+                         android:textColor="@color/gray_50" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="10-5室"
+                         android:textColor="@color/black_50" />
+
+                 </LinearLayout>
+
+                 <LinearLayout
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <View
+                         android:layout_width="5dp"
+                         android:layout_height="match_parent"
+                         android:layout_marginLeft="8dp"
+                         android:background="#502980b9" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="台    次："
+                         android:textColor="@color/gray_50" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="3"
+                         android:textColor="@color/black_50" />
+
+                 </LinearLayout>
+
+                 <LinearLayout
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <View
+                         android:layout_width="5dp"
+                         android:layout_height="match_parent"
+                         android:layout_marginLeft="8dp"
+                         android:background="#502980b9" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="是否延迟："
+                         android:textColor="@color/gray_50" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="是"
+                         android:textColor="@android:color/holo_red_light" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="客户未到院"
+                         android:textColor="@color/gray_50" />
+
+                 </LinearLayout>
+             </LinearLayout>
+
+             &lt;!&ndash;<TextView&ndash;&gt;
+             &lt;!&ndash;android:id="@+id/check_record_btn"&ndash;&gt;
+             &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
+             &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+             &lt;!&ndash;android:layout_marginTop="5dp"&ndash;&gt;
+             &lt;!&ndash;android:background="@drawable/bg_white_line_box_gray"&ndash;&gt;
+             &lt;!&ndash;android:drawableRight="@mipmap/right_arrows_icon"&ndash;&gt;
+             &lt;!&ndash;android:padding="10dp"&ndash;&gt;
+             &lt;!&ndash;android:text="检查记录"&ndash;&gt;
+             &lt;!&ndash;android:textColor="@color/black_50" />&ndash;&gt;
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="5dp"
+                 android:background="@drawable/bg_white_line_box_gray"
+                 android:orientation="vertical"
+                 android:padding="10dp">
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="1dp"
+                         android:src="@mipmap/medical_project_icon" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="5dp"
+                         android:text="眼袋术(外眼角提升固定术)"
+                         android:textColor="@color/black_50" />
+
+                 </LinearLayout>
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="5dp"
+                     android:orientation="horizontal">
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:drawableLeft="@mipmap/needle_icon"
+                         android:drawablePadding="5dp"
+                         android:text="局部麻醉"
+                         android:textColor="@color/black_50" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="20dp"
+                         android:drawableLeft="@mipmap/schedule_icon"
+                         android:drawablePadding="5dp"
+                         android:text="2018-03-23 09:30~10:00"
+                         android:textColor="@color/blue_70" />
+                 </LinearLayout>
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="5dp"
+                     android:orientation="horizontal">
+
+                     <TextView
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:drawableLeft="@mipmap/main_doctor_icon"
+                         android:drawablePadding="5dp"
+                         android:text="杜园园" />
+
+                     <TextView
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:drawableLeft="@mipmap/doctor_assistant_icon"
+                         android:drawablePadding="5dp"
+                         android:text="邓森林" />
+
+                     <TextView
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:drawableLeft="@mipmap/doctor_assistant_icon"
+                         android:drawablePadding="5dp"
+                         android:text="胡玉霞" />
+                 </LinearLayout>
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="5dp"
+                     android:orientation="horizontal">
+
+                     <TextView
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:drawableLeft="@mipmap/doctor_anesthesia_icon"
+                         android:drawablePadding="5dp"
+                         android:text="李富贵" />
+
+                     <TextView
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:drawableLeft="@mipmap/wash_hands_icon"
+                         android:drawablePadding="5dp"
+                         android:text="李丽丽" />
+
+                     <TextView
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_weight="1"
+                         android:drawableLeft="@mipmap/circuit_nurse_icon"
+                         android:drawablePadding="5dp"
+                         android:text="赵春红" />
+                 </LinearLayout>
+
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="10dp"
+                     android:background="@drawable/bg_blue_line_box_blue"
+                     android:gravity="center"
+                     android:padding="8dp"
+                     android:text="手术进程"
+                     android:textColor="@color/blue_70" />
+
+                 <View
+                     android:layout_width="1px"
+                     android:layout_height="15dp"
+                     android:layout_marginLeft="20dp"
+                     android:background="@color/blue_70" />
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:layout_marginLeft="10dp"
+                         android:background="@mipmap/round_blue_icon" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="术前准备"
+                         android:textColor="@color/blue_70" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="09:20" />
+
+                 </LinearLayout>
+
+                 <View
+                     android:layout_width="1px"
+                     android:layout_height="15dp"
+                     android:layout_marginLeft="20dp"
+                     android:background="@color/blue_70" />
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:layout_marginLeft="10dp"
+                         android:background="@mipmap/round_blue_icon" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="入手术室"
+                         android:textColor="@color/blue_70" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="09:30" />
+
+                 </LinearLayout>
+
+                 <View
+                     android:layout_width="1px"
+                     android:layout_height="15dp"
+                     android:layout_marginLeft="20dp"
+                     android:background="@color/blue_70" />
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:layout_marginLeft="10dp"
+                         android:background="@mipmap/round_blue_icon" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="麻醉开始"
+                         android:textColor="@color/blue_70" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="09:35" />
+
+                 </LinearLayout>
+
+                 <View
+                     android:layout_width="1px"
+                     android:layout_height="15dp"
+                     android:layout_marginLeft="20dp"
+                     android:background="@color/gray_50" />
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:layout_marginLeft="10dp"
+                         android:background="@mipmap/round_gray_icon" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="手术开始"
+                         android:textColor="@color/gray_50" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="09：20"
+                         android:visibility="invisible" />
+
+                 </LinearLayout>
+
+                 <View
+                     android:layout_width="1px"
+                     android:layout_height="15dp"
+                     android:layout_marginLeft="20dp"
+                     android:background="@color/gray_50" />
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:layout_marginLeft="10dp"
+                         android:background="@mipmap/round_gray_icon" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="手术结束"
+                         android:textColor="@color/gray_50" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="09：20"
+                         android:visibility="invisible" />
+
+                 </LinearLayout>
+
+
+                 <View
+                     android:layout_width="1px"
+                     android:layout_height="15dp"
+                     android:layout_marginLeft="20dp"
+                     android:background="@color/gray_50" />
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:layout_marginLeft="10dp"
+                         android:background="@mipmap/round_gray_icon" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="麻醉结束"
+                         android:textColor="@color/gray_50" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="09：20"
+                         android:visibility="invisible" />
+
+                 </LinearLayout>
+
+                 <View
+                     android:layout_width="1px"
+                     android:layout_height="15dp"
+                     android:layout_marginLeft="20dp"
+                     android:background="@color/gray_50" />
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal"
+                     android:paddingBottom="10dp">
+
+                     <ImageView
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:layout_marginLeft="10dp"
+                         android:background="@mipmap/round_gray_icon" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="出手术室"
+                         android:textColor="@color/gray_50" />
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="10dp"
+                         android:text="09：20"
+                         android:visibility="invisible" />
+
+                 </LinearLayout>
+
+             </LinearLayout>
+
+              </LinearLayout>
+     </ScrollView>-->
+</LinearLayout>

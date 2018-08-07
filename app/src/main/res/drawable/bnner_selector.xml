@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--此方法某些手机适配有问题-->
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
+    <!--<item android:drawable="@mipmap/benner_round_t" android:state_enabled="true" />-->
+    <!--<item android:drawable="@mipmap/benner_round_f" />-->
+<!--</selector>-->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_enabled="true" >
+        <bitmap android:src="@mipmap/benner_round_t" android:tileMode="disabled" android:gravity="top" />
+    </item>
+    <item >
+        <bitmap android:src="@mipmap/benner_round_f" android:tileMode="disabled" android:gravity="top" />
+    </item>
+</selector>

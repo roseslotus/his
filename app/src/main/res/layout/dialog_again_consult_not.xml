@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_box_10"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawablePadding="10dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_horizontal"
+        android:text="客户意向"
+        android:textColor="@color/gray_50"
+        android:textSize="16sp" />
+
+
+    <LinearLayout
+        android:id="@+id/optionspicker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <com.contrarywind.view.WheelView
+            android:id="@+id/options1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.contrarywind.view.WheelView
+            android:id="@+id/options2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.contrarywind.view.WheelView
+            android:id="@+id/options3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+
+
+
+    <Button
+        android:id="@+id/submit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_green_5"
+        android:text="提交"
+        android:textColor="@color/white" />
+</LinearLayout>

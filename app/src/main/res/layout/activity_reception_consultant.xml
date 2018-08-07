@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_47"
+    android:orientation="vertical">
+    <!--
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/green_50">
+
+            <ImageView
+                android:id="@+id/return_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingRight="20dp"
+                android:src="@mipmap/return_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="接诊列表"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/reception_tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:background="@color/green_50"
+            app:tabIndicatorColor="@color/white"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="#70ffffff" />
+
+        <ImageView
+            android:id="@+id/return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/return_icon" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/reception_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/arc_green_icon" />
+
+        <!--<EditText-->
+            <!--style="@style/SearchNotLineStyle"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="35dp"-->
+            <!--android:elevation="3dp"-->
+            <!--android:layout_centerVertical="false"-->
+            <!--android:layout_marginLeft="40dp"-->
+            <!--android:layout_marginRight="40dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:hint="请输入搜索内容" />-->
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/arc_green_icon" />
+
+        <LinearLayout
+            android:id="@+id/tag_ll"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <com.mylike.his.view.ClearEditText
+                android:id="@+id/search_edit"
+                style="@style/SearchNotLineRStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="输入姓名或手机号" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_green_right_20"
+                android:text="搜索"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_white_box_10"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/screen_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/combo_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@mipmap/below_arrow_icon"
+                    android:text="套餐" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/product_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@mipmap/below_arrow_icon"
+                    android:text="产品" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/detail_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@mipmap/below_arrow_icon"
+                    android:text="细目" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_48" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <q.rorbin.verticaltablayout.VerticalTabLayout
+                android:id="@+id/reception_tablayout"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_47"
+                app:indicator_color="@color/white"
+                app:indicator_gravity="fill"
+                app:tab_height="30dp"
+                app:tab_mode="scrollable" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/reception_viewpager"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

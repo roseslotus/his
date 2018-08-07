@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_47"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/green_50">
+
+        <ImageView
+            android:id="@+id/return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/return_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="收费单"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tag_img"
+            android:background="@mipmap/arc_green_icon" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/bg_white_box_10"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/name_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/head_icon"
+                        android:drawablePadding="10dp"
+                        android:drawableRight="@mipmap/right_arrows_icon"
+                        android:padding="10dp"
+                        android:textColor="@color/black_50" />
+
+                    <View
+                        android:id="@+id/name_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/gray_48" />
+
+                    <LinearLayout
+                        android:id="@+id/doctor_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bg_white_line_gray_below"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="医生："
+                            android:textColor="@color/gray_50" />
+
+                        <TextView
+                            android:id="@+id/doctor_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black_50" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/intention_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="意向："
+                            android:textColor="@color/gray_50" />
+
+                        <TextView
+                            android:id="@+id/intention_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black_50" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.mylike.his.view.SListView
+                    android:id="@+id/project_list"
+                    style="@style/ListViewLineBStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+
+                <LinearLayout
+                    android:id="@+id/cash_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_white_box_10"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:text="住院押金"
+                        android:textColor="@color/black_50" />
+
+
+                    <TextView
+                        android:id="@+id/hospital_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:drawableLeft="@mipmap/money_red_icon"
+                        android:text="0.00"
+                        android:textColor="@android:color/holo_red_light" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sv_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_white_box_10"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="全院储值-储值现金"
+                            android:textColor="@color/black_50" />
+
+                        <TextView
+                            android:id="@+id/sv_cash"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:drawableLeft="@mipmap/money_red_icon"
+                            android:text="0.00"
+                            android:textColor="@android:color/holo_red_light" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/gray_49" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="全院储值-储值赠送"
+                            android:textColor="@color/black_50" />
+
+                        <TextView
+                            android:id="@+id/sv_present"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:drawableLeft="@mipmap/money_red_icon"
+                            android:text="0.00"
+                            android:textColor="@android:color/holo_red_light" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/bg_white_box_10"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bg_white_line_gray_below"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="订单号:"
+                            android:textColor="@color/gray_50" />
+
+                        <TextView
+                            android:id="@+id/order_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="5dp"
+                            android:textColor="@color/black_50" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bg_white_line_gray_below"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="支付方式:"
+                            android:textColor="@color/gray_50" />
+
+                        <TextView
+                            android:id="@+id/payment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="5dp"
+                            android:textColor="@color/black_50" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/discounts_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bg_white_line_gray_below"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="优惠:"
+                            android:textColor="@color/gray_50" />
+
+                        <TextView
+                            android:id="@+id/discounts_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black_50" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/integral_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bg_white_line_gray_below"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="积分:"
+                            android:textColor="@color/gray_50" />
+
+                        <TextView
+                            android:id="@+id/integral_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black_50" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bg_white_line_gray_below"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="备注:"
+                            android:textColor="@color/gray_50" />
+
+                        <TextView
+                            android:id="@+id/remark_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black_50" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bg_white_line_gray_below"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:id="@+id/money_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="应付款:"
+                            android:textColor="@color/gray_50" />
+
+                        <TextView
+                            android:id="@+id/money_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@mipmap/money_red_icon"
+                            android:text="0.00"
+                            android:textColor="@android:color/holo_red_light" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
+
+                        <TextView
+                            android:id="@+id/status_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="已结账"
+                            android:textColor="@android:color/holo_red_light" />
+
+
+                        <Button
+                            android:id="@+id/again_consult_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="25dp"
+                            android:background="@drawable/btn_orange50_5"
+                            android:text="重咨"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/bridge_section_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_blue_5"
+                            android:text="跨科"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/application_drawback_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_green_5"
+                            android:text="申请退款"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/compile_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_green_5"
+                            android:text="编辑"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/payment_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_green_5"
+                            android:text="去支付"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/oa_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_green_5"
+                            android:text="OA申请"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:background="@color/green_50">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:text="收费单详情"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:textSize="16sp" />-->
+    <!--</RelativeLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@drawable/bg_white_line_gray_below"-->
+    <!--android:gravity="center">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:padding="10dp"-->
+    <!--android:text="顾客信息"-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:textSize="16sp" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:drawablePadding="10dp"-->
+    <!--android:drawableRight="@mipmap/right_arrows_icon"-->
+    <!--android:text="张飞  134****5873"-->
+    <!--android:textColor="@android:color/black" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/gray_47"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:padding="10dp">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:orientation="vertical">-->
+
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="深V动感（璀璨）"-->
+    <!--android:textColor="@android:color/black" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="规格：M" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="x1" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="right"-->
+    <!--android:orientation="vertical">-->
+
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:drawableLeft="@mipmap/money_orange_icon"-->
+    <!--android:text="18888.00"-->
+    <!--android:textColor="@color/orange_50" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/text_line"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:drawableLeft="@mipmap/money_gray_icon"-->
+    <!--android:text="20000.00"-->
+    <!--android:textSize="12sp" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="余2" />-->
+
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1px"-->
+    <!--android:background="@color/gray_48" />-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingTop="5dp">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="收费单号：" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="总价：" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+
+    <!--android:text="订单总价：" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="实付款："-->
+    <!--android:textColor="@android:color/black" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:gravity="right"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="SH01-2014-1212-0001" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:drawableLeft="@mipmap/money_gray_icon"-->
+    <!--android:text="20000.00" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:drawableLeft="@mipmap/money_gray_icon"-->
+    <!--android:text="10201.00" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:drawableLeft="@mipmap/money_symbol_icon"-->
+    <!--android:text="8000.00"-->
+    <!--android:textColor="@android:color/black" />-->
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingBottom="15dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:text="备注："-->
+    <!--android:textColor="@android:color/black" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:text="xxxxx"-->
+    <!--android:textColor="@android:color/black" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1px"-->
+    <!--android:background="@color/gray_48" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="10dp"-->
+    <!--android:text="付款方式："-->
+    <!--android:textColor="@android:color/black"-->
+    <!--android:textSize="16sp" />-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@drawable/bg_white_line_gray_below"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingBottom="15dp">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:orientation="vertical"-->
+    <!--android:paddingLeft="10dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="么么贷：" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="么么贷手续费：" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="代金券：" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="right"-->
+    <!--android:orientation="vertical"-->
+    <!--android:paddingLeft="10dp"-->
+    <!--android:paddingRight="10dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:drawableLeft="@mipmap/money_gray_icon"-->
+    <!--android:text="2000.00" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:drawableLeft="@mipmap/money_gray_icon"-->
+    <!--android:text="100.00" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:drawableLeft="@mipmap/money_gray_icon"-->
+    <!--android:text="1000.00" />-->
+
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="10dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="类型："/>-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:textColor="@color/black_50"-->
+    <!--android:text="预约金"/>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/also_money_btn"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:background="@drawable/btn_green_5"-->
+    <!--android:text="还款"-->
+    <!--android:textColor="@android:color/white" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/apply_refund_btn"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:background="@drawable/btn_green_5"-->
+    <!--android:text="申请退款"-->
+    <!--android:textColor="@android:color/white" />-->
+    <!--</LinearLayout>-->
+
+</LinearLayout>

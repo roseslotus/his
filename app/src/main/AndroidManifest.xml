@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mylike.his">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--相机相册权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+    <application
+        android:name=".core.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <!--登陆-->
+        <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--咨询师端-->
+        <!--咨询师主页-->
+        <activity
+            android:name=".activity.consultant.CMainActivity"
+            android:launchMode="singleTask"></activity>
+        <!--接诊列表（未接诊，已接诊）-->
+        <activity android:name=".activity.consultant.CReceptionActivity"></activity>
+        <!--接诊列表-->
+        <activity android:name=".activity.consultant.NewCReceptionActivity"></activity>
+        <!--客户详情-->
+        <activity android:name=".activity.CustomerDetailsActivity"></activity>
+        <!--开单-->
+        <activity android:name=".activity.consultant.OrderActivity"></activity>
+        <!--消费/预约金-->
+        <activity android:name=".activity.consultant.ShoppingCartActivity"></activity>
+        <!--添加产品-->
+        <activity android:name=".activity.consultant.ProductActivity"></activity>
+        <!--储值-->
+        <activity android:name=".activity.consultant.StoredValueActivity"></activity>
+        <!--住院押金-->
+        <activity android:name=".activity.consultant.DepositHospitalActivity"></activity>
+        <!--消费订单-->
+        <activity android:name=".activity.consultant.ChargeShowActivity"></activity>
+        <!--收费单详情-->
+        <activity android:name=".activity.consultant.ChargeDetailsActivity"></activity>
+        <!--还款-->
+        <activity android:name=".activity.consultant.RepaymentActivity"></activity>
+        <!--退款-->
+        <activity android:name=".activity.consultant.RefundActivity"></activity>
+        <!--客户列表-->
+        <activity android:name=".activity.consultant.ClientActivity"></activity>
+        <!--医生列表-->
+        <activity android:name=".activity.consultant.DoctorActivity"></activity>
+        <!--医生详情-->
+        <activity android:name=".activity.consultant.DoctorDetailsActivity"></activity>
+        <!--消息列表-->
+        <activity android:name=".activity.consultant.MessageActivity"></activity>
+        <!--到院预约-->
+        <activity android:name=".activity.consultant.HospitalAppointmentActivity"></activity>
+        <!--回访列表-->
+        <activity android:name=".activity.consultant.VisitActivity"></activity>
+        <!--回访详情-->
+        <activity android:name=".activity.consultant.VisitDetailsActivity"></activity>
+        <!--跨科-->
+        <activity android:name=".activity.consultant.MedicineActivity"></activity>
+        <!--ip地址设置-->
+        <activity android:name=".activity.consultant.SettingActivity"></activity>
+        <!--ip地址添加-->
+        <activity android:name=".activity.consultant.AddIPActivity"></activity>
+        <!--OA审批-->
+        <activity android:name=".activity.consultant.OAActivity"></activity>
+        <!--支付-->
+        <activity android:name=".activity.consultant.PaymentActivity"></activity>
+        <!--手术查询-->
+        <activity android:name=".activity.consultant.SurgeryActivity"></activity>
+        <!--测试统计-->
+        <activity android:name=".activity.consultant.TestActivity"></activity>
+
+
+        <!--医生端-->
+        <!--医生主页-->
+        <activity android:name=".activity.doctor.DMainActivity"></activity>
+        <!--科室预约/我的预约-->
+        <activity android:name=".activity.doctor.DepartmentShowActivity"></activity>
+        <!--诊疗记录/历史诊疗-->
+        <activity android:name=".activity.doctor.MedicalShowActivity"></activity>
+        <!--诊疗详情-->
+        <activity android:name=".activity.doctor.MedicalDetailsActivity"></activity>
+        <!--治疗记录-->
+        <activity android:name=".activity.doctor.MedicalRecordsActivity"></activity>
+        <!--治疗记录-->
+        <activity android:name=".activity.doctor.TreatmentRecordActivity"></activity>
+        <!--已开处方-->
+        <activity android:name=".activity.doctor.PrescriptionActivity"></activity>
+        <!--消费记录-->
+        <activity android:name=".activity.doctor.RecordsConsumptionActivity"></activity>
+        <!--复诊列表-->
+        <activity android:name=".activity.doctor.VisitShowActivity"></activity>
+        <!--手术预约-->
+        <activity android:name=".activity.doctor.SurgeryOrderActivity"></activity>
+        <!--预约详情-->
+        <activity android:name=".activity.doctor.SurgeryOrderDetailsActivity"></activity>
+        <!--手术排期-->
+        <activity android:name=".activity.doctor.SurgeryScheduleActivity"></activity>
+        <!--排期详情-->
+        <activity android:name=".activity.doctor.SurgeryScheduleDetailsActivity"></activity>
+        <!--手术排台-->
+        <activity android:name=".activity.doctor.SurgeryTableActivity"></activity>
+        <!--排台详情-->
+        <activity android:name=".activity.doctor.SurgeryTableDetailsActivity"></activity>
+        <!--检查详情-->
+        <activity android:name=".activity.doctor.CheckRecordDetailsActivity"></activity>
+        <!--手术间安排动态表-->
+        <activity android:name=".activity.doctor.SurgeryDynamicActivity"></activity>
+        <!--手术间详情-->
+        <activity android:name=".activity.doctor.SurgeryDynamicDetailsActivity"></activity>
+        <!--住院列表-->
+        <activity android:name=".activity.doctor.HospitalShowActivity"></activity>
+        <!--住院详情-->
+        <activity android:name=".activity.doctor.SurgeryDetailsActivity"></activity>
+        <!--医嘱查询-->
+        <activity android:name=".activity.doctor.AdviceActivity"></activity>
+        <!--医嘱详情-->
+        <activity android:name=".activity.doctor.AdviceDetailsActivity"></activity>
+        <!--消息详情-->
+        <activity android:name=".activity.doctor.MessageDetailsActivity"></activity>
+        <!--消息设置-->
+        <activity android:name=".activity.doctor.MessageSettingActivity"></activity>
+        <!--提醒设置-->
+        <activity android:name=".activity.doctor.RemindSetActivity"></activity>
+        <!--提醒管理-->
+        <activity android:name=".activity.doctor.RemindManagementActivity"></activity>
+
+
+        <!-- Required  SDK核心功能-->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false"></service>
+        <!-- Required SDK 核心功能-->
+        <!-- 可配置android:process参数将PushService放在其他进程中 -->
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+        <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
+        <service
+            android:name="cn.jpush.android.service.DaemonService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.DaemonService" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </service>
+        <!-- Required SDK核心功能-->
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter android:priority="1000">
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
+                <category android:name="${applicationId}" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <!-- User defined. 用户自定义的广播接收器-->
+        <receiver
+            android:name="com.mylike.his.view.MyReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <!--Required 用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!--Required 用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!--Required 用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!--Required 用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Required SDK核心功能-->
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false" />
+        <!-- Required  . Enable it you can get statistics data with channel -->
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default" />
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="f6fe2730d2bd33cf2c15abf1" /> <!--值来自开发者平台取得的AppKey-->
+
+
+    </application>
+</manifest>

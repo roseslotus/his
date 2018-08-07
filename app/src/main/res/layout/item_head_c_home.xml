@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myxmlns="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bg_c_home"
+            android:orientation="horizontal"
+            android:paddingTop="50dp">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:text="你好，范冰冰"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <!-- <RelativeLayout
+             android:id="@+id/rl_img"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@mipmap/bg_c_home">
+
+             <com.mylike.his.view.CircleImageView
+                 android:id="@+id/head_portrait_img"
+                 android:layout_width="80dp"
+                 android:layout_height="80dp"
+                 android:layout_marginLeft="20dp"
+                 android:layout_marginTop="60dp"
+                 android:src="@mipmap/head_g"
+                 myxmlns:border_color="@color/white"
+                 myxmlns:border_width="5dp" />
+
+             <TextView
+                 android:id="@+id/user_name"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="20dp"
+                 android:layout_marginTop="70dp"
+                 android:layout_toRightOf="@id/head_portrait_img"
+                 android:text="你好，范冰冰"
+                 android:textColor="@color/white"
+                 android:textSize="16sp" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/user_name"
+                 android:layout_marginLeft="20dp"
+                 android:layout_marginTop="10dp"
+                 android:layout_toRightOf="@id/head_portrait_img"
+                 android:drawableLeft="@mipmap/schedule"
+                 android:drawablePadding="5dp"
+                 android:text="空闲"
+                 android:textColor="@color/white"
+                 android:textSize="15sp" />
+         </RelativeLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/clinical_reception_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@mipmap/registration_icon"
+                android:gravity="center"
+                android:text="接诊"
+                android:textColor="@color/black_50"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/client_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@mipmap/client_icon"
+                android:gravity="center"
+                android:text="客户"
+                android:textColor="@color/black_50"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/pay_demand_note_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@mipmap/pay_demand_note_icon"
+                android:gravity="center"
+                android:text="收费单"
+                android:textColor="@color/black_50"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/hospital_appointment_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@mipmap/hospital_appointment_icon"
+                android:gravity="center"
+                android:text="到院预约"
+                android:textColor="@color/black_50"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/doctor_refer_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@mipmap/doctor_refer"
+                android:gravity="center"
+                android:text="医生查询"
+                android:textColor="@color/black_50"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/surgery_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@mipmap/operating_room_enquiries"
+                android:gravity="center"
+                android:text="手术查询"
+                android:textColor="@color/black_50"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/return_visit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@mipmap/return_visit_icon"
+                android:gravity="center"
+                android:text="回访"
+                android:textColor="@color/black_50"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/repertory_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="5dp"
+                android:drawableTop="@mipmap/repertory_icon"
+                android:gravity="center"
+                android:text="库存查询"
+                android:textColor="@color/black_50"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/statistical_icon"
+        android:drawablePadding="8dp"
+        android:padding="10dp"
+        android:text="今日统计"
+        android:textColor="@color/black_50"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/hospital_sum_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/hospital_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#00B6B9"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/人" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="预约来院" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#f8f8f8" />
+
+        <LinearLayout
+            android:id="@+id/reception_sum_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/reception_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#00B6B9"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/人" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="接诊总数" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#f8f8f8" />
+
+        <LinearLayout
+            android:id="@+id/order_sum_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/order_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#00B6B9"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/人" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="开单总数" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/visit_sum_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/visit_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#00B6B9"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/人" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="回访总数" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/message_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@mipmap/message_remind"
+            android:drawablePadding="8dp"
+            android:padding="10dp"
+            android:text="消息列表"
+            android:textColor="@color/black_50"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/right_arrows_icon"
+            android:padding="8dp"
+            android:text="更多"
+            android:textColor="@color/gray_50" />
+    </LinearLayout>
+
+</LinearLayout>

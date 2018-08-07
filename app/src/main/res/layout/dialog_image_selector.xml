@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:padding="10dp"
+        android:text="请选择上传方式" />
+
+    <!--<TextView
+        android:id="@+id/photo_album_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/photo_album_icon"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text="相册"
+        android:textColor="@color/black_50" />-->
+
+    <TextView
+        android:id="@+id/camera_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/camera_icon"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text="拍照"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:id="@+id/othe_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/file_icon"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text="其他方式"
+        android:textColor="@color/black_50" />
+
+</LinearLayout>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    app:ios="false">
+
+    <!--android:id="@+id/content"-->
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/client_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="李萌萌(157***5484)"
+                android:textColor="@color/black_50"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/sex_img"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/girl_c_icon" />
+
+
+            <ImageView
+                android:id="@+id/vip_img"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/vip_icon" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_weight="1" />
+            <!--  <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:background="@drawable/btn_red_3"
+                  android:paddingBottom="2dp"
+                  android:paddingLeft="4dp"
+                  android:paddingRight="4dp"
+                  android:paddingTop="2dp"
+                  android:text="VIP"
+                  android:textColor="@color/white"
+                  android:textSize="12dp" />-->
+
+            <TextView
+                android:id="@+id/card_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/line_box_orange_3_t20"
+                android:paddingBottom="2dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="2dp"
+                android:text="金卡"
+                android:textColor="@color/orange_40"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/liveness_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/line_box_blue_3"
+                android:ellipsize="middle"
+                android:maxEms="2"
+                android:paddingBottom="2dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="2dp"
+                android:singleLine="true"
+                android:text="休眠"
+                android:textColor="@color/blue_50"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="来院："
+                android:textColor="@color/gray_50" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="(次)"
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="消费："
+                android:textColor="@color/gray_50" />
+
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="2dp"
+                android:src="@mipmap/money_gray_icon" />
+
+            <TextView
+                android:id="@+id/money_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_weight="1" />
+
+            <RatingBar
+                android:id="@+id/star"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressDrawable="@drawable/rating_xx_bar" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="15dp"
+            android:background="@color/gray_48" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp">
+
+        <Button
+            android:id="@+id/expense_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/orange_70"
+            android:text="消费"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/stored_value_btn"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@color/orange_50"
+        android:text="储值"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/hospital_deposit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/orange_40"
+        android:text="住院押金"
+        android:textColor="@android:color/white" />
+
+
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>

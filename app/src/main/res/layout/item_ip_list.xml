@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:ios="false">
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_box_10"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:button="@drawable/selector_round_icon"
+                android:padding="10dp"
+                android:textColor="@color/black_50" />
+
+            <TextView
+                android:id="@+id/ip_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableRight="@mipmap/right_arrows_icon"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:text="192.168.1.1:8080"
+                android:textColor="@color/black_50" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="50dp"
+            android:background="@color/gray_48" />
+
+        <TextView
+            android:id="@+id/remark_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:padding="10dp"
+            android:text="备注：暂无备注信息"
+            android:textColor="@color/gray_50" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCompile"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/btn_o_10"
+        android:text="编辑"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/btn_r_10"
+        android:text="删除"
+        android:textColor="@android:color/white" />
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>
+

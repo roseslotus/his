@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/green_50">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="住院管理"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/today_hospital_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_white_line_box_gray"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/hospital_icon"
+            android:elevation="5dp"
+            android:padding="10dp"
+            android:text="住院顾客"
+            android:textColor="@color/black_50" />
+
+        <TextView
+            android:id="@+id/out_hospital_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_white_line_box_gray"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/out_hospital_icon"
+            android:elevation="5dp"
+            android:padding="10dp"
+            android:text="今日出院"
+            android:textColor="@color/black_50" />
+    </LinearLayout>
+</LinearLayout>

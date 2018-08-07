@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myxmlns="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_47"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@mipmap/bg_outpatient_service" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp"
+            android:text="门诊"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <com.mylike.his.view.CircleImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/head_g"
+            myxmlns:border_color="@color/white"
+            myxmlns:border_width="3dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="你好，杜圆圆"
+        android:textColor="@color/green_50"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/department_btn"
+            style="@style/OutpatientServiceTextStyle"
+            android:drawableTop="@mipmap/department_icon"
+            android:text="科室预约查询" />
+
+        <TextView
+            android:id="@+id/my_department_btn"
+            style="@style/OutpatientServiceTextStyle"
+            android:drawableTop="@mipmap/treatment_icon"
+            android:text="我的预约治疗" />
+
+        <TextView
+            android:id="@+id/medical_record_btn"
+            style="@style/OutpatientServiceTextStyle"
+            android:drawableTop="@mipmap/treatment_record_icon"
+            android:text="诊疗记录" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/medical_history_btn"
+            style="@style/OutpatientServiceTextStyle"
+            android:drawableTop="@mipmap/history_treatment_icon"
+            android:text="历史诊疗" />
+
+        <TextView
+            android:id="@+id/visit_btn"
+            style="@style/OutpatientServiceTextStyle"
+            android:drawableTop="@mipmap/visit_show_icon"
+            android:text="复诊列表" />
+
+        <TextView
+            style="@style/OutpatientServiceTextStyle"
+            android:drawableTop="@mipmap/treatment_record_icon"
+            android:text="备用"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <!-- <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="45dp"
+         android:background="@color/green_50">
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="门诊"
+             android:textColor="@android:color/white"
+             android:textSize="16sp" />
+
+         <TextView
+             android:id="@+id/screening_text"
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:layout_alignParentRight="true"
+             android:layout_centerVertical="true"
+             android:drawableLeft="@mipmap/screening_white_icon"
+             android:drawablePadding="3dp"
+             android:gravity="center"
+             android:padding="8dp"
+             android:text="美容外科"
+             android:textColor="@color/white" />
+     </RelativeLayout>
+
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center"
+         android:layout_margin="10dp"
+         android:drawableLeft="@mipmap/a5"
+         android:drawablePadding="10dp"
+         android:gravity="center"
+         android:text="杜圆圆"
+         android:textSize="16sp" />
+
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:paddingLeft="5dp"
+         android:paddingRight="5dp">
+
+         <TextView
+             android:id="@+id/department_btn"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_margin="5dp"
+             android:layout_weight="1"
+             android:background="@color/white"
+             android:drawablePadding="5dp"
+             android:drawableTop="@mipmap/a1"
+             android:elevation="5dp"
+             android:gravity="center"
+             android:padding="10dp"
+             android:text="科室预约查询"
+             android:textSize="12sp" />
+
+         <TextView
+             android:id="@+id/my_department_btn"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_margin="5dp"
+             android:layout_weight="1"
+             android:background="@color/white"
+             android:drawablePadding="5dp"
+             android:drawableTop="@mipmap/a4"
+             android:elevation="5dp"
+             android:gravity="center"
+             android:padding="10dp"
+             android:text="我的预约治疗"
+             android:textSize="12sp" />
+
+         <TextView
+             android:id="@+id/medical_record_btn"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_margin="5dp"
+             android:layout_weight="1"
+             android:background="@color/white"
+             android:drawablePadding="5dp"
+             android:drawableTop="@mipmap/a2"
+             android:elevation="5dp"
+             android:gravity="center"
+             android:paddingBottom="10dp"
+             android:paddingLeft="24dp"
+             android:paddingRight="24dp"
+             android:paddingTop="10dp"
+             android:text="诊疗记录"
+             android:textSize="12sp" />
+     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:padding="5dp">
+
+
+         <TextView
+             android:id="@+id/medical_history_btn"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_margin="5dp"
+             android:layout_weight="1"
+             android:background="@color/white"
+             android:drawablePadding="5dp"
+             android:drawableTop="@mipmap/a3"
+             android:elevation="5dp"
+             android:gravity="center"
+             android:paddingBottom="10dp"
+             android:paddingLeft="24dp"
+             android:paddingRight="24dp"
+             android:paddingTop="10dp"
+             android:text="历史诊疗"
+             android:textSize="12sp" />
+
+         <TextView
+             android:id="@+id/visit_btn"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_margin="5dp"
+             android:layout_weight="1"
+             android:background="@color/white"
+             android:drawablePadding="8dp"
+             android:drawableTop="@mipmap/a6"
+             android:elevation="5dp"
+             android:gravity="center"
+             android:paddingBottom="10dp"
+             android:paddingLeft="24dp"
+             android:paddingRight="24dp"
+             android:paddingTop="10dp"
+             android:text="复诊列表"
+             android:textSize="12sp" />
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_margin="5dp"
+             android:layout_weight="1"
+             android:background="@color/white"
+             android:drawablePadding="8dp"
+             android:drawableTop="@mipmap/a6"
+             android:elevation="5dp"
+             android:gravity="center"
+             android:paddingBottom="10dp"
+             android:paddingLeft="24dp"
+             android:paddingRight="24dp"
+             android:paddingTop="10dp"
+             android:text="备用"
+             android:textSize="12sp"
+             android:visibility="invisible" />
+     </LinearLayout>
+
+ -->
+</LinearLayout>

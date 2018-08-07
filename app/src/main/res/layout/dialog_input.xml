@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/white"
+    android:padding="10dp">
+
+    <com.mylike.his.view.ClearEditText
+        android:id="@+id/content_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/bg_white_line_box_gray_5"
+        android:maxHeight="60dp"
+        android:minLines="1"
+        android:padding="8dp"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/confirm_btn"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/btn_green_5"
+        android:text="确认"
+        android:textColor="@color/white" />
+
+</LinearLayout>

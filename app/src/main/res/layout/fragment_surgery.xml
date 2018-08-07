@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_47"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/green_50">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="手术管理"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/tag_img"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/green_50" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tag_img"
+            android:background="@mipmap/arc_green_icon" />
+
+
+        <LinearLayout
+            android:id="@+id/tag_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_white_box_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/surgery_order_btn"
+                style="@style/SurgeryTextStyle"
+                android:drawableLeft="@mipmap/make_an_appointment"
+                android:text="我的手术预约" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_48" />
+
+            <TextView
+                android:id="@+id/surgery_schedule_btn"
+                style="@style/SurgeryTextStyle"
+                android:drawableLeft="@mipmap/schedule_icon"
+                android:text="我的手术排期" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_48" />
+
+            <TextView
+                android:id="@+id/surgery_table_btn"
+                style="@style/SurgeryTextStyle"
+                android:drawableLeft="@mipmap/operating_table_icon"
+                android:text="我的手术排台" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tag_ll2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tag_ll"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_white_box_10"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SurgeryTextStyle"
+                android:drawableLeft="@mipmap/make_an_appointment2"
+                android:text="手术预约查询" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_48" />
+
+            <TextView
+                style="@style/SurgeryTextStyle"
+                android:drawableLeft="@mipmap/schedule_icon2"
+                android:text="手术排期查询" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gray_48" />
+
+            <TextView
+                style="@style/SurgeryTextStyle"
+                android:drawableLeft="@mipmap/operating_table_icon2"
+                android:text="手术排台查询" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tag_ll2"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_white_box_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/surgery_dynamic"
+                style="@style/SurgeryTextStyle"
+                android:drawableLeft="@mipmap/schedule"
+                android:text="手术间安排动态表" />
+
+        </LinearLayout>
+    </RelativeLayout>
+    <!--<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="我的手术" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray_48" />
+
+    <TextView
+        android:id="@+id/surgery_order_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/timesheet_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="我的手术预约"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:id="@+id/surgery_schedule_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/timesheet_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="我的手术排期"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:id="@+id/surgery_table_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/timesheet_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="我的手术排台"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="全部手术" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray_48" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/timesheet_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="手术预约查询"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/timesheet_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="手术排期查询"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/timesheet_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="手术排台查询"
+        android:textColor="@color/black_50" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="其他" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray_48" />
+
+    <TextView
+        android:id="@+id/surgery_dynamic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_line_gray_below"
+        android:drawableLeft="@mipmap/arrange_table_icon"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrows_icon"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="手术间安排动态表"
+        android:textColor="@color/black_50" />-->
+
+</LinearLayout>

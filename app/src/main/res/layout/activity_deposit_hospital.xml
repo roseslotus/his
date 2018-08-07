@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_47"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/green_50">
+
+        <ImageView
+            android:id="@+id/return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/return_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="住院押金"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tag_img"
+            android:background="@mipmap/arc_green_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/bg_white_box_10"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/balance_icon"
+                android:drawablePadding="10dp"
+                android:text="预交金余额："
+                android:textColor="@color/black_50"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/balance_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="元"
+                    android:textColor="@color/black_50" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/money_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gray_box_10"
+                android:hint="请输入充值押金金额"
+                android:padding="10dp"
+                android:textSize="14sp" />
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/flowlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                zhy:max_select="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支付方式：" />
+
+                <RadioGroup
+                    android:id="@+id/patternPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp">
+
+                    <RadioButton
+                        android:id="@+id/not_move"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/selector_round_icon"
+                        android:paddingLeft="5dp"
+                        android:text="非移动支付"
+                        android:textColor="@color/gray_50" />
+
+                    <RadioButton
+                        android:id="@+id/move"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:button="@drawable/selector_round_icon"
+                        android:paddingLeft="5dp"
+                        android:text="移动支付"
+                        android:textColor="@color/gray_50" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/remark_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_gray_box_10"
+                android:gravity="top"
+                android:hint="备注信息"
+                android:minLines="3"
+                android:padding="10dp"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/submit_btn"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btn_green_5"
+                android:text="提交"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@drawable/bg_white_line_gray_below"
+         android:orientation="horizontal"
+         android:padding="10dp">
+
+         <ImageView
+             android:layout_width="60dp"
+             android:layout_height="60dp"
+             android:src="@mipmap/girl_icon" />
+
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:gravity="center_vertical"
+             android:orientation="vertical"
+             android:paddingLeft="20dp">
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="张三"
+                 android:textColor="@android:color/black" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+                 android:text="137****5486"
+                 android:textColor="@android:color/black" />
+
+         </LinearLayout>
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_vertical"
+             android:layout_marginRight="10dp"
+             android:text="已接诊"
+             android:textColor="@color/orange_50" />
+     </LinearLayout>
+
+     <View
+         android:layout_width="match_parent"
+         android:layout_height="1px"
+         android:layout_marginTop="10dp"
+         android:background="@color/gray_48" />
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@drawable/bg_white_line_gray_below"
+         android:padding="10dp">
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:drawablePadding="10dp"
+             android:drawableRight="@mipmap/money_symbol_icon"
+             android:text="余额："
+             android:textColor="@android:color/black" />
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginRight="10dp"
+             android:text="1000" />
+     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@drawable/bg_white_line_gray_below"
+         android:padding="10dp">
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:drawablePadding="10dp"
+             android:drawableRight="@mipmap/money_symbol_icon"
+             android:text="充值："
+             android:textColor="@android:color/black" />
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginRight="10dp"
+             android:text="1000" />
+     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@drawable/bg_white_line_gray_below"
+
+         android:padding="10dp">
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:drawablePadding="10dp"
+             android:drawableRight="@mipmap/money_symbol_icon"
+             android:text="总计："
+             android:textColor="@android:color/black" />
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginRight="10dp"
+             android:text="2000"
+             android:textColor="@android:color/holo_red_dark" />
+     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@drawable/bg_white_line_gray_below"
+         android:orientation="horizontal"
+         android:padding="10dp">
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_marginStart="10dp"
+             android:text="备注："
+             android:textColor="@android:color/black" />
+
+         <EditText
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:background="@drawable/bg_white_line_box_gray_5"
+             android:gravity="left"
+             android:hint="请输入备注"
+             android:minHeight="60dp"
+             android:padding="5dp"
+             android:textColor="@color/gray_60"
+             android:textSize="14sp" />
+     </LinearLayout>
+
+     <Button
+         android:layout_width="match_parent"
+         android:layout_height="40dp"
+         android:layout_marginBottom="20dp"
+         android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
+         android:layout_marginTop="20dp"
+         android:background="@drawable/btn_green_5"
+         android:text="确认充值"
+         android:textColor="@android:color/white" />-->
+</LinearLayout>
