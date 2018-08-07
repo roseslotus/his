@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
         if (!TextUtils.isEmpty(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))) {
-            if (!isTaskRoot()) {//解决重启app会打开首页的问题bbbbb
+            if (!isTaskRoot()) {//解决重启app会打开首页的问题
                 finish();
                 return;
             }
