@@ -57,12 +57,12 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
     TextView totalText;
     @Bind(R.id.submit_btn)
     Button submitBtn;
-    @Bind(R.id.not_move)
-    RadioButton notMove;
-    @Bind(R.id.move)
-    RadioButton move;
-    @Bind(R.id.patternPayment)
-    RadioGroup patternPayment;
+//    @Bind(R.id.not_move)
+//    RadioButton notMove;
+//    @Bind(R.id.move)
+//    RadioButton move;
+//    @Bind(R.id.patternPayment)
+//    RadioGroup patternPayment;
     @Bind(R.id.remark_edit)
     EditText remarkEdit;
 
@@ -81,16 +81,16 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initView() {
-        patternPayment.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (notMove.getId() == checkedId) {
-                    ppValue = "0";
-                } else {
-                    ppValue = "1";
-                }
-            }
-        });
+//        patternPayment.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                if (notMove.getId() == checkedId) {
+//                    ppValue = "0";
+//                } else {
+//                    ppValue = "1";
+//                }
+//            }
+//        });
 
         //获取客户id
         clientId = getIntent().getStringExtra("clientId");
@@ -208,10 +208,7 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
     private List<SVProjectEntity> svProjectEntityList = new ArrayList<>();
 
     private void setData() {
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-        HttpClient.getHttpApi().getSVProject(paramsMap).enqueue(new BaseBack<List<SVProjectEntity>>() {
+        HttpClient.getHttpApi().getSVProject().enqueue(new BaseBack<List<SVProjectEntity>>() {
             @Override
             protected void onSuccess(List<SVProjectEntity> svProjectEntities) {
                 svProjectEntityList = svProjectEntities;
@@ -228,12 +225,7 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
     private void setTypeData(String projectValue) {
         Map<String, Object> map = new HashMap<>();
         map.put("accountId", projectValue);
-
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
-        HttpClient.getHttpApi().getSVType(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<SVProjectEntity>>() {
+        HttpClient.getHttpApi().getSVType(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<SVProjectEntity>>() {
             @Override
             protected void onSuccess(List<SVProjectEntity> svProjectEntities) {
                 svTypeEntityList = svProjectEntities;
@@ -263,10 +255,6 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
 
 //        HashMap<String, Object> map1 = new HashMap<>();
 //        map1.put("ctFinCardrecord", map);
-
-//        HashMap<String, String> paramsMap = new HashMap<>();
-//        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-//        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
         HttpClient.getHttpApi().setSV(HttpClient.getRequestBody(map)).enqueue(new BaseBack<HDepositEntity>() {
             @Override
             protected void onSuccess(HDepositEntity hDepositEntity) {

@@ -24,6 +24,7 @@ import com.mylike.his.activity.consultant.MessageActivity;
 import com.mylike.his.activity.consultant.NewCReceptionActivity;
 import com.mylike.his.activity.consultant.PaymentActivity;
 import com.mylike.his.activity.consultant.SurgeryActivity;
+import com.mylike.his.activity.consultant.TestActivity;
 import com.mylike.his.activity.consultant.VisitActivity;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.entity.MessageEntity;
@@ -198,35 +199,37 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0 && position != (listAll.size() + 1)) {
-                    setMessageReadState(listAll.get((int) parent.getAdapter().getItemId(position)).getFid());
-                    switch (listAll.get(position).getMsgType()) {
+                    int positionValue=(int) parent.getAdapter().getItemId(position);
+                    setMessageReadState(listAll.get(positionValue).getFid());
+                    String msgType=listAll.get(positionValue).getMsgType();
+                    switch (msgType) {
                         case "1"://待接诊
                             startActivity(NewCReceptionActivity.class);
                             break;
                         case "2"://已结账
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
                             break;
                         case "3"://已驳回
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
                             break;
                         case "4"://OA已提交
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
                             break;
                         case "5"://OA已通过
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
                             break;
                         case "6":// OA已终止
                             break;
                         case "7"://待扫码支付
-                            startActivity(PaymentActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                            startActivity(PaymentActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
                             break;
                         case "8"://待支付
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
                             break;
                     }
-                    MessageEntity messageEntity = listAll.get(position);
+                    MessageEntity messageEntity = listAll.get(positionValue);
                     messageEntity.setReadingState("1");
-                    listAll.set(position, messageEntity);
+                    listAll.set(positionValue, messageEntity);
                     commonAdapter.notifyDataSetChanged();
                 }
             }
@@ -289,7 +292,8 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 startActivity(VisitActivity.class);
                 break;
             case R.id.repertory_btn://库存查询
-                ToastUtils.showToast("敬请期待");
+                startActivity(TestActivity.class);
+//                ToastUtils.showToast("敬请期待");
                 break;
             case R.id.hospital_sum_btn://预约到院总数
                 startActivity(HospitalAppointmentActivity.class);

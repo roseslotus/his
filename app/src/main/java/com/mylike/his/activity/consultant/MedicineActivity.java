@@ -255,12 +255,8 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
         HashMap<String, Object> map = new HashMap<>();
         map.put("deptid", deptid);
 
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
         //获取科室列表
-        HttpClient.getHttpApi().getDepartmentDoctorList(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<DepartmentDoctorEntity>>() {
+        HttpClient.getHttpApi().getDepartmentDoctorList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<DepartmentDoctorEntity>>() {
 
             @Override
             protected void onSuccess(List<DepartmentDoctorEntity> departmentDoctorEntities) {
@@ -285,12 +281,8 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
         map1.put("CustomerIntention", Intention);
         map1.put("triage", map);
 
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
         //提交跨科
-        HttpClient.getHttpApi().setMedicine(paramsMap, HttpClient.getRequestBody(map1)).enqueue(new BaseBack<Map<String, String>>() {
+        HttpClient.getHttpApi().setMedicine(HttpClient.getRequestBody(map1)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
                 ToastUtils.showToast("提交成功");

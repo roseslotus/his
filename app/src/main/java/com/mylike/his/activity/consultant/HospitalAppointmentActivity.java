@@ -93,11 +93,7 @@ public class HospitalAppointmentActivity extends BaseActivity implements View.On
         map.put("pageSize", pageSize);
         map.put("condition", searchEdit.getText().toString());
 
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
-        HttpClient.getHttpApi().getHospitalAppointmentList(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<HospitalAppointmentEntity>() {
+        HttpClient.getHttpApi().getHospitalAppointmentList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<HospitalAppointmentEntity>() {
             @Override
             protected void onSuccess(HospitalAppointmentEntity hospitalAppointmentEntity) {
                 if (hospitalAppointmentEntity.getTotalPages() == pageNumber) {

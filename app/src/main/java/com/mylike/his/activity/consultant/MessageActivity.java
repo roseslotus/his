@@ -157,11 +157,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         map.put("pageNumber", pageNumber);
         map.put("pageSize", pageSize);
 
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
-        HttpClient.getHttpApi().getMessageList(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<BasePageEntity<MessageEntity>>() {
+        HttpClient.getHttpApi().getMessageList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<BasePageEntity<MessageEntity>>() {
 
             @Override
             protected void onSuccess(BasePageEntity<MessageEntity> messageEntityBasePageEntity) {

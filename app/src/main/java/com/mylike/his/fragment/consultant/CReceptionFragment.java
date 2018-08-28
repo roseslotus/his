@@ -97,11 +97,7 @@ public class CReceptionFragment extends BaseFragment {
         if (title.equals("未接诊")) {//未接诊
             HashMap<String, Object> map = new HashMap<>();
 
-            HashMap<String, String> paramsMap = new HashMap<>();
-            paramsMap.put("Content-type", "application/json;charset=UTF-8");
-            paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
-            HttpClient.getHttpApi().getNotReception(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ReceptionNotEntity>>() {
+            HttpClient.getHttpApi().getNotReception(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ReceptionNotEntity>>() {
                 @Override
                 protected void onSuccess(final List<ReceptionNotEntity> receptionNotEntities) {
                     receptionList.setAdapter(new CommonAdapter<ReceptionNotEntity>(getActivity(), R.layout.item_reception_not_list, receptionNotEntities) {
@@ -177,11 +173,7 @@ public class CReceptionFragment extends BaseFragment {
             map.put("DateLvel", "1");
             map.put("EndCreatetime", "10");
 
-            HashMap<String, String> paramsMap = new HashMap<>();
-            paramsMap.put("Content-type", "application/json;charset=UTF-8");
-            paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
-            HttpClient.getHttpApi().getHasReception(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<ReceptionEntity>() {
+            HttpClient.getHttpApi().getHasReception(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ReceptionEntity>() {
 
                 @Override
                 protected void onSuccess(ReceptionEntity receptionEntity) {

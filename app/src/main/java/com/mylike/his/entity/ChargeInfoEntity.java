@@ -35,10 +35,18 @@ public class ChargeInfoEntity {
 //    private String FISRUSH;
 //    private String FNUMBER;
 //    private int FSHOULDMONEY;
-//    private String ID;
+    private String ID;
 //    private int RN;
 //    private String USERNAME;
 
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
     public String getFCHARGESTATENUMBER() {
         return FCHARGESTATENUMBER;

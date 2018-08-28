@@ -101,10 +101,7 @@ public class ProductFragment<T> extends BaseFragment implements View.OnClickList
     }
 
     private void initData() {
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-        HttpClient.getHttpApi().getProductAll(paramsMap).enqueue(new BaseBack<ProductsThreeLevelEntity>() {
+        HttpClient.getHttpApi().getProductAll().enqueue(new BaseBack<ProductsThreeLevelEntity>() {
             @Override
             protected void onSuccess(ProductsThreeLevelEntity productsThreeLevelEntity) {
                 productsThreeLevel = productsThreeLevelEntity;

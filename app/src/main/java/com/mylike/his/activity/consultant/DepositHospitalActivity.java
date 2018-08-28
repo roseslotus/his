@@ -208,11 +208,7 @@ public class DepositHospitalActivity extends BaseActivity implements View.OnClic
 
         HashMap<String, Map<String, Object>> map1 = new HashMap<>();
         map1.put("chargeBill", map);
-
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-        HttpClient.getHttpApi().setHospitalDeposit(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<HDepositEntity>() {
+        HttpClient.getHttpApi().setHospitalDeposit(HttpClient.getRequestBody(map)).enqueue(new BaseBack<HDepositEntity>() {
             @Override
             protected void onSuccess(HDepositEntity hDepositEntity) {
                 ToastUtils.showToast("提交成功");

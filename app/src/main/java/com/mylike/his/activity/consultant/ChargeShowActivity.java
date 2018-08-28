@@ -19,6 +19,7 @@ import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.mylike.his.R;
+import com.mylike.his.activity.CustomerDetailsActivity;
 import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.BasePageEntity;
 import com.mylike.his.entity.ChargeFiltrateEntity;
@@ -157,7 +158,10 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                     case "7"://待OA申请
                         viewHolder.setVisible(R.id.oa_btn, true);//OA申请
                         break;
-                    case "11"://待扫码支付
+//                    case "11"://待扫码支付
+//                        viewHolder.setVisible(R.id.payment_btn, true);//去支付
+//                        break;
+                    case "2"://待扫码支付
                         viewHolder.setVisible(R.id.payment_btn, true);//去支付
                         break;
                     default:
@@ -168,6 +172,13 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                         break;
                 }
 
+                //客户详情
+                viewHolder.setOnClickListener(R.id.user_info_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(CustomerDetailsActivity.class, "clientId", item.getID());
+                    }
+                });
                 //重咨
                 viewHolder.setOnClickListener(R.id.again_consult_btn, new View.OnClickListener() {
                     @Override

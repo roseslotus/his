@@ -172,11 +172,7 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
         map.put("EndCreatetime", EndCreatetime);
         map.put("custNameOrPhone", searchEdit.getText().toString());
 
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
-        HttpClient.getHttpApi().getHasReception(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<ReceptionEntity>() {
+        HttpClient.getHttpApi().getHasReception(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ReceptionEntity>() {
             @Override
             protected void onSuccess(ReceptionEntity receptionEntity) {
                 EndCreatetime = receptionEntity.getEndCreatetime();
@@ -199,8 +195,8 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
 
                 listAll.addAll(receptionEntity.getList());
                 commonAdapter.notifyDataSetChanged();
-                refreshLayout.finishRefresh();
-                refreshLayout.finishLoadMore();
+//                refreshLayout.finishRefresh();
+//                refreshLayout.finishLoadMore();
             }
 
             @Override

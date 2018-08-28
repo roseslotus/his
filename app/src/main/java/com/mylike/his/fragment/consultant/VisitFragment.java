@@ -131,11 +131,7 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
         map.put("pageNumber", pageNumber + "");
         map.put("pageSize", pageSize + "");
         map.put("visitStatus", visitValue + "");
-
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-        HttpClient.getHttpApi().getVisitList(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<BasePageEntity<VisitEntity>>() {
+        HttpClient.getHttpApi().getVisitList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<BasePageEntity<VisitEntity>>() {
             @Override
             protected void onSuccess(BasePageEntity<VisitEntity> visitEntityBasePageEntity) {
                 sumPage = visitEntityBasePageEntity.getTotalPages();

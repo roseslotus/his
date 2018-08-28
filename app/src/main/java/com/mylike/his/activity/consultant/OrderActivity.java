@@ -350,13 +350,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private void initIntentionData() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("custId", custId);
-
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
         //客戶所有意向
-        HttpClient.getHttpApi().getUserIntentionInfo(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<UserIntentionEntity>>() {
+        HttpClient.getHttpApi().getUserIntentionInfo(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<UserIntentionEntity>>() {
             @Override
             protected void onSuccess(List<UserIntentionEntity> userIntentionEntities) {
                 userIntentionEntityList.clear();
@@ -592,13 +587,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         map.put("itemSecond", Intention[1]);
         map.put("itemThird", Intention[2]);
 
-
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
         //添加意向
-        HttpClient.getHttpApi().addIntention(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
+        HttpClient.getHttpApi().addIntention(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
 
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {

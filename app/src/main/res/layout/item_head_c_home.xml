@@ -323,6 +323,13 @@
                 android:text="开单总数" />
         </LinearLayout>
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#f8f8f8" />
+
         <LinearLayout
             android:id="@+id/visit_sum_btn"
             android:layout_width="wrap_content"

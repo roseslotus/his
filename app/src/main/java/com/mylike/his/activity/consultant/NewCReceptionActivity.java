@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mylike.his.R;
+import com.mylike.his.activity.CustomerDetailsActivity;
 import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.ReceptionEntity;
 import com.mylike.his.entity.ReceptionInfoEntity;
@@ -104,6 +105,14 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                     }
                 }
 
+                //客户详情
+                viewHolder.setOnClickListener(R.id.user_info_text, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(CustomerDetailsActivity.class, "clientId", item.getCUSTID());
+                    }
+                });
+
                 //消费
                 viewHolder.setOnClickListener(R.id.consumption_btn, new View.OnClickListener() {
                     @Override
@@ -147,11 +156,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
         map.put("EndCreatetime", EndCreatetime);
         map.put("custNameOrPhone", searchEdit.getText().toString());
 
-        HashMap<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("Content-type", "application/json;charset=UTF-8");
-        paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
-        HttpClient.getHttpApi().getHasReception(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<ReceptionEntity>() {
+        HttpClient.getHttpApi().getHasReception(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ReceptionEntity>() {
             @Override
             protected void onSuccess(ReceptionEntity receptionEntity) {
                 EndCreatetime = receptionEntity.getEndCreatetime();
@@ -215,6 +220,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_btn:
+                DateLvel = "";
                 pageNumber = 1;
                 listAll.clear();
                 initData();
@@ -242,5 +248,6 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
             pageNumber = 1;
         }
         initData();
+
     }
 }

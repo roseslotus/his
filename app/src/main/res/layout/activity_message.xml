@@ -55,6 +55,7 @@
             <ListView
                 android:id="@+id/message_list"
                 style="@style/ListViewNotLineStyle"
+                android:dividerHeight="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
