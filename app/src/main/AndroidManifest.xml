@@ -94,7 +94,7 @@
         <!--手术查询-->
         <activity android:name=".activity.consultant.SurgeryActivity"></activity>
         <!--测试统计-->
-        <activity android:name=".activity.consultant.TestActivity"></activity>
+        <activity android:name=".activity.consultant.BookbuildingActivity"></activity>
 
 
         <!--医生端-->

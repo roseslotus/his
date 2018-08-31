@@ -119,12 +119,12 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     EditText remarkEdit;
     @Bind(R.id.integral_edit)
     EditText integralEdit;
-    @Bind(R.id.move)
-    RadioButton move;
-    @Bind(R.id.not_move)
-    RadioButton notMove;
-    @Bind(R.id.patternPayment)
-    RadioGroup patternPayment;
+//    @Bind(R.id.move)
+//    RadioButton move;
+//    @Bind(R.id.not_move)
+//    RadioButton notMove;
+//    @Bind(R.id.patternPayment)
+//    RadioGroup patternPayment;
     @Bind(R.id.jian_text)
     TextView jianText;
     @Bind(R.id.integral_money_text)
@@ -151,7 +151,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private String doctorId;//医生id
     private String IsCosmetology;//是否是美容科 0否1是
     private String chargeId;//收费单id
-    private String ppValue;//支付方式
+//    private String ppValue;//支付方式
     private int integralValue;//客户可用积分
     private String zxsid;
 
@@ -203,21 +203,20 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     viewHolder.setText(R.id.money_count_text, new DecimalFormat("0.00").format(Double.parseDouble(item.getPrice1())));
                 }
                 viewHolder.setText(R.id.count_text, "x" + item.getCount());
-
             }
         };
         projectList.setAdapter(commonAdapter);
 
-        patternPayment.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (notMove.getId() == checkedId) {
-                    ppValue = "0";
-                } else {
-                    ppValue = "1";
-                }
-            }
-        });
+//        patternPayment.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                if (notMove.getId() == checkedId) {
+//                    ppValue = "0";
+//                } else {
+//                    ppValue = "1";
+//                }
+//            }
+//        });
 
         integralEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -316,12 +315,12 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 identityEdit.setText(chargeUserInfoEntity.getTriageData().getSFZH());//身份证
                 remarkEdit.setText(chargeUserInfoEntity.getTriageData().getChargebillcfremark());//备注
 
-                ppValue = chargeUserInfoEntity.getTriageData().getPayType();
-                if ("0".equals(ppValue)) {//支付方式
-                    notMove.setChecked(true);
-                } else if ("1".equals(ppValue)) {
-                    move.setChecked(true);
-                }
+//                ppValue = chargeUserInfoEntity.getTriageData().getPayType();
+//                if ("0".equals(ppValue)) {//支付方式
+//                    notMove.setChecked(true);
+//                } else if ("1".equals(ppValue)) {
+//                    move.setChecked(true);
+//                }
 
                 if (!TextUtils.isEmpty(chargeUserInfoEntity.getTriageData().getYXID())) {
                     intentionText.setText(chargeUserInfoEntity.getTriageData().getYX());
@@ -426,8 +425,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     ToastUtils.showToast("请先选择意向，再提交订单");
                 } else if (TextUtils.isEmpty(doctorText.getText().toString())) {
                     ToastUtils.showToast("未分配医生不能提交订单，请通知前台分配医生并下拉刷新");
-                } else if (TextUtils.isEmpty(ppValue)) {
-                    ToastUtils.showToast("请选择支付方式");
+//                } else if (TextUtils.isEmpty(ppValue)) {
+//                    ToastUtils.showToast("请选择支付方式");
                 } else {
                     if (!TextUtils.isEmpty(moneyText.getText()) || !TextUtils.isEmpty(timeText.getText())) {
                         if (TextUtils.isEmpty(moneyText.getText())) {
@@ -632,7 +631,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         map.put("totalMoney", sumText.getText().toString());
         map.put("zxsid", zxsid);
         map.put("billId", chargeId);
-        map.put("payType", ppValue);//支付：0-非移动，1-移动
+//        map.put("payType", ppValue);//支付：0-非移动，1-移动
 
         //保存收费单
         HttpClient.getHttpApi().saveCharge(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
@@ -692,7 +691,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 //        map.put("redeemCode", "");//兑换码
         map.put("totalRealMoney", sumText.getText().toString());//实付金额 （减去积分后的实际需要支付的金额，预约金情况下不能使用积分）
         map.put("remark", remarkEdit.getText().toString());
-        map.put("payType", ppValue);//支付：0-非移动，1-移动
+//        map.put("payType", ppValue);//支付：0-非移动，1-移动
         if (oaBox.isChecked()) {
             map.put("isOA", "1");//oa：0-不走oa，1-走oa
         } else {
@@ -709,17 +708,17 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     startActivity(CMainActivity.class, CMainActivity.GO_OA, stringStringMap.get("billId"));
 //                    startActivity(OAActivity.class, "fid", stringStringMap.get("billId"));
                 } else {
-                    if ("1".equals(ppValue)) {//选择了移动支付
+//                    if ("1".equals(ppValue)) {//选择了移动支付
                         //跳转支付
                         Intent intent = new Intent();
                         intent.putExtra(CMainActivity.GO_PAYMENT, stringStringMap.get("billId"));
                         intent.putExtra("money", moneySum);
                         intent.setClass(OrderActivity.this, CMainActivity.class);
                         startActivity(intent);
-                    } else {
+//                    } else {
                         //订单提交成功，跳转收费单列表
-                        startActivity(CMainActivity.class, CMainActivity.GO_CHARGE, CMainActivity.GO_CHARGE);
-                    }
+//                        startActivity(CMainActivity.class, CMainActivity.GO_CHARGE, CMainActivity.GO_CHARGE);
+//                    }
                 }
             }
 

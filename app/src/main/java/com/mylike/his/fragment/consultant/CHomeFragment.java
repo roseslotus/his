@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.mylike.his.R;
 import com.mylike.his.activity.LoginActivity;
+import com.mylike.his.activity.consultant.BookbuildingActivity;
 import com.mylike.his.activity.consultant.ChargeDetailsActivity;
 import com.mylike.his.activity.consultant.ChargeShowActivity;
 import com.mylike.his.activity.consultant.ClientActivity;
@@ -24,7 +25,6 @@ import com.mylike.his.activity.consultant.MessageActivity;
 import com.mylike.his.activity.consultant.NewCReceptionActivity;
 import com.mylike.his.activity.consultant.PaymentActivity;
 import com.mylike.his.activity.consultant.SurgeryActivity;
-import com.mylike.his.activity.consultant.TestActivity;
 import com.mylike.his.activity.consultant.VisitActivity;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.entity.MessageEntity;
@@ -33,7 +33,6 @@ import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -227,7 +226,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                             startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
                             break;
                     }
-                    MessageEntity messageEntity = listAll.get(positionValue);
+                    MessageEntity messageEntity = listAll.get(1);
                     messageEntity.setReadingState("1");
                     listAll.set(positionValue, messageEntity);
                     commonAdapter.notifyDataSetChanged();
@@ -292,7 +291,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 startActivity(VisitActivity.class);
                 break;
             case R.id.repertory_btn://库存查询
-                startActivity(TestActivity.class);
+                startActivity(BookbuildingActivity.class);
 //                ToastUtils.showToast("敬请期待");
                 break;
             case R.id.hospital_sum_btn://预约到院总数

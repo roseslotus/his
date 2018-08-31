@@ -1,5 +1,6 @@
 package com.mylike.his.activity.consultant;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -66,7 +67,7 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
     @Bind(R.id.remark_edit)
     EditText remarkEdit;
 
-    private String ppValue;//支付方式
+//    private String ppValue;//支付方式
     private String clientId;//客户id
     private String projectId;//储值项目id
 
@@ -251,13 +252,19 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
         HashMap<String, Object> map = new HashMap<>();
         map.put("ctFinCardrecord", ctFinCardrecord);
         map.put("fConsultorId", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.EMP_ID));//咨询Id
-        map.put("payType", ppValue);//支付方式；0—非移动；1—移动支付
+//        map.put("payType", ppValue);//支付方式；0—非移动；1—移动支付
 
 //        HashMap<String, Object> map1 = new HashMap<>();
 //        map1.put("ctFinCardrecord", map);
         HttpClient.getHttpApi().setSV(HttpClient.getRequestBody(map)).enqueue(new BaseBack<HDepositEntity>() {
             @Override
             protected void onSuccess(HDepositEntity hDepositEntity) {
+//                Intent intent = new Intent();
+//                intent.putExtra(CMainActivity.GO_PAYMENT, stringStringMap.get("billId"));
+//                intent.putExtra("money", moneySum);
+//                intent.setClass(OrderActivity.this, CMainActivity.class);
+//                startActivity(intent);
+                startActivity(CMainActivity.class, CMainActivity.GO_PAYMENT, hDepositEntity.getBillId());
                 ToastUtils.showToast("提交成功");
                 finish();
             }

@@ -1,6 +1,5 @@
 package com.mylike.his.core;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -11,15 +10,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mylike.his.R;
-import com.mylike.his.activity.consultant.NewCReceptionActivity;
-import com.mylike.his.activity.consultant.TestActivity;
 import com.mylike.his.utils.KeyboardUtils;
 import com.mylike.his.view.FloatingDragger;
 

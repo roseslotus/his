@@ -15,9 +15,9 @@ import butterknife.OnClick;
 
 /**
  * Created by zhengluping on 2018/7/18.
+ * 建档
  */
-
-public class TestActivity extends BaseActivity implements View.OnClickListener {
+public class BookbuildingActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.table1)
     TableLayout table1;
     @Bind(R.id.table2)
@@ -42,10 +42,6 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
     LinearLayout llTag5;
     @Bind(R.id.ll_tag6)
     LinearLayout llTag6;
-//    @Bind(R.id.return_btn)
-//    ImageView returnBtn;
-//    @Bind(R.id.webView)
-//    WebView webView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
