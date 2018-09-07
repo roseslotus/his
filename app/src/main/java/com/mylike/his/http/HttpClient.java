@@ -22,7 +22,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpClient {
-    private static String BASE_URL = "http://172.16.61.242:9093/mylike-crm/";//服务器
+    private static String BASE_URL = "http://172.16.61.222:8280/mylike-crm/";//服务器
 //    private static String BASE_URL = "http://172.16.63.230:8085/mylike-crm/";//春雷
 //    private static String BASE_URL = "http://172.16.63.217:8080/mylike-crm/";//李哲
 //    private static String BASE_URL = "http://172.16.63.52:8080/mylike-crm/";//收费

@@ -77,7 +77,6 @@
                     android:layout_height="25dp"
                     app:individer="@drawable/line_number_vertical"
                     app:textColor="@color/gray_50" />
-
             </LinearLayout>
 
         </RelativeLayout>
@@ -86,12 +85,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="折扣:0."
+                    android:textColor="@color/gray_49" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_white_line_box_gray"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="00"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="折"
+                    android:textColor="@color/gray_49" />
+            </LinearLayout>
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="right"
                 android:layout_weight="1"
                 android:text="小计："
-                android:textColor="@color/gray_50" />
+                android:textColor="@color/gray_49" />
 
             <ImageView
                 android:layout_width="wrap_content"

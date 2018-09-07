@@ -22,6 +22,8 @@ import com.mylike.his.utils.ToastUtils;
 import com.mylike.his.view.ClearEditText;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -142,6 +144,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 SPUtils.setCache(SPUtils.FILE_USER, SPUtils.USER_NAME, tokenEntity.getUserInfo().getUsername());//咨询师姓名
                 SPUtils.setCache(SPUtils.FILE_USER, SPUtils.HOSPITAL_NAME, tokenEntity.getUserInfo().getTenantName());//咨询师所在医院
 
+//                List<String> job = tokenEntity.getSpecial_role();
+//                if (job.size() >= 2) {
+//
+//                } else {
+//                    if ("1".equals(job.get(0))) {//医生
+//
+//                    } else if ("2".equals(job.get(0))) {//咨询师
+//
+//                    } else if ("3".equals(job.get(0))) {//网店咨询师
+//
+//                    }
+//
+//                }
                 startActivity(CMainActivity.class);
                 finish();
             }

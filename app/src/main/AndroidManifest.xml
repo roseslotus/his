@@ -93,7 +93,9 @@
         <activity android:name=".activity.consultant.PaymentActivity"></activity>
         <!--手术查询-->
         <activity android:name=".activity.consultant.SurgeryActivity"></activity>
-        <!--测试统计-->
+        <!--搜索建档-->
+        <activity android:name=".activity.consultant.SearchActivity"></activity>
+        <!--建档-->
         <activity android:name=".activity.consultant.BookbuildingActivity"></activity>
 
 

@@ -414,7 +414,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 optionsPickerView.show();
                 break;
             case R.id.save_charge_btn://保存
-                if (!TextUtils.isEmpty(moneyText.getText()) || !TextUtils.isEmpty(timeText.getText())) {
+                if (!TextUtils.isEmpty(moneyText.getText())) {
                     ToastUtils.showToast("预约金订单不能保存");
                 } else {
                     saveCharge();
@@ -431,8 +431,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     if (!TextUtils.isEmpty(moneyText.getText()) || !TextUtils.isEmpty(timeText.getText())) {
                         if (TextUtils.isEmpty(moneyText.getText())) {
                             ToastUtils.showToast("你选择了预约金，请填写预约金额");
-                        } else if (TextUtils.isEmpty(timeText.getText())) {
-                            ToastUtils.showToast("你选择了预约金，请选择预约时间");
+//                        } else if (TextUtils.isEmpty(timeText.getText())) {
+//                            ToastUtils.showToast("你选择了预约金，请选择预约时间");
                         } else {
                             DialogUtil.hintDialog(OrderActivity.this, "是否确认下单？").setOnClickListener(new View.OnClickListener() {
                                 @Override

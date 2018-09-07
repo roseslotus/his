@@ -112,6 +112,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         ipEntiytList.remove(position);
                         SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_TEXT, gson.toJson(ipEntiytList));
                         commonAdapter.notifyDataSetChanged();
+                        ((SwipeMenuLayout) viewHolder.getConvertView()).quickClose();
                     }
                 });
             }
@@ -130,10 +131,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             IpEntiyt ipEntiyt = new IpEntiyt();
 //            ipEntiyt.setIp("172.16.61.242");//服务器
 //            ipEntiyt.setPort("9093");
-//            ipEntiyt.setIp("172.16.61.222");//服务器
-//            ipEntiyt.setPort("9093");
-            ipEntiyt.setIp("172.16.63.118");//鲁钿
-            ipEntiyt.setPort("8080");
+            ipEntiyt.setIp("172.16.61.222");//服务器
+            ipEntiyt.setPort("8280");
+//            ipEntiyt.setIp("172.16.63.118");//鲁钿
+//            ipEntiyt.setPort("8080");
 //            ipEntiyt.setIp("172.16.63.149");//春雷
 //            ipEntiyt.setPort("8085");
             ipEntiyt.setChecked(false);

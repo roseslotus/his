@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_47"
@@ -27,13 +28,14 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/save_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:gravity="center"
-            android:textColor="@color/white"
             android:padding="10dp"
-            android:text="保存"/>
+            android:text="保存"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 
@@ -50,8 +52,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:overScrollMode="never">
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,6 +110,7 @@
                                 android:text="姓名：" />
 
                             <EditText
+                                android:id="@+id/name_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -129,18 +132,20 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
-                                android:text="电话：" />
+                                android:text="电话："
+                                android:textColor="@color/gray_49" />
 
                             <EditText
+                                android:id="@+id/phone_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:focusable="false"
                                 android:hint="请输入电话"
                                 android:padding="5dp"
                                 android:singleLine="true"
-                                android:text=""
-                                android:textColor="@color/black_50"
+                                android:textColor="@color/gray_49"
                                 android:textColorHint="@color/gray_49"
                                 android:textSize="14sp" />
                         </TableRow>
@@ -157,14 +162,14 @@
                                 android:text="性别：" />
 
                             <RadioGroup
-                                android:id="@+id/patternPayment"
+                                android:id="@+id/sex"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:orientation="horizontal">
 
                                 <RadioButton
-                                    android:id="@+id/not_move"
+                                    android:id="@+id/man"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:button="@drawable/selector_round_icon"
@@ -173,7 +178,7 @@
                                     android:textColor="@color/gray_50" />
 
                                 <RadioButton
-                                    android:id="@+id/move"
+                                    android:id="@+id/girl"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
@@ -196,6 +201,7 @@
                                 android:text="年龄：" />
 
                             <EditText
+                                android:id="@+id/age_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -209,29 +215,6 @@
                                 android:textSize="14sp" />
                         </TableRow>
 
-                        <TableRow
-                            android:background="@drawable/bg_white_line_gray_below"
-                            android:padding="5dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="right"
-                                android:text="出生日期：" />
-
-                            <EditText
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@android:color/transparent"
-                                android:hint="请选择"
-                                android:padding="5dp"
-                                android:singleLine="true"
-                                android:text=""
-                                android:textColor="@color/black_50"
-                                android:textColorHint="@color/gray_49"
-                                android:textSize="14sp" />
-                        </TableRow>
 
                         <TableRow
                             android:background="@drawable/bg_white_line_gray_below"
@@ -243,17 +226,12 @@
                                 android:gravity="right"
                                 android:text="经济能力：" />
 
-                            <EditText
+                            <Spinner
+                                android:id="@+id/Economics_spr"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@android:color/transparent"
-                                android:hint="请选择"
-                                android:padding="5dp"
-                                android:singleLine="true"
-                                android:textColor="@color/black_50"
-                                android:textColorHint="@color/gray_49"
-                                android:textSize="14sp" />
+                                android:overlapAnchor="false" />
                         </TableRow>
 
                         <TableRow
@@ -267,14 +245,14 @@
                                 android:text="媒介来源：" />
 
                             <EditText
+                                android:id="@+id/medium_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:focusable="false"
                                 android:hint="请选择"
                                 android:padding="5dp"
-                                android:singleLine="true"
-                                android:text=""
                                 android:textColor="@color/black_50"
                                 android:textColorHint="@color/gray_49"
                                 android:textSize="14sp" />
@@ -291,14 +269,14 @@
                                 android:text="省/市/区：" />
 
                             <EditText
+                                android:id="@+id/Provinces_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:focusable="false"
                                 android:hint="请选择"
                                 android:padding="5dp"
-                                android:singleLine="true"
-                                android:text=""
                                 android:textColor="@color/black_50"
                                 android:textColorHint="@color/gray_49"
                                 android:textSize="14sp" />
@@ -313,6 +291,7 @@
                                 android:text="详细地址：" />
 
                             <EditText
+                                android:id="@+id/address_details_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -378,17 +357,12 @@
                                 android:gravity="right"
                                 android:text="意向度：" />
 
-                            <EditText
+                            <Spinner
+                                android:id="@+id/Intention_spr"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@android:color/transparent"
-                                android:hint="请选择"
-                                android:padding="5dp"
-                                android:singleLine="true"
-                                android:textColor="@color/black_50"
-                                android:textColorHint="@color/gray_49"
-                                android:textSize="14sp" />
+                                android:overlapAnchor="false" />
                         </TableRow>
 
 
@@ -400,18 +374,27 @@
                                 android:gravity="right"
                                 android:text="意向项目：" />
 
-                            <EditText
+                            <TextView
+                                android:id="@+id/add_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@android:color/transparent"
-                                android:hint="请选择"
-                                android:padding="5dp"
-                                android:singleLine="true"
-                                android:textColor="@color/black_50"
-                                android:textColorHint="@color/gray_49"
-                                android:textSize="14sp" />
+                                android:gravity="right"
+                                android:paddingBottom="5dp"
+                                android:paddingRight="15dp"
+                                android:paddingTop="5dp"
+                                android:text="新增"
+                                android:textColor="@color/green_50" />
                         </TableRow>
+
+                        <com.mylike.his.view.SListView
+                            android:id="@+id/intention_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/gray_47"
+                            android:dividerHeight="1px"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp" />
                     </TableLayout>
                 </LinearLayout>
 
@@ -427,9 +410,11 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/other_btn"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_white_line_green_left"
+                        android:drawableRight="@mipmap/below_green_icon"
                         android:paddingBottom="3dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="3dp"
@@ -440,7 +425,6 @@
 
                     <TableLayout
                         android:id="@+id/table3"
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone">
@@ -453,19 +437,37 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
-                                android:text="婚姻：" />
+                                android:text="出生日期：" />
 
                             <EditText
+                                android:id="@+id/birth_date_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:focusable="false"
                                 android:hint="请选择"
                                 android:padding="5dp"
-                                android:singleLine="true"
-                                android:textColor="@color/black_50"
                                 android:textColorHint="@color/gray_49"
                                 android:textSize="14sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:background="@drawable/bg_white_line_gray_below"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="婚姻：" />
+
+                            <Spinner
+                                android:id="@+id/marriage_spr"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:overlapAnchor="false" />
                         </TableRow>
 
                         <TableRow
@@ -478,17 +480,12 @@
                                 android:gravity="right"
                                 android:text="职业：" />
 
-                            <EditText
+                            <Spinner
+                                android:id="@+id/Occupation_spr"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@android:color/transparent"
-                                android:hint="请选择"
-                                android:padding="5dp"
-                                android:singleLine="true"
-                                android:textColor="@color/black_50"
-                                android:textColorHint="@color/gray_49"
-                                android:textSize="14sp" />
+                                android:overlapAnchor="false" />
                         </TableRow>
 
                         <TableRow
@@ -499,18 +496,19 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
-                                android:text="一级渠道：" />
+                                android:text="一级渠道："
+                                android:textColor="@color/gray_49" />
 
                             <EditText
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
-                                android:hint="请选择"
+                                android:focusable="false"
                                 android:padding="5dp"
                                 android:singleLine="true"
-                                android:textColor="@color/black_50"
-                                android:textColorHint="@color/gray_49"
+                                android:text="搜索建档"
+                                android:textColor="@color/gray_49"
                                 android:textSize="14sp" />
                         </TableRow>
 
@@ -525,10 +523,12 @@
                                 android:text="二/三级渠道：" />
 
                             <EditText
+                                android:id="@+id/channel_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:focusable="false"
                                 android:hint="请选择"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -547,17 +547,12 @@
                                 android:gravity="right"
                                 android:text="交通工具：" />
 
-                            <EditText
+                            <com.zhy.view.flowlayout.TagFlowLayout
+                                android:id="@+id/flowlayout1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@android:color/transparent"
-                                android:hint="请选择"
-                                android:padding="5dp"
-                                android:singleLine="true"
-                                android:textColor="@color/black_50"
-                                android:textColorHint="@color/gray_49"
-                                android:textSize="14sp" />
+                                zhy:max_select="-1" />
                         </TableRow>
 
                         <TableRow
@@ -570,17 +565,12 @@
                                 android:gravity="right"
                                 android:text="障碍点：" />
 
-                            <EditText
+                            <com.zhy.view.flowlayout.TagFlowLayout
+                                android:id="@+id/flowlayout2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@android:color/transparent"
-                                android:hint="请选择"
-                                android:padding="5dp"
-                                android:singleLine="true"
-                                android:textColor="@color/black_50"
-                                android:textColorHint="@color/gray_49"
-                                android:textSize="14sp" />
+                                zhy:max_select="-1" />
                         </TableRow>
 
                         <TableRow
@@ -594,6 +584,7 @@
                                 android:text="顾客情况反馈：" />
 
                             <EditText
+                                android:id="@+id/custFeedback_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -617,6 +608,7 @@
                                 android:text="建议方案：" />
 
                             <EditText
+                                android:id="@+id/custSuggest_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -640,6 +632,7 @@
                                 android:text="顾客预算：" />
 
                             <EditText
+                                android:id="@+id/custBudget_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -663,6 +656,7 @@
                                 android:text="专家及报价：" />
 
                             <EditText
+                                android:id="@+id/processor_price_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -675,9 +669,7 @@
                                 android:textSize="14sp" />
                         </TableRow>
 
-                        <TableRow
-                            android:background="@drawable/bg_white_line_gray_below"
-                            android:padding="5dp">
+                        <TableRow android:padding="5dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -686,6 +678,7 @@
                                 android:text="备注信息：" />
 
                             <EditText
+                                android:id="@+id/cfremark_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -712,9 +705,11 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/contact_btn"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_white_line_green_left"
+                        android:drawableRight="@mipmap/below_green_icon"
                         android:paddingBottom="3dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="3dp"
@@ -724,7 +719,6 @@
 
                     <TableLayout
                         android:id="@+id/table4"
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone">
@@ -740,6 +734,7 @@
                                 android:text="QQ：" />
 
                             <EditText
+                                android:id="@+id/qq_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -764,6 +759,7 @@
                                 android:text="微信号：" />
 
                             <EditText
+                                android:id="@+id/wechat_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -788,6 +784,7 @@
                                 android:text="其他联系：" />
 
                             <EditText
+                                android:id="@+id/other_contact_edit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -814,9 +811,11 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/appointment_btn"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_white_line_green_left"
+                        android:drawableRight="@mipmap/below_green_icon"
                         android:paddingBottom="3dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="3dp"
@@ -827,7 +826,6 @@
 
                     <TableLayout
                         android:id="@+id/table5"
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone">
@@ -843,10 +841,12 @@
                                 android:text="预约到院时间：" />
 
                             <EditText
+                                android:id="@+id/appointment_time_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:focusable="false"
                                 android:hint="请选择"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -867,12 +867,14 @@
                                 android:text="大单：" />
 
                             <RadioGroup
+                                android:id="@+id/big"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:orientation="horizontal">
 
                                 <RadioButton
+                                    android:id="@+id/yes"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:button="@drawable/selector_round_icon"
@@ -881,6 +883,7 @@
                                     android:textColor="@color/gray_50" />
 
                                 <RadioButton
+                                    android:id="@+id/no"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
@@ -890,7 +893,6 @@
                                     android:textColor="@color/gray_50" />
 
                             </RadioGroup>
-
                         </TableRow>
                     </TableLayout>
                 </LinearLayout>
@@ -901,16 +903,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_tag5"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/bg_white_box_10"
                     android:orientation="vertical"
                     android:padding="10dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/bookbuilding_btn"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_white_line_green_left"
+                        android:drawableRight="@mipmap/below_green_icon"
                         android:paddingBottom="3dp"
                         android:paddingLeft="10dp"
                         android:paddingTop="3dp"
@@ -921,7 +925,6 @@
 
                     <TableLayout
                         android:id="@+id/table6"
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone">
@@ -934,18 +937,20 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
-                                android:text="建档人：" />
+                                android:text="建档人："
+                                android:textColor="@color/gray_49" />
 
                             <EditText
+                                android:id="@+id/user_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:focusable="false"
                                 android:hint="请输入信息"
                                 android:padding="5dp"
                                 android:singleLine="true"
-                                android:text="张伟"
-                                android:textColor="@color/black_50"
+                                android:textColor="@color/gray_49"
                                 android:textColorHint="@color/gray_49"
                                 android:textSize="14sp" />
                         </TableRow>
@@ -958,18 +963,20 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
-                                android:text="建档时间：" />
+                                android:text="建档时间："
+                                android:textColor="@color/gray_49" />
 
                             <EditText
+                                android:id="@+id/creation_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:focusable="false"
                                 android:hint="请输入信息"
                                 android:padding="5dp"
                                 android:singleLine="true"
-                                android:text="2018-108-28 10:30"
-                                android:textColor="@color/black_50"
+                                android:textColor="@color/gray_49"
                                 android:textColorHint="@color/gray_49"
                                 android:textSize="14sp" />
                         </TableRow>

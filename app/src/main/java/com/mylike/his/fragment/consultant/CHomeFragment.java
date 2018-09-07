@@ -24,6 +24,7 @@ import com.mylike.his.activity.consultant.HospitalAppointmentActivity;
 import com.mylike.his.activity.consultant.MessageActivity;
 import com.mylike.his.activity.consultant.NewCReceptionActivity;
 import com.mylike.his.activity.consultant.PaymentActivity;
+import com.mylike.his.activity.consultant.SearchActivity;
 import com.mylike.his.activity.consultant.SurgeryActivity;
 import com.mylike.his.activity.consultant.VisitActivity;
 import com.mylike.his.core.BaseFragment;
@@ -226,14 +227,13 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                             startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
                             break;
                     }
-                    MessageEntity messageEntity = listAll.get(1);
+                    MessageEntity messageEntity = listAll.get(positionValue);
                     messageEntity.setReadingState("1");
                     listAll.set(positionValue, messageEntity);
                     commonAdapter.notifyDataSetChanged();
                 }
             }
         });
-
 
         //滑动监听
         messageList.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -291,7 +291,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 startActivity(VisitActivity.class);
                 break;
             case R.id.repertory_btn://库存查询
-                startActivity(BookbuildingActivity.class);
+                startActivity(SearchActivity.class);
 //                ToastUtils.showToast("敬请期待");
                 break;
             case R.id.hospital_sum_btn://预约到院总数

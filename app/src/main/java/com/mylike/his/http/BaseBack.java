@@ -30,7 +30,7 @@ public abstract class BaseBack<T> implements Callback<BaseEntity<T>> {
         BaseEntity<T> baseEntity = response.body();
         if (response.isSuccessful() && baseEntity != null) {
             if (baseEntity.getCode().equals("1000")) {//成功
-                onSuccess(baseEntity.getData());
+                    onSuccess(baseEntity.getData());
             } else if (baseEntity.getCode().equals("4001")) {//token失效
                 ToastUtils.showToast("登录失效，请重新登录");
                 SPUtils.setCache(SPUtils.FILE_USER, SPUtils.TOKEN, "");
@@ -57,7 +57,7 @@ public abstract class BaseBack<T> implements Callback<BaseEntity<T>> {
 
     @Override
     public void onFailure(Call<BaseEntity<T>> call, Throwable t) {
-        Logger.d(t.getMessage());
+         Logger.d(t.getMessage());
         if (t instanceof ConnectException) {//网络连接失败
             ToastUtils.showToast("网络开小差了，请检查网络");
         } else {

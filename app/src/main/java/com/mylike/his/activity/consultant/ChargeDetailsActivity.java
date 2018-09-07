@@ -99,8 +99,8 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
     TextView moneyText;
     @Bind(R.id.money_value)
     TextView moneyValue;
-    @Bind(R.id.payment)
-    TextView payment;
+//    @Bind(R.id.payment)
+//    TextView payment;
     @Bind(R.id.order_number)
     TextView orderNumber;
 
@@ -167,11 +167,11 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                 remarkText.setText(chargeDateilsEntity.getInfo().getCFREMARK());//备注
                 orderNumber.setText(chargeDateilsEntity.getInfo().getFNUMBER());//订单好
 
-                if ("1".equals(chargeDateilsEntity.getInfo().getPAY_TYPE())) {
-                    payment.setText("移动支付");
-                } else {
-                    payment.setText("非移动支付");
-                }
+//                if ("1".equals(chargeDateilsEntity.getInfo().getPAY_TYPE())) {
+//                    payment.setText("移动支付");
+//                } else {
+//                    payment.setText("非移动支付");
+//                }
 
                 //判断是否储值/住院押金
                 if ("3".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER())) {
@@ -215,26 +215,25 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                         moneyValue.setText(setDecimalFormat(chargeDateilsEntity.getInfo().getFFACTMONEY()));//应付款
                         moneyText.setText("实付款");
 
-                        String paymentValue = "";
-                        if ("1".equals(chargeDateilsEntity.getInfo().getPAY_TYPE())) {
-                            for (Map<String, String> value : chargeDateilsEntity.getSubjectlist()) {
-                                if (TextUtils.isEmpty(paymentValue)) {
-                                    paymentValue += "移动支付-" + value.get("FSUBJECTNAME");
-                                } else {
-                                    paymentValue += "\n移动支付-" + value.get("FSUBJECTNAME");
-                                }
-                            }
-                        } else {
-                            for (Map<String, String> value : chargeDateilsEntity.getSubjectlist()) {
-                                if (TextUtils.isEmpty(paymentValue)) {
-                                    paymentValue += "非移动支付—" + value.get("FSUBJECTNAME");
-                                } else {
-                                    paymentValue += "\n非移动支付—" + value.get("FSUBJECTNAME");
-                                }
-                            }
-
-                        }
-                        payment.setText(paymentValue);
+//                        String paymentValue = "";
+//                        if ("1".equals(chargeDateilsEntity.getInfo().getPAY_TYPE())) {
+//                            for (Map<String, String> value : chargeDateilsEntity.getSubjectlist()) {
+//                                if (TextUtils.isEmpty(paymentValue)) {
+//                                    paymentValue += "移动支付-" + value.get("FSUBJECTNAME");
+//                                } else {
+//                                    paymentValue += "\n移动支付-" + value.get("FSUBJECTNAME");
+//                                }
+//                            }
+//                        } else {
+//                            for (Map<String, String> value : chargeDateilsEntity.getSubjectlist()) {
+//                                if (TextUtils.isEmpty(paymentValue)) {
+//                                    paymentValue += "非移动支付—" + value.get("FSUBJECTNAME");
+//                                } else {
+//                                    paymentValue += "\n非移动支付—" + value.get("FSUBJECTNAME");
+//                                }
+//                            }
+//                        }
+//                        payment.setText(paymentValue);
 
                         break;
                     case "7"://待OA申请

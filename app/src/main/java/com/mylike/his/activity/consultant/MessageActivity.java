@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.BasePageEntity;
@@ -19,6 +20,7 @@ import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
+import com.mylike.his.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -72,7 +74,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     private void initView() {
         commonAdapter = new CommonAdapter<MessageEntity>(this, R.layout.item_message_list, listAll) {
             @Override
-            protected void convert(ViewHolder viewHolder, MessageEntity item, int position) {
+            protected void convert(final ViewHolder viewHolder, MessageEntity item, final int position) {
                 //图标
                 switch (item.getMsgType()) {
                     case "1"://待接诊
@@ -108,45 +110,62 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     viewHolder.setVisible(R.id.red_tag, false);
                 }
+
+                viewHolder.setOnClickListener(R.id.btnItem, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        setMessageReadState(listAll.get(position).getFid());
+                        switch (listAll.get(position).getMsgType()) {
+                            case "1"://待接诊
+                                startActivity(NewCReceptionActivity.class);
+                                break;
+                            case "2"://已结账
+                                startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                                break;
+                            case "3"://已驳回
+                                startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                                break;
+                            case "4"://OA已提交
+                                startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                                break;
+                            case "5"://OA已通过
+                                startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                                break;
+                            case "6":// OA已终止
+                                break;
+                            case "7"://待扫码支付
+                                startActivity(PaymentActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                                break;
+                            case "8"://待支付
+                                startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
+                                break;
+                        }
+                        MessageEntity messageEntity = listAll.get(position);
+                        messageEntity.setReadingState("1");
+                        listAll.set(position, messageEntity);
+                        commonAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                viewHolder.setOnClickListener(R.id.btnDelete, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteMessage(listAll.get(position).getFid(),position);
+                        ((SwipeMenuLayout) viewHolder.getConvertView()).quickClose();
+                    }
+                });
             }
         };
         messageList.setAdapter(commonAdapter);
 
-        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setMessageReadState(listAll.get(position).getFid());
-                switch (listAll.get(position).getMsgType()) {
-                    case "1"://待接诊
-                        startActivity(NewCReceptionActivity.class);
-                        break;
-                    case "2"://已结账
-                        startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
-                        break;
-                    case "3"://已驳回
-                        startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
-                        break;
-                    case "4"://OA已提交
-                        startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
-                        break;
-                    case "5"://OA已通过
-                        startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
-                        break;
-                    case "6":// OA已终止
-                        break;
-                    case "7"://待扫码支付
-                        startActivity(PaymentActivity.class, "fid", listAll.get(position).getBusinessPkid());
-                        break;
-                    case "8"://待支付
-                        startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getBusinessPkid());
-                        break;
-                }
-                MessageEntity messageEntity = listAll.get(position);
-                messageEntity.setReadingState("1");
-                listAll.set(position, messageEntity);
-                commonAdapter.notifyDataSetChanged();
-            }
-        });
+//        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//        });
+
+
 
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setOnLoadMoreListener(this);
@@ -179,7 +198,6 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
-
     private void setMessageReadState(String fid) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("fid", fid);
@@ -195,6 +213,24 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+    private void deleteMessage(String fid, final int position) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("fid", fid);
+        HttpClient.getHttpApi().deleteMessage(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
+            @Override
+            protected void onSuccess(Map<String, String> stringStringMap) {
+                listAll.remove(position);
+                commonAdapter.notifyDataSetChanged();
+                ToastUtils.showToast("删除成功");
+            }
+            @Override
+            protected void onFailed(String code, String msg) {
+                ToastUtils.showToast("删除失败");
+            }
+        });
+    }
+
+
 
     @OnClick({R.id.return_btn})
     @Override
