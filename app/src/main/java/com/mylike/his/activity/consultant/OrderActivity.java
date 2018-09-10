@@ -18,10 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
@@ -49,15 +46,12 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
-import org.w3c.dom.Text;
-
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.Map;
 
@@ -119,7 +113,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     EditText remarkEdit;
     @Bind(R.id.integral_edit)
     EditText integralEdit;
-//    @Bind(R.id.move)
+    //    @Bind(R.id.move)
 //    RadioButton move;
 //    @Bind(R.id.not_move)
 //    RadioButton notMove;
@@ -131,6 +125,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     TextView integralMoneyText;
     @Bind(R.id.identity_edit)
     EditText identityEdit;
+    @Bind(R.id.clear_btn)
+    TextView clearBtn;
 
     private OptionsPickerView optionsPickerView;
 
@@ -151,7 +147,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private String doctorId;//医生id
     private String IsCosmetology;//是否是美容科 0否1是
     private String chargeId;//收费单id
-//    private String ppValue;//支付方式
+    //    private String ppValue;//支付方式
     private int integralValue;//客户可用积分
     private String zxsid;
 
@@ -383,7 +379,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
     private PopupWindow projectPW;
 
-    @OnClick({R.id.return_btn, R.id.intention_text, R.id.add_intention_text, R.id.save_charge_btn, R.id.add_charge_btn, R.id.update_btn, R.id.subscription_btn, R.id.time_text})
+    @OnClick({R.id.return_btn, R.id.intention_text, R.id.add_intention_text, R.id.save_charge_btn, R.id.add_charge_btn, R.id.update_btn, R.id.subscription_btn, R.id.time_text, R.id.clear_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -485,6 +481,9 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                         .setCancelColor(getResources().getColor(R.color.gray_50))
                         .build();
                 pvTime.show();
+                break;
+            case R.id.clear_btn:
+                timeText.setText("");
                 break;
             case R.id.update_btn://更改
                 if (!TextUtils.isEmpty(chargeTag)) {//从暂存进来进购物车不再是finish，需要传递数据给购物车
@@ -709,14 +708,14 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 //                    startActivity(OAActivity.class, "fid", stringStringMap.get("billId"));
                 } else {
 //                    if ("1".equals(ppValue)) {//选择了移动支付
-                        //跳转支付
-                        Intent intent = new Intent();
-                        intent.putExtra(CMainActivity.GO_PAYMENT, stringStringMap.get("billId"));
-                        intent.putExtra("money", moneySum);
-                        intent.setClass(OrderActivity.this, CMainActivity.class);
-                        startActivity(intent);
+                    //跳转支付
+                    Intent intent = new Intent();
+                    intent.putExtra(CMainActivity.GO_PAYMENT, stringStringMap.get("billId"));
+                    intent.putExtra("money", moneySum);
+                    intent.setClass(OrderActivity.this, CMainActivity.class);
+                    startActivity(intent);
 //                    } else {
-                        //订单提交成功，跳转收费单列表
+                    //订单提交成功，跳转收费单列表
 //                        startActivity(CMainActivity.class, CMainActivity.GO_CHARGE, CMainActivity.GO_CHARGE);
 //                    }
                 }

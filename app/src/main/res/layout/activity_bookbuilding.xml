@@ -107,6 +107,31 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
+                                android:text="访客ID：" />
+
+                            <EditText
+                                android:id="@+id/mylike_id"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:hint="请输入美莱在线访客ID"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black_50"
+                                android:textColorHint="@color/gray_49"
+                                android:textSize="14sp" />
+                        </TableRow>
+
+
+                        <TableRow
+                            android:background="@drawable/bg_white_line_gray_below"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
                                 android:text="姓名：" />
 
                             <EditText

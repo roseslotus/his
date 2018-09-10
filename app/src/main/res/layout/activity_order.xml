@@ -257,7 +257,7 @@
                             android:id="@+id/time_ll"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -265,18 +265,28 @@
                                 android:layout_marginLeft="10dp"
                                 android:text="预约时间：" />
 
-
-                            <TextView
+                            <EditText
                                 android:id="@+id/time_text"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:layout_marginRight="10dp"
                                 android:background="@drawable/bg_white_line_box_gray"
                                 android:hint="请选择时间"
                                 android:padding="5dp"
+                                android:focusable="false"
                                 android:textColor="@color/black_50"
                                 android:textColorHint="@color/gray_48"
                                 android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/clear_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:textColor="@color/gray_49"
+                                android:layout_marginRight="10dp"
+                                android:text="清空"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -285,7 +295,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:layout_marginTop="10dp"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <TextView
                                 android:layout_width="wrap_content"

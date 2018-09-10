@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -161,6 +160,8 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     RadioButton no;
     @Bind(R.id.big)
     RadioGroup big;
+    @Bind(R.id.mylike_id)
+    EditText mylikeId;
 
 
     private String phoneValue;//手机号
@@ -175,7 +176,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     private Map<String, String> channel = new HashMap<>();//渠道
     private String transportValue;//交通工具
     private String obstacleValue;//障碍点
-    private String bigValue;
+    private String bigValue;//是否大单
 
     //下拉框类型的数据
     private List<BookbuildingEntity> EconomicsEntity = new ArrayList<>();//经济能力
@@ -369,6 +370,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     //保存数据
     private void saveData() {
         Map<String, String> tempCustInfo = new HashMap<>();
+        tempCustInfo.put("visitorImportId", mylikeId.getText().toString());//美莱在线访客ID
         tempCustInfo.put("name", nameEdit.getText().toString());//姓名
         tempCustInfo.put("cftelephone", phoneValue);//手机号
         tempCustInfo.put("cfsex", sexValue);//性别
@@ -415,6 +417,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 ToastUtils.showToast("提交成功");
                 finish();
             }
+
             @Override
             protected void onFailed(String code, String msg) {
 
@@ -479,7 +482,9 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
 
     //保存效验
     private void saveCheck() {
-        if (TextUtils.isEmpty(nameEdit.getText().toString())) {
+        if(TextUtils.isEmpty(mylikeId.getText().toString())){
+            ToastUtils.showToast("保存失败，请输入美莱在线访客ID");
+        }else if (TextUtils.isEmpty(nameEdit.getText().toString())) {
             ToastUtils.showToast("保存失败，请输入姓名");
         } else if (TextUtils.isEmpty(sexValue)) {
             ToastUtils.showToast("保存失败，请选择性别");

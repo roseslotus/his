@@ -306,6 +306,7 @@
                             android:id="@+id/discounts_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="0"
                             android:textColor="@color/black_50" />
                     </LinearLayout>
 
@@ -330,6 +331,7 @@
                             android:id="@+id/integral_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="0"
                             android:textColor="@color/black_50" />
                     </LinearLayout>
 
@@ -353,6 +355,7 @@
                             android:id="@+id/remark_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="暂无"
                             android:textColor="@color/black_50" />
                     </LinearLayout>
 

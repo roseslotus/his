@@ -99,7 +99,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
     TextView moneyText;
     @Bind(R.id.money_value)
     TextView moneyValue;
-//    @Bind(R.id.payment)
+    //    @Bind(R.id.payment)
 //    TextView payment;
     @Bind(R.id.order_number)
     TextView orderNumber;
@@ -155,17 +155,19 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
             @Override
             protected void onSuccess(ChargeDateilsEntity chargeDateilsEntity) {
                 clientId = chargeDateilsEntity.getInfo().getINTENTION_ID();//客户ID
-
                 nameText.setText(chargeDateilsEntity.getInfo().getCFNAME() + "  " + chargeDateilsEntity.getInfo().getCFHANDSET());//姓名+手机号
                 doctorText.setText(chargeDateilsEntity.getInfo().getFDOCTORNAME());//医生
                 intentionText.setText(chargeDateilsEntity.getInfo().getINTENTION());//意向
-
-                discountsText.setText(chargeDateilsEntity.getInfo().getDISCOUNT());//优惠
-                integralText.setText(chargeDateilsEntity.getInfo().getPOINTS());//积分
                 statusText.setText(chargeDateilsEntity.getInfo().getFCHARGESTATE());//状态
                 moneyValue.setText(setDecimalFormat(chargeDateilsEntity.getInfo().getFSHOULDMONEY()));//实付款
-                remarkText.setText(chargeDateilsEntity.getInfo().getCFREMARK());//备注
-                orderNumber.setText(chargeDateilsEntity.getInfo().getFNUMBER());//订单好
+                orderNumber.setText(chargeDateilsEntity.getInfo().getFNUMBER());//订单号
+
+                if (!TextUtils.isEmpty(chargeDateilsEntity.getInfo().getDISCOUNT()))
+                    discountsText.setText(chargeDateilsEntity.getInfo().getDISCOUNT());//优惠
+                if (!TextUtils.isEmpty(chargeDateilsEntity.getInfo().getPOINTS()))
+                    integralText.setText(chargeDateilsEntity.getInfo().getPOINTS());//积分
+                if (!TextUtils.isEmpty(chargeDateilsEntity.getInfo().getCFREMARK()))
+                    remarkText.setText(chargeDateilsEntity.getInfo().getCFREMARK());//备注
 
 //                if ("1".equals(chargeDateilsEntity.getInfo().getPAY_TYPE())) {
 //                    payment.setText("移动支付");
@@ -239,7 +241,10 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                     case "7"://待OA申请
                         oaBtn.setVisibility(View.VISIBLE);//OA申请
                         break;
-                    case "11"://待扫码支付
+//                    case "11"://待扫码支付
+//                        paymentBtn.setVisibility(View.VISIBLE);// 去支付
+//                        break;
+                    case "2"://待支付
                         paymentBtn.setVisibility(View.VISIBLE);// 去支付
                         break;
                 }

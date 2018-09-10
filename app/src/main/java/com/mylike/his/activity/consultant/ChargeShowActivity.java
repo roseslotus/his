@@ -161,7 +161,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
 //                    case "11"://待扫码支付
 //                        viewHolder.setVisible(R.id.payment_btn, true);//去支付
 //                        break;
-                    case "2"://待扫码支付
+                    case "2"://待支付
                         viewHolder.setVisible(R.id.payment_btn, true);//去支付
                         break;
                     default:

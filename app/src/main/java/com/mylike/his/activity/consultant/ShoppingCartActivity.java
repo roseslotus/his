@@ -123,6 +123,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                                 item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");
                                 viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
                                 viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
+                                viewHolder.setText(R.id.discounts_text,setDecimalFormat((Double.parseDouble(item.getPrice2())/Double.parseDouble(item.getPrice()))+""));//折扣
                                 accountList.set(position, item);
                                 sumData();
                                 DialogUtil.dismissDialog();
@@ -148,6 +149,32 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                                 item.setPrice2(setDecimalFormat((Double.parseDouble(item.getPrice1()) / Integer.parseInt(item.getCount())) + ""));
                                 viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
                                 viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
+                                viewHolder.setText(R.id.discounts_text,setDecimalFormat((Double.parseDouble(item.getPrice2())/Double.parseDouble(item.getPrice()))+""));//折扣
+                                accountList.set(position, item);
+                                sumData();
+                                DialogUtil.dismissDialog();
+                            }
+                        });
+                    }
+                });
+
+                //折扣编辑
+                viewHolder.setOnClickListener(R.id.discounts, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        View view = DialogUtil.inputDialog(ShoppingCartActivity.this, R.layout.dialog_input);
+                        Button confirmBtn = view.findViewById(R.id.confirm_btn);
+                        final EditText contentText = view.findViewById(R.id.content_text);
+                        contentText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                        contentText.setHint("请输入折扣值");
+                        confirmBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                item.setPrice2((Double.parseDouble(item.getPrice()) * Double.parseDouble(setDecimalFormat(contentText.getText().toString()))) + "");//单价(原价*折扣，折扣永远保持两位数)
+                                item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");//小计
+                                viewHolder.setText(R.id.discounts_text,setDecimalFormat(contentText.getText().toString()));//折扣
+                                viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));//显示小计
+                                viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));//显示总价
                                 accountList.set(position, item);
                                 sumData();
                                 DialogUtil.dismissDialog();
