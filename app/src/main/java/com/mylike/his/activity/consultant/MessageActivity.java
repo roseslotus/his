@@ -4,23 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.BasePageEntity;
-import com.mylike.his.entity.HospitalAppointmentEntity;
-import com.mylike.his.entity.HospitalAppointmentInfoEntity;
 import com.mylike.his.entity.MessageEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
-import com.mylike.his.utils.DialogUtil;
-import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
+import com.mylike.his.utils.CommonUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -32,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -221,11 +214,11 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
             protected void onSuccess(Map<String, String> stringStringMap) {
                 listAll.remove(position);
                 commonAdapter.notifyDataSetChanged();
-                ToastUtils.showToast("删除成功");
+                CommonUtil.showToast("删除成功");
             }
             @Override
             protected void onFailed(String code, String msg) {
-                ToastUtils.showToast("删除失败");
+                CommonUtil.showToast("删除失败");
             }
         });
     }

@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.mylike.his.R;
 import com.mylike.his.activity.LoginActivity;
-import com.mylike.his.activity.consultant.BookbuildingActivity;
 import com.mylike.his.activity.consultant.ChargeDetailsActivity;
 import com.mylike.his.activity.consultant.ChargeShowActivity;
 import com.mylike.his.activity.consultant.ClientActivity;
@@ -24,7 +23,6 @@ import com.mylike.his.activity.consultant.HospitalAppointmentActivity;
 import com.mylike.his.activity.consultant.MessageActivity;
 import com.mylike.his.activity.consultant.NewCReceptionActivity;
 import com.mylike.his.activity.consultant.PaymentActivity;
-import com.mylike.his.activity.consultant.SearchActivity;
 import com.mylike.his.activity.consultant.SurgeryActivity;
 import com.mylike.his.activity.consultant.VisitActivity;
 import com.mylike.his.core.BaseFragment;
@@ -32,6 +30,7 @@ import com.mylike.his.entity.MessageEntity;
 import com.mylike.his.entity.StatisticsEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.zhy.adapter.abslistview.CommonAdapter;
@@ -75,9 +74,6 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
     private CommonAdapter commonAdapter;
     private List<MessageEntity> listAll = new ArrayList<>();
 
-    //消息数据
-    private List<String> data = new ArrayList<>();
-
     public static CHomeFragment newInstance() {
         Bundle args = new Bundle();
         CHomeFragment fragment = new CHomeFragment();
@@ -90,15 +86,16 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_c_home, container, false);
         ButterKnife.bind(this, view);
-
         initView();
+        initData();
         return view;
     }
 
     private void initView() {
         //标题
         titleName.setText(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.HOSPITAL_NAME));
-        //---------头部--------------
+
+        //----------------------------------头部-------------------------------------------
         View head = View.inflate(getActivity(), R.layout.item_head_c_home, null);
         //用户姓名
         TextView userName = head.findViewById(R.id.user_name);
@@ -115,7 +112,6 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
 
         //统计模块
         hospitalSum = head.findViewById(R.id.hospital_sum);//预约到院人数
-
         receptionSum = head.findViewById(R.id.reception_sum);//接诊总数
         orderSum = head.findViewById(R.id.order_sum);//开单总数
         visitSum = head.findViewById(R.id.visit_sum);//回访总数
@@ -145,18 +141,18 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
         messageList.addHeaderView(head);
 
 
-        //---------底部-------------
+        //----------------------------------底部-------------------------------------------
         View foot = View.inflate(getActivity(), R.layout.common_item_text, null);
         final TextView textView = foot.findViewById(R.id.text);
         textView.setText("您已经看见我的底线了");
         textView.setPadding(10, 30, 10, 30);
         messageList.addFooterView(foot);
 
-        //---------消息列表----------
+        //----------------------------------消息列表----------------------------------------
         commonAdapter = new CommonAdapter<MessageEntity>(getActivity(), R.layout.item_home_message_list, listAll) {
             @Override
             protected void convert(ViewHolder viewHolder, MessageEntity item, int position) {
-                //背景
+                //背景（消息列表左边的颜色变化）
                 switch (item.getMsgType()) {
                     case "1"://待接诊
                         viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_green_left_10);
@@ -176,17 +172,18 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                     case "6":// OA已终止
                         viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_blue3_left_10);
                         break;
-                    case "7"://待扫码支付
+                    /*case "7"://待扫码支付(都变更为待支付)
                         viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_orange_left_10);
-                        break;
+                        break;*/
                     case "8"://待支付
                         viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_orange2_left_10);
                         break;
                 }
+
                 viewHolder.setText(R.id.name_text, item.getMsgTypeName());//类型名称
                 viewHolder.setText(R.id.content_text, item.getMsgContent());//提示内容
                 viewHolder.setText(R.id.time_text, item.getCreateDate());//时间
-                if ("0".equals(item.getReadingState())) {
+                if ("0".equals(item.getReadingState())) {//小红点（0-未读，1-已读）
                     viewHolder.setVisible(R.id.red_tag, true);
                 } else {
                     viewHolder.setVisible(R.id.red_tag, false);
@@ -194,47 +191,41 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
             }
         };
         messageList.setAdapter(commonAdapter);
-
         messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0 && position != (listAll.size() + 1)) {
-                    int positionValue=(int) parent.getAdapter().getItemId(position);
-                    setMessageReadState(listAll.get(positionValue).getFid());
-                    String msgType=listAll.get(positionValue).getMsgType();
-                    switch (msgType) {
+                if (position != 0 && position != (listAll.size() + 1)) {//判断点击时不是listView的foot、head
+                    int positionValue = (int) parent.getAdapter().getItemId(position);//解决点击错位问题
+                    setMessageReadState(positionValue);//设置消息已读
+                    switch (listAll.get(positionValue).getMsgType()) {//点击不同类型跳转不同界面
                         case "1"://待接诊
-                            startActivity(NewCReceptionActivity.class);
+                            startActivity(NewCReceptionActivity.class);//接诊列表
                             break;
                         case "2"://已结账
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
+                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());//收费单详情
                             break;
                         case "3"://已驳回
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
+                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());//收费单详情
                             break;
                         case "4"://OA已提交
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
+                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());//收费单详情
                             break;
                         case "5"://OA已通过
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
+                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());//收费单详情
                             break;
                         case "6":// OA已终止
                             break;
-                        case "7"://待扫码支付
-                            startActivity(PaymentActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
-                            break;
+                        /*case "7"://待扫码支付
+                            startActivity(PaymentActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());//收费二维码
+                            break;*/
                         case "8"://待支付
-                            startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());
+                            startActivity(PaymentActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());//收费二维码
+                            //startActivity(ChargeDetailsActivity.class, "fid", listAll.get(positionValue).getBusinessPkid());//收费单详情
                             break;
                     }
-                    MessageEntity messageEntity = listAll.get(positionValue);
-                    messageEntity.setReadingState("1");
-                    listAll.set(positionValue, messageEntity);
-                    commonAdapter.notifyDataSetChanged();
                 }
             }
         });
-
         //滑动监听
         messageList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -246,8 +237,6 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 title.getBackground().mutate().setAlpha(getAlphaFloat(getScroolY()));//根据滑动距离设置标题栏透明值
             }
         });
-
-        initData();
     }
 
     @OnClick({R.id.message_img, R.id.control_img})
@@ -291,8 +280,8 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 startActivity(VisitActivity.class);
                 break;
             case R.id.repertory_btn://库存查询
-                startActivity(SearchActivity.class);
-//                ToastUtils.showToast("敬请期待");
+                //startActivity(SearchActivity.class);//搜索建档
+                CommonUtil.showToast("敬请期待");
                 break;
             case R.id.hospital_sum_btn://预约到院总数
                 startActivity(HospitalAppointmentActivity.class);
@@ -309,25 +298,23 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
         }
     }
 
+    //初始化数据
     private void initData() {
-        //获取统计数据
+        //获取今日统计数据
         HttpClient.getHttpApi().getStatisticsData().enqueue(new BaseBack<StatisticsEntity>() {
             @Override
             protected void onSuccess(StatisticsEntity statisticsEntity) {
-                hospitalSum.setText(statisticsEntity.getAppointDataCount());
-                receptionSum.setText(statisticsEntity.getReceiveDataCount());
-                orderSum.setText(statisticsEntity.getChargeBillDataCount());
-                visitSum.setText(statisticsEntity.getPlanTaskDataCount());
+                hospitalSum.setText(statisticsEntity.getAppointDataCount());//预约到院总数
+                receptionSum.setText(statisticsEntity.getReceiveDataCount());//接诊总数
+                orderSum.setText(statisticsEntity.getChargeBillDataCount());//开单总数
+                visitSum.setText(statisticsEntity.getPlanTaskDataCount());//回访总数
             }
 
             @Override
             protected void onFailed(String code, String msg) {
             }
         });
-        getMessageList();
-    }
 
-    public void getMessageList() {
         //获取当天消息列表
         HttpClient.getHttpApi().getIntradayMessageList().enqueue(new BaseBack<List<MessageEntity>>() {
             @Override
@@ -346,9 +333,9 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
         HttpClient.getHttpApi().getMessageSum().enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                if ("1".equals(stringStringMap.get("isUnReadMessage"))) {
-                    messageNotSum.setVisibility(View.VISIBLE);
-                    messageNotSum.setText(stringStringMap.get("msgNumber") + "");
+                if ("1".equals(stringStringMap.get("isUnReadMessage"))) {//有未读消息
+                    messageNotSum.setVisibility(View.VISIBLE);//显示未读数圆点
+                    messageNotSum.setText(stringStringMap.get("msgNumber").toString());//未读消息数量
                 } else {
                     messageNotSum.setVisibility(View.GONE);
                 }
@@ -360,38 +347,41 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
         });
     }
 
-    private void setMessageReadState(String fid) {
+    //设置消息已读消息
+    private void setMessageReadState(final int position) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("fid", fid);
+        map.put("fid", listAll.get(position).getFid());//消息id
+
         HttpClient.getHttpApi().setMessageReadState(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-
+                listAll.get(position).setReadingState("1");
+                commonAdapter.notifyDataSetChanged();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
-
             }
         });
     }
 
+    //退出登录
     private void exitLogin() {
+        DialogUtil.dismissDialog();//关闭 退出提示弹框
+        CommonUtil.showLoadProgress(getActivity());
+
         HttpClient.getHttpApi().exitLongin().enqueue(new Callback<Map<String, String>>() {
             @Override
             public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                DialogUtil.dismissDialog();
-                SPUtils.setCache(SPUtils.FILE_USER, SPUtils.TOKEN, "");
+                SPUtils.clearCache(SPUtils.FILE_USER);//清空账户信息缓存
                 startActivity(LoginActivity.class);
                 getActivity().finish();
             }
 
             @Override
             public void onFailure(Call<Map<String, String>> call, Throwable t) {
-
             }
         });
-
     }
 
     // 获取渐变透明值
@@ -423,5 +413,4 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
 }

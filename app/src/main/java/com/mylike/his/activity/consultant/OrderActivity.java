@@ -36,9 +36,9 @@ import com.mylike.his.entity.TriageInfoEntity;
 import com.mylike.his.entity.UserIntentionEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.mylike.his.view.SListView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -411,24 +411,24 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.save_charge_btn://保存
                 if (!TextUtils.isEmpty(moneyText.getText())) {
-                    ToastUtils.showToast("预约金订单不能保存");
+                    CommonUtil.showToast("预约金订单不能保存");
                 } else {
                     saveCharge();
                 }
                 break;
             case R.id.add_charge_btn://提交
                 if (TextUtils.isEmpty(intentionId)) {
-                    ToastUtils.showToast("请先选择意向，再提交订单");
+                    CommonUtil.showToast("请先选择意向，再提交订单");
                 } else if (TextUtils.isEmpty(doctorText.getText().toString())) {
-                    ToastUtils.showToast("未分配医生不能提交订单，请通知前台分配医生并下拉刷新");
+                    CommonUtil.showToast("未分配医生不能提交订单，请通知前台分配医生并下拉刷新");
 //                } else if (TextUtils.isEmpty(ppValue)) {
-//                    ToastUtils.showToast("请选择支付方式");
+//                    CommonUtil.showToast("请选择支付方式");
                 } else {
                     if (!TextUtils.isEmpty(moneyText.getText()) || !TextUtils.isEmpty(timeText.getText())) {
                         if (TextUtils.isEmpty(moneyText.getText())) {
-                            ToastUtils.showToast("你选择了预约金，请填写预约金额");
+                            CommonUtil.showToast("你选择了预约金，请填写预约金额");
 //                        } else if (TextUtils.isEmpty(timeText.getText())) {
-//                            ToastUtils.showToast("你选择了预约金，请选择预约时间");
+//                            CommonUtil.showToast("你选择了预约金，请选择预约时间");
                         } else {
                             DialogUtil.hintDialog(OrderActivity.this, "是否确认下单？").setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -637,7 +637,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                ToastUtils.showToast("保存成功");
+                CommonUtil.showToast("保存成功");
                 startActivity(CMainActivity.class, CMainActivity.GO_CHARGE, CMainActivity.GO_CHARGE);
             }
 
@@ -701,7 +701,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         HttpClient.getHttpApi().addCharge(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                ToastUtils.showToast("提交成功");
+                CommonUtil.showToast("提交成功");
                 if (oaBox.isChecked()) {//选择了OA选项
                     //跳转OA
                     startActivity(CMainActivity.class, CMainActivity.GO_OA, stringStringMap.get("billId"));
@@ -723,7 +723,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             protected void onFailed(String code, String msg) {
-                ToastUtils.showToast("提交失败");
+                CommonUtil.showToast("提交失败");
             }
         });
     }

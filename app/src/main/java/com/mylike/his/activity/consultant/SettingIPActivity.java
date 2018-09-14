@@ -26,12 +26,13 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 
 /**
  * Created by zhengluping on 2018/7/4.
  * 设置ip地址
  */
-public class SettingActivity extends BaseActivity implements View.OnClickListener {
+public class SettingIPActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.return_btn)
     ImageView returnBtn;
@@ -40,11 +41,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.ip_list)
     ListView ipList;
 
+    private String ipValue;//选中的值（ip地址+ 端口）
+    private Gson gson = new Gson();
     private CommonAdapter commonAdapter;
     private List<IpEntiyt> ipEntiytList = new ArrayList<>();
-    private Gson gson = new Gson();
-
-    private String ipValue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,12 +64,17 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         commonAdapter = new CommonAdapter<IpEntiyt>(this, R.layout.item_ip_list, ipEntiytList) {
             @Override
             protected void convert(final ViewHolder viewHolder, final IpEntiyt item, final int position) {
-                viewHolder.setText(R.id.ip_text, item.getIp() + ":" + item.getPort());
-                viewHolder.setChecked(R.id.radio_btn, item.isChecked());
-                if (TextUtils.isEmpty(item.getRemark())) {
+                viewHolder.setText(R.id.ip_text, item.getIp() + ":" + item.getPort());//ip
+                viewHolder.setChecked(R.id.radio_btn, item.isChecked());//单选按钮
+                if (TextUtils.isEmpty(item.getRemark())) {//备注
                     viewHolder.setText(R.id.remark_text, "暂无备注信息");
                 } else {
                     viewHolder.setText(R.id.remark_text, item.getRemark());
+                }
+
+                //如果是选中ip则赋值
+                if (item.isChecked()) {
+                    ipValue = item.getIpValue();
                 }
 
                 //选中
@@ -80,39 +85,28 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                             ipEntiyt.setChecked(false);
                         }
                         ipEntiytList.get(position).setChecked(true);
-                        ipValue = item.getIp() + ":" + item.getPort();
-                        commonAdapter.notifyDataSetChanged();
-                    }
-                });
-                viewHolder.setOnClickListener(R.id.radio_btn, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        for (IpEntiyt ipEntiyt : ipEntiytList) {
-                            ipEntiyt.setChecked(false);
-                        }
-                        ipEntiytList.get(position).setChecked(true);
-                        ipValue = item.getIp() + ":" + item.getPort();
+                        //获取选中的ip值
                         commonAdapter.notifyDataSetChanged();
                     }
                 });
 
-                
                 //编辑
                 viewHolder.setOnClickListener(R.id.btnCompile, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startActivity(AddIPActivity.class, "position", position + "");
-                        ((SwipeMenuLayout) viewHolder.getConvertView()).quickClose();
+                        ((SwipeMenuLayout) viewHolder.getConvertView()).quickClose();//关闭左滑行为
                     }
                 });
                 //删除
                 viewHolder.setOnClickListener(R.id.btnDelete, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        ipValue = "";
                         ipEntiytList.remove(position);
-                        SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_TEXT, gson.toJson(ipEntiytList));
+                        SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
                         commonAdapter.notifyDataSetChanged();
-                        ((SwipeMenuLayout) viewHolder.getConvertView()).quickClose();
+                        ((SwipeMenuLayout) viewHolder.getConvertView()).quickClose();//关闭左滑行为
                     }
                 });
             }
@@ -121,28 +115,42 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initData() {
-        String json = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_TEXT);
+        String json = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_List);
         if (!TextUtils.isEmpty(json)) {
             ipEntiytList.clear();
             ipEntiytList.addAll((Collection<? extends IpEntiyt>) gson.fromJson(json, new TypeToken<List<IpEntiyt>>() {
             }.getType()));
             commonAdapter.notifyDataSetChanged();
-        } else {//为了方便测试用的，正式服请屏蔽else里的代码
+        }
+        //---------------为了方便测试用的，正式服请屏蔽else的代码------------------------------
+        else {
             IpEntiyt ipEntiyt = new IpEntiyt();
-//            ipEntiyt.setIp("172.16.61.242");//服务器
-//            ipEntiyt.setPort("9093");
-            ipEntiyt.setIp("172.16.61.222");//服务器
+            ipEntiyt.setIp("172.16.61.222");
             ipEntiyt.setPort("8280");
-//            ipEntiyt.setIp("172.16.63.118");//鲁钿
-//            ipEntiyt.setPort("8080");
-//            ipEntiyt.setIp("172.16.63.149");//春雷
-//            ipEntiyt.setPort("8085");
+            ipEntiyt.setIpValue("172.16.61.222:8280");
             ipEntiyt.setChecked(false);
             ipEntiyt.setRemark("服务器地址");
             ipEntiytList.add(ipEntiyt);
-            SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_TEXT, gson.toJson(ipEntiytList));
+
+            ipEntiyt = new IpEntiyt();
+            ipEntiyt.setIp("172.16.61.222");
+            ipEntiyt.setPort("8380");
+            ipEntiyt.setIpValue("172.16.61.222:8380");
+            ipEntiyt.setChecked(false);
+            ipEntiyt.setRemark("服务器地址");
+            ipEntiytList.add(ipEntiyt);
+
+            ipEntiyt = new IpEntiyt();
+            ipEntiyt.setIp("172.16.61.242");
+            ipEntiyt.setPort("9093");
+            ipEntiyt.setIpValue("172.16.61.242:9093");
+            ipEntiyt.setChecked(false);
+            ipEntiyt.setRemark("服务器地址");
+            ipEntiytList.add(ipEntiyt);
+            SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
             initData();
         }
+        //-------------------------------------------------------------------------------------
     }
 
     @OnClick({R.id.add_btn, R.id.return_btn, R.id.save_btn})
@@ -152,8 +160,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.save_btn:
                 if (!TextUtils.isEmpty(ipValue)) {
                     SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipValue);
+                    RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipValue);
+                } else {//未有选中ip，清空缓存
+                    SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, "");
                 }
-                SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_TEXT, gson.toJson(ipEntiytList));
+                if (ipEntiytList.isEmpty()) {
+                    SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, "");
+                } else {
+                    SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
+                }
                 finish();
                 break;
             case R.id.add_btn:

@@ -46,29 +46,6 @@
             android:textCursorDrawable="@null"
             android:textSize="14sp" />
 
-        <!--<EditText-->
-        <!--android:id="@+id/account_edit"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginLeft="10dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:drawablePadding="10dp"-->
-        <!--android:inputType="textVisiblePassword"-->
-        <!--android:text="hm_zzx"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textCursorDrawable="@null"-->
-        <!--android:textSize="14sp" />-->
-
-        <!--<Button-->
-        <!--android:id="@+id/account_clear"-->
-        <!--android:layout_width="40dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:drawableLeft="@mipmap/clear_icon"-->
-        <!--android:paddingLeft="12dp"-->
-        <!--android:visibility="invisible" />-->
-
     </LinearLayout>
 
     <View
@@ -84,18 +61,6 @@
         android:background="@drawable/bg_white_t70_5below"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
-        <!--<ImageView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="10dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:src="@mipmap/password_icon" />-->
-
-        <!--<View-->
-        <!--android:layout_width="1px"-->
-        <!--android:layout_height="20dp"-->
-        <!--android:background="@color/white" />-->
 
         <com.mylike.his.view.ClearEditText
             android:id="@+id/password_edit"
@@ -113,30 +78,6 @@
             android:textColorHint="@color/gray_50"
             android:textCursorDrawable="@null"
             android:textSize="14sp" />
-
-        <!--<EditText
-            android:id="@+id/password_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:drawablePadding="10dp"
-            android:inputType="textPassword"
-            android:text="123456"
-            android:textColor="@color/white"
-            android:textCursorDrawable="@null"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/password_clear"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:drawableLeft="@mipmap/clear_icon"
-            android:paddingLeft="12dp"
-            android:visibility="invisible" />
--->
     </LinearLayout>
 
     <TextView
@@ -162,7 +103,7 @@
         android:textSize="16sp" />
 
 
-    <!-- <LinearLayout
+     <!--<LinearLayout
          android:layout_width="match_parent"
          android:layout_height="35dp"
          android:layout_marginTop="20dp"
@@ -193,111 +134,4 @@
              android:text="医生"
              android:textColor="@color/white" />
      </LinearLayout>-->
-
-
-    <!--  <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="20dp"
-          android:background="@drawable/bg_white_t70_5above"
-          android:gravity="center_vertical"
-          android:orientation="horizontal">
-
-          <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="10dp"
-              android:src="@mipmap/account_icon" />
-
-          <View
-              android:layout_width="1px"
-              android:layout_height="20dp"
-              android:background="@color/white" />
-
-          <EditText
-              android:id="@+id/account_edit"
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:layout_marginLeft="10dp"
-              android:layout_weight="1"
-              android:background="@android:color/transparent"
-              android:drawablePadding="10dp"
-              android:inputType="textVisiblePassword"
-              android:text="hm_zzx"
-              android:textColor="@color/white"
-              android:textCursorDrawable="@null"
-              android:textSize="14sp" />
-
-          <Button
-              android:id="@+id/account_clear"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:background="@android:color/transparent"
-              android:drawableLeft="@mipmap/clear_icon"
-              android:paddingLeft="12dp"
-              android:visibility="invisible" />
-
-      </LinearLayout>
-
-      <View
-          android:layout_width="match_parent"
-          android:layout_height="1px"
-          android:background="@color/white" />
-
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:background="@drawable/bg_white_t70_5below"
-          android:gravity="center_vertical"
-          android:orientation="horizontal">
-
-          <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="10dp"
-              android:src="@mipmap/password_icon" />
-
-          <View
-              android:layout_width="1px"
-              android:layout_height="20dp"
-              android:background="@color/white" />
-
-          <EditText
-              android:id="@+id/password_edit"
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent"
-              android:layout_marginLeft="10dp"
-              android:layout_weight="1"
-              android:background="@android:color/transparent"
-              android:drawablePadding="10dp"
-              android:inputType="textPassword"
-              android:text="123456"
-              android:textColor="@color/white"
-              android:textCursorDrawable="@null"
-              android:textSize="14sp" />
-
-          <Button
-              android:id="@+id/password_clear"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:background="@android:color/transparent"
-              android:drawableLeft="@mipmap/clear_icon"
-              android:paddingLeft="12dp"
-              android:visibility="invisible" />
-
-      </LinearLayout>
-
-      <TextView
-          android:id="@+id/login_btn"
-          android:layout_width="match_parent"
-          android:layout_height="40dp"
-          android:layout_marginTop="20dp"
-          android:background="@drawable/bg_white_t70_5"
-          android:gravity="center"
-          android:text="登录"
-          android:textColor="@color/white"
-          android:textSize="16sp" />-->
-
 </LinearLayout>

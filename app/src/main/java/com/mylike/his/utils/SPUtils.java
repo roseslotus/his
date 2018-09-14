@@ -12,14 +12,18 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SPUtils {
 
-    //用户文件
+    //用户账号文件
+    public static final String FILE_ACCOUNT = "cache_account";
+    public static final String ACCOUNT = "account"; //用户账户
+    public static final String PASSWORD = "password"; //用户密码
+
+    //用户信息文件
     public static final String FILE_USER = "cache_user";
-    public static final String ACCOUNT = "account";    //用户token
-    public static final String PASSWORD = "password";    //用户token
-    public static final String TOKEN = "token";    //用户token
-    public static final String EMP_ID = "empId";    //咨询师ID
-    public static final String USER_NAME = "userName";    //咨询师姓名
-    public static final String HOSPITAL_NAME = "hospitalName";    //咨询师所在医院
+    public static final String TOKEN = "token"; //用户token
+    public static final String EMP_ID = "empId"; //咨询师ID
+    public static final String USER_NAME = "userName"; //咨询师姓名
+    public static final String USER_JOB = "userJob"; //咨询师角色
+    public static final String HOSPITAL_NAME = "hospitalName"; //咨询师所在医院
 
 //    //用户名
 //    public static final String USER_NAME = "user_naem";
@@ -30,11 +34,10 @@ public class SPUtils {
 //    //用户拒绝更新版本日期
 //    public static final String APP_UPDATE_DATE = "app_update_date ";
 
-    //ip地址缓存
+    //ip地址文件
     public static final String FILE_IP = "cache_ip";
-    public static final String IP_TEXT = "ipText";//ip列表
+    public static final String IP_List = "ipList";//ip列表
     public static final String IP_CHECKED = "ipChecked";//选中的ip
-
 
     //分诊文件
     public static final String FILE_RECEPTION = "cache_reception";
@@ -47,7 +50,6 @@ public class SPUtils {
     //webview文件
     public static final String FILE_WEB = "cache_web";
     public static final String COOKIES = "cookies"; //极光registerId
-
 
     /**
      * 用于存储String类型的数据

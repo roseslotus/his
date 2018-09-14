@@ -1,5 +1,6 @@
 package com.mylike.his.utils;
 
+import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.mylike.his.R;
+import com.mylike.his.core.BaseApplication;
 import com.mylike.his.view.NumberPickerView;
 
 /**
@@ -123,31 +125,10 @@ public class DialogUtil {
         return itemView;
     }
 
-
-    /**
-     * 加载弹框
-     *
-     * @param context
-     * @return
-     */
-    public static void loadDialog(final Context context) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.dialog_load, null);
-        dialog = new Dialog(context, R.style.DialogSelectStyle);
-
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER);
-
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-
-        dialog.setContentView(itemView);
-        dialog.show();
-    }
-
     //取消弹框
     public static void dismissDialog() {
-        dialog.dismiss();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
     }
 }

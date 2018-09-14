@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.mylike.his.R;
@@ -28,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * 咨询师主页
  */
-public class CMainActivity extends BaseActivity implements View.OnClickListener {
+public class CMainActivity extends BaseActivity{
 
     @Bind(R.id.tb_title)
     TabLayout tbTitle;
@@ -99,17 +98,10 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
-        }
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        CHomeFragment cHomeFragments = (CHomeFragment) mFragments[0];
-        cHomeFragments.getMessageList();
+//        CHomeFragment cHomeFragments = (CHomeFragment) mFragments[0];
+//        cHomeFragments.getMessageList();
     }
 
     private void setFragment() {
@@ -136,6 +128,4 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
             return tbTitle.getTabCount();
         }
     }
-
-
 }

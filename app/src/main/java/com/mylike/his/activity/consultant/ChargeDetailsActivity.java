@@ -23,8 +23,8 @@ import com.mylike.his.entity.ChargeDateilsEntity;
 import com.mylike.his.entity.IntentionEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.mylike.his.view.SListView;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -399,7 +399,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
                 optionsPickerView.dismiss();
-                ToastUtils.showToast("提交成功");
+                CommonUtil.showToast("提交成功");
             }
 
             @Override

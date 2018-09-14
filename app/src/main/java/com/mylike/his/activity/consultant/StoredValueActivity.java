@@ -1,6 +1,5 @@
 package com.mylike.his.activity.consultant;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -15,8 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.mylike.his.R;
@@ -25,8 +22,8 @@ import com.mylike.his.entity.HDepositEntity;
 import com.mylike.his.entity.SVProjectEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -265,7 +262,7 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
 //                intent.setClass(OrderActivity.this, CMainActivity.class);
 //                startActivity(intent);
                 startActivity(CMainActivity.class, CMainActivity.GO_PAYMENT, hDepositEntity.getBillId());
-                ToastUtils.showToast("提交成功");
+                CommonUtil.showToast("提交成功");
                 finish();
             }
 

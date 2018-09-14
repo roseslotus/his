@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.view.menu.MenuBuilder;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -19,17 +18,13 @@ import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.ProductDetailsEntity;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
-import com.mylike.his.utils.ToastUtils;
 import com.mylike.his.view.NumberPickerView;
-import com.orhanobut.logger.Logger;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
 import java.io.Serializable;
-import java.lang.annotation.IncompleteAnnotationException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -250,7 +245,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                         intent.putExtra("accountList", (Serializable) accountList);
                         startActivity(intent);
                     } else {
-                        ToastUtils.showToast("暂无商品可结算，请先添加商品");
+                        CommonUtil.showToast("暂无商品可结算，请先添加商品");
                     }
                 }
                 break;

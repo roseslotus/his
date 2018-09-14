@@ -22,9 +22,8 @@ import com.mylike.his.entity.DepartmentEntity;
 import com.mylike.his.entity.IntentionEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
-import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -210,7 +209,7 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.doctor_btn://推荐医生
                 if (departmentDoctorEntityList.size() == 0) {
-                    ToastUtils.showToast("请先选择科室");
+                    CommonUtil.showToast("请先选择科室");
                 } else {
                     View itemView2 = DialogUtil.commomDialog(MedicineActivity.this, R.layout.common_item_list, 0);
                     ListView listView2 = itemView2.findViewById(R.id.common_list);
@@ -238,9 +237,9 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.submit_btn://提交
                 if (TextUtils.isEmpty(doctorDepartment)) {
-                    ToastUtils.showToast("科室不能为空，请选择科室");
+                    CommonUtil.showToast("科室不能为空，请选择科室");
                 } else if (Intention == null || Intention.length == 0) {
-                    ToastUtils.showToast("意向不能为空，请选择意向");
+                    CommonUtil.showToast("意向不能为空，请选择意向");
                 } else {
                     submitData();
                 }
@@ -285,7 +284,7 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
         HttpClient.getHttpApi().setMedicine(HttpClient.getRequestBody(map1)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                ToastUtils.showToast("提交成功");
+                CommonUtil.showToast("提交成功");
                 finish();
             }
 

@@ -120,6 +120,7 @@ public class DoctorActivity extends BaseActivity implements View.OnClickListener
                 });
             }
         };
+
         rv.setAdapter(commonAdapter);
 
         mAdapter1 = new TagAdapter(departmentEntitieList) {
@@ -145,9 +146,9 @@ public class DoctorActivity extends BaseActivity implements View.OnClickListener
 
     private void initData() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("searchText", searchEdit.getText().toString());
-        map.put("deptid", departmentId);
-        map.put("operstatename", stateValue);
+        map.put("searchText", searchEdit.getText().toString());//搜索
+        map.put("deptid", departmentId);//医生id
+        map.put("operstatename", stateValue);//状态
 
         HttpClient.getHttpApi().getDoctorList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<DoctorEntity>>() {
             @Override

@@ -5,10 +5,11 @@ package com.mylike.his.entity;
  */
 
 public class IpEntiyt {
-    private String ip;
-    private String port;
-    private String remark;
-    private boolean checked;
+    private String ip;//ip
+    private String port;//端口
+    private String ipValue;//完整地址
+    private String remark;//备注
+    private boolean checked;//是否选中
 
     public String getIp() {
         return ip;
@@ -24,6 +25,14 @@ public class IpEntiyt {
 
     public void setPort(String port) {
         this.port = port;
+    }
+
+    public String getIpValue() {
+        return ipValue;
+    }
+
+    public void setIpValue(String ipValue) {
+        this.ipValue = ipValue;
     }
 
     public String getRemark() {

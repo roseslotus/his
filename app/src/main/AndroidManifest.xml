@@ -33,7 +33,6 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -84,7 +83,7 @@
         <!--跨科-->
         <activity android:name=".activity.consultant.MedicineActivity"></activity>
         <!--ip地址设置-->
-        <activity android:name=".activity.consultant.SettingActivity"></activity>
+        <activity android:name=".activity.consultant.SettingIPActivity"></activity>
         <!--ip地址添加-->
         <activity android:name=".activity.consultant.AddIPActivity"></activity>
         <!--OA审批-->

@@ -13,7 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -29,8 +28,8 @@ import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.IntentionEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +38,6 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 /**
@@ -68,7 +66,7 @@ public class CustomerDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_details);
         ButterKnife.bind(this);
-
+        CommonUtil.showLoadProgress(this);
         token = SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN);
         customId = getIntent().getStringExtra("clientId");
         initView();
@@ -120,6 +118,7 @@ public class CustomerDetailsActivity extends BaseActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
+                    CommonUtil.dismissLoadProgress();
                     // 网页加载完成
                     prog.setVisibility(View.GONE);//加载完网页进度条消失
                 } else {
@@ -137,7 +136,7 @@ public class CustomerDetailsActivity extends BaseActivity {
         //测试
         @JavascriptInterface
         public void RepeatConsult() {
-            ToastUtils.showToast("成功");
+            CommonUtil.showToast("成功");
         }
 
         /**
@@ -147,7 +146,7 @@ public class CustomerDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void compile(String receptionId) {
-            ToastUtils.showToast("分诊" + receptionId);
+            CommonUtil.showToast("分诊" + receptionId);
             SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, receptionId);
             startActivity(OrderActivity.class, "chargeTag", "1");
         }
@@ -159,7 +158,7 @@ public class CustomerDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void payment(String fid) {
-            ToastUtils.showToast("支付" + fid);
+            CommonUtil.showToast("支付" + fid);
 
             Intent intent = new Intent();
             intent.putExtra("fid", fid);
@@ -174,7 +173,7 @@ public class CustomerDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void consult(String fid) {
-            ToastUtils.showToast("重咨" + fid);
+            CommonUtil.showToast("重咨" + fid);
 
             fidValue = fid;
             optionsPickerView.show();
@@ -187,7 +186,7 @@ public class CustomerDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void section(String fid) {
-            ToastUtils.showToast("跨科" + fid);
+            CommonUtil.showToast("跨科" + fid);
 
             startActivity(MedicineActivity.class, "fid", fid);
         }
@@ -199,7 +198,7 @@ public class CustomerDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void oa(String fid) {
-            ToastUtils.showToast("OA申请" + fid);
+            CommonUtil.showToast("OA申请" + fid);
 
             startActivity(OAActivity.class, "fid", fid);
         }
@@ -316,7 +315,7 @@ public class CustomerDetailsActivity extends BaseActivity {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
                 optionsPickerView.dismiss();
-                ToastUtils.showToast("提交成功");
+                CommonUtil.showToast("提交成功");
             }
 
             @Override

@@ -26,9 +26,9 @@ import android.widget.TextView;
 
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -178,7 +178,7 @@ public class OAActivity extends BaseActivity implements View.OnClickListener {
             } else if (mUploadCallbackAboveL != null) {
                 chooseAbove(resultCode, data);
             } else {
-                ToastUtils.showToast("发生错误");
+                CommonUtil.showToast("发生错误");
             }
         }
     }

@@ -2,7 +2,6 @@ package com.mylike.his.activity.consultant;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -12,14 +11,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
-import com.mylike.his.entity.BaseEntity;
 import com.mylike.his.entity.IpEntiyt;
-import com.mylike.his.entity.TokenEntity;
-import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
-import com.mylike.his.http.ServersApi;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.mylike.his.view.ClearEditText;
 
 import java.util.ArrayList;
@@ -37,8 +32,8 @@ import retrofit2.Response;
 
 /**
  * Created by zhengluping on 2018/7/4.
+ * 添加ip地址
  */
-
 public class AddIPActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.return_btn)
@@ -53,12 +48,13 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
     Button submitBtn;
 
     private String json;
-    private String position;//编辑需要的数值
     private Gson gson = new Gson();
     private List<IpEntiyt> ipEntiytList = new ArrayList<>();
     private IpEntiyt ipEntiyt = new IpEntiyt();
 
-    private boolean Checked = false;
+    private String position;//编辑需要的数值
+    private String ipValue;
+    private boolean Checked = false;//新添加的ip默认为未选中
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,20 +62,22 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_add_ip);
         ButterKnife.bind(this);
 
-        json = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_TEXT);
+        json = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_List);
         if (!TextUtils.isEmpty(json)) {
             ipEntiytList.addAll((Collection<? extends IpEntiyt>) gson.fromJson(json, new TypeToken<List<IpEntiyt>>() {
             }.getType()));
-        } else {
+        } else {//如果是添加的第一条ip，默认选中
             Checked = true;
         }
 
         position = getIntent().getStringExtra("position");
+        //position不未空表示是编辑过来的，将旧数据展示出来
         if (!TextUtils.isEmpty(position)) {
             ipEntiyt = ipEntiytList.get(Integer.parseInt(position));
             ipEdit.setText(ipEntiyt.getIp());
             portEdit.setText(ipEntiyt.getPort());
             remarkEdit.setText(ipEntiyt.getRemark());
+            Checked = ipEntiyt.isChecked();
         }
     }
 
@@ -88,45 +86,22 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submit_btn:
-                String ipStr = ipEdit.getText().toString();
-                String portStr = portEdit.getText().toString();
-                if (TextUtils.isEmpty(ipStr) || TextUtils.isEmpty(portStr)) {
-                    ToastUtils.showToast("ip地址或端口不能为空");
+                String ipStr = ipEdit.getText().toString().replace(" ", "");//ip,去除所有空格
+                String portStr = portEdit.getText().toString();//端口
+
+                if (TextUtils.isEmpty(ipStr)) {
+                    CommonUtil.showToast("ip地址不能为空");
+                } else if (Integer.parseInt(portStr) > 65535) {//端口范围0~65535
+                    CommonUtil.showToast("ip或端口错误，请查正后再输入");
                 } else {
-                    ipEntiyt.setIp(ipStr);
-                    ipEntiyt.setPort(portStr);
-                    ipEntiyt.setRemark(remarkEdit.getText().toString());
-                    RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipStr + ":" + portStr);
-
-                    HttpClient.getHttpApi().pingAPI().enqueue(new Callback<Map<String, String>>() {
-                        @Override
-                        public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                            Map<String, String> map = response.body();
-                            if (map.get("code").equals("1000")) {
-                                if (TextUtils.isEmpty(position)) {
-                                    ipEntiyt.setChecked(Checked);
-                                    ipEntiytList.add(ipEntiyt);
-                                    if (Checked) {
-                                        SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipEntiyt.getIp() + ":" + ipEntiyt.getPort());
-                                    }
-                                } else {
-                                    if (ipEntiyt.isChecked()) {
-                                        SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipEntiyt.getIp() + ":" + ipEntiyt.getPort());
-                                    }
-                                }
-                                SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_TEXT, gson.toJson(ipEntiytList));
-                                finish();
-                            } else {
-                                ToastUtils.showToast(map.get("msg"));
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Map<String, String>> call, Throwable t) {
-                            ToastUtils.showToast("ip或端口错误，请查正后再输入");
-                        }
-                    });
-
+                    CommonUtil.showLoadProgress(AddIPActivity.this);
+                    //拼接完整ip的值
+                    if (TextUtils.isEmpty(portStr)) {
+                        ipValue = ipStr;
+                    } else {
+                        ipValue = ipStr + ":" + portStr;
+                    }
+                    submit(ipStr, portStr);
                 }
                 break;
             case R.id.return_btn:
@@ -134,4 +109,43 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
     }
+
+    //接口验证
+    private void submit(final String ipStr, final String portStr) {
+
+        //替换http地址
+        RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipValue);
+
+        //验证接口是否用
+        HttpClient.getHttpApi().pingAPI().enqueue(new Callback<Map<String, String>>() {
+            @Override
+            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                Map<String, String> map = response.body();
+                if (map.get("code").equals("1000")) {//成功
+                    //设置值
+                    ipEntiyt.setIp(ipStr);
+                    ipEntiyt.setPort(portStr);
+                    ipEntiyt.setRemark(remarkEdit.getText().toString());
+                    ipEntiyt.setIpValue(ipValue);
+                    ipEntiyt.setChecked(Checked);
+                    //新添加的数据需要add
+                    if (TextUtils.isEmpty(position)) {
+                        ipEntiytList.add(ipEntiyt);
+                    }
+                    SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
+                    finish();
+                } else {
+                    CommonUtil.dismissLoadProgress();
+                    CommonUtil.showToast(map.get("msg"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                CommonUtil.dismissLoadProgress();
+                CommonUtil.showToast("ip或端口错误，请查正后再输入");
+            }
+        });
+    }
+
 }

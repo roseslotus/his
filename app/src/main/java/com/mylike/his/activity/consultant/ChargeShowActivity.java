@@ -25,12 +25,11 @@ import com.mylike.his.entity.BasePageEntity;
 import com.mylike.his.entity.ChargeFiltrateEntity;
 import com.mylike.his.entity.ChargeInfoEntity;
 import com.mylike.his.entity.IntentionEntity;
-import com.mylike.his.entity.ProductChildrenEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.mylike.his.view.ClearEditText;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -375,7 +374,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
                 optionsPickerView.dismiss();
-                ToastUtils.showToast("提交成功");
+                CommonUtil.showToast("提交成功");
             }
 
             @Override

@@ -6,14 +6,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 
-
-import com.mylike.his.activity.LoginActivity;
 import com.mylike.his.activity.consultant.CMainActivity;
 import com.mylike.his.core.BaseApplication;
-import com.mylike.his.fragment.consultant.CHomeFragment;
 import com.mylike.his.utils.SPUtils;
 
 import java.util.List;

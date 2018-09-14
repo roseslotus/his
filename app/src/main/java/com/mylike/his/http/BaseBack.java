@@ -2,15 +2,13 @@ package com.mylike.his.http;
 
 
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mylike.his.activity.LoginActivity;
 import com.mylike.his.activity.consultant.CMainActivity;
 import com.mylike.his.core.BaseApplication;
 import com.mylike.his.entity.BaseEntity;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import java.net.ConnectException;
@@ -30,39 +28,40 @@ public abstract class BaseBack<T> implements Callback<BaseEntity<T>> {
         BaseEntity<T> baseEntity = response.body();
         if (response.isSuccessful() && baseEntity != null) {
             if (baseEntity.getCode().equals("1000")) {//成功
-                    onSuccess(baseEntity.getData());
+                onSuccess(baseEntity.getData());
             } else if (baseEntity.getCode().equals("4001")) {//token失效
-                ToastUtils.showToast("登录失效，请重新登录");
+                CommonUtil.showToast("登录失效，请重新登录");
                 SPUtils.setCache(SPUtils.FILE_USER, SPUtils.TOKEN, "");
                 Intent intent = new Intent();
                 intent.setClass(BaseApplication.getContext(), CMainActivity.class);
                 BaseApplication.getContext().startActivity(intent);
             } else if (baseEntity.getCode().equals("4002")) {//踢出登录
-//                Toast.makeText(BaseApplication.getContext(), baseEntity.getMsg(), Toast.LENGTH_SHORT).show();
-                ToastUtils.showToast(baseEntity.getMsg());
+                CommonUtil.showToast(baseEntity.getMsg());
                 SPUtils.setCache(SPUtils.FILE_USER, SPUtils.TOKEN, "");
                 Intent intent = new Intent();
                 intent.setClass(BaseApplication.getContext(), CMainActivity.class);
                 BaseApplication.getContext().startActivity(intent);
             } else if (baseEntity.getCode().equals("4000")) {
-//                Toast.makeText(BaseApplication.getContext(), baseEntity.getMsg(), Toast.LENGTH_SHORT).show();
-                ToastUtils.showToast(baseEntity.getMsg());
+                CommonUtil.showToast(baseEntity.getMsg());
             } else {
                 onFailed(baseEntity.getCode(), baseEntity.getMsg());
             }
         } else {
             onFailed(response.code() + "", response.message());
         }
+
+        CommonUtil.dismissLoadProgress();
     }
 
     @Override
     public void onFailure(Call<BaseEntity<T>> call, Throwable t) {
-         Logger.d(t.getMessage());
+        Logger.d(t.getMessage());
         if (t instanceof ConnectException) {//网络连接失败
-            ToastUtils.showToast("网络开小差了，请检查网络");
+            CommonUtil.showToast("网络开小差了，请检查网络");
         } else {
-            ToastUtils.showToast("喔噢~系统错误！");
+            CommonUtil.showToast("喔噢~系统错误！");
         }
+        CommonUtil.dismissLoadProgress();
         onFailed("", "");
     }
 }

@@ -3,15 +3,12 @@ package com.mylike.his.activity.consultant;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.mylike.his.R;
@@ -19,8 +16,8 @@ import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.HDepositEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -180,9 +177,9 @@ public class DepositHospitalActivity extends BaseActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.submit_btn://提交
 //                if (TextUtils.isEmpty(moneyEdit.getText())) {
-//                    ToastUtils.showToast("请输入充值金额");
+//                    CommonUtil.showToast("请输入充值金额");
 //                } else if (ppValue == null) {
-//                    ToastUtils.showToast("请选择支付方式");
+//                    CommonUtil.showToast("请选择支付方式");
 //                } else {
                 submit();
 //                }
@@ -208,7 +205,7 @@ public class DepositHospitalActivity extends BaseActivity implements View.OnClic
             @Override
             protected void onSuccess(HDepositEntity hDepositEntity) {
                 startActivity(CMainActivity.class, CMainActivity.GO_PAYMENT, hDepositEntity.getBillId());
-                ToastUtils.showToast("提交成功");
+                CommonUtil.showToast("提交成功");
                 finish();
             }
 

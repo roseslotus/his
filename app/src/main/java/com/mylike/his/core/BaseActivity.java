@@ -12,18 +12,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mylike.his.R;
+import com.mylike.his.utils.CommonUtil;
+import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.KeyboardUtils;
 import com.mylike.his.view.FloatingDragger;
-
 
 /**
  * Created by zhengluping on 2018/1/16.
  */
-
 public class BaseActivity extends AppCompatActivity {
 
     private boolean isActionBar = true;//是否隐藏标题栏
@@ -32,7 +31,6 @@ public class BaseActivity extends AppCompatActivity {
     private boolean isFloatingDragger = false;//是否显示悬浮球
     private boolean isStatusBarColor = true;//是否更改状态栏颜色
 
-    private int layout;
     //列表页脚
     private TextView textView;
 
@@ -66,6 +64,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        //监控触摸事件，点击文本框外部收起键盘
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
             if (KeyboardUtils.isShouldHideInput(v, ev, 0)) {
@@ -75,88 +74,33 @@ public class BaseActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
     }
 
-    /**
-     * 跳转页面
-     *
-     * @param clz
-     */
-    protected void startActivity(Class<?> clz) {
-        startActivity(new Intent(BaseActivity.this, clz));
+    @Override
+    protected void onStop() {
+        super.onStop();
+        CommonUtil.dismissLoadProgress();
+        DialogUtil.dismissDialog();
     }
 
     /**
-     * 携带数据的页面跳转
+     * --------------设置是否隐藏标题栏--------------------------------
      *
-     * @param clz
-     * @param bundle
-     */
-    protected void startActivity(Class<?> clz, Bundle bundle) {
-        Intent intent = new Intent();
-        intent.setClass(this, clz);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        startActivity(intent);
-    }
-
-    /**
-     * 携带String的页面跳转(TAG)
-     *
-     * @param clz
-     */
-    protected void startActivity(Class<?> clz, String tag, String value) {
-        Intent intent = new Intent();
-        intent.setClass(this, clz);
-        if (!TextUtils.isEmpty(value)) {
-            intent.putExtra(tag, value);
-        }
-        startActivity(intent);
-    }
-
-    /**
-     * 简化Toast
-     *
-     * @param msg
-     */
-    private Toast toast;
-
-    protected void showToast(String msg) {
-        if (toast != null) {
-            toast.setText(msg);
-            toast.setDuration(Toast.LENGTH_SHORT);
-        } else {
-            toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        }
-        toast.show();
-
-//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-
-    }
-
-    public void initContentView(int layout) {
-        this.layout = layout;
-    }
-
-    /**
-     * 设置是否隐藏标题栏
-     *
-     * @param isActionBar
+     * @param isActionBar 默认隐藏
      */
     public void setActionBar(boolean isActionBar) {
         this.isActionBar = isActionBar;
     }
 
     /**
-     * 设置是否更改状态栏颜色
+     * ---------------设置是否更改状态栏颜色------------------------------
      *
-     * @param isStatusBarColor
+     * @param isStatusBarColor 默认状态栏颜色与标题颜色一致
      */
     public void setStatusBarColor(boolean isStatusBarColor) {
         this.isStatusBarColor = isStatusBarColor;
     }
 
     /**
-     * 设置是否禁止键盘弹出
+     * ----------------设置是否禁止键盘弹出--------------------------------
      *
      * @param isKeyboardUp
      */
@@ -165,7 +109,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 设置是否禁止横屏
+     * ---------------设置是否禁止横屏---------------------------------------
      *
      * @param isScreenRotating
      */
@@ -174,7 +118,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 设置是否显示悬浮球
+     * ---------------设置是否显示悬浮球---------------------------------------
      *
      * @param isFloatingDragger
      */
@@ -213,6 +157,44 @@ public class BaseActivity extends AppCompatActivity {
         } else {
             textView.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * 跳转页面
+     *
+     * @param clz
+     */
+    public void startActivity(Class<?> clz) {
+        startActivity(new Intent(BaseActivity.this, clz));
+    }
+
+    /**
+     * 携带数据的页面跳转
+     *
+     * @param clz
+     * @param bundle 打发
+     */
+    public void startActivity(Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent();
+        intent.setClass(this, clz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+    }
+
+    /**
+     * 携带String的页面跳转(TAG)
+     *
+     * @param clz 打发
+     */
+    public void startActivity(Class<?> clz, String tag, String value) {
+        Intent intent = new Intent();
+        intent.setClass(this, clz);
+        if (!TextUtils.isEmpty(value)) {
+            intent.putExtra(tag, value);
+        }
+        startActivity(intent);
     }
 
 }

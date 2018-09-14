@@ -30,8 +30,8 @@ import com.mylike.his.entity.IntentionAddEntity;
 import com.mylike.his.entity.IntentionEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.SPUtils;
-import com.mylike.his.utils.ToastUtils;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -414,7 +414,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         HttpClient.getHttpApi().saveBookbuilding(HttpClient.getRequestBody(map)).enqueue(new BaseBack<String>() {
             @Override
             protected void onSuccess(String s) {
-                ToastUtils.showToast("提交成功");
+                CommonUtil.showToast("提交成功");
                 finish();
             }
 
@@ -483,25 +483,25 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     //保存效验
     private void saveCheck() {
         if(TextUtils.isEmpty(mylikeId.getText().toString())){
-            ToastUtils.showToast("保存失败，请输入美莱在线访客ID");
+            CommonUtil.showToast("保存失败，请输入美莱在线访客ID");
         }else if (TextUtils.isEmpty(nameEdit.getText().toString())) {
-            ToastUtils.showToast("保存失败，请输入姓名");
+            CommonUtil.showToast("保存失败，请输入姓名");
         } else if (TextUtils.isEmpty(sexValue)) {
-            ToastUtils.showToast("保存失败，请选择性别");
+            CommonUtil.showToast("保存失败，请选择性别");
         } else if (TextUtils.isEmpty(ageEdit.getText().toString())) {
-            ToastUtils.showToast("保存失败，请输入年龄");
+            CommonUtil.showToast("保存失败，请输入年龄");
         } else if (TextUtils.isEmpty(economicValue)) {
-            ToastUtils.showToast("保存失败，请选择经济能力");
+            CommonUtil.showToast("保存失败，请选择经济能力");
         } else if (medium.isEmpty()) {
-            ToastUtils.showToast("保存失败，请选择媒介来源");
+            CommonUtil.showToast("保存失败，请选择媒介来源");
         } else if (provinces.isEmpty()) {
-            ToastUtils.showToast("保存失败，请选择省市区");
+            CommonUtil.showToast("保存失败，请选择省市区");
         } else if (TextUtils.isEmpty(addressDetailsEdit.getText().toString())) {
-            ToastUtils.showToast("保存失败，请输入详细地址");
+            CommonUtil.showToast("保存失败，请输入详细地址");
         } else if (TextUtils.isEmpty(intentionDegree)) {
-            ToastUtils.showToast("保存失败，请选择意向度");
+            CommonUtil.showToast("保存失败，请选择意向度");
         } else if (intentionEntitiesList.isEmpty()) {
-            ToastUtils.showToast("保存失败，请添加意向项目");
+            CommonUtil.showToast("保存失败，请添加意向项目");
         } else {
             saveData();
         }
