@@ -2,6 +2,7 @@ package com.mylike.his.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -70,6 +71,8 @@ public class ClearEditText extends EditText {
             }
         }
     }
+
+
 
     /**
      * 设置清除图标的显示与隐藏

@@ -52,8 +52,6 @@ import butterknife.OnClick;
  * 客户
  */
 public class CustomerFragment extends BaseFragment implements View.OnClickListener {
-    @Bind(R.id.screen_btn)
-    ImageView screenBtn;
     @Bind(R.id.search_edit)
     ClearEditText searchEdit;
     @Bind(R.id.rv)
@@ -283,13 +281,10 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    @OnClick({R.id.search_btn, R.id.screen_btn})
+    @OnClick({R.id.search_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.screen_btn://筛选
-//                initData();
-                break;
             case R.id.search_btn://搜索
                 initData();
                 break;

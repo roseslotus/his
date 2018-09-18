@@ -159,7 +159,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
 //        getCustData();//获取客户信息
-//        getIntentionAllData();//获取全部意向信息
+        getIntentionAllData();//获取全部意向信息
 //        initIntentionData();//获取客户意向信息
 
         chargeTag = getIntent().getStringExtra("chargeTag");
@@ -351,7 +351,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             protected void onSuccess(List<UserIntentionEntity> userIntentionEntities) {
                 userIntentionEntityList.clear();
                 userIntentionEntityList.addAll(userIntentionEntities);
-                getIntentionAllData();
+//                getIntentionAllData();
             }
 
             @Override
@@ -559,6 +559,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 }
                 intentionText.setText(intentionValue);
                 intentionSubmit();
+                optionsPickerView.dismiss();
+
             }
         }).setLayoutRes(R.layout.dialog_again_consult_not, new CustomListener() {//自定义布局
             @Override
@@ -570,7 +572,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     @Override
                     public void onClick(View v) {
                         optionsPickerView.returnData();
-                        optionsPickerView.dismiss();
                     }
                 });
             }
@@ -654,8 +655,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         //客户信息
         HashMap<String, Object> kehushuju = new HashMap<>();
         kehushuju.put("khid", custId);//客户id
-        kehushuju.put("appointmentDate", timeText.getText().toString());//预约时间
-        kehushuju.put("appointmentMoney", moneyText.getText().toString());//预约金额
+        kehushuju.put("yuyueTime", timeText.getText().toString());//预约时间
+        kehushuju.put("yuyueprice", moneyText.getText().toString());//预约金额
 
 
         //分诊数据

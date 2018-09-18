@@ -269,12 +269,12 @@
                                 android:id="@+id/time_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginRight="10dp"
+                                android:layout_weight="1"
                                 android:background="@drawable/bg_white_line_box_gray"
+                                android:focusable="false"
                                 android:hint="请选择时间"
                                 android:padding="5dp"
-                                android:focusable="false"
                                 android:textColor="@color/black_50"
                                 android:textColorHint="@color/gray_48"
                                 android:textSize="14sp" />
@@ -283,10 +283,10 @@
                                 android:id="@+id/clear_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:textColor="@color/gray_49"
                                 android:layout_marginRight="10dp"
-                                android:text="清空"/>
+                                android:padding="5dp"
+                                android:text="清空"
+                                android:textColor="@color/gray_49" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -482,41 +482,41 @@
                         android:padding="10dp">
 
                         <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="支付方式"-->
-                            <!--android:textColor="@color/green_50" />-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="支付方式"-->
+                        <!--android:textColor="@color/green_50" />-->
 
                         <!--<RadioGroup-->
-                            <!--android:id="@+id/patternPayment"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:orientation="horizontal">-->
+                        <!--android:id="@+id/patternPayment"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:orientation="horizontal">-->
 
-                            <!--<RadioButton-->
-                                <!--android:id="@+id/move"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:button="@drawable/selector_round_icon"-->
-                                <!--android:padding="10dp"-->
-                                <!--android:text="移动支付"-->
-                                <!--android:textColor="@color/black_50" />-->
+                        <!--<RadioButton-->
+                        <!--android:id="@+id/move"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:button="@drawable/selector_round_icon"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:text="移动支付"-->
+                        <!--android:textColor="@color/black_50" />-->
 
-                            <!--<RadioButton-->
-                                <!--android:id="@+id/not_move"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_marginLeft="30dp"-->
-                                <!--android:button="@drawable/selector_round_icon"-->
-                                <!--android:padding="10dp"-->
-                                <!--android:text="非移动支付"-->
-                                <!--android:textColor="@color/black_50" />-->
+                        <!--<RadioButton-->
+                        <!--android:id="@+id/not_move"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="30dp"-->
+                        <!--android:button="@drawable/selector_round_icon"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:text="非移动支付"-->
+                        <!--android:textColor="@color/black_50" />-->
                         <!--</RadioGroup>-->
 
                         <!--<View-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="1px"-->
-                            <!--android:background="@color/gray_48" />-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="1px"-->
+                        <!--android:background="@color/gray_48" />-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -563,7 +563,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="实付款："
+                android:text="应付款："
                 android:textSize="12sp" />
 
             <TextView

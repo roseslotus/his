@@ -14,7 +14,7 @@ public class ProductDetailsEntity implements Serializable {
     private String price1 = "";//真实小计价格
     private String price2 = "";//真实单价价格
     private String count;//数量
-    private String remark;//备注
+    private String remark = "";//备注
 
     //套餐
     private String pkgid;

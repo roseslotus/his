@@ -116,6 +116,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
     private String[] Intention;
     private String remarkValue;
     private String clientId;
+    private String triageId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,7 +155,8 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
         HttpClient.getHttpApi().getChargeDetaills(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ChargeDateilsEntity>() {
             @Override
             protected void onSuccess(ChargeDateilsEntity chargeDateilsEntity) {
-                clientId = chargeDateilsEntity.getInfo().getINTENTION_ID();//客户ID
+                clientId = chargeDateilsEntity.getInfo().getCUSTID();//客户ID
+                triageId = chargeDateilsEntity.getInfo().getCFRECEIVEID();//分诊ID
                 nameText.setText(chargeDateilsEntity.getInfo().getCFNAME() + "  " + chargeDateilsEntity.getInfo().getCFHANDSET());//姓名+手机号
                 doctorText.setText(chargeDateilsEntity.getInfo().getFDOCTORNAME());//医生
                 intentionText.setText(chargeDateilsEntity.getInfo().getINTENTION());//意向
@@ -282,7 +284,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                 startActivity(MedicineActivity.class, "fid", fid);
                 break;
             case R.id.compile_btn://编辑
-                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, "分诊id");
+                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, triageId);
                 startActivity(OrderActivity.class, "chargeTag", "1");
                 break;
             case R.id.payment_btn://去支付

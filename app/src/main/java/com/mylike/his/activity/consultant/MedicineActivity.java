@@ -208,28 +208,33 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
                 });
                 break;
             case R.id.doctor_btn://推荐医生
-                if (departmentDoctorEntityList.size() == 0) {
-                    CommonUtil.showToast("请先选择科室");
-                } else {
-                    View itemView2 = DialogUtil.commomDialog(MedicineActivity.this, R.layout.common_item_list, 0);
-                    ListView listView2 = itemView2.findViewById(R.id.common_list);
-                    listView2.setBackgroundResource(R.drawable.bg_white_box_10);
-                    listView2.setAdapter(new CommonAdapter<DepartmentDoctorEntity>(this, R.layout.common_item_text, departmentDoctorEntityList) {
-                        @Override
-                        protected void convert(ViewHolder viewHolder, DepartmentDoctorEntity item, int position) {
-                            TextView textView = viewHolder.getView(R.id.text);
-                            textView.setPadding(20, 30, 20, 30);
-                            textView.setText(item.getEmpName());
-                        }
-                    });
-                    listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            doctorBtn.setText(departmentDoctorEntityList.get(position).getEmpName());
-                            doctorId = departmentDoctorEntityList.get(position).getEmpId();
-                            DialogUtil.dismissDialog();
-                        }
-                    });
+//                if (departmentDoctorEntityList.isEmpty()) {
+//                    CommonUtil.showToast("请先选择科室");
+//                } else {
+                if (doctorBtn.getText().toString().equals("请选择")) {
+                    if (departmentDoctorEntityList.isEmpty()) {
+                        CommonUtil.showToast("请先选择科室");
+                    } else {
+                        View itemView2 = DialogUtil.commomDialog(MedicineActivity.this, R.layout.common_item_list, 0);
+                        ListView listView2 = itemView2.findViewById(R.id.common_list);
+                        listView2.setBackgroundResource(R.drawable.bg_white_box_10);
+                        listView2.setAdapter(new CommonAdapter<DepartmentDoctorEntity>(this, R.layout.common_item_text, departmentDoctorEntityList) {
+                            @Override
+                            protected void convert(ViewHolder viewHolder, DepartmentDoctorEntity item, int position) {
+                                TextView textView = viewHolder.getView(R.id.text);
+                                textView.setPadding(20, 30, 20, 30);
+                                textView.setText(item.getEmpName());
+                            }
+                        });
+                        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                doctorBtn.setText(departmentDoctorEntityList.get(position).getEmpName());
+                                doctorId = departmentDoctorEntityList.get(position).getEmpId();
+                                DialogUtil.dismissDialog();
+                            }
+                        });
+                    }
                 }
                 break;
             case R.id.intention_btn://意向
@@ -259,7 +264,14 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             protected void onSuccess(List<DepartmentDoctorEntity> departmentDoctorEntities) {
+                if (departmentDoctorEntities.isEmpty()) {
+                    doctorBtn.setText("此科室暂无医生选择");
+                } else {
+                    doctorBtn.setText("请选择");
+                }
                 departmentDoctorEntityList.addAll(departmentDoctorEntities);
+
+
             }
 
             @Override

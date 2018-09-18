@@ -482,9 +482,9 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
 
     //保存效验
     private void saveCheck() {
-        if(TextUtils.isEmpty(mylikeId.getText().toString())){
+        if (TextUtils.isEmpty(mylikeId.getText().toString())) {
             CommonUtil.showToast("保存失败，请输入美莱在线访客ID");
-        }else if (TextUtils.isEmpty(nameEdit.getText().toString())) {
+        } else if (TextUtils.isEmpty(nameEdit.getText().toString())) {
             CommonUtil.showToast("保存失败，请输入姓名");
         } else if (TextUtils.isEmpty(sexValue)) {
             CommonUtil.showToast("保存失败，请选择性别");

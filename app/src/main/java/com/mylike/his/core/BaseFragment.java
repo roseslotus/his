@@ -11,7 +11,6 @@ import android.widget.Toast;
 /**
  * Created by zhengluping on 2018/1/16.
  */
-
 public class BaseFragment extends Fragment {
 
     @Override
@@ -56,22 +55,4 @@ public class BaseFragment extends Fragment {
         }
         startActivity(intent);
     }
-
-    /**
-     * 简化Toast
-     *
-     * @param msg
-     */
-    private Toast toast;
-
-    protected void showToast(String msg) {
-        if (toast != null) {
-            toast.setText(msg);
-        } else {
-            toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
-        }
-        toast.show();
-    }
-
-
 }

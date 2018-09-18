@@ -290,7 +290,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 startActivity(NewCReceptionActivity.class);
                 break;
             case R.id.order_sum_btn://开单总数
-                startActivity(ChargeShowActivity.class);
+                startActivity(ChargeShowActivity.class,"today","1");
                 break;
             case R.id.visit_sum_btn://回访总数
                 startActivity(VisitActivity.class);

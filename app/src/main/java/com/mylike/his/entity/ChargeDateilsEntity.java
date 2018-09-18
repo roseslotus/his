@@ -12,7 +12,7 @@ public class ChargeDateilsEntity {
 
     private Info info;
     private List<Productlist> productlist;
-    private List<Map<String,String>> subjectlist;
+    private List<Map<String, String>> subjectlist;
 
     public Info getInfo() {
         return info;
@@ -40,6 +40,8 @@ public class ChargeDateilsEntity {
 
     public class Info {
 
+        private String CUSTID;
+        private String CFRECEIVEID;
         private String CFACCTIME;
         private String CFFEEALL;
         private String CFHANDSET;
@@ -69,6 +71,22 @@ public class ChargeDateilsEntity {
         private String DISCOUNT;//优惠
         private String POINTS;//积分
 
+
+        public String getCUSTID() {
+            return CUSTID;
+        }
+
+        public void setCUSTID(String CUSTID) {
+            this.CUSTID = CUSTID;
+        }
+
+        public String getCFRECEIVEID() {
+            return CFRECEIVEID;
+        }
+
+        public void setCFRECEIVEID(String CFRECEIVEID) {
+            this.CFRECEIVEID = CFRECEIVEID;
+        }
 
         public String getDISCOUNT() {
             return DISCOUNT;

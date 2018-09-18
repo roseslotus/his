@@ -164,6 +164,7 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
                 } else {//未有选中ip，清空缓存
                     SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, "");
                 }
+
                 if (ipEntiytList.isEmpty()) {
                     SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, "");
                 } else {

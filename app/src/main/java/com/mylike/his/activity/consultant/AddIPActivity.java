@@ -134,7 +134,7 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
                     }
                     SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
                     finish();
-                } else {
+                } else {//失败
                     CommonUtil.dismissLoadProgress();
                     CommonUtil.showToast(map.get("msg"));
                 }
@@ -148,4 +148,11 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        String ipChecked = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);
+        if (!TextUtils.isEmpty(ipChecked))
+            RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipChecked);
+    }
 }

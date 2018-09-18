@@ -42,10 +42,15 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -148,7 +153,9 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                         break;
                     case "3"://已结账
                         if ("1".equals(item.getFCHARGETYPENUMBER()) || "2".equals(item.getFCHARGETYPENUMBER())) {//1-消费,2-预约金
-                            viewHolder.setVisible(R.id.again_consult_btn, true);//重咨
+                            if (!getJudgetoDay(item.getFCREATETIME())) {
+                                viewHolder.setVisible(R.id.again_consult_btn, true);//重咨
+                            }
                             viewHolder.setVisible(R.id.bridge_section_btn, true);//跨科
                         } else if ("3".equals(item.getFCHARGETYPENUMBER()) || "5".equals(item.getFCHARGETYPENUMBER())) {//3-储值,5-预约金
                             viewHolder.setVisible(R.id.count_text, false);//商品数
@@ -236,9 +243,54 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
     }
 
 
+    public boolean getJudgetoDay(String time) {
+        try {
+            boolean flag = IsToday(time);
+            return flag;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean IsToday(String day) throws ParseException {
+
+        Calendar pre = Calendar.getInstance();
+        Date predate = new Date(System.currentTimeMillis());
+        pre.setTime(predate);
+        Calendar cal = Calendar.getInstance();
+        Date date = getDateFormat().parse(day);
+        cal.setTime(date);
+        if (cal.get(Calendar.YEAR) == (pre.get(Calendar.YEAR))) {
+            int diffDay = cal.get(Calendar.DAY_OF_YEAR)
+                    - pre.get(Calendar.DAY_OF_YEAR);
+
+            if (diffDay == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static SimpleDateFormat getDateFormat() {
+        if (null == DateLocal.get()) {
+            DateLocal.set(new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA));
+        }
+        return DateLocal.get();
+    }
+
+    private static ThreadLocal<SimpleDateFormat> DateLocal = new ThreadLocal<SimpleDateFormat>();
+
+
     private void initData() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("selectedValue", selectedValue);
+        String today = getIntent().getStringExtra("today");
+        if (TextUtils.isEmpty(today)) {
+            map.put("today", "0");//是否只显示今日数据，1-是，0-否
+        } else {
+            map.put("today", "1");//是否只显示今日数据，1-是，0-否
+        }
+        map.put("selectedValue", selectedValue);//筛选
         map.put("condition", searchEdit.getText().toString());//搜索
         map.put("pageNumber", pageNumber);
         map.put("pageSize", pageSize);

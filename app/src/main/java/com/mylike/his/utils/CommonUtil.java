@@ -15,15 +15,15 @@ import android.widget.Toast;
 
 import com.mylike.his.R;
 import com.mylike.his.core.BaseApplication;
+import com.mylike.his.entity.ProductDetailsEntity;
 
+import java.text.DecimalFormat;
 import java.util.logging.Handler;
 
 /**
  * 工具类
  */
 public class CommonUtil {
-
-
 
     //-----------------------------------------------------------toast提示-------------------------------------------------------
     private static Toast toast;
@@ -97,4 +97,20 @@ public class CommonUtil {
             return mobileNums.matches(REGEX_MOBILE);
     }
 
+    //-------------------------------------------------------保留后两位小数-------------------------------------------------------
+    public static String setTwoNumber(String numberStr) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        if (TextUtils.isEmpty(numberStr)) {
+            numberStr = "0";
+        }
+        Double number = Double.parseDouble(numberStr);
+        decimalFormat.format(number);
+        return decimalFormat.format(number);
+    }
+
+    public static String setTwoNumber(Double number) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        decimalFormat.format(number);
+        return decimalFormat.format(number);
+    }
 }

@@ -5,12 +5,12 @@ package com.mylike.his.entity;
  */
 
 public class SVProjectEntity {
-    private String ACCOUNT;
-    private String ACCOUNTID;
-    private int CASH;
-    private String ID;
-    private int PRESENTMONEY;
-    private String REMARK;
+    private String ACCOUNT;//项目名称
+    private String ACCOUNTID;//项目id
+    private int CASH;//赠送金额
+    private String ID;//储值类型id
+    private int PRESENTMONEY;//储值金额
+    private String REMARK;//储值类型拼接术语
 
     public SVProjectEntity(String REMARK) {
         this.REMARK = REMARK;

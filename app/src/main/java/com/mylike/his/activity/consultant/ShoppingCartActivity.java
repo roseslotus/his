@@ -114,13 +114,15 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                         confirmBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                item.setPrice2(contentText.getText().toString());
-                                item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");
-                                viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
-                                viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
-                                viewHolder.setText(R.id.discounts_text,setDecimalFormat((Double.parseDouble(item.getPrice2())/Double.parseDouble(item.getPrice()))+""));//折扣
-                                accountList.set(position, item);
-                                sumData();
+                                if (!contentText.getText().toString().isEmpty()) {
+                                    item.setPrice2(setDecimalFormat(contentText.getText().toString()));
+                                    item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");
+                                    viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
+                                    viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
+                                    viewHolder.setText(R.id.discounts_text, setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//折扣
+                                    accountList.set(position, item);
+                                    sumData();
+                                }
                                 DialogUtil.dismissDialog();
                             }
                         });
@@ -140,13 +142,15 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
 
                             @Override
                             public void onClick(View v) {
-                                item.setPrice1(contentText.getText().toString());
-                                item.setPrice2(setDecimalFormat((Double.parseDouble(item.getPrice1()) / Integer.parseInt(item.getCount())) + ""));
-                                viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
-                                viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
-                                viewHolder.setText(R.id.discounts_text,setDecimalFormat((Double.parseDouble(item.getPrice2())/Double.parseDouble(item.getPrice()))+""));//折扣
-                                accountList.set(position, item);
-                                sumData();
+                                if (!contentText.getText().toString().isEmpty()) {
+                                    item.setPrice1(contentText.getText().toString());
+                                    item.setPrice2(setDecimalFormat((Double.parseDouble(item.getPrice1()) / Integer.parseInt(item.getCount())) + ""));
+                                    viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
+                                    viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
+                                    viewHolder.setText(R.id.discounts_text, setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//折扣
+                                    accountList.set(position, item);
+                                    sumData();
+                                }
                                 DialogUtil.dismissDialog();
                             }
                         });
@@ -165,13 +169,15 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                         confirmBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                item.setPrice2((Double.parseDouble(item.getPrice()) * Double.parseDouble(setDecimalFormat(contentText.getText().toString()))) + "");//单价(原价*折扣，折扣永远保持两位数)
-                                item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");//小计
-                                viewHolder.setText(R.id.discounts_text,setDecimalFormat(contentText.getText().toString()));//折扣
-                                viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));//显示小计
-                                viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));//显示总价
-                                accountList.set(position, item);
-                                sumData();
+                                if (!contentText.getText().toString().isEmpty()) {
+                                    item.setPrice2((Double.parseDouble(item.getPrice()) * Double.parseDouble(setDecimalFormat(contentText.getText().toString()))) + "");//单价(原价*折扣，折扣永远保持两位数)
+                                    item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");//小计
+                                    viewHolder.setText(R.id.discounts_text, setDecimalFormat(contentText.getText().toString()));//折扣
+                                    viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));//显示小计
+                                    viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));//显示总价
+                                    accountList.set(position, item);
+                                    sumData();
+                                }
                                 DialogUtil.dismissDialog();
                             }
                         });

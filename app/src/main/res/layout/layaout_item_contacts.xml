@@ -7,8 +7,6 @@
     android:paddingRight="10dp"
     app:ios="false">
 
-    <!--android:id="@+id/content"-->
-
     <LinearLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -26,9 +24,14 @@
                 android:id="@+id/client_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="李萌萌(157***5484)"
+                android:text="姓名(000***0000)"
                 android:textColor="@color/black_50"
                 android:textSize="15sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_weight="1" />
 
             <ImageView
                 android:id="@+id/sex_img"
@@ -36,29 +39,12 @@
                 android:layout_height="15dp"
                 android:src="@mipmap/girl_c_icon" />
 
-
             <ImageView
                 android:id="@+id/vip_img"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:src="@mipmap/vip_icon" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1px"
-                android:layout_weight="1" />
-            <!--  <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:background="@drawable/btn_red_3"
-                  android:paddingBottom="2dp"
-                  android:paddingLeft="4dp"
-                  android:paddingRight="4dp"
-                  android:paddingTop="2dp"
-                  android:text="VIP"
-                  android:textColor="@color/white"
-                  android:textSize="12dp" />-->
 
             <TextView
                 android:id="@+id/card_tv"
@@ -66,30 +52,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/line_box_orange_3_t20"
-                android:paddingBottom="2dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="2dp"
-                android:text="金卡"
-                android:textColor="@color/orange_40"
-                android:textSize="12dp" />
-
-            <TextView
-                android:id="@+id/liveness_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/line_box_blue_3"
                 android:ellipsize="middle"
-                android:maxEms="2"
+                android:maxEms="4"
                 android:paddingBottom="2dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:paddingTop="2dp"
                 android:singleLine="true"
-                android:text="休眠"
+                android:text="暂无"
+                android:textColor="@color/orange_40"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/liveness_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/line_box_blue_3"
+                android:ellipsize="middle"
+                android:maxEms="4"
+                android:paddingBottom="2dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="2dp"
+                android:singleLine="true"
+                android:text="暂无"
                 android:textColor="@color/blue_50"
-                android:textSize="12dp" />
+                android:textSize="10dp" />
 
         </LinearLayout>
 
@@ -110,7 +99,7 @@
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12" />
+                android:text="0" />
 
             <TextView
                 android:layout_width="wrap_content"
