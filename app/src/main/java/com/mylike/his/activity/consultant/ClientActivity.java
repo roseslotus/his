@@ -52,8 +52,6 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
     TextView tvSideBarHint;
     @Bind(R.id.rv)
     RecyclerView rv;
-    @Bind(R.id.screen_btn)
-    ImageView screenBtn;
     @Bind(R.id.search_edit)
     ClearEditText searchEdit;
     @Bind(R.id.search_btn)
@@ -264,11 +262,11 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
         return decimalFormat.format(number);
     }
 
-    @OnClick({R.id.return_btn, R.id.screen_btn, R.id.search_btn})
+    @OnClick({R.id.return_btn, R.id.search_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.screen_btn:
+//            case R.id.screen_btn:
 //                String searchValue = searchEdit.getText().toString();
 //                if (TextUtils.isEmpty(searchValue)) {
 //                    clientEntityList.clear();
@@ -288,7 +286,7 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
 //                    mDecoration.setmDatas(clientEntityList);
 //                }
 //                initData();
-                break;
+//                break;
             case R.id.search_btn:
                 initData();
                 break;

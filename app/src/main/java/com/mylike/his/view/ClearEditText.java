@@ -7,9 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 
 import com.mylike.his.R;
+
+import java.util.logging.Logger;
 
 /**
  * Created by zhengluping on 2018/4/27.
@@ -20,6 +23,7 @@ public class ClearEditText extends EditText {
 
     private Drawable drawable;
     private Context context;
+    private boolean tag;//焦点
 
     public ClearEditText(Context context) {
         super(context);
@@ -44,6 +48,7 @@ public class ClearEditText extends EditText {
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         // 默认设置隐藏图标
         setClearIconVisible(false);
+
     }
 
     @Override
@@ -72,7 +77,17 @@ public class ClearEditText extends EditText {
         }
     }
 
-
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+//        tag = focused;
+        if (focused) {
+            if (this.getText().toString().length() > 0)
+                setClearIconVisible(true);
+        } else {
+            setClearIconVisible(false);
+        }
+    }
 
     /**
      * 设置清除图标的显示与隐藏

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -61,14 +62,19 @@ public class CustomerDetailsActivity extends BaseActivity {
     private List<List<IntentionEntity>> intentionEntities2 = new ArrayList<>();
     private List<List<List<IntentionEntity>>> intentionEntities3 = new ArrayList<>();
 
+    private Handler handler = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_details);
         ButterKnife.bind(this);
-        CommonUtil.showLoadProgress(this);
         token = SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN);
         customId = getIntent().getStringExtra("clientId");
+
+        //创建属于主线程的handler
+        handler = new Handler();
+
         initView();
         initData();
     }
@@ -78,7 +84,10 @@ public class CustomerDetailsActivity extends BaseActivity {
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         String ipString = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);
+
+
         webView.loadUrl("http://" + ipString + "/mylike-crm/app360/index.html#/information");
+//        webView.loadUrl("http://172.16.61.222:8280/mylike-crm/app360/index.html#/information");
 
         webView.setWebViewClient(new WebViewClient() {
             //拦截url
@@ -158,7 +167,7 @@ public class CustomerDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void payment(String fid) {
-            CommonUtil.showToast("支付" + fid);
+//            CommonUtil.showToast("支付" + fid);
 
             Intent intent = new Intent();
             intent.putExtra("fid", fid);
@@ -173,10 +182,14 @@ public class CustomerDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void consult(String fid) {
-            CommonUtil.showToast("重咨" + fid);
-
+//            CommonUtil.showToast("重咨" + fid);
             fidValue = fid;
-            optionsPickerView.show();
+            new Thread() {
+                public void run() {
+                    handler.post(runnableUi);
+                }
+            }.start();
+
         }
 
         /**
@@ -186,7 +199,7 @@ public class CustomerDetailsActivity extends BaseActivity {
          */
         @JavascriptInterface
         public void section(String fid) {
-            CommonUtil.showToast("跨科" + fid);
+//            CommonUtil.showToast("跨科" + fid);
 
             startActivity(MedicineActivity.class, "fid", fid);
         }
@@ -225,6 +238,7 @@ public class CustomerDetailsActivity extends BaseActivity {
         HttpClient.getHttpApi().getIntentionAll().enqueue(new BaseBack<List<IntentionEntity>>() {
             @Override
             protected void onSuccess(List<IntentionEntity> intentionEntities) {
+                intentionEntities1.add(new IntentionEntity("请选择"));
                 intentionEntities1.addAll(intentionEntities);
                 //初始化意向数据
                 initViewData();
@@ -324,4 +338,15 @@ public class CustomerDetailsActivity extends BaseActivity {
             }
         });
     }
+
+    // 构建Runnable对象，在runnable中更新界面
+    Runnable runnableUi = new Runnable() {
+        @Override
+        public void run() {
+            //更新界面
+//            textView.setText("the Content is:"+content);
+            optionsPickerView.show();
+        }
+
+    };
 }

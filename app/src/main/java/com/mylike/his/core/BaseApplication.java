@@ -85,6 +85,7 @@ public class BaseApplication extends Application {
                 ClassicsHeader classicsHeader = new ClassicsHeader(context);
                 classicsHeader.setEnableLastTime(false);
                 classicsHeader.setPrimaryColor(Color.TRANSPARENT);
+//                classicsHeader.setPrimaryColor(context.getResources().getColor(R.color.green_50));
                 classicsHeader.setAccentColor(context.getResources().getColor(R.color.green_48));
                 classicsHeader.setDrawableMarginRight(10);
                 classicsHeader.setSpinnerStyle(SpinnerStyle.Scale);

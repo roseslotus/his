@@ -58,6 +58,7 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setLoadProgress(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ip);
         ButterKnife.bind(this);
@@ -71,7 +72,7 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
         }
 
         position = getIntent().getStringExtra("position");
-        //position不未空表示是编辑过来的，将旧数据展示出来
+        //position不为空表示是编辑过来的，将旧数据展示出来
         if (!TextUtils.isEmpty(position)) {
             ipEntiyt = ipEntiytList.get(Integer.parseInt(position));
             ipEdit.setText(ipEntiyt.getIp());
@@ -91,10 +92,7 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
 
                 if (TextUtils.isEmpty(ipStr)) {
                     CommonUtil.showToast("ip地址不能为空");
-                } else if (Integer.parseInt(portStr) > 65535) {//端口范围0~65535
-                    CommonUtil.showToast("ip或端口错误，请查正后再输入");
                 } else {
-                    CommonUtil.showLoadProgress(AddIPActivity.this);
                     //拼接完整ip的值
                     if (TextUtils.isEmpty(portStr)) {
                         ipValue = ipStr;
@@ -112,40 +110,44 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
 
     //接口验证
     private void submit(final String ipStr, final String portStr) {
+        try {
+            //替换http地址
+            RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipValue);
+            CommonUtil.showLoadProgress(AddIPActivity.this);
 
-        //替换http地址
-        RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipValue);
-
-        //验证接口是否用
-        HttpClient.getHttpApi().pingAPI().enqueue(new Callback<Map<String, String>>() {
-            @Override
-            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                Map<String, String> map = response.body();
-                if (map.get("code").equals("1000")) {//成功
-                    //设置值
-                    ipEntiyt.setIp(ipStr);
-                    ipEntiyt.setPort(portStr);
-                    ipEntiyt.setRemark(remarkEdit.getText().toString());
-                    ipEntiyt.setIpValue(ipValue);
-                    ipEntiyt.setChecked(Checked);
-                    //新添加的数据需要add
-                    if (TextUtils.isEmpty(position)) {
-                        ipEntiytList.add(ipEntiyt);
+            //验证接口是否用
+            HttpClient.getHttpApi().pingAPI().enqueue(new Callback<Map<String, String>>() {
+                @Override
+                public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
+                    Map<String, String> map = response.body();
+                    if (map.get("code").equals("1000")) {//成功
+                        //设置值
+                        ipEntiyt.setIp(ipStr);
+                        ipEntiyt.setPort(portStr);
+                        ipEntiyt.setRemark(remarkEdit.getText().toString());
+                        ipEntiyt.setIpValue(ipValue);
+                        ipEntiyt.setChecked(Checked);
+                        //新添加的数据需要add
+                        if (TextUtils.isEmpty(position)) {
+                            ipEntiytList.add(ipEntiyt);
+                        }
+                        SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
+                        finish();
+                    } else {//失败
+                        CommonUtil.dismissLoadProgress();
+                        CommonUtil.showToast(map.get("msg"));
                     }
-                    SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
-                    finish();
-                } else {//失败
-                    CommonUtil.dismissLoadProgress();
-                    CommonUtil.showToast(map.get("msg"));
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Map<String, String>> call, Throwable t) {
-                CommonUtil.dismissLoadProgress();
-                CommonUtil.showToast("ip或端口错误，请查正后再输入");
-            }
-        });
+                @Override
+                public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                    CommonUtil.dismissLoadProgress();
+                    CommonUtil.showToast("ip或端口错误，请查正后再输入");
+                }
+            });
+        } catch (Exception e) {
+            CommonUtil.showToast("ip或端口错误，请查正后再输入");
+        }
     }
 
     @Override

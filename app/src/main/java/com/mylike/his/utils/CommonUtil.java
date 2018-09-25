@@ -113,4 +113,8 @@ public class CommonUtil {
         decimalFormat.format(number);
         return decimalFormat.format(number);
     }
+
+    //-------------------------------------------------------判断是否今天-------------------------------------------------------
+
+
 }

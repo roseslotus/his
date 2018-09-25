@@ -12,6 +12,7 @@ public class ChargeInfoEntity {
     private String CFFEEALL;//所有金额
     private String CFHANDSET;//手机号
     private String CFNAME;//用户名称
+    private String ISTODAY;//是否是今天
     //    private String CFOWEFLAG;
 //    private String CFPREFERFLAG;
     private String CFRECEIVEID;//分诊id
@@ -46,6 +47,14 @@ public class ChargeInfoEntity {
 
     public void setID(String ID) {
         this.ID = ID;
+    }
+
+    public String getISTODAY() {
+        return ISTODAY;
+    }
+
+    public void setISTODAY(String ISTODAY) {
+        this.ISTODAY = ISTODAY;
     }
 
     public String getFCHARGESTATENUMBER() {

@@ -54,6 +54,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setLoadProgress(false);
         super.onCreate(savedInstanceState);
         setStatusBarColor(false);//取消状态栏的颜色变更（注：一定要写在setContentView前面）
         setContentView(R.layout.activity_login);

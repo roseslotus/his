@@ -188,7 +188,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 }
 
                 TextView textView = viewHolder.getView(R.id.price_text);
-                textView.setText(item.getPrice());
+                textView.setText(CommonUtil.setTwoNumber(item.getPrice()));
                 textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
                 viewHolder.setText(R.id.money_text, setDecimalFormat(item.getPrice2()));
@@ -340,6 +340,29 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
             }
         });
+
+        moneyText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().isEmpty()) {
+                    sumText.setText(moneySum + "");
+                } else {
+                    sumText.setText(CommonUtil.setTwoNumber(editable.toString()));
+                }
+
+            }
+        });
+
     }
 
     private void initIntentionData() {

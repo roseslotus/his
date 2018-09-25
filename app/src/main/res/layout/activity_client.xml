@@ -27,15 +27,6 @@
             android:text="我的客户"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/screen_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:src="@mipmap/screen_icon" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -121,7 +112,7 @@
              android:layout_width="match_parent"
              android:layout_height="30dp"
              android:layout_marginRight="10dp"
-             android:hint="请输入姓名或手机号" />
+             android:hint="输入姓名或手机号" />
 
          <android.support.v7.widget.RecyclerView
              android:id="@+id/rv"

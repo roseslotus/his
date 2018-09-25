@@ -102,7 +102,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_weight="1"-->
     <!--android:background="@android:color/transparent"-->
-    <!--android:hint="请输入姓名"-->
+    <!--android:hint="输入姓名"-->
     <!--android:padding="5dp"-->
     <!--android:singleLine="true"-->
     <!--android:text=""-->
@@ -126,7 +126,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_weight="1"-->
     <!--android:background="@android:color/transparent"-->
-    <!--android:hint="请输入电话"-->
+    <!--android:hint="输入电话"-->
     <!--android:padding="5dp"-->
     <!--android:singleLine="true"-->
     <!--android:text=""-->
@@ -190,7 +190,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_weight="1"-->
     <!--android:background="@android:color/transparent"-->
-    <!--android:hint="请输入年龄"-->
+    <!--android:hint="输入年龄"-->
     <!--android:padding="5dp"-->
     <!--android:singleLine="true"-->
     <!--android:text=""-->
@@ -285,7 +285,7 @@
     <!--android:layout_weight="1"-->
     <!--android:background="@android:color/transparent"-->
     <!--android:gravity="top"-->
-    <!--android:hint="请输入详细地址"-->
+    <!--android:hint="输入详细地址"-->
     <!--android:lines="3"-->
     <!--android:padding="5dp"-->
     <!--android:text=""-->
@@ -432,7 +432,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_weight="1"-->
     <!--android:background="@android:color/transparent"-->
-    <!--android:hint="请输入QQ号"-->
+    <!--android:hint="输入QQ号"-->
     <!--android:padding="5dp"-->
     <!--android:singleLine="true"-->
     <!--android:text=""-->
@@ -456,7 +456,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_weight="1"-->
     <!--android:background="@android:color/transparent"-->
-    <!--android:hint="请输入微信号"-->
+    <!--android:hint="输入微信号"-->
     <!--android:padding="5dp"-->
     <!--android:singleLine="true"-->
     <!--android:text=""-->
@@ -622,7 +622,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_weight="1"-->
     <!--android:background="@android:color/transparent"-->
-    <!--android:hint="请输入信息"-->
+    <!--android:hint="输入信息"-->
     <!--android:padding="5dp"-->
     <!--android:singleLine="true"-->
     <!--android:text="张伟"-->
@@ -646,7 +646,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_weight="1"-->
     <!--android:background="@android:color/transparent"-->
-    <!--android:hint="请输入信息"-->
+    <!--android:hint="输入信息"-->
     <!--android:padding="5dp"-->
     <!--android:singleLine="true"-->
     <!--android:text="2018-108-28 10:30"-->

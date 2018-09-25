@@ -37,7 +37,7 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@color/white"
-            android:text="重咨"
+            android:text="重置"
             android:textColor="@color/gray_60" />
 
         <Button

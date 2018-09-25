@@ -181,7 +181,7 @@ public class CReceptionFragment extends BaseFragment {
 
                     receptionList.setAdapter(new CommonAdapter<ReceptionInfoEntity>(getActivity(), R.layout.item_reception_has_list, receptionEntity.getList()) {
                         @Override
-                        protected void convert(ViewHolder viewHolder, ReceptionInfoEntity item, int position) {
+                        protected void convert(ViewHolder viewHolder, final ReceptionInfoEntity item, int position) {
                             String phone = item.getCFHANDSET().substring(0, 3) + "****" + item.getCFHANDSET().substring(7, 11);
                             viewHolder.setText(R.id.user_info_text, item.getCFNAME() + "   " + phone);
                             if (item.getREGISTERTYPE().equals("1")) {
@@ -217,7 +217,8 @@ public class CReceptionFragment extends BaseFragment {
                             viewHolder.setOnClickListener(R.id.stored_value_btn, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    startActivity(StoredValueActivity.class);
+                                    startActivity(StoredValueActivity.class, "clientId", item.getCUSTID());
+//                                    startActivity(StoredValueActivity.class);
                                 }
                             });
 
@@ -225,7 +226,7 @@ public class CReceptionFragment extends BaseFragment {
                             viewHolder.setOnClickListener(R.id.hospital_deposit_btn, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    startActivity(DepositHospitalActivity.class);
+                                    startActivity(DepositHospitalActivity.class, "clientId", item.getCUSTID());
                                 }
                             });
                         }

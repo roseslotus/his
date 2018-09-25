@@ -70,6 +70,7 @@ public class ChargeDateilsEntity {
         private String USERNAME;
         private String DISCOUNT;//优惠
         private String POINTS;//积分
+        private String ISTODAY;//是否今天
 
 
         public String getCUSTID() {
@@ -78,6 +79,14 @@ public class ChargeDateilsEntity {
 
         public void setCUSTID(String CUSTID) {
             this.CUSTID = CUSTID;
+        }
+
+        public String getISTODAY() {
+            return ISTODAY;
+        }
+
+        public void setISTODAY(String ISTODAY) {
+            this.ISTODAY = ISTODAY;
         }
 
         public String getCFRECEIVEID() {

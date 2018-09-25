@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:gravity="top"
-                    android:hint="请输入客户意向"
+                    android:hint="输入客户意向"
                     android:minLines="3"
                     android:padding="10dp"
                     android:textColor="@color/gray_50"

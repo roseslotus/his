@@ -123,7 +123,6 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setOnLoadMoreListener(this);
 
-
         //列表适配器
         commonAdapter = new CommonAdapter<ChargeInfoEntity>(ChargeShowActivity.this, R.layout.item_charge_details_list, listAll) {
             @Override
@@ -153,7 +152,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                         break;
                     case "3"://已结账
                         if ("1".equals(item.getFCHARGETYPENUMBER()) || "2".equals(item.getFCHARGETYPENUMBER())) {//1-消费,2-预约金
-                            if (!getJudgetoDay(item.getFCREATETIME())) {
+                            if (item.getISTODAY().equals("1")) {
                                 viewHolder.setVisible(R.id.again_consult_btn, true);//重咨
                             }
                             viewHolder.setVisible(R.id.bridge_section_btn, true);//跨科
@@ -262,8 +261,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
         Date date = getDateFormat().parse(day);
         cal.setTime(date);
         if (cal.get(Calendar.YEAR) == (pre.get(Calendar.YEAR))) {
-            int diffDay = cal.get(Calendar.DAY_OF_YEAR)
-                    - pre.get(Calendar.DAY_OF_YEAR);
+            int diffDay = cal.get(Calendar.DAY_OF_YEAR) - pre.get(Calendar.DAY_OF_YEAR);
 
             if (diffDay == 0) {
                 return true;
@@ -284,12 +282,12 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
 
     private void initData() {
         HashMap<String, Object> map = new HashMap<>();
-        String today = getIntent().getStringExtra("today");
-        if (TextUtils.isEmpty(today)) {
-            map.put("today", "0");//是否只显示今日数据，1-是，0-否
-        } else {
-            map.put("today", "1");//是否只显示今日数据，1-是，0-否
-        }
+//        String today = getIntent().getStringExtra("today");
+//        if (TextUtils.isEmpty(today)) {
+//            map.put("today", "0");//是否只显示今日数据，1-是，0-否
+//        } else {
+//            map.put("today", "1");//是否只显示今日数据，1-是，0-否
+//        }
         map.put("selectedValue", selectedValue);//筛选
         map.put("condition", searchEdit.getText().toString());//搜索
         map.put("pageNumber", pageNumber);
@@ -322,6 +320,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                 @Override
                 protected void onSuccess(List<IntentionEntity> intentionEntities) {
                     tag = false;
+                    intentionEntities1.add(new IntentionEntity("请选择"));
                     intentionEntities1.addAll(intentionEntities);
                     //初始化意向数据
                     initViewData();

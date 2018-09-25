@@ -8,7 +8,8 @@ public class StatisticsEntity {
     private String appointDataCount;
     private String receiveDataCount;
     private String chargeBillDataCount;
-    private String planTaskDataCount;
+    private String planTaskDataCount_already;
+    private String planTaskDataCount_wait;
 
     public String getAppointDataCount() {
         return appointDataCount;
@@ -34,11 +35,19 @@ public class StatisticsEntity {
         this.chargeBillDataCount = chargeBillDataCount;
     }
 
-    public String getPlanTaskDataCount() {
-        return planTaskDataCount;
+    public String getPlanTaskDataCount_already() {
+        return planTaskDataCount_already;
     }
 
-    public void setPlanTaskDataCount(String planTaskDataCount) {
-        this.planTaskDataCount = planTaskDataCount;
+    public void setPlanTaskDataCount_already(String planTaskDataCount_already) {
+        this.planTaskDataCount_already = planTaskDataCount_already;
+    }
+
+    public String getPlanTaskDataCount_wait() {
+        return planTaskDataCount_wait;
+    }
+
+    public void setPlanTaskDataCount_wait(String planTaskDataCount_wait) {
+        this.planTaskDataCount_wait = planTaskDataCount_wait;
     }
 }

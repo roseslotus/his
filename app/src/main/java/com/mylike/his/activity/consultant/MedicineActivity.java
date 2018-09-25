@@ -98,6 +98,7 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
         HttpClient.getHttpApi().getIntentionAll().enqueue(new BaseBack<List<IntentionEntity>>() {
             @Override
             protected void onSuccess(List<IntentionEntity> intentionEntities) {
+                intentionEntities1.add(new IntentionEntity("请选择"));
                 intentionEntities1.addAll(intentionEntities);
                 //初始化意向数据
                 initViewData();
@@ -151,13 +152,13 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
                 Intention = new String[]{intentionEntities1.get(options1).getPbtid(), intentionEntities2.get(options1).get(options2).getPbtid(), intentionEntities3.get(options1).get(options2).get(options3).getPbtid()};
                 Logger.d(Intention);
                 String intentionText = "";
-                if (intentionEntities1.get(options1).getPbtid() != null) {
+                if (!intentionEntities1.get(options1).getPbtid().isEmpty()) {
                     intentionText = intentionText + intentionEntities1.get(options1).getPbtname();
                 }
-                if (intentionEntities2.get(options1).get(options2).getPbtid() != null) {
+                if (!intentionEntities2.get(options1).get(options2).getPbtid().isEmpty()) {
                     intentionText = intentionText + "/" + intentionEntities2.get(options1).get(options2).getPbtname();
                 }
-                if (intentionEntities3.get(options1).get(options2).get(options3).getPbtid() != null) {
+                if (!intentionEntities3.get(options1).get(options2).get(options3).getPbtid().isEmpty()) {
                     intentionText = intentionText + "/" + intentionEntities3.get(options1).get(options2).get(options3).getPbtname();
                 }
                 intentionBtn.setText(intentionText);
@@ -243,8 +244,8 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
             case R.id.submit_btn://提交
                 if (TextUtils.isEmpty(doctorDepartment)) {
                     CommonUtil.showToast("科室不能为空，请选择科室");
-                } else if (Intention == null || Intention.length == 0) {
-                    CommonUtil.showToast("意向不能为空，请选择意向");
+//                } else if (Intention == null || Intention.length == 0) {
+//                    CommonUtil.showToast("意向不能为空，请选择意向");
                 } else {
                     submitData();
                 }

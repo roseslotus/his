@@ -1,6 +1,7 @@
 package com.mylike.his.activity.consultant;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -72,45 +73,49 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stored_value);
         ButterKnife.bind(this);
-        CommonUtil.showLoadProgress(this);
         initView();
         initData();
     }
 
     private void initView() {
+
+        //监听文本变化，计算储值金额 + 赠送金额
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //只要编辑框内容有变化就会调用该方法，s为编辑框变化后的内容
+                Double total = 0.0;//初始化
+                //储值和赠送押金都为空
+                if (TextUtils.isEmpty(cashText.getText().toString()) && TextUtils.isEmpty(presenterText.getText().toString())) {
+                    total = 0.0;
+
+                    //如果储值金额为空
+                } else if (TextUtils.isEmpty(cashText.getText().toString())) {
+                    if (s.toString().equals("."))//禁止第一位输入“.”
+                        presenterText.setText("");
+                    else
+                        total = 0 + Double.parseDouble(presenterText.getText().toString());
+
+                    //如果赠送金额为空
+                } else if (TextUtils.isEmpty(presenterText.getText().toString())) {
+                    if (s.toString().equals("."))//禁止第一位输入“.”
+                        cashText.setText("");
+                    else
+                        total = 0 + Double.parseDouble(cashText.getText().toString());
+
+                    //储值和赠送押金都不为空
+                } else {
+                    total = Double.parseDouble(cashText.getText().toString()) + Double.parseDouble(presenterText.getText().toString());
+                }
+                //保留两位数展示
+                totalText.setText(CommonUtil.setTwoNumber(total));
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //编辑框内容变化之前会调用该方法，s为编辑框内容变化之前的内容
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                //编辑框内容变化之后会调用该方法，s为编辑框内容变化后的内容
-                Double total = 0.0;
-                if (TextUtils.isEmpty(cashText.getText().toString()) && TextUtils.isEmpty(presenterText.getText().toString())) {
-                    total = 0.0;
-                } else if (TextUtils.isEmpty(cashText.getText().toString())) {
-                    if (s.toString().equals("."))
-                        presenterText.setText("");
-                    else
-                        total = 0 + Double.parseDouble(presenterText.getText().toString());
-                } else if (TextUtils.isEmpty(presenterText.getText().toString())) {
-                    if (s.toString().equals("."))
-                        cashText.setText("");
-                    else
-                        total = 0 + Double.parseDouble(cashText.getText().toString());
-                } else {
-                    total = Double.parseDouble(cashText.getText().toString()) + Double.parseDouble(presenterText.getText().toString());
-                }
-                totalText.setText(CommonUtil.setTwoNumber(total));
-
-
             }
         };
 
@@ -119,19 +124,31 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
         presenterText.addTextChangedListener(watcher);
 
         //初始化适配器
-        projectAdapter =
-
-                setAdapter(projectSpinner, projectAdapter, svProjectEntityList);
-
-        typeAdapter =
-
-                setAdapter(typeSpinner, typeAdapter, svTypeEntityList);
+        projectAdapter = setAdapter(projectSpinner, projectAdapter, svProjectEntityList);
+        typeAdapter = setAdapter(typeSpinner, typeAdapter, svTypeEntityList);
 
     }
 
+    private void initData() {
+        //获取客户id
+        clientId = getIntent().getStringExtra("clientId");
+
+        //获取储值项目
+        HttpClient.getHttpApi().getSVProject().enqueue(new BaseBack<List<SVProjectEntity>>() {
+            @Override
+            protected void onSuccess(List<SVProjectEntity> svProjectEntities) {
+                svProjectEntityList.addAll(svProjectEntities);
+                projectAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+            }
+        });
+    }
+
     //设置下拉选项
-    private CommonAdapter setAdapter(final Spinner spinner, CommonAdapter commonAdapter,
-                                     final List<SVProjectEntity> svList) {
+    private CommonAdapter setAdapter(final Spinner spinner, CommonAdapter commonAdapter, final List<SVProjectEntity> svList) {
         commonAdapter = new CommonAdapter<SVProjectEntity>(this, R.layout.common_item_text, svList) {
             @Override
             protected void convert(ViewHolder viewHolder, SVProjectEntity item, int position) {
@@ -186,25 +203,6 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    //初始化数据
-    private void initData() {
-        //获取客户id
-        clientId = getIntent().getStringExtra("clientId");
-
-        //获取储值项目
-        HttpClient.getHttpApi().getSVProject().enqueue(new BaseBack<List<SVProjectEntity>>() {
-            @Override
-            protected void onSuccess(List<SVProjectEntity> svProjectEntities) {
-                svProjectEntityList.addAll(svProjectEntities);
-                projectAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            protected void onFailed(String code, String msg) {
-            }
-        });
-    }
-
     //获取储值类型
     private void setTypeData() {
         Map<String, Object> map = new HashMap<>();
@@ -214,15 +212,17 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
             protected void onSuccess(List<SVProjectEntity> svProjectEntities) {
                 svTypeEntityList.clear();
                 svTypeEntityList.addAll(svProjectEntities);
-                svTypeEntityList.add(new SVProjectEntity("其他"));
+                svTypeEntityList.add(new SVProjectEntity("其他"));//没给储值类型添加“其他”项，作为可随便编辑金额选项
+
+                //默认选中第一项
                 typeSpinner.setSelection(0, true);
                 setSelectSpinner(0);
+
                 typeAdapter.notifyDataSetChanged();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
-
             }
         });
     }
@@ -247,20 +247,22 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
 
     //提交储值
     private void submit() {
+        //基础数据
         HashMap<String, Object> ctFinCardrecord = new HashMap<>();
         ctFinCardrecord.put("memberid", clientId);//客户id
         ctFinCardrecord.put("accountid", projectId);//项目id
         ctFinCardrecord.put("cash", cashText.getText().toString());//储值现金金额
-        if (presenterText.getText().toString().isEmpty()) {
-            ctFinCardrecord.put("present", "0");//储值赠送金额
+        if (presenterText.getText().toString().isEmpty()) {//如果赠送金额为空（注：后台没处理，不能传空）
+            ctFinCardrecord.put("present", "0.00");//储值赠送金额
         } else {
             ctFinCardrecord.put("present", presenterText.getText().toString());//储值赠送金额
         }
         ctFinCardrecord.put("remark", remarkEdit.getText().toString());//备注
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("ctFinCardrecord", ctFinCardrecord);
+        map.put("ctFinCardrecord", ctFinCardrecord);//基础数据
         map.put("fConsultorId", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.EMP_ID));//咨询Id
+
         HttpClient.getHttpApi().setSV(HttpClient.getRequestBody(map)).enqueue(new BaseBack<HDepositEntity>() {
             @Override
             protected void onSuccess(HDepositEntity hDepositEntity) {
@@ -271,7 +273,6 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             protected void onFailed(String code, String msg) {
-
             }
         });
     }

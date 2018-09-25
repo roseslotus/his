@@ -51,7 +51,6 @@ import retrofit2.http.Url;
 /**
  * Created by zhengluping on 2018/6/4.
  */
-
 public interface ServersApi {
 
     //登录
@@ -112,7 +111,7 @@ public interface ServersApi {
 
     //住院押金余额
     @POST("api/bill/getHospitalDepositBalance.do")
-    Call<BaseEntity<Map<String, Integer>>> getBalance(@Body RequestBody body);
+    Call<BaseEntity<Map<String, Double>>> getBalance(@Body RequestBody body);
 
     //住院押金提交
     @POST("api/bill/createHospitalDepositResv.do")
@@ -241,6 +240,4 @@ public interface ServersApi {
     //保存建档
     @POST("api/channel/saveTempCust.do")
     Call<BaseEntity<String>> saveBookbuilding(@Body RequestBody body);
-
-
 }

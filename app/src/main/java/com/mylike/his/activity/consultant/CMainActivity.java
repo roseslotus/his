@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * 咨询师主页
  */
-public class CMainActivity extends BaseActivity{
+public class CMainActivity extends BaseActivity {
 
     @Bind(R.id.tb_title)
     TabLayout tbTitle;
@@ -100,8 +100,9 @@ public class CMainActivity extends BaseActivity{
     @Override
     protected void onResume() {
         super.onResume();
-//        CHomeFragment cHomeFragments = (CHomeFragment) mFragments[0];
-//        cHomeFragments.getMessageList();
+        CHomeFragment cHomeFragments = (CHomeFragment) mFragments[0];
+        cHomeFragments.initData();
+
     }
 
     private void setFragment() {

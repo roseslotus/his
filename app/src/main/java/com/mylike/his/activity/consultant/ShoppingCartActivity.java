@@ -59,6 +59,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setLoadProgress(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
         ButterKnife.bind(this);
@@ -110,7 +111,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                         Button confirmBtn = view.findViewById(R.id.confirm_btn);
                         final EditText contentText = view.findViewById(R.id.content_text);
                         contentText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                        contentText.setHint("请输入修改金额");
+                        contentText.setHint("输入修改金额");
                         confirmBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -137,7 +138,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                         Button confirmBtn = view.findViewById(R.id.confirm_btn);
                         final EditText contentText = view.findViewById(R.id.content_text);
                         contentText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                        contentText.setHint("请输入修改金额");
+                        contentText.setHint("输入修改金额");
                         confirmBtn.setOnClickListener(new View.OnClickListener() {
 
                             @Override
@@ -165,7 +166,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                         Button confirmBtn = view.findViewById(R.id.confirm_btn);
                         final EditText contentText = view.findViewById(R.id.content_text);
                         contentText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                        contentText.setHint("请输入折扣值");
+                        contentText.setHint("输入折扣值");
                         confirmBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -197,6 +198,20 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                         accountList.get(positionTag).setPrice1((Double.parseDouble(accountList.get(positionTag).getPrice2()) * inputText) + "");
                         viewHolder.setText(R.id.money_count_text, setDecimalFormat(accountList.get(positionTag).getPrice1()));
                         sumData();
+                    }
+                });
+                numberPickerView.setmOnClickInputListener(new NumberPickerView.OnClickInputListener() {
+                    @Override
+                    public void onWarningForInventory(int inventory) {
+                    }
+
+                    @Override
+                    public void onWarningMinInput(int minValue) {//监听数量最小值弹框提示
+                        CommonUtil.showToast("亲，不能再少啦，可左滑删除哦~");
+                    }
+
+                    @Override
+                    public void onWarningMaxInput(int maxValue) {
                     }
                 });
 

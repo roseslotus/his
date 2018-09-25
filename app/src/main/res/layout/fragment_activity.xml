@@ -224,7 +224,7 @@
                 android:layout_marginRight="40dp"
                 android:layout_marginTop="10dp"
                 android:elevation="3dp"
-                android:hint="请输入搜索内容" />
+                android:hint="输入搜索内容" />
 
         </RelativeLayout>-->
 </LinearLayout>

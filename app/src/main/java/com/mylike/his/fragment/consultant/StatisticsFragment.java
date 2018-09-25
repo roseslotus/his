@@ -65,7 +65,9 @@ public class StatisticsFragment extends BaseFragment {
             protected void onSuccess(Map<String, String> stringStringMap) {
                 String cookieValue = stringStringMap.get("sessionId") + "=" + stringStringMap.get("sessionValue");
                 synCookie(stringStringMap.get("redirectUrl"), cookieValue);
-                webView.loadUrl(stringStringMap.get("redirectUrl"));
+                if (StatisticsFragment.this != null && StatisticsFragment.this.isAdded()) {
+                    webView.loadUrl(stringStringMap.get("redirectUrl"));
+                }
             }
 
             @Override

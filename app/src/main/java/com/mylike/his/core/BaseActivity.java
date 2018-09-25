@@ -25,6 +25,7 @@ import com.mylike.his.view.FloatingDragger;
  */
 public class BaseActivity extends AppCompatActivity {
 
+    private boolean isLoadProgress = true;//是否显示加载框
     private boolean isActionBar = true;//是否隐藏标题栏
     private boolean isKeyboardUp = true;//是否禁止键盘弹出
     private boolean isScreenRotating = true;//是否禁止横屏
@@ -37,6 +38,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (isLoadProgress) {
+            CommonUtil.showLoadProgress(this);
+        }
         if (isActionBar) {//隐藏标题栏
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         }
@@ -46,7 +50,6 @@ public class BaseActivity extends AppCompatActivity {
         if (isScreenRotating) {//禁止横屏
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-
     }
 
     @Override
@@ -75,10 +78,19 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         CommonUtil.dismissLoadProgress();
         DialogUtil.dismissDialog();
+    }
+
+    /**
+     * --------------设置是否显示加载框--------------------------------
+     *
+     * @param isLoadProgress 默认显示
+     */
+    public void setLoadProgress(boolean isLoadProgress) {
+        this.isLoadProgress = isLoadProgress;
     }
 
     /**

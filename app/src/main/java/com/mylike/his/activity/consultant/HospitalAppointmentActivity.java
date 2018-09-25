@@ -49,6 +49,7 @@ public class HospitalAppointmentActivity extends BaseActivity implements View.On
     @Bind(R.id.search_btn)
     Button searchBtn;
 
+    private int sumPage = 1;//总也数
     private int pageSize = 10;//每页数据
     private int pageNumber = 1;//页码
     private List<HospitalAppointmentInfoEntity> listAll = new ArrayList<>();
@@ -96,8 +97,13 @@ public class HospitalAppointmentActivity extends BaseActivity implements View.On
         HttpClient.getHttpApi().getHospitalAppointmentList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<HospitalAppointmentEntity>() {
             @Override
             protected void onSuccess(HospitalAppointmentEntity hospitalAppointmentEntity) {
-                if (hospitalAppointmentEntity.getTotalPages() == pageNumber) {
+//                if (hospitalAppointmentEntity.getTotalPages() == pageNumber) {
+//                    refreshLayout.setNoMoreData(true);
+//                }
+                sumPage = hospitalAppointmentEntity.getTotalPages();
+                if (sumPage == pageNumber) {
                     refreshLayout.setNoMoreData(true);
+//                    setListNotData(true, null);
                 }
                 listAll.addAll(hospitalAppointmentEntity.getList());
                 commonAdapter.notifyDataSetChanged();
@@ -132,16 +138,26 @@ public class HospitalAppointmentActivity extends BaseActivity implements View.On
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+//        pageNumber = 1;
+//        listAll.clear();
+//        refreshLayout.setNoMoreData(false);
+//        initData();
         pageNumber = 1;
+//        setListNotData(false, null);
         listAll.clear();
-        refreshLayout.setNoMoreData(false);
         initData();
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-        pageNumber = pageNumber + 1;
-        initData();
+//        pageNumber = pageNumber + 1;
+//        initData();
+        if (sumPage == 1) {
+            refreshLayout.finishLoadMore();
+        } else {
+            pageNumber = pageNumber + 1;
+            initData();
+        }
     }
 
 

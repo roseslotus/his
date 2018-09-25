@@ -30,9 +30,14 @@ import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -212,7 +217,10 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                         break;
                     case "3"://已结账
                         if ("1".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER()) || "2".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER())) {//消费/预约金
-                            againConsultBtn.setVisibility(View.VISIBLE);//重咨
+                            if (chargeDateilsEntity.getInfo().getISTODAY().equals("1")) {
+//                                viewHolder.setVisible(R.id.again_consult_btn, true);//重咨
+                                againConsultBtn.setVisibility(View.VISIBLE);//重咨
+                            }
                             bridgeSectionBtn.setVisibility(View.VISIBLE);//跨科
                             getIntentionData();
                         }
@@ -262,6 +270,42 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
 
     }
 
+    public boolean getJudgetoDay(String time) {
+        try {
+            boolean flag = IsToday(time);
+            return flag;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean IsToday(String day) throws ParseException {
+
+        Calendar pre = Calendar.getInstance();
+        Date predate = new Date(System.currentTimeMillis());
+        pre.setTime(predate);
+        Calendar cal = Calendar.getInstance();
+        Date date = getDateFormat().parse(day);
+        cal.setTime(date);
+        if (cal.get(Calendar.YEAR) == (pre.get(Calendar.YEAR))) {
+            int diffDay = cal.get(Calendar.DAY_OF_YEAR) - pre.get(Calendar.DAY_OF_YEAR);
+
+            if (diffDay == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static SimpleDateFormat getDateFormat() {
+        if (null == DateLocal.get()) {
+            DateLocal.set(new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA));
+        }
+        return DateLocal.get();
+    }
+
+    private static ThreadLocal<SimpleDateFormat> DateLocal = new ThreadLocal<SimpleDateFormat>();
 
     private String setDecimalFormat(String numberStr) {
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
@@ -311,6 +355,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
         HttpClient.getHttpApi().getIntentionAll().enqueue(new BaseBack<List<IntentionEntity>>() {
             @Override
             protected void onSuccess(List<IntentionEntity> intentionEntities) {
+                intentionEntities1.add(new IntentionEntity("请选择"));
                 intentionEntities1.addAll(intentionEntities);
                 //初始化意向数据
                 initViewData();

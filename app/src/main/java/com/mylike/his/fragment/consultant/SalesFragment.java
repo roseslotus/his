@@ -142,7 +142,9 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
                 viewHolder.setOnClickListener(R.id.stored_value_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(StoredValueActivity.class);
+                        startActivity(StoredValueActivity.class, "clientId", item.getCUSTID());
+
+//                        startActivity(StoredValueActivity.class);
                     }
                 });
 
@@ -150,7 +152,9 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
                 viewHolder.setOnClickListener(R.id.hospital_deposit_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(DepositHospitalActivity.class);
+                        startActivity(DepositHospitalActivity.class, "clientId", item.getCUSTID());
+
+//                        startActivity(DepositHospitalActivity.class);
                     }
                 });
             }

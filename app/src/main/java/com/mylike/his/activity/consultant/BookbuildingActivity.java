@@ -489,7 +489,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         } else if (TextUtils.isEmpty(sexValue)) {
             CommonUtil.showToast("保存失败，请选择性别");
         } else if (TextUtils.isEmpty(ageEdit.getText().toString())) {
-            CommonUtil.showToast("保存失败，请输入年龄");
+            CommonUtil.showToast("保存失败，输入年龄");
         } else if (TextUtils.isEmpty(economicValue)) {
             CommonUtil.showToast("保存失败，请选择经济能力");
         } else if (medium.isEmpty()) {
@@ -497,7 +497,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         } else if (provinces.isEmpty()) {
             CommonUtil.showToast("保存失败，请选择省市区");
         } else if (TextUtils.isEmpty(addressDetailsEdit.getText().toString())) {
-            CommonUtil.showToast("保存失败，请输入详细地址");
+            CommonUtil.showToast("保存失败，输入详细地址");
         } else if (TextUtils.isEmpty(intentionDegree)) {
             CommonUtil.showToast("保存失败，请选择意向度");
         } else if (intentionEntitiesList.isEmpty()) {

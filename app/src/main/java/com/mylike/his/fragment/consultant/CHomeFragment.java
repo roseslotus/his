@@ -1,6 +1,8 @@
 package com.mylike.his.fragment.consultant;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,12 @@ import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -52,7 +60,7 @@ import retrofit2.Response;
  * Created by zhengluping on 2018/1/2.
  * 首页
  */
-public class CHomeFragment extends BaseFragment implements View.OnClickListener {
+public class CHomeFragment extends BaseFragment implements View.OnClickListener, OnRefreshListener {
     @Bind(R.id.message_list)
     ListView messageList;
     @Bind(R.id.control_img)
@@ -65,11 +73,14 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
     TextView titleName;
     @Bind(R.id.message_not_sum)
     TextView messageNotSum;
+    @Bind(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     private TextView hospitalSum;
     private TextView receptionSum;
     private TextView orderSum;
-    private TextView visitSum;
+    private TextView visitAlreadySum;
+    private TextView visitWaitSum;
 
     private CommonAdapter commonAdapter;
     private List<MessageEntity> listAll = new ArrayList<>();
@@ -92,6 +103,18 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void initView() {
+        //刷新头设置
+        ClassicsHeader classicsHeader = new ClassicsHeader(getActivity());
+        classicsHeader.setEnableLastTime(false);
+        classicsHeader.setPrimaryColor(getResources().getColor(R.color.green_50));
+        classicsHeader.setAccentColor(getResources().getColor(R.color.green_48));
+        classicsHeader.setDrawableMarginRight(10);
+        classicsHeader.setSpinnerStyle(SpinnerStyle.Scale);
+        refreshLayout.setRefreshHeader(classicsHeader);
+        refreshLayout.setOnRefreshListener(this);//刷新
+        refreshLayout.setEnableLoadMore(false);//弃用加载功能
+
+
         //标题
         titleName.setText(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.HOSPITAL_NAME));
 
@@ -114,7 +137,8 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
         hospitalSum = head.findViewById(R.id.hospital_sum);//预约到院人数
         receptionSum = head.findViewById(R.id.reception_sum);//接诊总数
         orderSum = head.findViewById(R.id.order_sum);//开单总数
-        visitSum = head.findViewById(R.id.visit_sum);//回访总数
+        visitAlreadySum = head.findViewById(R.id.visit_already_sum);//回访总数
+        visitWaitSum = head.findViewById(R.id.visit_wait_sum);//回访总数
 
         LinearLayout hospitalSumBtn = head.findViewById(R.id.hospital_sum_btn);//预约到院总数
         LinearLayout receptionSumBtn = head.findViewById(R.id.reception_sum_btn);//接诊总数
@@ -280,7 +304,6 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 startActivity(VisitActivity.class);
                 break;
             case R.id.repertory_btn://库存查询
-                //startActivity(SearchActivity.class);//搜索建档
                 CommonUtil.showToast("敬请期待");
                 break;
             case R.id.hospital_sum_btn://预约到院总数
@@ -290,7 +313,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 startActivity(NewCReceptionActivity.class);
                 break;
             case R.id.order_sum_btn://开单总数
-                startActivity(ChargeShowActivity.class,"today","1");
+                startActivity(ChargeShowActivity.class);
                 break;
             case R.id.visit_sum_btn://回访总数
                 startActivity(VisitActivity.class);
@@ -299,7 +322,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
     }
 
     //初始化数据
-    private void initData() {
+    public void initData() {
         //获取今日统计数据
         HttpClient.getHttpApi().getStatisticsData().enqueue(new BaseBack<StatisticsEntity>() {
             @Override
@@ -307,11 +330,15 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 hospitalSum.setText(statisticsEntity.getAppointDataCount());//预约到院总数
                 receptionSum.setText(statisticsEntity.getReceiveDataCount());//接诊总数
                 orderSum.setText(statisticsEntity.getChargeBillDataCount());//开单总数
-                visitSum.setText(statisticsEntity.getPlanTaskDataCount());//回访总数
+                visitAlreadySum.setText(statisticsEntity.getPlanTaskDataCount_already());//已回访总数
+                visitWaitSum.setText(statisticsEntity.getPlanTaskDataCount_wait());//未回访总数
+                refreshLayout.finishRefresh();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
+                refreshLayout.finishRefresh(false);
+
             }
         });
 
@@ -322,10 +349,13 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
                 listAll.clear();
                 listAll.addAll(messageEntities);
                 commonAdapter.notifyDataSetChanged();
+                refreshLayout.finishRefresh();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
+                refreshLayout.finishRefresh(false);
+
             }
         });
 
@@ -333,16 +363,21 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
         HttpClient.getHttpApi().getMessageSum().enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                if ("1".equals(stringStringMap.get("isUnReadMessage"))) {//有未读消息
-                    messageNotSum.setVisibility(View.VISIBLE);//显示未读数圆点
-                    messageNotSum.setText(stringStringMap.get("msgNumber").toString());//未读消息数量
-                } else {
-                    messageNotSum.setVisibility(View.GONE);
+                if (CHomeFragment.this != null && CHomeFragment.this.isAdded()) {
+                    if ("1".equals(stringStringMap.get("isUnReadMessage"))) {//有未读消息
+                        messageNotSum.setVisibility(View.VISIBLE);//显示未读数圆点
+                        messageNotSum.setText(stringStringMap.get("msgNumber").toString());//未读消息数量
+                    } else {
+                        messageNotSum.setVisibility(View.GONE);
+                    }
+                    refreshLayout.finishRefresh();
                 }
             }
 
             @Override
             protected void onFailed(String code, String msg) {
+                refreshLayout.finishRefresh(false);
+
             }
         });
     }
@@ -357,10 +392,14 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
             protected void onSuccess(Map<String, String> stringStringMap) {
                 listAll.get(position).setReadingState("1");
                 commonAdapter.notifyDataSetChanged();
+                refreshLayout.finishRefresh();
+
             }
 
             @Override
             protected void onFailed(String code, String msg) {
+                refreshLayout.finishRefresh(false);
+
             }
         });
     }
@@ -412,5 +451,10 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener 
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        initData();
     }
 }

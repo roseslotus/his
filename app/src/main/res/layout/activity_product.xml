@@ -67,7 +67,7 @@
               style="@style/SearchNotLineRStyle"
               android:layout_width="match_parent"
               android:layout_height="40dp"
-              android:hint="请输入搜索内容" />-->
+              android:hint="输入搜索内容" />-->
 
 
         <LinearLayout
@@ -238,7 +238,7 @@
     <!--android:background="@drawable/bg_white_line_box_gray_5"-->
     <!--android:drawableLeft="@mipmap/magnifying_glass_gray_icon"-->
     <!--android:drawablePadding="5dp"-->
-    <!--android:hint="请输入搜索产品"-->
+    <!--android:hint="输入搜索产品"-->
     <!--android:paddingLeft="5dp"-->
     <!--android:textSize="14dp" />-->
 

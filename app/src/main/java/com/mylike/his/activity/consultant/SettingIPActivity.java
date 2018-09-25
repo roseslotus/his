@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
+import com.mylike.his.core.Constant;
 import com.mylike.his.entity.IpEntiyt;
 import com.mylike.his.utils.SPUtils;
 import com.zhy.adapter.abslistview.CommonAdapter;
@@ -48,6 +49,7 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setLoadProgress(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
@@ -121,9 +123,8 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             ipEntiytList.addAll((Collection<? extends IpEntiyt>) gson.fromJson(json, new TypeToken<List<IpEntiyt>>() {
             }.getType()));
             commonAdapter.notifyDataSetChanged();
-        }
-        //---------------为了方便测试用的，正式服请屏蔽else的代码------------------------------
-        else {
+        } else if (Constant.ISSUE) {
+            //---------------为了方便测试用的，正式服请屏蔽代码------------------------------
             IpEntiyt ipEntiyt = new IpEntiyt();
             ipEntiyt.setIp("172.16.61.222");
             ipEntiyt.setPort("8280");
@@ -149,8 +150,8 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             ipEntiytList.add(ipEntiyt);
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
             initData();
+            //-------------------------------------------------------------------------------------
         }
-        //-------------------------------------------------------------------------------------
     }
 
     @OnClick({R.id.add_btn, R.id.return_btn, R.id.save_btn})

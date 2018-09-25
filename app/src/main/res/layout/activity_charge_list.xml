@@ -106,7 +106,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_marginRight="10dp"-->
     <!--android:layout_weight="1"-->
-    <!--android:hint="请输入搜索内容" />-->
+    <!--android:hint="输入搜索内容" />-->
 
     <!--</LinearLayout>-->
 
