@@ -17,7 +17,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.mylike.his.R;
 import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
-import com.mylike.his.utils.KeyboardUtils;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.view.FloatingDragger;
 
 /**
@@ -70,8 +70,8 @@ public class BaseActivity extends AppCompatActivity {
         //监控触摸事件，点击文本框外部收起键盘
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if (KeyboardUtils.isShouldHideInput(v, ev, 0)) {
-                KeyboardUtils.hideSoftInput(v.getWindowToken(), this);
+            if (CommonUtil.isShouldHideInput(v, ev, 0)) {
+                CommonUtil.hideSoftInput(v.getWindowToken(), this);
             }
         }
         return super.dispatchTouchEvent(ev);

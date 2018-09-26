@@ -24,7 +24,6 @@ import butterknife.OnClick;
 /**
  * Created by zhengluping on 2018/7/13.
  */
-
 public class PaymentActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.return_btn)

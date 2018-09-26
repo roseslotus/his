@@ -1,11 +1,15 @@
 package com.mylike.his.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,7 +26,6 @@ import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
-import com.mylike.his.utils.EditTextUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.ClearEditText;
 import com.zhy.adapter.abslistview.CommonAdapter;
@@ -34,7 +37,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 
 /**
  * Created by zhengluping on 2018/1/31.
@@ -91,8 +93,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
 
         //编辑框有内容是更改左边图标
-        EditTextUtil.setDrawableleft(accountEdit, getResources().getDrawable(R.mipmap.account_icon_true), getResources().getDrawable(R.mipmap.account_icon_false));
-        EditTextUtil.setDrawableleft(passwordEdit, getResources().getDrawable(R.mipmap.password_icon_true), getResources().getDrawable(R.mipmap.password_icon_false));
+        setDrawableleft(accountEdit, getResources().getDrawable(R.mipmap.account_icon_true), getResources().getDrawable(R.mipmap.account_icon_false));
+        setDrawableleft(passwordEdit, getResources().getDrawable(R.mipmap.password_icon_true), getResources().getDrawable(R.mipmap.password_icon_false));
     }
 
 
@@ -188,7 +190,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-
     /**
      * 角色判断
      *
@@ -215,5 +216,36 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
         finish();
+    }
+
+    /**
+     * 输入框有内容变化时，更改左边的图标
+     *
+     * @param editText  编辑框
+     * @param tDrawable 有内容时的图标
+     * @param fDrawable 无内容时的图标
+     */
+    public static void setDrawableleft(final EditText editText, final Drawable tDrawable, final Drawable fDrawable) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tDrawable.setBounds(0, 0, tDrawable.getIntrinsicWidth(), tDrawable.getIntrinsicHeight());
+                fDrawable.setBounds(0, 0, fDrawable.getIntrinsicWidth(), fDrawable.getIntrinsicHeight());
+
+                if (s.length() > 0) {
+                    editText.setCompoundDrawables(tDrawable, editText.getCompoundDrawables()[1], editText.getCompoundDrawables()[2], editText.getCompoundDrawables()[3]);
+                } else {
+                    editText.setCompoundDrawables(fDrawable, editText.getCompoundDrawables()[1], editText.getCompoundDrawables()[2], editText.getCompoundDrawables()[3]);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 }

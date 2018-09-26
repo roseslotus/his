@@ -43,8 +43,6 @@ public class SurgeryActivity extends BaseActivity implements View.OnClickListene
 
     @Bind(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.screen_btn)
-    ImageView screenBtn;
     @Bind(R.id.forwards_day)
     Button forwardsDay;
     @Bind(R.id.time_text)

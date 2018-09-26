@@ -1,24 +1,23 @@
 package com.mylike.his.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.IBinder;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mylike.his.R;
 import com.mylike.his.core.BaseApplication;
-import com.mylike.his.entity.ProductDetailsEntity;
 
 import java.text.DecimalFormat;
-import java.util.logging.Handler;
 
 /**
  * 工具类
@@ -114,7 +113,39 @@ public class CommonUtil {
         return decimalFormat.format(number);
     }
 
-    //-------------------------------------------------------判断是否今天-------------------------------------------------------
+    //-------------------------------------------------------键盘的显示隐藏-------------------------------------------------------
 
+    //根据EditText所在坐标和用户点击的坐标相对比，来判断是否隐藏键盘，因为当用户点击EditText时没必要隐藏
+    public static boolean isShouldHideInput(View v, MotionEvent event, int a) {
+        if (v != null && (v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left
+                    + v.getWidth();
+            if (event.getX() > left && event.getX() < right && event.getY() > top && event.getY() < bottom) {
+                return false;
+            } else {
+                if (a == 0) {
+                    isShouldHideInput(v, event, 1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //多种隐藏软件盘方法的其中一种
+    public static void hideSoftInput(IBinder token, Context context) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    //收起键盘
+    public static void hideKeyboard(Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 
 }

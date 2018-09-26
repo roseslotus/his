@@ -29,7 +29,6 @@ import butterknife.OnClick;
  * Created by zhengluping on 2018/2/7.
  * 退款
  */
-
 public class RefundActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.refund_list)

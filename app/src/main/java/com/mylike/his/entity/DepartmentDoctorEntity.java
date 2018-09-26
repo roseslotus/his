@@ -6,9 +6,13 @@ package com.mylike.his.entity;
 
 public class DepartmentDoctorEntity {
     private String duty;
-    private String empId;
+    private String empId = "";
     private String empName;
     private String empType;
+
+    public DepartmentDoctorEntity(String empName) {
+        this.empName = empName;
+    }
 
     public String getDuty() {
         return duty;

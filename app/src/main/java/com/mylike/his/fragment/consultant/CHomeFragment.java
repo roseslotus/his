@@ -1,6 +1,5 @@
 package com.mylike.his.fragment.consultant;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,7 +24,10 @@ import com.mylike.his.activity.consultant.HospitalAppointmentActivity;
 import com.mylike.his.activity.consultant.MessageActivity;
 import com.mylike.his.activity.consultant.NewCReceptionActivity;
 import com.mylike.his.activity.consultant.PaymentActivity;
+import com.mylike.his.activity.consultant.SearchActivity;
+import com.mylike.his.activity.consultant.StoredValueActivity;
 import com.mylike.his.activity.consultant.SurgeryActivity;
+import com.mylike.his.activity.consultant.TestActivity;
 import com.mylike.his.activity.consultant.VisitActivity;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.entity.MessageEntity;
@@ -39,7 +41,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -304,6 +305,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
                 startActivity(VisitActivity.class);
                 break;
             case R.id.repertory_btn://库存查询
+//                startActivity(SearchActivity.class);
                 CommonUtil.showToast("敬请期待");
                 break;
             case R.id.hospital_sum_btn://预约到院总数

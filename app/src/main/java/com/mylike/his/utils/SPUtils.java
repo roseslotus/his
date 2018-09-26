@@ -8,8 +8,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by zhengluping on 2017/12/28.
+ * 缓存
  */
-
 public class SPUtils {
 
     //用户账号文件

@@ -54,7 +54,6 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/bg_white_line_gray_below"
                 android:gravity="center_vertical"
-                android:minHeight="60dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -62,13 +61,15 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/project_icon"
                     android:drawablePadding="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
                     android:text="项目："
                     android:textColor="@color/black_50" />
 
                 <Spinner
                     android:id="@+id/project_spinner"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:overlapAnchor="false" />
@@ -81,7 +82,6 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/bg_white_line_gray_below"
                 android:gravity="center_vertical"
-                android:minHeight="60dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -89,13 +89,15 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/type_icon"
                     android:drawablePadding="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
                     android:text="类型："
                     android:textColor="@color/black_50" />
 
                 <Spinner
                     android:id="@+id/type_spinner"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:overlapAnchor="false" />
             </LinearLayout>

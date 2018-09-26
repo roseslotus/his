@@ -42,6 +42,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setLoadProgress(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
@@ -51,7 +52,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    @OnClick({R.id.search_btn,R.id.return_btn})
+    @OnClick({R.id.search_btn, R.id.return_btn})
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

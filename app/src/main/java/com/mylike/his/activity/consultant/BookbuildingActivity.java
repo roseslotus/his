@@ -32,6 +32,7 @@ import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.SPUtils;
+import com.mylike.his.utils.ViewUtil;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -163,6 +164,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     @Bind(R.id.mylike_id)
     EditText mylikeId;
 
+    private ViewUtil viewUtil = new ViewUtil();
 
     private String phoneValue;//手机号
     private String timeValue;//当前时间（建档时间）
@@ -203,9 +205,9 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     //意向数据
     private OptionsPickerView IntentionPV;//意向选择器
     private List<IntentionAddEntity> intentionEntitiesList = new ArrayList<>();//添加的意向list容器
-    private List<IntentionEntity> intentionEntities1 = new ArrayList<>();//一级意向
-    private List<List<IntentionEntity>> intentionEntities2 = new ArrayList<>();//二级意向
-    private List<List<List<IntentionEntity>>> intentionEntities3 = new ArrayList<>();//三级意向
+    //    private List<IntentionEntity> intentionEntities1 = new ArrayList<>();//一级意向
+//    private List<List<IntentionEntity>> intentionEntities2 = new ArrayList<>();//二级意向
+//    private List<List<List<IntentionEntity>>> intentionEntities3 = new ArrayList<>();//三级意向
     private CommonAdapter IntentionListAdapter;
 
     // 媒介数据
@@ -266,6 +268,14 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
 
         initTimeView1();
         initTimeView2();
+
+        viewUtil.setIntentionListener(new ViewUtil.OnIntentionListener() {
+            @Override
+            public void onOptionsSelect(IntentionAddEntity intentionAddEntity) {
+                intentionEntitiesList.add(intentionAddEntity);
+                IntentionListAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     //初始化适配器
@@ -357,8 +367,9 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         HttpClient.getHttpApi().getIntentionAll().enqueue(new BaseBack<List<IntentionEntity>>() {
             @Override
             protected void onSuccess(List<IntentionEntity> intentionEntities) {
-                intentionEntities1.addAll(intentionEntities);
-                initIntentionData();
+//                intentionEntities1.addAll(intentionEntities);
+                IntentionPV = viewUtil.initIntention(BookbuildingActivity.this, IntentionPV, intentionEntities);
+//                initIntentionData();
             }
 
             @Override
@@ -810,7 +821,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     }
 
     //初始化意向三级联动数据
-    private void initIntentionData() {
+   /* private void initIntentionData() {
         for (int i = 0; i < intentionEntities1.size(); i++) {
             List<IntentionEntity> intentionEntityList2 = new ArrayList<>();//二级意向
             List<List<IntentionEntity>> intentionEntityList3 = new ArrayList<>();//三级意向
@@ -876,6 +887,6 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 .isRestoreItem(true)
                 .build();
         IntentionPV.setPicker(intentionEntities1, intentionEntities2, intentionEntities3);//设置数据
-    }
+    }*/
 
 }

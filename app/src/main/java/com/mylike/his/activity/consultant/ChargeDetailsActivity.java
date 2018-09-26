@@ -217,7 +217,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                         break;
                     case "3"://已结账
                         if ("1".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER()) || "2".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER())) {//消费/预约金
-                            if (chargeDateilsEntity.getInfo().getISTODAY().equals("1")) {
+                            if (chargeDateilsEntity.getInfo().getISTODAY().equals("0")) {
 //                                viewHolder.setVisible(R.id.again_consult_btn, true);//重咨
                                 againConsultBtn.setVisibility(View.VISIBLE);//重咨
                             }

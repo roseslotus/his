@@ -119,7 +119,7 @@ public class DialogUtil {
         DialogUtil.dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                KeyboardUtils.hideKeyboard(context);
+                CommonUtil.hideKeyboard(context);
             }
         });
         return itemView;

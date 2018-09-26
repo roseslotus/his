@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -70,15 +73,27 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
     ImageView returnBtn;
     @Bind(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @Bind(R.id.screen_btn)
-    ImageView screenBtn;
+    @Bind(R.id.filtrate_btn)
+    ImageView filtrateBtn;
     @Bind(R.id.search_edit)
     ClearEditText searchEdit;
     @Bind(R.id.search_btn)
     Button searchBtn;
+
+    @Bind(R.id.filtrate_list)
+    ListView filtrateList;
+    @Bind(R.id.reset_btn)
+    Button resetBtn;
+    @Bind(R.id.confirm_btn)
+    Button confirmBtn;
+    @Bind(R.id.filtrate_menu)
+    LinearLayout filtrateMenu;
+    @Bind(R.id.DrawerLayout)
+    android.support.v4.widget.DrawerLayout DrawerLayout;
+
     private OptionsPickerView optionsPickerView;
 
-    private int sumPage = 1;//总也数
+    private int sumPage = 1;//总页数
     private int pageSize = 10;//每页数据
     private int pageNumber = 1;//页码
     private CommonAdapter commonAdapter;
@@ -96,6 +111,8 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
     private String remarkValue;
 
     private boolean tag = true;
+
+    private CommonAdapter commonAdapter1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -152,7 +169,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                         break;
                     case "3"://已结账
                         if ("1".equals(item.getFCHARGETYPENUMBER()) || "2".equals(item.getFCHARGETYPENUMBER())) {//1-消费,2-预约金
-                            if (item.getISTODAY().equals("1")) {
+                            if (item.getISTODAY().equals("0")) {
                                 viewHolder.setVisible(R.id.again_consult_btn, true);//重咨
                             }
                             viewHolder.setVisible(R.id.bridge_section_btn, true);//跨科
@@ -238,6 +255,45 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                 startActivity(ChargeDetailsActivity.class, "fid", listAll.get(position).getFID());
             }
         });
+
+
+        commonAdapter1 = new CommonAdapter<ChargeFiltrateEntity>(this, R.layout.item_filtrate_product_list, chargeFiltrateEntityList) {
+            @Override
+            protected void convert(final ViewHolder viewHolder, final ChargeFiltrateEntity item, int position) {
+                viewHolder.setText(R.id.cover_name, item.getParamname());
+                TagFlowLayout tagFlowLayout = viewHolder.getView(R.id.flowlayout);
+                tagAdapter = new TagAdapter(item.getList()) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, Object o) {
+                        TextView textView = (TextView) LayoutInflater.from(ChargeShowActivity.this).inflate(R.layout.item_text_label, null);
+                        textView.setTextSize(12);
+                        textView.setWidth((filtrateMenu.getWidth() / 2) - 30);
+                        textView.setPadding(0, 30, 0, 30);
+                        textView.setGravity(Gravity.CENTER);
+
+                        textView.setText(item.getList().get(position).getName());
+                        return textView;
+                    }
+                };
+                tagFlowLayout.setAdapter(tagAdapter);
+
+                tagAdapter.setSelectedList(selectedMap.get(viewHolder.getItemPosition()));
+                tagFlowLayout.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
+                    @Override
+                    public void onSelected(Set<Integer> selectPosSet) {
+                        selectedMap.put(viewHolder.getItemPosition(), selectPosSet);
+                        Set<String> strings = new HashSet<>();
+                        for (int i : selectPosSet) {
+                            strings.add(item.getList().get(i).getId());
+                        }
+                        selectedValue.put(item.getParamcode(), strings);
+                    }
+                });
+            }
+        };
+
+        filtrateList.setAdapter(commonAdapter1);
+
 
     }
 
@@ -405,6 +461,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
             @Override
             protected void onSuccess(List<ChargeFiltrateEntity> chargeFiltrateEntities) {
                 chargeFiltrateEntityList.addAll(chargeFiltrateEntities);
+                commonAdapter1.notifyDataSetChanged();
             }
 
             @Override
@@ -438,77 +495,37 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
     Map<Integer, Set<Integer>> selectedMap = new HashMap<Integer, Set<Integer>>();
     Map<String, Set<String>> selectedValue = new HashMap<String, Set<String>>();
 
-    @OnClick({R.id.return_btn, R.id.search_btn, R.id.screen_btn})
+    @OnClick({R.id.return_btn, R.id.search_btn, R.id.filtrate_btn, R.id.reset_btn, R.id.confirm_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.return_btn://返回
                 finish();
                 break;
+
             case R.id.search_btn://搜索
                 pageNumber = 1;
                 listAll.clear();
                 refreshLayout.setNoMoreData(false);
                 initData();
                 break;
-            case R.id.screen_btn://筛选
-                View itemView = DialogUtil.commomDialog(ChargeShowActivity.this, R.layout.dialog_charge_filtrate, DialogUtil.RIGHT);
-                ListView listView = itemView.findViewById(R.id.charge_list);
-                Button resetBtn = itemView.findViewById(R.id.reset_btn);
-                Button confirmBtn = itemView.findViewById(R.id.confirm_btn);
 
-                final CommonAdapter adapter = new CommonAdapter<ChargeFiltrateEntity>(this, R.layout.item_filtrate_product_list, chargeFiltrateEntityList) {
-                    @Override
-                    protected void convert(final ViewHolder viewHolder, final ChargeFiltrateEntity item, int position) {
-                        viewHolder.setText(R.id.cover_name, item.getParamname());
-                        TagFlowLayout tagFlowLayout = viewHolder.getView(R.id.flowlayout);
-                        tagAdapter = new TagAdapter(item.getList()) {
-                            @Override
-                            public View getView(FlowLayout parent, int position, Object o) {
-                                TextView textView = (TextView) LayoutInflater.from(ChargeShowActivity.this).inflate(R.layout.item_text_label, null);
-                                textView.setText(item.getList().get(position).getName());
-                                return textView;
-                            }
-                        };
-                        tagFlowLayout.setAdapter(tagAdapter);
+            case R.id.filtrate_btn://筛选
+                DrawerLayout.openDrawer(filtrateMenu);
+                break;
 
-                        tagAdapter.setSelectedList(selectedMap.get(viewHolder.getItemPosition()));
-                        tagFlowLayout.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
-                            @Override
-                            public void onSelected(Set<Integer> selectPosSet) {
-                                selectedMap.put(viewHolder.getItemPosition(), selectPosSet);
-                                Set<String> strings = new HashSet<>();
-                                for (int i : selectPosSet) {
-                                    strings.add(item.getList().get(i).getId());
-                                }
-                                selectedValue.put(item.getParamcode(), strings);
-                            }
-                        });
-                    }
-                };
+            case R.id.reset_btn://筛选重置
+                selectedMap.clear();
+                selectedValue.clear();
+                commonAdapter1.notifyDataSetChanged();
+                break;
 
-                listView.setAdapter(adapter);
-                //重置按钮
-                resetBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        selectedMap.clear();
-                        selectedValue.clear();
-                        adapter.notifyDataSetChanged();
-
-                    }
-                });
-                //确认按钮
-                confirmBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DialogUtil.dismissDialog();
-                        pageNumber = 1;
-                        listAll.clear();
-                        refreshLayout.setNoMoreData(false);
-                        initData();
-                    }
-                });
+            case R.id.confirm_btn://筛选确认
+                DrawerLayout.closeDrawer(filtrateMenu);
+                pageNumber = 1;
+                listAll.clear();
+                refreshLayout.setNoMoreData(false);
+                initData();
                 break;
         }
     }
@@ -539,6 +556,15 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
         Double number = Double.parseDouble(numberStr);
         decimalFormat.format(number);
         return decimalFormat.format(number);
+    }
+
+    //物理返回按钮
+    @Override
+    public void onBackPressed() {
+        if (DrawerLayout.isDrawerOpen(filtrateMenu))
+            DrawerLayout.closeDrawer(filtrateMenu);
+        else
+            super.onBackPressed();
     }
 }
 

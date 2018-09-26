@@ -1,9 +1,9 @@
 package com.mylike.his.entity;
 
 public class IntentionAddEntity {
-    private String itemFirst;//一级id
-    private String itemSecond;//二级id
-    private String itemThird;//三级id
+    private String itemFirst = "";//一级id
+    private String itemSecond = "";//二级id
+    private String itemThird = "";//三级id
     private String intentionStr;//意向字符串
     private String remark;//备注
 

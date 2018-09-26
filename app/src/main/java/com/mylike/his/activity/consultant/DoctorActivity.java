@@ -1,19 +1,17 @@
 package com.mylike.his.activity.consultant;
 
-import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mcxtzhang.indexlib.IndexBar.widget.IndexBar;
@@ -24,7 +22,7 @@ import com.mylike.his.entity.DepartmentEntity;
 import com.mylike.his.entity.DoctorEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
-import com.mylike.his.utils.DialogUtil;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.view.ClearEditText;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -50,8 +48,8 @@ import butterknife.OnClick;
 public class DoctorActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.screen_btn)
-    ImageView screenBtn;
+    @Bind(R.id.filtrate_btn)
+    ImageView filtrateBtn;
     @Bind(R.id.search_edit)
     ClearEditText searchEdit;
     @Bind(R.id.rv)
@@ -62,20 +60,35 @@ public class DoctorActivity extends BaseActivity implements View.OnClickListener
     TextView tvSideBarHint;
     @Bind(R.id.search_btn)
     Button searchBtn;
+    @Bind(R.id.flowlayout1)
+    TagFlowLayout flowlayout1;
+    @Bind(R.id.flowlayout2)
+    TagFlowLayout flowlayout2;
+    @Bind(R.id.reset_btn)
+    Button resetBtn;
+    @Bind(R.id.confirm_btn)
+    Button confirmBtn;
+    @Bind(R.id.filtrate_menu)
+    LinearLayout filtrateMenu;
+    @Bind(R.id.DrawerLayout)
+    android.support.v4.widget.DrawerLayout DrawerLayout;
 
+    //通讯录
     private LinearLayoutManager mManager;
     private SuspensionDecoration mDecoration;
 
-    private TagAdapter mAdapter1;
-    private TagAdapter mAdapter2;
-    private CommonAdapter commonAdapter;
-    private List<DoctorEntity> doctorEntityList = new ArrayList<>();//医生列表
-    private List<DepartmentEntity> departmentEntitieList = new ArrayList<>();//科室数据
-    private List<Map<String, String>> stateList = new ArrayList<>();
+    //筛选
+    private TagAdapter mAdapter1;//科室标签适配器
+    private TagAdapter mAdapter2;//状态标签适配器
+    private List<DepartmentEntity> departmentEntitieList = new ArrayList<>();//科室标签数据
+    private List<Map<String, String>> stateList = new ArrayList<>();//状态标签数据
 
-    private String departmentId = "";//科室id的position,-1没有筛选条件
-    private String stateValue = "";//状态值的position，-1没有筛选条件
+    private CommonAdapter commonAdapter;//医生列表适配器
+    private List<DoctorEntity> doctorEntityList = new ArrayList<>();//医生列表数据
 
+    private String departmentId = "";//科室id（多个逗号隔开）
+    private String stateValue = "";//状态值（多个逗号隔开）
+    Map<String, Set<Integer>> selectedMap = new HashMap<String, Set<Integer>>();//存储筛选选中数据
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,10 +97,10 @@ public class DoctorActivity extends BaseActivity implements View.OnClickListener
         ButterKnife.bind(this);
         initView();
         initData();
-        getDepartmentData();
     }
 
 
+    //初始化控件
     private void initView() {
         rv.setLayoutManager(mManager = new LinearLayoutManager(this));
         mDecoration = new SuspensionDecoration(this, doctorEntityList);
@@ -100,18 +113,20 @@ public class DoctorActivity extends BaseActivity implements View.OnClickListener
                 .setNeedRealIndex(false)//设置需要真实的索引
                 .setmLayoutManager(mManager);//设置RecyclerView的LayoutManager
 
+
+        //医生列表适配器
         commonAdapter = new CommonAdapter<DoctorEntity>(DoctorActivity.this, R.layout.item_doctor_list, doctorEntityList) {
             @Override
             protected void convert(ViewHolder holder, final DoctorEntity doctorEntity, int position) {
-                holder.setText(R.id.name_text, doctorEntity.getEmpname());
-                holder.setText(R.id.dept_text, doctorEntity.getDeptname());
-                if ("空闲".equals(doctorEntity.getOperstatename())) {
+                holder.setText(R.id.name_text, doctorEntity.getEmpname());//医生名称
+                holder.setText(R.id.dept_text, doctorEntity.getDeptname());//科室名称
+                holder.setText(R.id.state_text, doctorEntity.getOperstatename());//状态
+                if ("空闲".equals(doctorEntity.getOperstatename())) //状态颜色判断
                     holder.setTextColor(R.id.state_text, getResources().getColor(R.color.green_40));
-                } else {
+                else
                     holder.setTextColor(R.id.state_text, getResources().getColor(R.color.orange_70));
-                }
-                holder.setText(R.id.state_text, doctorEntity.getOperstatename());
 
+                //医生详情
                 holder.setOnClickListener(R.id.content, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -120,33 +135,101 @@ public class DoctorActivity extends BaseActivity implements View.OnClickListener
                 });
             }
         };
-
         rv.setAdapter(commonAdapter);
 
+        //科室筛选标签
         mAdapter1 = new TagAdapter(departmentEntitieList) {
             @Override
             public View getView(FlowLayout parent, int position, Object o) {
                 TextView textView = (TextView) LayoutInflater.from(DoctorActivity.this).inflate(R.layout.item_text_label, null);
+                textView.setTextSize(12);
+                textView.setWidth((filtrateMenu.getWidth() / 2) - 30);
+                textView.setPadding(0, 30, 0, 30);
+                textView.setGravity(Gravity.CENTER);
+
                 textView.setText(departmentEntitieList.get(position).getDeptname());
                 return textView;
             }
         };
+        flowlayout1.setAdapter(mAdapter1);
+        flowlayout1.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
+            @Override
+            public void onSelected(Set<Integer> selectPosSet) {
+                departmentId = "";
+                selectedMap.put("FlowLayout1", selectPosSet);
+                for (int i : selectPosSet) {
+                    if (!TextUtils.isEmpty(departmentId))
+                        departmentId += ",";
+                    departmentId += departmentEntitieList.get(i).getDeptid();
+                }
+            }
+        });
 
+        //医生状态筛选标签
         mAdapter2 = new TagAdapter(stateList) {
             @Override
             public View getView(FlowLayout parent, int position, Object o) {
                 TextView textView = (TextView) LayoutInflater.from(DoctorActivity.this).inflate(R.layout.item_text_label, null);
+                textView.setTextSize(12);
+                textView.setWidth((filtrateMenu.getWidth() / 2) - 30);
+                textView.setPadding(0, 30, 0, 30);
+                textView.setGravity(Gravity.CENTER);
+
                 textView.setText(stateList.get(position).get("stateName"));
                 return textView;
             }
         };
-
-
+        flowlayout2.setAdapter(mAdapter2);
+        flowlayout2.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
+            @Override
+            public void onSelected(Set<Integer> selectPosSet) {
+                stateValue = "";
+                selectedMap.put("FlowLayout2", selectPosSet);
+                for (int i : selectPosSet) {
+                    if (!TextUtils.isEmpty(stateValue))
+                        stateValue += ",";
+                    stateValue += stateList.get(i).get("stateName");
+                }
+            }
+        });
     }
 
+    //初始化数据
     private void initData() {
+        //获取科室列表
+        HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
+            @Override
+            protected void onSuccess(List<DepartmentEntity> departmentEntities) {
+                departmentEntitieList.addAll(departmentEntities);
+                mAdapter1.notifyDataChanged();
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+            }
+        });
+
+        //获取医生状态
+        HttpClient.getHttpApi().getDoctorStatus().enqueue(new BaseBack<List<Map<String, String>>>() {
+
+            @Override
+            protected void onSuccess(List<Map<String, String>> maps) {
+                stateList.addAll(maps);
+                mAdapter2.notifyDataChanged();
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+            }
+        });
+
+        getDoctorList();
+    }
+
+    //获取医生列表
+    private void getDoctorList() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("searchText", searchEdit.getText().toString());//搜索
+        map.put("searchText", searchEdit.getText().toString());//搜索内容
         map.put("deptid", departmentId);//医生id
         map.put("operstatename", stateValue);//状态
 
@@ -166,112 +249,42 @@ public class DoctorActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
-    private void getDepartmentData() {
-        //获取科室列表
-        HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
-            @Override
-            protected void onSuccess(List<DepartmentEntity> departmentEntities) {
-                departmentEntitieList.addAll(departmentEntities);
-                mAdapter1.notifyDataChanged();
-            }
-
-            @Override
-            protected void onFailed(String code, String msg) {
-            }
-        });
-
-        //获取科室列表
-        HttpClient.getHttpApi().getDoctorStatus().enqueue(new BaseBack<List<Map<String, String>>>() {
-
-            @Override
-            protected void onSuccess(List<Map<String, String>> maps) {
-                stateList.addAll(maps);
-                mAdapter2.notifyDataChanged();
-            }
-
-            @Override
-            protected void onFailed(String code, String msg) {
-            }
-        });
-
-    }
-
-    Map<String, Set<Integer>> selectedMap = new HashMap<String, Set<Integer>>();
-
-    @OnClick({R.id.return_btn, R.id.search_btn, R.id.screen_btn})
+    @OnClick({R.id.return_btn, R.id.search_btn, R.id.filtrate_btn, R.id.reset_btn, R.id.confirm_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.screen_btn:
-                mAdapter1.setSelectedList(selectedMap.get("tagFlowLayout1"));
-                mAdapter2.setSelectedList(selectedMap.get("tagFlowLayout2"));
-
-                View itemView = DialogUtil.commomDialog(DoctorActivity.this, R.layout.dialog_doctor_filtrate, DialogUtil.RIGHT);
-                final TagFlowLayout tagFlowLayout1 = itemView.findViewById(R.id.flowlayout1);
-                final TagFlowLayout tagFlowLayout2 = itemView.findViewById(R.id.flowlayout2);
-                Button resetBtn = itemView.findViewById(R.id.reset_btn);
-                Button confirmBtn = itemView.findViewById(R.id.confirm_btn);
-
-                //科室筛选
-                tagFlowLayout1.setAdapter(mAdapter1);
-                tagFlowLayout1.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
-                    @Override
-                    public void onSelected(Set<Integer> selectPosSet) {
-                        departmentId = "";
-                        selectedMap.put("tagFlowLayout1", selectPosSet);
-                        for (int i : selectPosSet) {
-                            if (TextUtils.isEmpty(departmentId)) {
-                                departmentId += departmentEntitieList.get(i).getDeptid();
-                            } else {
-                                departmentId += "," + departmentEntitieList.get(i).getDeptid();
-                            }
-                        }
-                    }
-                });
-
-                //医生状态筛选
-                tagFlowLayout2.setAdapter(mAdapter2);
-                tagFlowLayout2.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
-                    @Override
-                    public void onSelected(Set<Integer> selectPosSet) {
-                        stateValue = "";
-                        selectedMap.put("tagFlowLayout2", selectPosSet);
-                        for (int i : selectPosSet) {
-                            if (TextUtils.isEmpty(stateValue)) {
-                                stateValue += stateList.get(i).get("stateName");
-                            } else {
-                                stateValue += "," + stateList.get(i).get("stateName");
-                            }
-                        }
-                    }
-                });
-
-                //重置按钮
-                resetBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mAdapter1.setSelectedList(new HashSet<Integer>());
-                        mAdapter2.setSelectedList(new HashSet<Integer>());
-                    }
-                });
-
-                //确认按钮
-                confirmBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DialogUtil.dismissDialog();
-                        initData();
-                    }
-                });
-
+            case R.id.search_btn://搜索
+                getDoctorList();
                 break;
-            case R.id.search_btn:
-                initData();
+
+            case R.id.filtrate_btn://筛选
+                DrawerLayout.openDrawer(filtrateMenu);
                 break;
-            case R.id.return_btn:
+
+            case R.id.reset_btn://筛选重置
+                departmentId = "";
+                stateValue = "";
+                mAdapter1.setSelectedList(new HashSet<Integer>());
+                mAdapter2.setSelectedList(new HashSet<Integer>());
+                break;
+
+            case R.id.confirm_btn://筛选确认
+                DrawerLayout.closeDrawer(filtrateMenu);
+                getDoctorList();
+                break;
+
+            case R.id.return_btn://返回
                 finish();
                 break;
         }
     }
 
+    //物理返回按钮
+    @Override
+    public void onBackPressed() {
+        if (DrawerLayout.isDrawerOpen(filtrateMenu))
+            DrawerLayout.closeDrawer(filtrateMenu);
+        else
+            super.onBackPressed();
+    }
 }

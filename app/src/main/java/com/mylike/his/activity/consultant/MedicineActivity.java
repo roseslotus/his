@@ -3,12 +3,13 @@ package com.mylike.his.activity.consultant;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -19,11 +20,13 @@ import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.DepartmentDoctorEntity;
 import com.mylike.his.entity.DepartmentEntity;
+import com.mylike.his.entity.IntentionAddEntity;
 import com.mylike.his.entity.IntentionEntity;
+import com.mylike.his.entity.SVProjectEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
-import com.mylike.his.utils.DialogUtil;
+import com.mylike.his.utils.ViewUtil;
 import com.orhanobut.logger.Logger;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -42,32 +45,33 @@ import butterknife.OnClick;
  * 跨科
  */
 public class MedicineActivity extends BaseActivity implements View.OnClickListener {
-
-    @Bind(R.id.department_btn)
-    TextView departmentBtn;
     @Bind(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.doctor_btn)
-    TextView doctorBtn;
     @Bind(R.id.intention_btn)
     TextView intentionBtn;
     @Bind(R.id.remark_edit)
     EditText remarkEdit;
     @Bind(R.id.submit_btn)
     Button submitBtn;
+    @Bind(R.id.department_spinner)
+    Spinner departmentSpinner;
+    @Bind(R.id.doctor_spinner)
+    Spinner doctorSpinner;
 
-    private OptionsPickerView optionsPickerView;
+    private OptionsPickerView IntentionPV;
+    private ViewUtil viewUtil = new ViewUtil();
 
+    private CommonAdapter departmentAdapter;//科室适配器
+    private CommonAdapter doctorAdapter;//医生适配器
     private List<DepartmentEntity> departmentEntitieList = new ArrayList<>();//科室数据
     private List<DepartmentDoctorEntity> departmentDoctorEntityList = new ArrayList<>();//科室医生数据
+
     //意向数据
     private List<IntentionEntity> intentionEntities1 = new ArrayList<>();
-    private List<List<IntentionEntity>> intentionEntities2 = new ArrayList<>();
-    private List<List<List<IntentionEntity>>> intentionEntities3 = new ArrayList<>();
 
     private String fidValue;//收费单id
-    private String[] Intention;//意向数据
-    private String doctorDepartment;//科室id
+    private String[] Intention = new String[]{};//意向数据
+    private String departmentId;//科室id
     private String doctorId;//医生id
 
     @Override
@@ -75,22 +79,48 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine);
         ButterKnife.bind(this);
+        initView();
         initData();
     }
 
-    private void initData() {
+    //初始化控件
+    private void initView() {
+        //收费单id
         fidValue = getIntent().getStringExtra("fid");
 
+        //下拉框适配器
+        departmentAdapter = setAdapter(departmentSpinner, departmentAdapter, departmentEntitieList);
+        doctorAdapter = setAdapter(doctorSpinner, doctorAdapter, departmentDoctorEntityList);
+
+        //选中意向的值
+        viewUtil.setIntentionListener(new ViewUtil.OnIntentionListener() {
+            @Override
+            public void onOptionsSelect(IntentionAddEntity intentionAddEntity) {
+                //选中意向数据
+                Intention = new String[]{intentionAddEntity.getItemFirst(), intentionAddEntity.getItemSecond(), intentionAddEntity.getItemThird()};
+                if (intentionAddEntity.getIntentionStr().isEmpty()) {
+                    intentionBtn.setText("请选择");
+                    intentionBtn.setTextColor(getResources().getColor(R.color.gray_49));
+                } else {
+                    intentionBtn.setTextColor(getResources().getColor(R.color.black_50));
+                    intentionBtn.setText(intentionAddEntity.getIntentionStr());
+                }
+            }
+        });
+    }
+
+    //初始化数据
+    private void initData() {
         //获取科室列表
         HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
             @Override
             protected void onSuccess(List<DepartmentEntity> departmentEntities) {
                 departmentEntitieList.addAll(departmentEntities);
+                departmentAdapter.notifyDataSetChanged();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
-
             }
         });
 
@@ -100,198 +130,80 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
             protected void onSuccess(List<IntentionEntity> intentionEntities) {
                 intentionEntities1.add(new IntentionEntity("请选择"));
                 intentionEntities1.addAll(intentionEntities);
-                //初始化意向数据
-                initViewData();
+                IntentionPV = viewUtil.initIntention(MedicineActivity.this, IntentionPV, intentionEntities1);
             }
 
             @Override
             protected void onFailed(String code, String msg) {
-
             }
         });
     }
 
-    private void initViewData() {
-        for (int i = 0; i < intentionEntities1.size(); i++) {
-            List<IntentionEntity> intentionEntityList2 = new ArrayList<>();//二级意向
-            List<List<IntentionEntity>> intentionEntityList3 = new ArrayList<>();//三级意向
-            //在第一项添加空意向，如果选择“请选择”则代表此级意向为空
-            intentionEntityList2.add(new IntentionEntity("请选择"));
-            //如果无意向，添加空对象，防止数据为null 导致三个选项长度不匹配造成崩溃
-            if (intentionEntities1.get(i).getChildren().size() == 0) {
-                intentionEntityList3.add(intentionEntityList2);
-            }
-            for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
-                //添加二级意向
-                intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
-
-                //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
-                if (j == 0) {
-                    List<IntentionEntity> IList = new ArrayList<>();
-                    IList.add(new IntentionEntity("请选择"));
-                    intentionEntityList3.add(IList);
-                }
-
-                //添加三级意向
-                List<IntentionEntity> IList3 = new ArrayList<>();
-                IList3.add(new IntentionEntity("请选择"));
-                if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
-                    IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
-                }
-                intentionEntityList3.add(IList3);
-            }
-
-            intentionEntities2.add(intentionEntityList2);
-            intentionEntities3.add(intentionEntityList3);
-        }
-
-        //重咨弹框初始化
-        optionsPickerView = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {//选择项
-                Intention = new String[]{intentionEntities1.get(options1).getPbtid(), intentionEntities2.get(options1).get(options2).getPbtid(), intentionEntities3.get(options1).get(options2).get(options3).getPbtid()};
-                Logger.d(Intention);
-                String intentionText = "";
-                if (!intentionEntities1.get(options1).getPbtid().isEmpty()) {
-                    intentionText = intentionText + intentionEntities1.get(options1).getPbtname();
-                }
-                if (!intentionEntities2.get(options1).get(options2).getPbtid().isEmpty()) {
-                    intentionText = intentionText + "/" + intentionEntities2.get(options1).get(options2).getPbtname();
-                }
-                if (!intentionEntities3.get(options1).get(options2).get(options3).getPbtid().isEmpty()) {
-                    intentionText = intentionText + "/" + intentionEntities3.get(options1).get(options2).get(options3).getPbtname();
-                }
-                intentionBtn.setText(intentionText);
-            }
-        }).setLayoutRes(R.layout.dialog_again_consult_not, new CustomListener() {//自定义布局
-            @Override
-            public void customLayout(View v) {
-                final Button submitBtn = v.findViewById(R.id.submit_btn);
-
-                //意向提交
-                submitBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        optionsPickerView.returnData();
-                        optionsPickerView.dismiss();
-                    }
-                });
-            }
-        }).setContentTextSize(14).setDividerColor(getResources().getColor(R.color.green_50)).setLineSpacingMultiplier((float) 2.5).isDialog(true).build();
-        optionsPickerView.setPicker(intentionEntities1, intentionEntities2, intentionEntities3);//设置数据
-    }
-
-    @OnClick({R.id.department_btn, R.id.return_btn, R.id.doctor_btn, R.id.intention_btn, R.id.submit_btn})
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.department_btn://咨询科室
-                View itemView = DialogUtil.commomDialog(MedicineActivity.this, R.layout.common_item_list, 0);
-                ListView listView = itemView.findViewById(R.id.common_list);
-                listView.setBackgroundResource(R.drawable.bg_white_box_10);
-                listView.setAdapter(new CommonAdapter<DepartmentEntity>(this, R.layout.common_item_text, departmentEntitieList) {
-                    @Override
-                    protected void convert(ViewHolder viewHolder, DepartmentEntity item, int position) {
-                        TextView textView = viewHolder.getView(R.id.text);
-                        textView.setPadding(20, 30, 20, 30);
-                        textView.setText(item.getDeptname());
-                    }
-                });
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        departmentBtn.setText(departmentEntitieList.get(position).getDeptname());
-                        doctorDepartment = departmentEntitieList.get(position).getDeptid();
-                        DialogUtil.dismissDialog();
-                        departmentDoctorEntityList.clear();
-                        getDoctorData(departmentEntitieList.get(position).getDeptid());
-                    }
-                });
-                break;
-            case R.id.doctor_btn://推荐医生
-//                if (departmentDoctorEntityList.isEmpty()) {
-//                    CommonUtil.showToast("请先选择科室");
-//                } else {
-                if (doctorBtn.getText().toString().equals("请选择")) {
-                    if (departmentDoctorEntityList.isEmpty()) {
-                        CommonUtil.showToast("请先选择科室");
-                    } else {
-                        View itemView2 = DialogUtil.commomDialog(MedicineActivity.this, R.layout.common_item_list, 0);
-                        ListView listView2 = itemView2.findViewById(R.id.common_list);
-                        listView2.setBackgroundResource(R.drawable.bg_white_box_10);
-                        listView2.setAdapter(new CommonAdapter<DepartmentDoctorEntity>(this, R.layout.common_item_text, departmentDoctorEntityList) {
-                            @Override
-                            protected void convert(ViewHolder viewHolder, DepartmentDoctorEntity item, int position) {
-                                TextView textView = viewHolder.getView(R.id.text);
-                                textView.setPadding(20, 30, 20, 30);
-                                textView.setText(item.getEmpName());
-                            }
-                        });
-                        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                doctorBtn.setText(departmentDoctorEntityList.get(position).getEmpName());
-                                doctorId = departmentDoctorEntityList.get(position).getEmpId();
-                                DialogUtil.dismissDialog();
-                            }
-                        });
-                    }
-                }
-                break;
-            case R.id.intention_btn://意向
-                optionsPickerView.show();
-                break;
-            case R.id.submit_btn://提交
-                if (TextUtils.isEmpty(doctorDepartment)) {
-                    CommonUtil.showToast("科室不能为空，请选择科室");
-//                } else if (Intention == null || Intention.length == 0) {
-//                    CommonUtil.showToast("意向不能为空，请选择意向");
-                } else {
-                    submitData();
-                }
-                break;
-            case R.id.return_btn:
-                finish();
-                break;
-        }
-    }
-
-    private void getDoctorData(String deptid) {
+    //获取医生数据
+    private void getDoctorData() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("deptid", deptid);
+        map.put("deptid", departmentId);//科室id
 
         //获取科室列表
         HttpClient.getHttpApi().getDepartmentDoctorList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<DepartmentDoctorEntity>>() {
 
             @Override
             protected void onSuccess(List<DepartmentDoctorEntity> departmentDoctorEntities) {
+                departmentDoctorEntityList.clear();
                 if (departmentDoctorEntities.isEmpty()) {
-                    doctorBtn.setText("此科室暂无医生选择");
+                    departmentDoctorEntityList.add(new DepartmentDoctorEntity("此科室暂无医生"));
                 } else {
-                    doctorBtn.setText("请选择");
+                    departmentDoctorEntityList.add(new DepartmentDoctorEntity("请选择"));
                 }
                 departmentDoctorEntityList.addAll(departmentDoctorEntities);
-
-
+                doctorSpinner.setSelection(0, true);
+                doctorId = "";
+                doctorAdapter.notifyDataSetChanged();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
             }
         });
-
     }
 
+    @OnClick({R.id.return_btn, R.id.intention_btn, R.id.submit_btn})
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.intention_btn://选择意向
+                if (IntentionPV == null)
+                    CommonUtil.showToast("意向数据获取失败，请稍后再试");
+                else
+                    IntentionPV.show();
+                break;
+
+            case R.id.submit_btn://提交
+                if (TextUtils.isEmpty(departmentId))
+                    CommonUtil.showToast("提交数据失败，请稍后再试");
+                else
+                    submitData();
+                break;
+
+            case R.id.return_btn://返回
+                finish();
+                break;
+        }
+    }
+
+
     private void submitData() {
+        CommonUtil.showLoadProgress(this);
+
         HashMap<String, Object> map = new HashMap<>();
-        map.put("doctorDepartment", doctorDepartment);
-        map.put("doctorId", doctorId);
-        map.put("remark", remarkEdit.getText().toString());
+        map.put("doctorDepartment", departmentId);//科室id
+        map.put("doctorId", doctorId);//医生id
+        map.put("remark", remarkEdit.getText().toString());//备注id
 
         HashMap<String, Object> map1 = new HashMap<>();
-        map1.put("fid", fidValue);
-        map1.put("CustomerIntention", Intention);
-        map1.put("triage", map);
+        map1.put("fid", fidValue);//收费单id
+        map1.put("CustomerIntention", Intention);//意向
+        map1.put("triage", map);//科室数据
 
         //提交跨科
         HttpClient.getHttpApi().setMedicine(HttpClient.getRequestBody(map1)).enqueue(new BaseBack<Map<String, String>>() {
@@ -307,5 +219,47 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
+    //设置下拉选项
+    private CommonAdapter setAdapter(final Spinner spinner, CommonAdapter commonAdapter, final Object object) {
+        commonAdapter = new CommonAdapter(this, R.layout.common_item_text, (List) object) {
+            @Override
+            protected void convert(ViewHolder viewHolder, Object item, int position) {
+                TextView textView = viewHolder.getView(R.id.text);
+                textView.setTextColor(getResources().getColor(R.color.black_50));
+                textView.setGravity(Gravity.LEFT);
+                textView.setPadding(15, 30, 30, 30);
 
+                if (spinner == departmentSpinner) {//科室显示的值
+                    textView.setText(((DepartmentEntity) item).getDeptname());
+                }
+                if (spinner == doctorSpinner) {//医生显示的值
+                    //设置请选择项为灰色
+                    if (TextUtils.isEmpty(departmentDoctorEntityList.get(position).getEmpId())) {
+                        textView.setTextColor(getResources().getColor(R.color.gray_49));
+                    } else {
+                        textView.setTextColor(getResources().getColor(R.color.black_50));
+                    }
+                    textView.setText(((DepartmentDoctorEntity) item).getEmpName());
+                }
+            }
+        };
+        spinner.setAdapter(commonAdapter);
+        //获取下拉框里的值
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (spinner == departmentSpinner) {//科室
+                    departmentId = departmentEntitieList.get(i).getDeptid();//获取科室id
+                    getDoctorData();
+                } else if (spinner == doctorSpinner) {//医生
+                    doctorId = departmentDoctorEntityList.get(i).getEmpId();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+        return commonAdapter;
+    }
 }

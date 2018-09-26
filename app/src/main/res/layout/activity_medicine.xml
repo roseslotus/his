@@ -40,7 +40,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/bg_white_box_10"
             android:orientation="vertical"
             android:padding="10dp">
@@ -58,13 +59,21 @@
                     android:text="咨询科室："
                     android:textColor="@android:color/black" />
 
-                <TextView
-                    android:id="@+id/department_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="请选择"
-                    android:textColor="@color/gray_50" />
+                <Spinner
+                    android:id="@+id/department_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:overlapAnchor="false" />
+
+                <!-- <TextView
+                     android:id="@+id/department_btn"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:padding="10dp"
+                     android:text="请选择"
+                     android:textColor="@color/gray_50" />-->
             </LinearLayout>
 
             <LinearLayout
@@ -80,13 +89,20 @@
                     android:text="推荐医生："
                     android:textColor="@android:color/black" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/doctor_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="请选择"
-                    android:textColor="@color/gray_50" />
+                    android:textColor="@color/gray_50" />-->
+                <Spinner
+                    android:id="@+id/doctor_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:overlapAnchor="false" />
             </LinearLayout>
 
             <LinearLayout
@@ -105,10 +121,11 @@
                 <TextView
                     android:id="@+id/intention_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请选择"
-                    android:padding="10dp"
-                    android:textColor="@color/gray_50"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="请选择"
+                    android:textColor="@color/gray_49"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -133,8 +150,9 @@
                     android:gravity="top"
                     android:hint="输入客户意向"
                     android:minLines="3"
-                    android:padding="10dp"
-                    android:textColor="@color/gray_50"
+                    android:padding="5dp"
+                    android:textColor="@color/black_50"
+                    android:textColorHint="@color/gray_49"
                     android:textSize="14sp" />
             </LinearLayout>
 
