@@ -29,23 +29,26 @@ public abstract class BaseBack<T> implements Callback<BaseEntity<T>> {
         if (response.isSuccessful() && baseEntity != null) {
             if (baseEntity.getCode().equals("1000")) {//成功
                 onSuccess(baseEntity.getData());
+
             } else if (baseEntity.getCode().equals("4001")) {//token失效
                 CommonUtil.showToast("登录失效，请重新登录");
                 SPUtils.setCache(SPUtils.FILE_USER, SPUtils.TOKEN, "");
                 Intent intent = new Intent();
                 intent.setClass(BaseApplication.getContext(), CMainActivity.class);
                 BaseApplication.getContext().startActivity(intent);
+
             } else if (baseEntity.getCode().equals("4002")) {//踢出登录
                 CommonUtil.showToast(baseEntity.getMsg());
                 SPUtils.setCache(SPUtils.FILE_USER, SPUtils.TOKEN, "");
                 Intent intent = new Intent();
                 intent.setClass(BaseApplication.getContext(), CMainActivity.class);
                 BaseApplication.getContext().startActivity(intent);
-            } else if (baseEntity.getCode().equals("4000")) {
-                CommonUtil.showToast(baseEntity.getMsg());
-            } else {
-                onFailed(baseEntity.getCode(), baseEntity.getMsg());
-            }
+
+        } else if (baseEntity.getCode().equals("4000")) {//后台异常
+            CommonUtil.showToast(baseEntity.getMsg());
+        } else {
+            onFailed(baseEntity.getCode(), baseEntity.getMsg());
+        }
         } else {
             onFailed(response.code() + "", response.message());
         }
@@ -59,7 +62,7 @@ public abstract class BaseBack<T> implements Callback<BaseEntity<T>> {
         if (t instanceof ConnectException) {//网络连接失败
             CommonUtil.showToast("网络开小差了，请检查网络");
         } else {
-            CommonUtil.showToast("喔噢~系统错误！");
+            CommonUtil.showToast("喔噢~请求失败，请稍后再试");
         }
         CommonUtil.dismissLoadProgress();
         onFailed("", "");

@@ -15,6 +15,8 @@ public class ProductDetailsEntity implements Serializable {
     private String price2 = "";//真实单价价格
     private String count;//数量
     private String remark = "";//备注
+    private String discount;//手动输入折扣
+
 
     //套餐
     private String pkgid;
@@ -25,6 +27,14 @@ public class ProductDetailsEntity implements Serializable {
     //细目
     private String chaitemCd;
     private String itemName;
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
 
     public String getPrice2() {
         return price2;

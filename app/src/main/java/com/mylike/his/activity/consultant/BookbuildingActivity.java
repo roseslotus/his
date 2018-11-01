@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.utils.ViewUtil;
+import com.orhanobut.logger.Logger;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -180,6 +182,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     private String obstacleValue;//障碍点
     private String bigValue;//是否大单
 
+
     //下拉框类型的数据
     private List<BookbuildingEntity> EconomicsEntity = new ArrayList<>();//经济能力
     private List<BookbuildingEntity> IntentionEntity = new ArrayList<>();//意向度
@@ -191,6 +194,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     private CommonAdapter OccupationAdapter;//职业
 
     //复选框类型的数据
+    private int tagValue;//复选框宽的值
     private List<BookbuildingEntity> transportEntity = new ArrayList<>();//交通
     private List<BookbuildingEntity> obstacleEntity = new ArrayList<>();//障碍点
     private TagAdapter transportAdapter;//交通
@@ -234,6 +238,18 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         initView();
         initAdapter();
         initData();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        //计算每个复选框占用的宽
+        float scale = this.getResources().getDisplayMetrics().density;
+        tagValue = (flowlayout1.getWidth() / 3) - (int) (10 * scale + 0.5f);
+
+        //重新绘画复选框
+        transportAdapter = setTagAdapter(flowlayout1, transportAdapter, transportEntity);
+        obstacleAdapter = setTagAdapter(flowlayout2, obstacleAdapter, obstacleEntity);
     }
 
     //初始化控件
@@ -344,7 +360,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 provincesEntity1.addAll(stringListMap.get("Province"));//省市区
                 initProvincesData();//初始化联动数据
 
-                ChannelEntity1.addAll(stringListMap.get("channel_2"));//省市区
+                ChannelEntity1.addAll(stringListMap.get("channel_2"));//二/三级渠道
                 initChannelData();//初始化联动数据
 
                 transportEntity.addAll(stringListMap.get("transport"));//交通工具
@@ -422,9 +438,9 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         map.put("itemList", intentionEntitiesList);
 
         //建档所需要的选择信息（有多级级菜单）
-        HttpClient.getHttpApi().saveBookbuilding(HttpClient.getRequestBody(map)).enqueue(new BaseBack<String>() {
+        HttpClient.getHttpApi().saveBookbuilding(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Object>() {
             @Override
-            protected void onSuccess(String s) {
+            protected void onSuccess(Object o) {
                 CommonUtil.showToast("提交成功");
                 finish();
             }
@@ -487,7 +503,6 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 IntentionPV.show();
                 break;
 
-
         }
     }
 
@@ -548,8 +563,8 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     textView.setTextColor(getResources().getColor(R.color.black_50));
                 }
-                textView.setGravity(Gravity.LEFT);
-                textView.setPadding(15, 30, 30, 30);
+                textView.setGravity(Gravity.RIGHT);
+                textView.setPadding(10, 30, 10, 30);
                 viewHolder.setText(R.id.text, item.getDomainText());
             }
         };
@@ -584,7 +599,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
             @Override
             public View getView(FlowLayout parent, int position, Object o) {
                 TextView textView = (TextView) LayoutInflater.from(BookbuildingActivity.this).inflate(R.layout.item_text_label, null);
-                textView.setWidth(180);
+                textView.setWidth(tagValue);
                 textView.setPadding(0, 20, 0, 20);
                 textView.setGravity(Gravity.CENTER);
                 textView.setText(bookbuildingEntity.get(position).getDomainText());
@@ -736,9 +751,11 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 String ProvincesStr = "";
                 if (!TextUtils.isEmpty(ChannelEntity1.get(options1).getDomainValue())) {
                     ProvincesStr += ChannelEntity1.get(options1).getDomainText();
+                    channel.put("2", ChannelEntity1.get(options1).getDomainValue());
                 }
                 if (!TextUtils.isEmpty(ChannelEntity2.get(options1).get(options2).getDomainValue())) {
                     ProvincesStr += " " + ChannelEntity2.get(options1).get(options2).getDomainText();
+                    channel.put("3", ChannelEntity2.get(options1).get(options2).getDomainValue());
                 }
                 channelBtn.setText(ProvincesStr);
             }

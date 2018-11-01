@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.mylike.his.R;
 import com.mylike.his.core.BaseApplication;
+import com.mylike.his.fragment.consultant.StatisticsFragment;
 import com.mylike.his.view.NumberPickerView;
 
 /**
@@ -123,6 +124,10 @@ public class DialogUtil {
             }
         });
         return itemView;
+    }
+
+    public static Dialog getDialog() {
+        return dialog;
     }
 
     //取消弹框

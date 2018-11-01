@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.jaeger.library.StatusBarUtil;
 import com.mylike.his.R;
 import com.mylike.his.activity.consultant.CMainActivity;
@@ -51,11 +53,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     TextView loginBtn;
     @Bind(R.id.setting_btn)
     ImageView settingBtn;
+    @Bind(R.id.update_app)
+    TextView updateApp;
 
     private TokenEntity tokenEntity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         setLoadProgress(false);
         super.onCreate(savedInstanceState);
         setStatusBarColor(false);//取消状态栏的颜色变更（注：一定要写在setContentView前面）
@@ -98,12 +103,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-    @OnClick({R.id.login_btn, R.id.setting_btn})
+    @OnClick({R.id.login_btn, R.id.setting_btn, R.id.update_app})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.update_app://设置
+                updataApp();
+                break;
             case R.id.login_btn://登录
-
                 String accountStr = accountEdit.getText().toString();//账户
                 String passwordStr = passwordEdit.getText().toString();//密码
                 String ip = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);//ip地址
@@ -247,5 +254,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void afterTextChanged(Editable s) {
             }
         });
+    }
+
+    //App更新数据
+    private void updataApp() {
+        //http://issuecdn.baidupcs.com/issue/netdisk/apk/BaiduNetdisk_8.12.9.apk
+        //http://172.16.63.228:8080/mylike-crm/version/findFile?fileName=app-debug.apk
+        AllenVersionChecker
+                .getInstance()
+                .downloadOnly(
+                        UIData.create().setDownloadUrl("http://172.16.63.228:8080/mylike-crm/file/app-debug.apk")
+                )
+                .executeMission(this);
     }
 }

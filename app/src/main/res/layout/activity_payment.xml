@@ -65,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/money_red_icon"
                     android:textColor="@android:color/holo_red_light"
+                    android:text="0"
                     android:textSize="20sp" />
             </LinearLayout>
 

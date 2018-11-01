@@ -2,6 +2,7 @@ package com.mylike.his.activity.consultant;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -60,30 +61,36 @@ public class OAActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setLoadProgress(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oa);
         ButterKnife.bind(this);
 
 //        onPermissionRequests(Manifest.permission.CAMERA);
-
 //        File imageStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyApp");
 //        File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
 //        imageUri = Uri.fromFile(file);
 
-        token = SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN);
-        fid = getIntent().getStringExtra("fid");
+        token = SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN);//获取token
+        fid = getIntent().getStringExtra("fid");//获取fid
+
         initView();
     }
 
     private void initView() {
+        //支持js
         webView.getSettings().setJavaScriptEnabled(true);
+
         //设置可以访问文件
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
+        //访问地址
         String ipString = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);
         webView.loadUrl("http://" + ipString + "/mylike-crm/app360/OA/application.html?_ijt=qpg5ue95dekpqgpgbstgant1tv");
+
         webView.setWebViewClient(new WebViewClient() {
-            //拦截url
+            //拦截url，禁止用第三方浏览器
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -98,15 +105,14 @@ public class OAActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-        webView.addJavascriptInterface(new JsOperation(), "clients");
-//        webView.addJavascriptInterface(new JiaoHu(),"hello");
 
         webView.setWebChromeClient(new WebChromeClient() {
+            //设置alert的弹框
             @Override
             public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
                 AlertDialog.Builder b = new AlertDialog.Builder(OAActivity.this);
-                b.setTitle("提示");
-                b.setMessage(message);
+                b.setTitle("提示");//标题
+                b.setMessage(message);//内容
                 b.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -130,40 +136,64 @@ public class OAActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
 
-            /**
-             * 16(Android 4.1.2) <= API <= 20(Android 4.4W.2)回调此方法
-             */
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+                //16(Android 4.1.2) <= API <= 20(Android 4.4W.2)回调此方法
                 mUploadCallbackBelow = uploadMsg;
                 takePhoto();
             }
 
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-                // (1)该方法回调时说明版本API >= 21，此时将结果赋值给 mUploadCallbackAboveL，使之 != null
+                // 该方法回调时说明版本API >= 21，此时将结果赋值给 mUploadCallbackAboveL，使之 != null
                 mUploadCallbackAboveL = filePathCallback;
                 takePhoto();
                 return true;
             }
         });
+
+        webView.addJavascriptInterface(new JsOperation(), "clients");
+
     }
 
+    //弹出上传文件选项
     private void takePhoto() {
+
         View view = DialogUtil.commomDialog(this, R.layout.dialog_image_selector, DialogUtil.BOTTOM);
-//        TextView photo_album_btn = view.findViewById(R.id.photo_album_btn);
         TextView camera_btn = view.findViewById(R.id.camera_btn);
         TextView othe_btn = view.findViewById(R.id.othe_btn);
-//        photo_album_btn.setOnClickListener(this);
         camera_btn.setOnClickListener(this);
         othe_btn.setOnClickListener(this);
 
+        //弹框被取消，清空mUploadCallbackAboveL，解决第二次不能回调的问题
+        Dialog dialog = DialogUtil.getDialog();
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                if (mUploadCallbackAboveL != null) {
+                    mUploadCallbackAboveL.onReceiveValue(null);
+                    mUploadCallbackAboveL = null;
+                } else if (mUploadCallbackBelow != null) {
+                    mUploadCallbackBelow.onReceiveValue(null);
+                    mUploadCallbackBelow = null;
+                }
+            }
+        });
+    }
+
+    //初始化js数据（h5需要）
+    private void initJs() {
+        webView.post(new Runnable() {
+            @Override
+            public void run() {
+                webView.loadUrl("javascript:appoa('" + token + "','" + fid + "')");
+            }
+        });
     }
 
     class JsOperation {
-        //测试
+        //提交成功返回
         @JavascriptInterface
         public void succeed() {
-//            showToast("成功");
             finish();
         }
     }
@@ -246,35 +276,24 @@ public class OAActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    private void initJs() {
-        webView.post(new Runnable() {
-            @Override
-            public void run() {
-//                webView.loadUrl("javascript:app('" + token + "','" + customId + "')");
-                webView.loadUrl("javascript:appoa('" + token + "','" + fid + "')");
-            }
-        });
-    }
-
     @OnClick({R.id.return_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.return_btn:
+            case R.id.return_btn://返回
                 finish();
                 break;
-//            case R.id.photo_album_btn:
-//
-//                break;
-            case R.id.camera_btn:
-                onPermissionRequests(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+            case R.id.camera_btn://拍照
+                onPermissionRequests(Manifest.permission.CAMERA);
                 break;
-            case R.id.othe_btn:
+
+            case R.id.othe_btn://其他方式
                 Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                 i.addCategory(Intent.CATEGORY_OPENABLE);
                 i.setType("image/*");
                 startActivityForResult(Intent.createChooser(i, "Image Chooser"), 100);
+                DialogUtil.dismissDialog();
                 break;
         }
     }
@@ -308,19 +327,16 @@ public class OAActivity extends BaseActivity implements View.OnClickListener {
                 ActivityCompat.requestPermissions(this, new String[]{permission}, 1);
             }
         } else {
-
+            Camera();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
         if (requestCode == 1) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //权限通过
                 Camera();
-            } else {
-                //权限拒绝
-                DialogUtil.dismissDialog();
             }
             return;
         }

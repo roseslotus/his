@@ -2,11 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mylike.his">
 
+    <!--网络-->
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <!-- 授予该程序使用摄像头的权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <!--相机相册权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!--<uses-permission android:name="android.permission.GET_TASKS" />-->
 
     <application
         android:name=".core.BaseApplication"
@@ -30,7 +32,8 @@
         <!--登陆-->
         <activity
             android:name=".activity.LoginActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/SplashAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

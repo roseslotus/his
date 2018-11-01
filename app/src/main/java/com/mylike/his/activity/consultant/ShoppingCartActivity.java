@@ -102,6 +102,9 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                 }
                 //编辑后的单价乘以数量，小计的总价
                 viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));//小计
+//                viewHolder.setText(R.id.discounts_text, accountList.get(position).getDiscount());//手动输入折扣
+                viewHolder.setText(R.id.discounts_text, setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//手动输入折扣
+
 
                 //单价编辑
                 viewHolder.setOnClickListener(R.id.money_one_text, new View.OnClickListener() {
@@ -116,12 +119,16 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                             @Override
                             public void onClick(View v) {
                                 if (!contentText.getText().toString().isEmpty()) {
-                                    item.setPrice2(setDecimalFormat(contentText.getText().toString()));
-                                    item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");
+                                    //修改数据
+                                    item.setPrice2(setDecimalFormat(contentText.getText().toString()));//单价
+                                    item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");//小计
+                                    item.setDiscount(setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//手动输入折扣
+                                    //展示
                                     viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
                                     viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
-                                    viewHolder.setText(R.id.discounts_text, setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//折扣
+                                    viewHolder.setText(R.id.discounts_text, item.getDiscount());//手动输入折扣
                                     accountList.set(position, item);
+                                    //计算总价
                                     sumData();
                                 }
                                 DialogUtil.dismissDialog();
@@ -146,9 +153,11 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                                 if (!contentText.getText().toString().isEmpty()) {
                                     item.setPrice1(contentText.getText().toString());
                                     item.setPrice2(setDecimalFormat((Double.parseDouble(item.getPrice1()) / Integer.parseInt(item.getCount())) + ""));
+                                    item.setDiscount(setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));
+
                                     viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
                                     viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
-                                    viewHolder.setText(R.id.discounts_text, setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//折扣
+                                    viewHolder.setText(R.id.discounts_text, item.getDiscount());//折扣
                                     accountList.set(position, item);
                                     sumData();
                                 }
@@ -173,7 +182,9 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                                 if (!contentText.getText().toString().isEmpty()) {
                                     item.setPrice2((Double.parseDouble(item.getPrice()) * Double.parseDouble(setDecimalFormat(contentText.getText().toString()))) + "");//单价(原价*折扣，折扣永远保持两位数)
                                     item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");//小计
-                                    viewHolder.setText(R.id.discounts_text, setDecimalFormat(contentText.getText().toString()));//折扣
+                                    item.setDiscount(setDecimalFormat(contentText.getText().toString()));//折扣
+
+                                    viewHolder.setText(R.id.discounts_text, item.getDiscount());//折扣
                                     viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));//显示小计
                                     viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));//显示总价
                                     accountList.set(position, item);

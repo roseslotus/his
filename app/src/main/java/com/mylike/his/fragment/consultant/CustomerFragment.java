@@ -2,6 +2,7 @@ package com.mylike.his.fragment.consultant;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,9 @@ import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.ClearEditText;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.abslistview.ViewHolder;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 
@@ -48,7 +52,7 @@ import butterknife.OnClick;
  * Created by zhengluping on 2018/1/2.
  * 客户
  */
-public class CustomerFragment extends BaseFragment implements View.OnClickListener {
+public class CustomerFragment extends BaseFragment implements View.OnClickListener, OnRefreshListener {
     @Bind(R.id.search_edit)
     ClearEditText searchEdit;
     @Bind(R.id.rv)
@@ -57,6 +61,8 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
     IndexBar indexBar;
     @Bind(R.id.tvSideBarHint)
     TextView tvSideBarHint;
+    @Bind(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     private View view;
 
     private LinearLayoutManager mManager;
@@ -90,6 +96,9 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initView() {
+        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setEnableLoadMore(false);//弃用加载功能
+
         rv.setLayoutManager(mManager = new LinearLayoutManager(getActivity()));
         mDecoration = new SuspensionDecoration(getActivity(), clientEntityList);
         mDecoration.setColorTitleBg(Color.parseColor("#00000000"));
@@ -185,6 +194,12 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initData() {
+        getClientData();
+        getDepartmentData();
+    }
+
+    //获取客户列表
+    private void getClientData() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("counselorId", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.EMP_ID));
         map.put("searchText", searchEdit.getText().toString());
@@ -200,18 +215,20 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
                 commonAdapter.notifyDataSetChanged();
                 indexBar.setmSourceDatas(clientEntityList).invalidate();
                 mDecoration.setmDatas(clientEntityList);
+                refreshLayout.finishRefresh();
 
-                getDepartmentData();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
+                refreshLayout.finishRefresh(false);
+
             }
         });
     }
 
+    //获取科室列表
     private void getDepartmentData() {
-        //获取科室列表
         HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
             @Override
             protected void onSuccess(List<DepartmentEntity> departmentEntities) {
@@ -286,6 +303,11 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
                 initData();
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        getClientData();
     }
 
     @Override

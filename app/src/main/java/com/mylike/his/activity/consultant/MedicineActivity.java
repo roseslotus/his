@@ -72,7 +72,9 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
     private String fidValue;//收费单id
     private String[] Intention = new String[]{};//意向数据
     private String departmentId;//科室id
+    private String departmentValue;//科室id
     private String doctorId;//医生id
+    private String doctorValue;//医生id
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -227,7 +229,7 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
                 TextView textView = viewHolder.getView(R.id.text);
                 textView.setTextColor(getResources().getColor(R.color.black_50));
                 textView.setGravity(Gravity.LEFT);
-                textView.setPadding(15, 30, 30, 30);
+                textView.setPadding(30, 30, 30, 30);
 
                 if (spinner == departmentSpinner) {//科室显示的值
                     textView.setText(((DepartmentEntity) item).getDeptname());
@@ -250,10 +252,26 @@ public class MedicineActivity extends BaseActivity implements View.OnClickListen
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (spinner == departmentSpinner) {//科室
                     departmentId = departmentEntitieList.get(i).getDeptid();//获取科室id
-                    getDoctorData();
+                    departmentValue = "科室:" + departmentEntitieList.get(i).getDeptname();//获取科室名称（分诊需要）
+                    doctorValue = "";
+                    getDoctorData();//刷新医生数据
+
                 } else if (spinner == doctorSpinner) {//医生
-                    doctorId = departmentDoctorEntityList.get(i).getEmpId();
+                    doctorId = departmentDoctorEntityList.get(i).getEmpId();//医生id
+
+                    if (!doctorId.isEmpty())//“请选择”选项id为空
+                        doctorValue = "推荐医生:" + departmentDoctorEntityList.get(i).getEmpName();
+                    else
+                        doctorValue = "";
                 }
+
+                //更改分诊备注的值
+                remarkEdit.setText(departmentValue);
+                //有医生拼接医生的值
+                if (!TextUtils.isEmpty(doctorValue))
+                    remarkEdit.setText(departmentValue + " " + doctorValue);
+                //将光标移至文字末尾
+                remarkEdit.setSelection(remarkEdit.getText().toString().length());
             }
 
             @Override

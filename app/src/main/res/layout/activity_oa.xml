@@ -31,7 +31,7 @@
         android:id="@+id/prog"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="2dp"
         android:indeterminateTint="@color/green_50"
         android:max="100" />
 

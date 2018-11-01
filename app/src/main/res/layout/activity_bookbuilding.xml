@@ -106,7 +106,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="访客ID：" />
 
                             <EditText
@@ -115,6 +115,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="输入美莱在线访客ID"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -131,7 +132,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="姓名：" />
 
                             <EditText
@@ -140,6 +141,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="输入姓名"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -156,7 +158,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="电话："
                                 android:textColor="@color/gray_49" />
 
@@ -167,6 +169,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:focusable="false"
+                                android:gravity="right"
                                 android:hint="输入电话"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -183,14 +186,16 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="性别：" />
 
                             <RadioGroup
                                 android:id="@+id/sex"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:gravity="right"
                                 android:orientation="horizontal">
 
                                 <RadioButton
@@ -222,7 +227,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="年龄：" />
 
                             <EditText
@@ -231,6 +236,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="输入年龄"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -248,7 +254,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="经济能力：" />
 
                             <Spinner
@@ -256,6 +262,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:background="@null"
+                                android:gravity="right"
                                 android:overlapAnchor="false" />
                         </TableRow>
 
@@ -266,7 +274,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="媒介来源：" />
 
                             <EditText
@@ -276,6 +284,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:focusable="false"
+                                android:gravity="right"
                                 android:hint="请选择"
                                 android:padding="5dp"
                                 android:textColor="@color/black_50"
@@ -290,7 +299,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="省/市/区：" />
 
                             <EditText
@@ -300,6 +309,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:focusable="false"
+                                android:gravity="right"
                                 android:hint="请选择"
                                 android:padding="5dp"
                                 android:textColor="@color/black_50"
@@ -312,7 +322,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="详细地址：" />
 
                             <EditText
@@ -321,7 +331,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
-                                android:gravity="top"
+                                android:gravity="top|right"
                                 android:hint="输入详细地址"
                                 android:lines="3"
                                 android:padding="5dp"
@@ -379,7 +389,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="意向度：" />
 
                             <Spinner
@@ -387,6 +397,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:background="@null"
                                 android:overlapAnchor="false" />
                         </TableRow>
 
@@ -396,7 +407,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="意向项目：" />
 
                             <TextView
@@ -452,7 +463,7 @@
                         android:id="@+id/table3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TableRow
                             android:background="@drawable/bg_white_line_gray_below"
@@ -461,7 +472,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="出生日期：" />
 
                             <EditText
@@ -471,6 +482,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:focusable="false"
+                                android:gravity="right"
                                 android:hint="请选择"
                                 android:padding="5dp"
                                 android:textColorHint="@color/gray_49"
@@ -484,7 +496,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="婚姻：" />
 
                             <Spinner
@@ -492,6 +504,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:background="@null"
                                 android:overlapAnchor="false" />
                         </TableRow>
 
@@ -502,7 +515,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="职业：" />
 
                             <Spinner
@@ -510,6 +523,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:background="@null"
                                 android:overlapAnchor="false" />
                         </TableRow>
 
@@ -520,7 +534,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="一级渠道："
                                 android:textColor="@color/gray_49" />
 
@@ -530,6 +544,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:focusable="false"
+                                android:gravity="right"
                                 android:padding="5dp"
                                 android:singleLine="true"
                                 android:text="搜索建档"
@@ -544,7 +559,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="二/三级渠道：" />
 
                             <EditText
@@ -554,6 +569,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:focusable="false"
+                                android:gravity="right"
                                 android:hint="请选择"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -569,7 +585,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="交通工具：" />
 
                             <com.zhy.view.flowlayout.TagFlowLayout
@@ -587,7 +603,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="障碍点：" />
 
                             <com.zhy.view.flowlayout.TagFlowLayout
@@ -605,7 +621,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="顾客情况反馈：" />
 
                             <EditText
@@ -614,6 +630,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="输入内容信息"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -629,7 +646,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="建议方案：" />
 
                             <EditText
@@ -638,6 +655,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="输入内容信息"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -653,7 +671,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="顾客预算：" />
 
                             <EditText
@@ -662,6 +680,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="输入内容信息"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -677,7 +696,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="专家及报价：" />
 
                             <EditText
@@ -686,6 +705,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="输入内容信息"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -699,7 +719,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="备注信息：" />
 
                             <EditText
@@ -708,7 +728,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
-                                android:gravity="top"
+                                android:gravity="top|right"
                                 android:hint="输入内容信息"
                                 android:lines="2"
                                 android:padding="5dp"
@@ -755,7 +775,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="QQ：" />
 
                             <EditText
@@ -764,6 +784,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="输入QQ号"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -780,7 +801,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="微信号：" />
 
                             <EditText
@@ -789,6 +810,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="输入微信号"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -805,7 +827,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="其他联系：" />
 
                             <EditText
@@ -814,6 +836,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
+                                android:gravity="right"
                                 android:hint="多个号码请用分号隔开"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -862,7 +885,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="预约到院时间：" />
 
                             <EditText
@@ -872,6 +895,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:focusable="false"
+                                android:gravity="right"
                                 android:hint="请选择"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -888,14 +912,16 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="大单：" />
 
                             <RadioGroup
                                 android:id="@+id/big"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:gravity="right"
                                 android:orientation="horizontal">
 
                                 <RadioButton
@@ -961,7 +987,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="建档人："
                                 android:textColor="@color/gray_49" />
 
@@ -972,6 +998,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:focusable="false"
+                                android:gravity="right"
                                 android:hint="输入信息"
                                 android:padding="5dp"
                                 android:singleLine="true"
@@ -987,7 +1014,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="left"
                                 android:text="建档时间："
                                 android:textColor="@color/gray_49" />
 
@@ -998,6 +1025,7 @@
                                 android:layout_weight="1"
                                 android:background="@android:color/transparent"
                                 android:focusable="false"
+                                android:gravity="right"
                                 android:hint="输入信息"
                                 android:padding="5dp"
                                 android:singleLine="true"

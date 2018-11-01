@@ -317,7 +317,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
         return decimalFormat.format(number);
     }
 
-    @OnClick({R.id.return_btn, R.id.again_consult_btn, R.id.bridge_section_btn, R.id.compile_btn, R.id.payment_btn, R.id.name_text})
+    @OnClick({R.id.return_btn, R.id.again_consult_btn, R.id.bridge_section_btn, R.id.compile_btn, R.id.payment_btn, R.id.name_text, R.id.oa_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

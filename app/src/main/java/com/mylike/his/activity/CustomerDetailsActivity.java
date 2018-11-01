@@ -21,6 +21,7 @@ import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.mylike.his.R;
+import com.mylike.his.activity.consultant.ChargeDetailsActivity;
 import com.mylike.his.activity.consultant.MedicineActivity;
 import com.mylike.his.activity.consultant.OAActivity;
 import com.mylike.his.activity.consultant.OrderActivity;
@@ -66,6 +67,7 @@ public class CustomerDetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setLoadProgress(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_details);
         ButterKnife.bind(this);
@@ -127,7 +129,6 @@ public class CustomerDetailsActivity extends BaseActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
-                    CommonUtil.dismissLoadProgress();
                     // 网页加载完成
                     prog.setVisibility(View.GONE);//加载完网页进度条消失
                 } else {
@@ -214,6 +215,16 @@ public class CustomerDetailsActivity extends BaseActivity {
             CommonUtil.showToast("OA申请" + fid);
 
             startActivity(OAActivity.class, "fid", fid);
+        }
+
+        /**
+         * 收费单详情
+         *
+         * @param fid
+         */
+        @JavascriptInterface
+        public void details(String fid) {
+            startActivity(ChargeDetailsActivity.class, "fid", fid);
         }
 
         /**

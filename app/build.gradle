@@ -86,4 +86,7 @@ dependencies {
     implementation 'cn.jiguang.sdk:jpush:3.1.1'
     implementation 'cn.jiguang.sdk:jcore:1.1.9'
 
+    //版本更新
+    implementation 'com.allenliu.versionchecklib:library:2.1.1'
+
 }

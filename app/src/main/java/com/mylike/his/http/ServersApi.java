@@ -233,11 +233,18 @@ public interface ServersApi {
     @POST("api/channel/checkPhone.do")
     Call<BaseEntity<Map<String, String>>> getSearchData(@Body RequestBody body);
 
-    //搜索建档
+    //获取搜索建档的所有可选信息
     @POST("api/dd/getDicMult.do")
     Call<BaseEntity<Map<String, List<BookbuildingEntity>>>> getDicMult(@Body RequestBody body);
 
     //保存建档
     @POST("api/channel/saveTempCust.do")
-    Call<BaseEntity<String>> saveBookbuilding(@Body RequestBody body);
+    Call<BaseEntity<Object>> saveBookbuilding(@Body RequestBody body);
+
+
+    //保存建档
+    @POST("version/check_version")
+    Call<BaseEntity<Map<String,String>>> updataApp();
+
+
 }

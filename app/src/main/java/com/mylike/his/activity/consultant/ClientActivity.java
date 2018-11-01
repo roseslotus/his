@@ -2,6 +2,7 @@ package com.mylike.his.activity.consultant;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,9 @@ import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.ClearEditText;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.abslistview.ViewHolder;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 
@@ -43,7 +47,7 @@ import butterknife.OnClick;
  * Created by zhengluping on 2018/5/30.
  * 客户列表
  */
-public class ClientActivity extends BaseActivity implements View.OnClickListener {
+public class ClientActivity extends BaseActivity implements View.OnClickListener, OnRefreshListener {
     @Bind(R.id.return_btn)
     ImageView returnBtn;
     @Bind(R.id.indexBar)
@@ -56,13 +60,14 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
     ClearEditText searchEdit;
     @Bind(R.id.search_btn)
     Button searchBtn;
+    @Bind(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     private LinearLayoutManager mManager;
     private SuspensionDecoration mDecoration;
 
     private CommonAdapter commonAdapter;
     private List<ClientEntity> clientEntityList = new ArrayList<>();//客户列表
-    //    private List<ClientEntity> clientEntityList2 = new ArrayList<>();//客户列表
     private List<DepartmentEntity> departmentEntitieList = new ArrayList<>();//科室数据
 
 
@@ -77,6 +82,9 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initView() {
+        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setEnableLoadMore(false);//弃用加载功能
+
         rv.setLayoutManager(mManager = new LinearLayoutManager(this));
         mDecoration = new SuspensionDecoration(this, clientEntityList);
         mDecoration.setColorTitleBg(Color.parseColor("#00000000"));
@@ -172,6 +180,12 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initData() {
+        getClientData();
+        getDepartmentData();
+    }
+
+    //获取客户列表
+    private void getClientData() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("counselorId", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.EMP_ID));
         map.put("searchText", searchEdit.getText().toString());
@@ -186,17 +200,18 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
                 commonAdapter.notifyDataSetChanged();
                 indexBar.setmSourceDatas(clientEntityList).invalidate();
                 mDecoration.setmDatas(clientEntityList);
-                getDepartmentData();
+                refreshLayout.finishRefresh();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
+                refreshLayout.finishRefresh(false);
             }
         });
     }
 
+    //获取科室列表
     private void getDepartmentData() {
-        //获取科室列表
         HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
             @Override
             protected void onSuccess(List<DepartmentEntity> departmentEntities) {
@@ -260,6 +275,11 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
         Double number = Double.parseDouble(numberStr);
         decimalFormat.format(number);
         return decimalFormat.format(number);
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        getClientData();
     }
 
     @OnClick({R.id.return_btn, R.id.search_btn})

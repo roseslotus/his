@@ -55,18 +55,26 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tag_ll"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_white_box_10"
-            android:overScrollMode="never"
-            android:paddingRight="10dp"
-            android:scrollbars="none" />
+            android:layout_marginTop="1dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tag_ll"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_white_box_10"
+                android:overScrollMode="never"
+                android:paddingRight="10dp"
+                android:scrollbars="none" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <com.mcxtzhang.indexlib.IndexBar.widget.IndexBar
             android:id="@+id/indexBar"

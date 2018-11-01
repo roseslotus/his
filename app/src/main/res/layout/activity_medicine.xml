@@ -50,14 +50,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_line_gray_below"
-                android:padding="10dp">
+                android:paddingBottom="10dp">
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="咨询科室："
-                    android:textColor="@android:color/black" />
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/emphasis_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="咨询科室："
+                        android:textColor="@color/gray_60" />
+                </RelativeLayout>
+
 
                 <Spinner
                     android:id="@+id/department_spinner"
@@ -66,36 +78,22 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:overlapAnchor="false" />
-
-                <!-- <TextView
-                     android:id="@+id/department_btn"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:padding="10dp"
-                     android:text="请选择"
-                     android:textColor="@color/gray_50" />-->
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_line_gray_below"
-                android:padding="10dp">
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="推荐医生："
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/gray_60" />
 
-                <!--<TextView
-                    android:id="@+id/doctor_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="请选择"
-                    android:textColor="@color/gray_50" />-->
                 <Spinner
                     android:id="@+id/doctor_spinner"
                     android:layout_width="wrap_content"
@@ -109,21 +107,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_line_gray_below"
-                android:padding="10dp">
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="客户意向："
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/gray_60" />
 
                 <TextView
                     android:id="@+id/intention_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
+                    android:padding="10dp"
                     android:text="请选择"
                     android:textColor="@color/gray_49"
                     android:textSize="14sp" />
@@ -133,14 +132,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_line_gray_below"
-                android:padding="10dp">
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="分诊备注："
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/gray_60" />
 
                 <EditText
                     android:id="@+id/remark_edit"
@@ -150,7 +150,7 @@
                     android:gravity="top"
                     android:hint="输入客户意向"
                     android:minLines="3"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textColor="@color/black_50"
                     android:textColorHint="@color/gray_49"
                     android:textSize="14sp" />

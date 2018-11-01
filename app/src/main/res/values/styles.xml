@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SplashAppTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/startup_page</item>
+    </style>
+
 
     <!--弹框选择器-->
     <style name="DialogSelectStyle" parent="@android:style/Theme.Dialog">

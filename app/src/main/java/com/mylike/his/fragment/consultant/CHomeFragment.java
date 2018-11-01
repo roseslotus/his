@@ -305,7 +305,8 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
                 startActivity(VisitActivity.class);
                 break;
             case R.id.repertory_btn://库存查询
-//                startActivity(SearchActivity.class);
+                startActivity(SearchActivity.class);//新建
+//                startActivity(TestActivity.class);
                 CommonUtil.showToast("敬请期待");
                 break;
             case R.id.hospital_sum_btn://预约到院总数
@@ -421,6 +422,9 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
 
             @Override
             public void onFailure(Call<Map<String, String>> call, Throwable t) {
+                SPUtils.clearCache(SPUtils.FILE_USER);//清空账户信息缓存
+                startActivity(LoginActivity.class);
+                getActivity().finish();
             }
         });
     }

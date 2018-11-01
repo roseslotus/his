@@ -429,13 +429,15 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="本次使用：" />
+                                android:text="本次使用："
+                                android:textColor="@color/gray_48" />
 
                             <EditText
                                 android:id="@+id/integral_edit"
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/bg_white_line_box_gray"
+                                android:enabled="false"
                                 android:hint="输入积分"
                                 android:inputType="number"
                                 android:maxLines="1"
@@ -449,7 +451,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="3dp"
                                 android:layout_weight="1"
-                                android:text="积分" />
+                                android:text="积分"
+                                android:textColor="@color/gray_48" />
 
                             <TextView
                                 android:id="@+id/jian_text"
@@ -466,7 +469,6 @@
                                 android:drawableLeft="@mipmap/money_green_icon"
                                 android:gravity="center_vertical"
                                 android:textColor="@color/green_50"
-
                                 android:visibility="gone" />
 
                         </LinearLayout>

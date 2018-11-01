@@ -266,6 +266,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                         pde.setPrice1(pInfo.getFsummoney());
                         pde.setPrice2(pInfo.getUnitprice());
                         pde.setItemLx("产品");
+                        pde.setDiscount(pInfo.getBillrebate());
                         accountList.add(pde);
                     }
                 }
@@ -280,6 +281,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                         pde.setPrice1(pInfo.getFsummoney());
                         pde.setPrice2(pInfo.getUnitprice());
                         pde.setItemLx("套餐");
+                        pde.setDiscount(pInfo.getBillrebate());
                         accountList.add(pde);
                     }
                 }
@@ -294,6 +296,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                         pde.setPrice1(pInfo.getFsummoney());
                         pde.setPrice2(pInfo.getUnitprice());
                         pde.setItemLx("细目");
+                        pde.setDiscount(pInfo.getBillrebate());
                         accountList.add(pde);
                     }
                 }
@@ -689,6 +692,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         fenzhenshuju.put("doctorDepartment", doctorDepartment);//医生部门id
         fenzhenshuju.put("doctorId", doctorId);//医生id
         fenzhenshuju.put("score", integralEdit.getText().toString());//积分
+        fenzhenshuju.put("chargebillcfremark", remarkEdit.getText().toString());//消费开单备注
+
 
         HashMap<String, Object> productshuju = new HashMap<>();
         for (int i = 0; i < accountList.size(); i++) {
@@ -713,7 +718,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 //        map.put("oaId", "");//OA特批优惠的ID
 //        map.put("redeemCode", "");//兑换码
         map.put("totalRealMoney", sumText.getText().toString());//实付金额 （减去积分后的实际需要支付的金额，预约金情况下不能使用积分）
-        map.put("remark", remarkEdit.getText().toString());
+
+        map.put("remark", remarkEdit.getText().toString());//预约金备注
 //        map.put("payType", ppValue);//支付：0-非移动，1-移动
         if (oaBox.isChecked()) {
             map.put("isOA", "1");//oa：0-不走oa，1-走oa

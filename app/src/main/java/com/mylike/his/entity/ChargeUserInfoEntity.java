@@ -103,6 +103,15 @@ public class ChargeUserInfoEntity {
         private String ftracesource;
         private String registerid;
         private String unitprice;
+        private String billrebate;
+
+        public String getBillrebate() {
+            return billrebate;
+        }
+
+        public void setBillrebate(String billrebate) {
+            this.billrebate = billrebate;
+        }
 
         public String getUnitprice() {
             return unitprice;

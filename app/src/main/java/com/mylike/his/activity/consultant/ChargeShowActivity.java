@@ -133,7 +133,6 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
         initView();
         initChargeFiltrate();
         initData();
-
     }
 
     private void initView() {
@@ -474,7 +473,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
     private void submitData() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("fid", fidValue);
-        map.put("CustomerOpinion", remarkValue);
+        map.put("CustomerOpinion", "重咨" + " " + remarkValue);
         map.put("CustomerIntention", Intention);
 
         //重咨

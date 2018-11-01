@@ -244,7 +244,8 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
 
 //                    countValue += 1;
 //                    money += Double.parseDouble(p.getPrice());
-                    p.setCount("1");
+                    p.setCount("1");//数量
+                    p.setDiscount("1.00");//手动输入的折扣
                     accountList.add(p);
                 }
                 if (clickTag) {
