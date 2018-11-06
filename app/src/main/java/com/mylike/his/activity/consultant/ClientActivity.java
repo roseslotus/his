@@ -15,15 +15,21 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.mcxtzhang.indexlib.IndexBar.widget.IndexBar;
 import com.mcxtzhang.indexlib.suspension.SuspensionDecoration;
 import com.mylike.his.R;
 import com.mylike.his.activity.CustomerDetailsActivity;
 import com.mylike.his.core.BaseActivity;
+import com.mylike.his.entity.BookbuildingEntity;
 import com.mylike.his.entity.ClientEntity;
+import com.mylike.his.entity.ConsumeDDEntity;
 import com.mylike.his.entity.DepartmentEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.ClearEditText;
@@ -42,6 +48,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.http.HTTP;
 
 /**
  * Created by zhengluping on 2018/5/30.
@@ -63,13 +70,19 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
     @Bind(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
 
+    //客户通讯录
+    private CommonAdapter commonAdapter;
     private LinearLayoutManager mManager;
     private SuspensionDecoration mDecoration;
+    private List<ClientEntity> clientEntityList = new ArrayList<>();//客户列表数据
+    //private List<DepartmentEntity> departmentEntitieList = new ArrayList<>();//科室数据
 
-    private CommonAdapter commonAdapter;
-    private List<ClientEntity> clientEntityList = new ArrayList<>();//客户列表
-    private List<DepartmentEntity> departmentEntitieList = new ArrayList<>();//科室数据
+    // 科室及医生
+    private OptionsPickerView ConsumePV;//消费选择器
+    private List<ConsumeDDEntity> consumeDDEntitie1 = new ArrayList<>();//科室
+    private List<List<ConsumeDDEntity>> consumeDDEntitie2 = new ArrayList<>();//医生
 
+    private String Custid;//客户id
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -141,23 +154,24 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
                 holder.setOnClickListener(R.id.expense_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        View itemView = DialogUtil.commomDialog(ClientActivity.this, R.layout.common_item_list, 0);
-                        ListView listView = itemView.findViewById(R.id.common_list);
-                        listView.setBackgroundResource(R.drawable.bg_white_box_10);
-                        listView.setAdapter(new com.zhy.adapter.abslistview.CommonAdapter<DepartmentEntity>(ClientActivity.this, R.layout.common_item_text, departmentEntitieList) {
-                            @Override
-                            protected void convert(ViewHolder viewHolder, DepartmentEntity item, int position) {
-                                TextView textView = viewHolder.getView(R.id.text);
-                                textView.setPadding(20, 30, 20, 30);
-                                textView.setText(item.getDeptname());
-                            }
-                        });
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                getTriage(clientEntity.getCustomId(), departmentEntitieList.get(position).getDeptid());
-                            }
-                        });
+//                        View itemView = DialogUtil.commomDialog(ClientActivity.this, R.layout.common_item_list, 0);
+//                        ListView listView = itemView.findViewById(R.id.common_list);
+//                        listView.setBackgroundResource(R.drawable.bg_white_box_10);
+//                        listView.setAdapter(new com.zhy.adapter.abslistview.CommonAdapter<DepartmentEntity>(ClientActivity.this, R.layout.common_item_text, departmentEntitieList) {
+//                            @Override
+//                            protected void convert(ViewHolder viewHolder, DepartmentEntity item, int position) {
+//                                TextView textView = viewHolder.getView(R.id.text);
+//                                textView.setPadding(20, 30, 20, 30);
+//                                textView.setText(item.getDeptname());
+//                            }
+//                        });
+//                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                getTriage(clientEntity.getCustomId(), departmentEntitieList.get(position).getDeptid());
+//                            }
+//                        });
+                        getDepartmentData();
                     }
                 });
                 //储值
@@ -181,7 +195,7 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
 
     private void initData() {
         getClientData();
-        getDepartmentData();
+//        getDepartmentData();
     }
 
     //获取客户列表
@@ -210,9 +224,9 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
-    //获取科室列表
+    //获取科室医生二级列表
     private void getDepartmentData() {
-        HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
+       /* HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
             @Override
             protected void onSuccess(List<DepartmentEntity> departmentEntities) {
                 departmentEntitieList.addAll(departmentEntities);
@@ -222,25 +236,43 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
             protected void onFailed(String code, String msg) {
 
             }
+        }); */
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Custid", Custid);
+
+        HttpClient.getHttpApi().getDepartmentAndDoctor(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ConsumeDDEntity>>() {
+            @Override
+            protected void onSuccess(List<ConsumeDDEntity> consumeDDEntities) {
+                consumeDDEntitie1.clear();
+                consumeDDEntitie1.addAll(consumeDDEntities);
+                initChannelData();
+
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+
+            }
         });
+
     }
 
     //添加一条分诊，获取分诊id
-    private void getTriage(String Custid, String DoctorDepartment) {
+    private void getTriage(String DoctorDepartment, String doctorId) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("Custid", Custid);
         map.put("DoctorDepartment", DoctorDepartment);
+        map.put("doctorid", doctorId);
         HttpClient.getHttpApi().getTriage(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
                 // 保存/刷新分诊id
                 getSaveData(stringStringMap.get("fid"));
-                DialogUtil.dismissDialog();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
-                DialogUtil.dismissDialog();
             }
         });
     }
@@ -252,12 +284,12 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
         HttpClient.getHttpApi().getSave(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, Triageid);
-                if ("0".equals(stringStringMap.get("isCacheOrder"))) {
-                    startActivity(ProductActivity.class);
-                } else {
-                    startActivity(OrderActivity.class, "chargeTag", "1");
-                }
+//                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, Triageid);
+//                if ("0".equals(stringStringMap.get("isCacheOrder"))) {
+//                    startActivity(ProductActivity.class);
+//                } else {
+//                    startActivity(OrderActivity.class, "chargeTag", "1");
+//                }
             }
 
             @Override
@@ -265,6 +297,40 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
+    }
+
+
+    //初始化科室医生二级联动数据
+    public void initChannelData() {
+        for (int i = 0; i < consumeDDEntitie1.size(); i++) {//科室
+            List<ConsumeDDEntity> doctor = new ArrayList<>();//医生容器
+            if (consumeDDEntitie1.get(i).getDepartmentid().isEmpty()) {
+                doctor.add(new ConsumeDDEntity("未被分配过医生"));
+            } else {
+                doctor.addAll(consumeDDEntitie1.get(i).getDoctorlist());
+            }
+            consumeDDEntitie2.add(doctor);
+        }
+
+        //初始化科室医生选择器
+        ConsumePV = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                CommonUtil.showLoadProgress(ClientActivity.this);
+                getTriage(consumeDDEntitie1.get(options1).getDepartmentid(), consumeDDEntitie2.get(options1).get(options2).getDepartmentid());
+            }
+        })
+                .setSubCalSize(14)//确认取消文字大小
+                .setContentTextSize(14)//滚轮文字大小
+                .setSubmitColor(getResources().getColor(R.color.green_50))
+                .setCancelColor(getResources().getColor(R.color.gray_49))
+                .setDividerColor(getResources().getColor(R.color.green_50))//选中线颜色
+                .setLineSpacingMultiplier((float) 2.5)//滚轮间距（此为文字高度的间距倍数）
+                .isRestoreItem(true)
+                .build();
+
+        ConsumePV.setPicker(consumeDDEntitie1, consumeDDEntitie2);//二级选择器
+        ConsumePV.show();
     }
 
     private String setDecimalFormat(String numberStr) {

@@ -54,7 +54,6 @@ public class SurgeryActivity extends BaseActivity implements View.OnClickListene
     @Bind(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
 
-
     private int sumPage = 1;//总也数
     private int pageSize = 10;//每页数据
     private int pageNumber = 1;//页码

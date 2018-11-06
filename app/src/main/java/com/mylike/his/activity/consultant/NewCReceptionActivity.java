@@ -77,7 +77,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
         commonAdapter = new CommonAdapter<ReceptionInfoEntity>(this, R.layout.item_reception_has_list, listAll) {
             @Override
             protected void convert(ViewHolder viewHolder, final ReceptionInfoEntity item, int position) {
-                viewHolder.setText(R.id.user_info_text, item.getCFNAME() + "   " + item.getCFHANDSET());
+                viewHolder.setText(R.id.user_info_text, item.getCFNAME() + "  (" + item.getCFHANDSET() + ")");
                 if (item.getREGISTERTYPE().equals("1")) {
                     viewHolder.setText(R.id.state_text, "重咨");
                 } else if (item.getREGISTERTYPE().equals("2")) {
@@ -101,7 +101,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                     if (TextUtils.isEmpty(item.getYSNAME())) {
                         viewHolder.setText(R.id.department_text, item.getDOCTOR_DEPARTMENT());
                     } else {
-                        viewHolder.setText(R.id.department_text, item.getDOCTOR_DEPARTMENT() + " ——" + item.getYSNAME());
+                        viewHolder.setText(R.id.department_text, item.getDOCTOR_DEPARTMENT() + " - " + item.getYSNAME());
                     }
                 }
 
@@ -134,7 +134,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                 viewHolder.setOnClickListener(R.id.hospital_deposit_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(DepositHospitalActivity.class,"clientId", item.getCUSTID());
+                        startActivity(DepositHospitalActivity.class, "clientId", item.getCUSTID());
                     }
                 });
             }
@@ -248,6 +248,5 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
             pageNumber = 1;
         }
         initData();
-
     }
 }

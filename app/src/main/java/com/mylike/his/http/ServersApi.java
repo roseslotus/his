@@ -9,6 +9,7 @@ import com.mylike.his.entity.ChargeFiltrateEntity;
 import com.mylike.his.entity.ChargeInfoEntity;
 import com.mylike.his.entity.ChargeUserInfoEntity;
 import com.mylike.his.entity.ClientEntity;
+import com.mylike.his.entity.ConsumeDDEntity;
 import com.mylike.his.entity.DepartmentDoctorEntity;
 import com.mylike.his.entity.DepartmentEntity;
 import com.mylike.his.entity.DoctorDetailsEntity;
@@ -60,6 +61,10 @@ public interface ServersApi {
     //登出
     @POST("api/user/logout.do")
     Call<Map<String, String>> exitLongin();
+
+    //更新APP
+    @POST("version/check_version")
+    Call<BaseEntity<Map<String, String>>> updataApp();
 
     //验证api
     @POST("api/user/ping.do")
@@ -241,10 +246,9 @@ public interface ServersApi {
     @POST("api/channel/saveTempCust.do")
     Call<BaseEntity<Object>> saveBookbuilding(@Body RequestBody body);
 
-
-    //保存建档
-    @POST("version/check_version")
-    Call<BaseEntity<Map<String,String>>> updataApp();
+    //获取客户科室及该科室下分配过的医生
+    @POST("api/bill/getDoctorAndDepartmentByCust.do")
+    Call<BaseEntity<List<ConsumeDDEntity>>> getDepartmentAndDoctor(@Body RequestBody body);
 
 
 }

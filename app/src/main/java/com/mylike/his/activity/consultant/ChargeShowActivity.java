@@ -109,9 +109,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
     private String[] Intention;
     private String fidValue;
     private String remarkValue;
-
     private boolean tag = true;
-
     private CommonAdapter commonAdapter1;
 
     @Override
@@ -143,15 +141,22 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
         commonAdapter = new CommonAdapter<ChargeInfoEntity>(ChargeShowActivity.this, R.layout.item_charge_details_list, listAll) {
             @Override
             protected void convert(ViewHolder viewHolder, final ChargeInfoEntity item, int position) {
-                viewHolder.setText(R.id.user_info_text, item.getCFNAME() + "   " + item.getCFHANDSET());//姓名+手机
+//                viewHolder.setText(R.id.user_info_text, item.getCFNAME() + "   " + item.getCFHANDSET());//姓名+手机
+                viewHolder.setText(R.id.name_text, item.getCFNAME());//姓名
+                viewHolder.setText(R.id.phone_text, "(" + item.getCFHANDSET() + ")");//手机号
                 viewHolder.setText(R.id.state_text, item.getFCHARGESTATE());//收费单状态
                 viewHolder.setText(R.id.type_text, item.getFCHARGETYPE());//收费单类型
                 viewHolder.setText(R.id.time_text, item.getFCREATETIME());//时间
                 viewHolder.setText(R.id.money_text, setDecimalFormat(item.getCFFEEALL()));//金额
                 viewHolder.setText(R.id.count_text, "共" + item.getProjectList().size() + "件商品");//商品件数
+                if (item.getDOCTORNAME().isEmpty()) {//医生为空
+                    viewHolder.setText(R.id.department_text, item.getDEPTNAME());//科室
+                } else {
+                    viewHolder.setText(R.id.department_text, item.getDEPTNAME() + " - " + item.getDOCTORNAME());//科室跟医生
+                }
 
                 //初始化按钮
-                viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
+                viewHolder.setVisible(R.id.btn_ll, false);//按钮布局
                 viewHolder.setVisible(R.id.again_consult_btn, false);//重咨
                 viewHolder.setVisible(R.id.bridge_section_btn, false);//跨科
                 viewHolder.setVisible(R.id.compile_btn, false);//编辑
@@ -164,10 +169,12 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                 //按钮显示判断
                 switch (item.getFCHARGESTATENUMBER()) {
                     case "1"://暂存
+                        viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
                         viewHolder.setVisible(R.id.compile_btn, true);//编辑
                         break;
                     case "3"://已结账
                         if ("1".equals(item.getFCHARGETYPENUMBER()) || "2".equals(item.getFCHARGETYPENUMBER())) {//1-消费,2-预约金
+                            viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
                             if (item.getISTODAY().equals("0")) {
                                 viewHolder.setVisible(R.id.again_consult_btn, true);//重咨
                             }
@@ -177,19 +184,21 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                         }
                         break;
                     case "7"://待OA申请
+                        viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
                         viewHolder.setVisible(R.id.oa_btn, true);//OA申请
                         break;
-//                    case "11"://待扫码支付
-//                        viewHolder.setVisible(R.id.payment_btn, true);//去支付
-//                        break;
+                    /*case "11"://待扫码支付
+                    viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
+                        viewHolder.setVisible(R.id.payment_btn, true);//去支付
+                        break;*/
                     case "2"://待支付
+                        viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
                         viewHolder.setVisible(R.id.payment_btn, true);//去支付
                         break;
                     default:
                         if ("3".equals(item.getFCHARGETYPENUMBER()) || "5".equals(item.getFCHARGETYPENUMBER())) {//3-储值,5-预约金
                             viewHolder.setVisible(R.id.count_text, false);//商品数
                         }
-                        viewHolder.setVisible(R.id.btn_ll, false);//按钮布局
                         break;
                 }
 
@@ -296,53 +305,8 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
 
     }
 
-
-    public boolean getJudgetoDay(String time) {
-        try {
-            boolean flag = IsToday(time);
-            return flag;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public static boolean IsToday(String day) throws ParseException {
-
-        Calendar pre = Calendar.getInstance();
-        Date predate = new Date(System.currentTimeMillis());
-        pre.setTime(predate);
-        Calendar cal = Calendar.getInstance();
-        Date date = getDateFormat().parse(day);
-        cal.setTime(date);
-        if (cal.get(Calendar.YEAR) == (pre.get(Calendar.YEAR))) {
-            int diffDay = cal.get(Calendar.DAY_OF_YEAR) - pre.get(Calendar.DAY_OF_YEAR);
-
-            if (diffDay == 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static SimpleDateFormat getDateFormat() {
-        if (null == DateLocal.get()) {
-            DateLocal.set(new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA));
-        }
-        return DateLocal.get();
-    }
-
-    private static ThreadLocal<SimpleDateFormat> DateLocal = new ThreadLocal<SimpleDateFormat>();
-
-
     private void initData() {
         HashMap<String, Object> map = new HashMap<>();
-//        String today = getIntent().getStringExtra("today");
-//        if (TextUtils.isEmpty(today)) {
-//            map.put("today", "0");//是否只显示今日数据，1-是，0-否
-//        } else {
-//            map.put("today", "1");//是否只显示今日数据，1-是，0-否
-//        }
         map.put("selectedValue", selectedValue);//筛选
         map.put("condition", searchEdit.getText().toString());//搜索
         map.put("pageNumber", pageNumber);

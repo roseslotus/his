@@ -273,7 +273,7 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginLeft="8dp"
-                      android:background="@drawable/line_box_orange_3"
+                      android:background="@drawable/line_box_orange50_3"
                       android:paddingBottom="2dp"
                       android:paddingLeft="5dp"
                       android:paddingRight="5dp"

@@ -14,17 +14,17 @@ public class ChargeInfoEntity {
     private String CFNAME;//用户名称
     private String ISTODAY;//是否是今天
     //    private String CFOWEFLAG;
-//    private String CFPREFERFLAG;
+    //    private String CFPREFERFLAG;
     private String CFRECEIVEID;//分诊id
     //    private String CFREMARK;
-//    private String CFRETFLAG;
-//    private String DEPTID;
-//    private String DEPTNAME;
-//    private String DOCTORID;
-//    private String DOCTORNAME;
-//    private String FARREARAGEMONEY;
-//    private String FARREARAGENUMBER;
-//    private String FARREARAGETIME;
+    //    private String CFRETFLAG;
+    //    private String DEPTID;
+    private String DEPTNAME;//医生科室
+    //    private String DOCTORID;
+    private String DOCTORNAME;//医生名称
+    //    private String FARREARAGEMONEY;
+    //    private String FARREARAGENUMBER;
+    //    private String FARREARAGETIME;
     private String FCHARGESTATENUMBER;//收费单状态 数字
     private String FCHARGESTATE;//收费单状态
     private String FCHARGETYPENUMBER;//消费类型 数字
@@ -33,12 +33,12 @@ public class ChargeInfoEntity {
     //    private String FFACTMONEY;
     private String FID;
     //    private String FISARREARAGE;
-//    private String FISRUSH;
-//    private String FNUMBER;
-//    private int FSHOULDMONEY;
+    //    private String FISRUSH;
+    //    private String FNUMBER;
+    //    private int FSHOULDMONEY;
     private String ID;
-//    private int RN;
-//    private String USERNAME;
+    //    private int RN;
+    //    private String USERNAME;
 
 
     public String getID() {
@@ -145,6 +145,22 @@ public class ChargeInfoEntity {
 
     public void setCFRECEIVEID(String CFRECEIVEID) {
         this.CFRECEIVEID = CFRECEIVEID;
+    }
+
+    public String getDEPTNAME() {
+        return DEPTNAME;
+    }
+
+    public void setDEPTNAME(String DEPTNAME) {
+        this.DEPTNAME = DEPTNAME;
+    }
+
+    public String getDOCTORNAME() {
+        return DOCTORNAME;
+    }
+
+    public void setDOCTORNAME(String DOCTORNAME) {
+        this.DOCTORNAME = DOCTORNAME;
     }
 
     class ProjectList {

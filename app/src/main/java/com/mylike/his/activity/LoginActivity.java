@@ -65,7 +65,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setStatusBarColor(false);//取消状态栏的颜色变更（注：一定要写在setContentView前面）
         setContentView(R.layout.activity_login);
-        StatusBarUtil.setTranslucent(this);//设置状态栏透明
+        StatusBarUtil.setTranslucent(this);//设置状态栏透明2
         ButterKnife.bind(this);
 
         jumpActivity();
