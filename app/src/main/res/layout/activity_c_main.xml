@@ -1,73 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/DrawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical">
 
-        <com.mylike.his.view.BanSlidViewPager
-            android:id="@+id/vp_content"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:isScrollContainer="true" />.
+            android:layout_weight="1">
 
-        <View
+            <com.mylike.his.view.BanSlidViewPager
+                android:id="@+id/vp_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:isScrollContainer="true" />.
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_gradient_gray" />
+        </RelativeLayout>
+
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tb_title"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/bg_gradient_gray" />
-    </RelativeLayout>
+            android:layout_height="50dp"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed">
 
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:icon="@drawable/selector_home_page"
+                android:layout="@layout/item_main_tab"
+                android:text="首页" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tb_title"
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:icon="@drawable/selector_customer"
+                android:layout="@layout/item_main_tab"
+                android:text="客户" />
+            <!--原来是任务入口-->
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:icon="@drawable/selector_statistics"
+                android:layout="@layout/item_main_tab"
+                android:text="统计" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:icon="@drawable/selector_sales"
+                android:layout="@layout/item_main_tab"
+                android:text="销售" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:icon="@drawable/selector_activity"
+                android:layout="@layout/item_main_tab"
+                android:text="活动" />
+
+        </android.support.design.widget.TabLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/filtrate_menu"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:tabIndicatorHeight="0dp"
-        app:tabMode="fixed">
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@color/white"
+        android:clickable="true"
+        android:orientation="vertical">
 
-        <android.support.design.widget.TabItem
+
+        <Button
+            android:id="@+id/update_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:icon="@drawable/selector_home_page"
-            android:layout="@layout/item_main_tab"
-            android:text="首页" />
+            android:layout_height="40dp"
+            android:layout_margin="40dp"
+            android:background="@drawable/btn_green_10"
+            android:text="检查更新"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-        <android.support.design.widget.TabItem
+        <Button
+            android:id="@+id/exit_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:icon="@drawable/selector_customer"
-            android:layout="@layout/item_main_tab"
-            android:text="客户" />
-        <!--原来是任务入口-->
-        <android.support.design.widget.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:icon="@drawable/selector_statistics"
-            android:layout="@layout/item_main_tab"
-            android:text="统计" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:icon="@drawable/selector_sales"
-            android:layout="@layout/item_main_tab"
-            android:text="销售" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:icon="@drawable/selector_activity"
-            android:layout="@layout/item_main_tab"
-            android:text="活动" />
-
-    </android.support.design.widget.TabLayout>
-
-</LinearLayout>
+            android:layout_height="40dp"
+            android:layout_margin="40dp"
+            android:background="@drawable/btn_red_10"
+            android:text="退  出"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

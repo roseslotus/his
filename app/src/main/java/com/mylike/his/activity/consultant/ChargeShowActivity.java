@@ -264,7 +264,8 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
             }
         });
 
-
+        //筛选适配器
+        final float scale = this.getResources().getDisplayMetrics().density;
         commonAdapter1 = new CommonAdapter<ChargeFiltrateEntity>(this, R.layout.item_filtrate_product_list, chargeFiltrateEntityList) {
             @Override
             protected void convert(final ViewHolder viewHolder, final ChargeFiltrateEntity item, int position) {
@@ -275,7 +276,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                     public View getView(FlowLayout parent, int position, Object o) {
                         TextView textView = (TextView) LayoutInflater.from(ChargeShowActivity.this).inflate(R.layout.item_text_label, null);
                         textView.setTextSize(12);
-                        textView.setWidth((filtrateMenu.getWidth() / 2) - 30);
+                        textView.setWidth((filtrateMenu.getWidth() / 3) - (int) (10 * scale + 0.5f));
                         textView.setPadding(0, 30, 0, 30);
                         textView.setGravity(Gravity.CENTER);
 
@@ -299,10 +300,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                 });
             }
         };
-
         filtrateList.setAdapter(commonAdapter1);
-
-
     }
 
     private void initData() {
@@ -418,8 +416,8 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
         optionsPickerView.setPicker(intentionEntities1, intentionEntities2, intentionEntities3);//设置数据
     }
 
+    //获取收费单筛选
     private void initChargeFiltrate() {
-        //获取收费单筛选
         HttpClient.getHttpApi().getChargeFiltrate().enqueue(new BaseBack<List<ChargeFiltrateEntity>>() {
             @Override
             protected void onSuccess(List<ChargeFiltrateEntity> chargeFiltrateEntities) {

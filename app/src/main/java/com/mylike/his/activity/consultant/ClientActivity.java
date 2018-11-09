@@ -1,6 +1,7 @@
 package com.mylike.his.activity.consultant;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -171,6 +172,7 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
 //                                getTriage(clientEntity.getCustomId(), departmentEntitieList.get(position).getDeptid());
 //                            }
 //                        });
+                        Custid = clientEntity.getCustomId();
                         getDepartmentData();
                     }
                 });
@@ -284,12 +286,12 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
         HttpClient.getHttpApi().getSave(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-//                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, Triageid);
-//                if ("0".equals(stringStringMap.get("isCacheOrder"))) {
-//                    startActivity(ProductActivity.class);
-//                } else {
-//                    startActivity(OrderActivity.class, "chargeTag", "1");
-//                }
+                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, Triageid);
+                if ("0".equals(stringStringMap.get("isCacheOrder"))) {
+                    startActivity(ProductActivity.class);
+                } else {
+                    startActivity(OrderActivity.class, "chargeTag", "1");
+                }
             }
 
             @Override
@@ -304,8 +306,8 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
     public void initChannelData() {
         for (int i = 0; i < consumeDDEntitie1.size(); i++) {//科室
             List<ConsumeDDEntity> doctor = new ArrayList<>();//医生容器
-            if (consumeDDEntitie1.get(i).getDepartmentid().isEmpty()) {
-                doctor.add(new ConsumeDDEntity("未被分配过医生"));
+            if (consumeDDEntitie1.get(i).getDoctorlist().isEmpty()) {
+                doctor.add(new ConsumeDDEntity("未分配医生"));
             } else {
                 doctor.addAll(consumeDDEntitie1.get(i).getDoctorlist());
             }
@@ -327,6 +329,7 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
                 .setDividerColor(getResources().getColor(R.color.green_50))//选中线颜色
                 .setLineSpacingMultiplier((float) 2.5)//滚轮间距（此为文字高度的间距倍数）
                 .isRestoreItem(true)
+                .setTextXOffset(20,20,0)
                 .build();
 
         ConsumePV.setPicker(consumeDDEntitie1, consumeDDEntitie2);//二级选择器

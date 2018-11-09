@@ -143,7 +143,6 @@
                 android:background="@color/green_50"
                 android:text="确定"
                 android:textColor="@color/white" />
-
         </LinearLayout>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

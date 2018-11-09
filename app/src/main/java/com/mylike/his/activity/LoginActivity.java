@@ -53,8 +53,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     TextView loginBtn;
     @Bind(R.id.setting_btn)
     ImageView settingBtn;
-    @Bind(R.id.update_app)
-    TextView updateApp;
 
     private TokenEntity tokenEntity;
 
@@ -65,7 +63,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setStatusBarColor(false);//取消状态栏的颜色变更（注：一定要写在setContentView前面）
         setContentView(R.layout.activity_login);
-        StatusBarUtil.setTranslucent(this);//设置状态栏透明2
+        StatusBarUtil.setTranslucent(this);//设置状态栏透明
         ButterKnife.bind(this);
 
         jumpActivity();
@@ -103,13 +101,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-    @OnClick({R.id.login_btn, R.id.setting_btn, R.id.update_app})
+    @OnClick({R.id.login_btn, R.id.setting_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.update_app://设置
-                updataApp();
-                break;
             case R.id.login_btn://登录
                 String accountStr = accountEdit.getText().toString();//账户
                 String passwordStr = passwordEdit.getText().toString();//密码
@@ -256,15 +251,5 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
-    //App更新数据
-    private void updataApp() {
-        //http://issuecdn.baidupcs.com/issue/netdisk/apk/BaiduNetdisk_8.12.9.apk
-        //http://172.16.63.228:8080/mylike-crm/version/findFile?fileName=app-debug.apk
-        AllenVersionChecker
-                .getInstance()
-                .downloadOnly(
-                        UIData.create().setDownloadUrl("http://172.16.63.228:8080/mylike-crm/file/app-debug.apk")
-                )
-                .executeMission(this);
-    }
+
 }

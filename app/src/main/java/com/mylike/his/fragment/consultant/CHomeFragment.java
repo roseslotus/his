@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mylike.his.R;
-import com.mylike.his.activity.LoginActivity;
+import com.mylike.his.activity.consultant.CMainActivity;
 import com.mylike.his.activity.consultant.ChargeDetailsActivity;
 import com.mylike.his.activity.consultant.ChargeShowActivity;
 import com.mylike.his.activity.consultant.ClientActivity;
@@ -25,9 +25,7 @@ import com.mylike.his.activity.consultant.MessageActivity;
 import com.mylike.his.activity.consultant.NewCReceptionActivity;
 import com.mylike.his.activity.consultant.PaymentActivity;
 import com.mylike.his.activity.consultant.SearchActivity;
-import com.mylike.his.activity.consultant.StoredValueActivity;
 import com.mylike.his.activity.consultant.SurgeryActivity;
-import com.mylike.his.activity.consultant.TestActivity;
 import com.mylike.his.activity.consultant.VisitActivity;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.entity.MessageEntity;
@@ -35,7 +33,6 @@ import com.mylike.his.entity.StatisticsEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
-import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -53,9 +50,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by zhengluping on 2018/1/2.
@@ -268,14 +262,9 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.control_img://退出
-                View view = DialogUtil.hintDialog(getActivity(), "是否确认退出？");
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        exitLogin();
-                    }
-                });
+            case R.id.control_img://菜单图标
+                CMainActivity cMainActivity = (CMainActivity) getActivity();
+                cMainActivity.openMenu();
                 break;
             case R.id.message_img://消息（图标）
                 startActivity(MessageActivity.class);
@@ -403,28 +392,6 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
             protected void onFailed(String code, String msg) {
                 refreshLayout.finishRefresh(false);
 
-            }
-        });
-    }
-
-    //退出登录
-    private void exitLogin() {
-        DialogUtil.dismissDialog();//关闭 退出提示弹框
-        CommonUtil.showLoadProgress(getActivity());
-
-        HttpClient.getHttpApi().exitLongin().enqueue(new Callback<Map<String, String>>() {
-            @Override
-            public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
-                SPUtils.clearCache(SPUtils.FILE_USER);//清空账户信息缓存
-                startActivity(LoginActivity.class);
-                getActivity().finish();
-            }
-
-            @Override
-            public void onFailure(Call<Map<String, String>> call, Throwable t) {
-                SPUtils.clearCache(SPUtils.FILE_USER);//清空账户信息缓存
-                startActivity(LoginActivity.class);
-                getActivity().finish();
             }
         });
     }

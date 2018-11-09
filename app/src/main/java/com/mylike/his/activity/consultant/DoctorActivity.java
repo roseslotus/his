@@ -137,13 +137,15 @@ public class DoctorActivity extends BaseActivity implements View.OnClickListener
         };
         rv.setAdapter(commonAdapter);
 
+        final float scale = this.getResources().getDisplayMetrics().density;
+
         //科室筛选标签
         mAdapter1 = new TagAdapter(departmentEntitieList) {
             @Override
             public View getView(FlowLayout parent, int position, Object o) {
                 TextView textView = (TextView) LayoutInflater.from(DoctorActivity.this).inflate(R.layout.item_text_label, null);
                 textView.setTextSize(12);
-                textView.setWidth((filtrateMenu.getWidth() / 2) - 30);
+                textView.setWidth((filtrateMenu.getWidth() / 3) - (int) (10 * scale + 0.5f));
                 textView.setPadding(0, 30, 0, 30);
                 textView.setGravity(Gravity.CENTER);
 
@@ -165,13 +167,14 @@ public class DoctorActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
+
         //医生状态筛选标签
         mAdapter2 = new TagAdapter(stateList) {
             @Override
             public View getView(FlowLayout parent, int position, Object o) {
                 TextView textView = (TextView) LayoutInflater.from(DoctorActivity.this).inflate(R.layout.item_text_label, null);
                 textView.setTextSize(12);
-                textView.setWidth((filtrateMenu.getWidth() / 2) - 30);
+                textView.setWidth((filtrateMenu.getWidth() / 3) - (int) (10 * scale + 0.5f));
                 textView.setPadding(0, 30, 0, 30);
                 textView.setGravity(Gravity.CENTER);
 

@@ -18,6 +18,7 @@ import com.mylike.his.entity.HDepositEntity;
 import com.mylike.his.entity.HospitalAppointmentEntity;
 import com.mylike.his.entity.IntentionEntity;
 import com.mylike.his.entity.MessageEntity;
+import com.mylike.his.entity.MessageTypeEntity;
 import com.mylike.his.entity.ProductChildrenEntity;
 import com.mylike.his.entity.ProductDetailsEntity;
 import com.mylike.his.entity.ProductEntity;
@@ -29,6 +30,7 @@ import com.mylike.his.entity.StatisticsEntity;
 import com.mylike.his.entity.TokenEntity;
 import com.mylike.his.entity.TriageInfoEntity;
 import com.mylike.his.entity.UserIntentionEntity;
+import com.mylike.his.entity.VersionsEntity;
 import com.mylike.his.entity.VisitEntity;
 import com.mylike.his.entity.VisitInfoEntity;
 import com.mylike.his.fragment.consultant.TaskFragment;
@@ -63,8 +65,9 @@ public interface ServersApi {
     Call<Map<String, String>> exitLongin();
 
     //更新APP
-    @POST("version/check_version")
-    Call<BaseEntity<Map<String, String>>> updataApp();
+    @Headers({"Domain-Name: update"})
+    @POST("http://172.16.61.222:8280/app-version/version/check_version")
+    Call<VersionsEntity> updataApp();
 
     //验证api
     @POST("api/user/ping.do")
@@ -153,6 +156,10 @@ public interface ServersApi {
     //消息列表
     @POST("api/message/getMessageList.do")
     Call<BaseEntity<BasePageEntity<MessageEntity>>> getMessageList(@Body RequestBody body);
+
+    //消息筛选
+    @POST("api/message/getMsgType.do")
+    Call<BaseEntity<MessageTypeEntity>> getMessageType();
 
     //当天消息列表
     @POST("api/message/getTodayMessage.do")

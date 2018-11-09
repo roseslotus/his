@@ -46,7 +46,7 @@
             android:name=".activity.consultant.CMainActivity"
             android:launchMode="singleTask"></activity>
         <!--接诊列表（未接诊，已接诊）-->
-        <activity android:name=".activity.consultant.CReceptionActivity"></activity>
+        <!--<activity android:name=".activity.consultant.CReceptionActivity"></activity>-->
         <!--接诊列表-->
         <activity android:name=".activity.consultant.NewCReceptionActivity"></activity>
         <!--客户详情-->

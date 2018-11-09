@@ -3,15 +3,27 @@ package com.mylike.his.activity.consultant;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.BasePageEntity;
 import com.mylike.his.entity.MessageEntity;
+import com.mylike.his.entity.MessageTypeEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
@@ -21,11 +33,18 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,22 +55,51 @@ import butterknife.OnClick;
  * 消息列表
  */
 public class MessageActivity extends BaseActivity implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
-    //    @Bind(R.id.setting_btn)
-    //    ImageView settingBtn;
     @Bind(R.id.message_list)
     ListView messageList;
     @Bind(R.id.return_btn)
     ImageView returnBtn;
     @Bind(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-
-//    private List<String> date = new ArrayList<>();
+    @Bind(R.id.filtrate_btn)
+    ImageView filtrateBtn;
+    @Bind(R.id.filtrate_list)
+    ListView filtrateList;
+    @Bind(R.id.reset_btn)
+    Button resetBtn;
+    @Bind(R.id.confirm_btn)
+    Button confirmBtn;
+    @Bind(R.id.filtrate_menu)
+    LinearLayout filtrateMenu;
+    @Bind(R.id.DrawerLayout)
+    android.support.v4.widget.DrawerLayout DrawerLayout;
+    @Bind(R.id.time_layout1)
+    FrameLayout timeLayout1;
+    @Bind(R.id.time_layout2)
+    FrameLayout timeLayout2;
 
     private int sumPage = 1;//总也数
     private int pageSize = 10;//每页数据
     private int pageNumber = 1;//页码
-    private List<MessageEntity> listAll = new ArrayList<>();
+
+    //消息列表
     private CommonAdapter commonAdapter;
+    private List<MessageEntity> listAll = new ArrayList<>();
+
+    //筛选数据
+    private TagAdapter tagAdapter;
+    private CommonAdapter commonAdapter1;
+    private List<MessageTypeEntity> messageTypeEntitys = new ArrayList<>();
+
+    Map<String, Set<String>> selectedValue = new HashMap<String, Set<String>>();
+    Map<Integer, Set<Integer>> selectedMap = new HashMap<Integer, Set<Integer>>();
+
+    //时间选择器
+    private TimePickerView TimePV1;
+    private TimePickerView TimePV2;
+    Calendar startDate = Calendar.getInstance();//选择器开始时间
+    Calendar endDate = Calendar.getInstance();//选择结束时间
+    Calendar today = Calendar.getInstance();//当天
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +113,32 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initView() {
+        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setOnLoadMoreListener(this);
+        //禁止筛选侧滑动
+        DrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        //初始化适配器
+        initAdapter1();
+        initAdapter2();
+
+        //时间初始化
+        startDate.set(1900, 0, 1);
+        endDate.set(2200, 11, 31);
+
+        //时间器初始化
+        initTimeView1();
+        initTimeView2();
+    }
+
+    //初始化数据
+    private void initData() {
+        getMessageList();
+        getMessageType();
+    }
+
+    //消息列表适配器
+    private void initAdapter1() {
         commonAdapter = new CommonAdapter<MessageEntity>(this, R.layout.item_message_list, listAll) {
             @Override
             protected void convert(final ViewHolder viewHolder, MessageEntity item, final int position) {
@@ -143,28 +217,108 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 viewHolder.setOnClickListener(R.id.btnDelete, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        deleteMessage(listAll.get(position).getFid(),position);
+                        deleteMessage(listAll.get(position).getFid(), position);
                         ((SwipeMenuLayout) viewHolder.getConvertView()).quickClose();
                     }
                 });
             }
         };
         messageList.setAdapter(commonAdapter);
-
-//        messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
-
-
-
-        refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setOnLoadMoreListener(this);
     }
 
-    private void initData() {
+    //筛选适配器
+    private void initAdapter2() {
+        final float scale = this.getResources().getDisplayMetrics().density;
+        commonAdapter1 = new CommonAdapter<MessageTypeEntity>(MessageActivity.this, R.layout.item_filtrate_product_list, messageTypeEntitys) {
+            @Override
+            protected void convert(final ViewHolder viewHolder, final MessageTypeEntity item, int position) {
+                viewHolder.setText(R.id.cover_name, item.getName());
+                TagFlowLayout tagFlowLayout = viewHolder.getView(R.id.flowlayout);
+                tagAdapter = new TagAdapter(item.getList()) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, Object o) {
+                        TextView textView = (TextView) LayoutInflater.from(MessageActivity.this).inflate(R.layout.item_text_label, null);
+                        textView.setTextSize(12);
+                        textView.setWidth((filtrateMenu.getWidth() / 3) - (int) (10 * scale + 0.5f));
+                        textView.setPadding(0, 30, 0, 30);
+                        textView.setGravity(Gravity.CENTER);
+
+                        textView.setText(item.getList().get(position).getName());
+                        return textView;
+                    }
+                };
+                tagFlowLayout.setAdapter(tagAdapter);
+
+                tagAdapter.setSelectedList(selectedMap.get(viewHolder.getItemPosition()));
+                tagFlowLayout.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
+                    @Override
+                    public void onSelected(Set<Integer> selectPosSet) {
+                        selectedMap.put(viewHolder.getItemPosition(), selectPosSet);
+                        Set<String> strings = new HashSet<>();
+                        for (int i : selectPosSet) {
+                            strings.add(item.getList().get(i).getId());
+                        }
+                        selectedValue.put(item.getId(), strings);
+                    }
+                });
+            }
+        };
+        filtrateList.setAdapter(commonAdapter1);
+    }
+
+    //开始时间选择器
+    private void initTimeView1() {
+        TimePV1 = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+            }
+        }).setLayoutRes(R.layout.item_wheel, new CustomListener() {
+            @Override
+            public void customLayout(View v) {
+            }
+        }).setType(new boolean[]{true, true, true, false, false, false})//只显示日期
+                .setSubCalSize(14)//确认取消文字大小
+                .setContentTextSize(14)//滚轮文字大小
+                .setSubmitColor(getResources().getColor(R.color.green_50))//确定按钮的颜色
+                .setCancelColor(getResources().getColor(R.color.gray_49))//取消按钮的颜色
+                .setDividerColor(getResources().getColor(R.color.green_50))//选中线颜色
+                .setLineSpacingMultiplier((float) 2.5)//滚轮间距（此为文字高度的间距倍数）
+                .setRangDate(startDate, endDate)//起始终止年月日设定
+                .setDate(today)//默认数据
+                .setOutSideCancelable(false)
+                .setDecorView(timeLayout1)//非dialog模式下设置容器
+                .build();
+        TimePV1.show();
+
+    }
+
+    //结束时间选择器
+    private void initTimeView2() {
+        TimePV2 = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+            }
+        }).setLayoutRes(R.layout.item_wheel, new CustomListener() {
+            @Override
+            public void customLayout(View v) {
+            }
+        }).setType(new boolean[]{true, true, true, false, false, false})//只显示日期
+                .setSubCalSize(14)//确认取消文字大小
+                .setContentTextSize(14)//滚轮文字大小
+                .setSubmitColor(getResources().getColor(R.color.green_50))//确定按钮的颜色
+                .setCancelColor(getResources().getColor(R.color.gray_49))//取消按钮的颜色
+                .setDividerColor(getResources().getColor(R.color.green_50))//选中线颜色
+                .setLineSpacingMultiplier((float) 2.5)//滚轮间距（此为文字高度的间距倍数）
+                .setRangDate(startDate, endDate)//起始终止年月日设定
+                .setDate(today)//默认数据
+                .setOutSideCancelable(false)
+                .setDecorView(timeLayout2)//非dialog模式下设置容器
+                .build();
+        TimePV2.show();
+    }
+
+    //获取消息列表数据
+    private void getMessageList() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("pageNumber", pageNumber);
         map.put("pageSize", pageSize);
@@ -191,21 +345,37 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+
+    //获取消息类型（筛选数据）
+    private void getMessageType() {
+        HttpClient.getHttpApi().getMessageType().enqueue(new BaseBack<MessageTypeEntity>() {
+            @Override
+            protected void onSuccess(MessageTypeEntity messageTypeEntity) {
+                messageTypeEntitys.addAll(messageTypeEntity.getList());
+                commonAdapter1.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+            }
+        });
+    }
+
+    //设置未读消息
     private void setMessageReadState(String fid) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("fid", fid);
         HttpClient.getHttpApi().setMessageReadState(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-
             }
 
             @Override
             protected void onFailed(String code, String msg) {
-
             }
         });
     }
+
     private void deleteMessage(String fid, final int position) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("fid", fid);
@@ -216,6 +386,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 commonAdapter.notifyDataSetChanged();
                 CommonUtil.showToast("删除成功");
             }
+
             @Override
             protected void onFailed(String code, String msg) {
                 CommonUtil.showToast("删除失败");
@@ -223,16 +394,26 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-
-
-    @OnClick({R.id.return_btn})
+    @OnClick({R.id.return_btn, R.id.filtrate_btn, R.id.reset_btn, R.id.confirm_btn})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.setting_btn://消息设置
-//                startActivity(MessageSettingActivity.class);
-//                break;
-            case R.id.return_btn://消息设置
+            case R.id.reset_btn://筛选重置
+                selectedMap.clear();
+                selectedValue.clear();
+                commonAdapter1.notifyDataSetChanged();
+                break;
+            case R.id.confirm_btn://筛选确认
+//                DrawerLayout.closeDrawer(filtrateMenu);
+//                pageNumber = 1;
+//                listAll.clear();
+//                refreshLayout.setNoMoreData(false);
+                initData();
+                break;
+            case R.id.filtrate_btn://消息筛选
+//                DrawerLayout.openDrawer(filtrateMenu);
+                break;
+            case R.id.return_btn://返回
                 finish();
                 break;
         }
@@ -243,7 +424,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         pageNumber = 1;
         setListNotData(false, null);
         listAll.clear();
-        initData();
+        getMessageList();
     }
 
     @Override
@@ -252,64 +433,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
             refreshLayout.finishLoadMore();
         } else {
             pageNumber = pageNumber + 1;
-            initData();
+            getMessageList();
         }
     }
-
-
-    //    private void initData() {
-//        date.add("待接诊");
-//        date.add("待回访");
-//        date.add("到院提醒");
-//        date.add("治疗提醒");
-//        date.add("待回访");
-//        date.add("待接诊");
-//        date.add("待接诊");
-//        date.add("待接诊");
-//        date.add("待接诊");
-//        date.add("待接诊");
-//    }
-
-    //        messageList.setAdapter(new CommonAdapter<String>(this, R.layout.item_message_list, date) {
-//            @Override
-//            protected void convert(final ViewHolder viewHolder, final String item, int position) {
-//
-//                viewHolder.setText(R.id.name_text, item);
-//                if (item.equals("待接诊")) {
-//                    viewHolder.setImageResource(R.id.message_img, R.mipmap.treat_m_icon);
-//                } else if (item.equals("待回访")) {
-//                    viewHolder.setImageResource(R.id.message_img, R.mipmap.return_visit_m_icon);
-//                } else if (item.equals("治疗提醒")) {
-//                    viewHolder.setImageResource(R.id.message_img, R.mipmap.treatment_m_icon);
-//                } else if (item.equals("到院提醒")) {
-//                    viewHolder.setImageResource(R.id.message_img, R.mipmap.hospital_m_icon);
-//                }
-//
-//                //消息详情
-//                viewHolder.setOnClickListener(R.id.btnItem, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        startActivity(MessageDetailsActivity.class);
-//                    }
-//                });
-//
-//                //退订操作
-//                viewHolder.setOnClickListener(R.id.btnUnsubscribe, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        showToast("点击了退订" + item);
-//                        ((SwipeMenuLayout) viewHolder.getConvertView()).quickClose();
-//                    }
-//                });
-//
-//                //删除操作
-//                viewHolder.setOnClickListener(R.id.btnDelete, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        showToast("点击了删除" + item);
-//                        ((SwipeMenuLayout) viewHolder.getConvertView()).quickClose();
-//                    }
-//                });
-//            }
-//        });
 }
