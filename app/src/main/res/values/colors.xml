@@ -20,6 +20,7 @@
 
     <color name="cyan_50">#29d6f1</color>
 
+    <color name="blue_80">#5981b4</color>
     <color name="blue_70">#2980b9</color>
     <color name="blue_60">#308dd9</color>
     <color name="blue_55">#77b4fd</color>
@@ -28,6 +29,7 @@
     <color name="blue_45">#3AADFE</color>
     <color name="blue_30">#7fcdf2</color>
 
+    <color name="purple_50">#9d65ea</color>
     <color name="purple_30">#979dbc</color>
 
 
@@ -47,4 +49,5 @@
 
 
     <color name="mei_red_50">#d4237a</color>
+
 </resources>

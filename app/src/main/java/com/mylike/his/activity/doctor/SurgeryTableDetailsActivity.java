@@ -19,7 +19,7 @@ import com.mylike.his.fragment.doctor.SurgeryCourseFragment;
 import com.mylike.his.fragment.doctor.SurgeryDetailsFragment;
 import com.mylike.his.fragment.doctor.SurgeryExamineFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -30,11 +30,11 @@ import butterknife.OnClick;
 public class SurgeryTableDetailsActivity extends BaseActivity implements View.OnClickListener {
 
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.surgery_tablayout)
+    @BindView(R.id.surgery_tablayout)
     TabLayout surgeryTablayout;
-    @Bind(R.id.surgery_viewpager)
+    @BindView(R.id.surgery_viewpager)
     ViewPager surgeryViewpager;
 
 

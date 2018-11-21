@@ -85,6 +85,14 @@
                 android:layout_marginLeft="5dp"
                 android:src="@mipmap/vip_icon" />
 
+            <ImageView
+                android:id="@+id/fip_img"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/fip_icon" />
+
+
             <TextView
                 android:id="@+id/card_tv"
                 android:layout_width="wrap_content"
@@ -200,6 +208,7 @@
                 android:textColor="@color/gray_50" />
 
             <TextView
+                android:id="@+id/reception_state_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="待接诊"
@@ -214,6 +223,7 @@
             android:background="@color/gray_48" />
 
         <TextView
+            android:id="@+id/add_inquiry_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"

@@ -24,6 +24,7 @@ public class SPUtils {
     public static final String USER_NAME = "userName"; //咨询师姓名
     public static final String USER_JOB = "userJob"; //咨询师角色
     public static final String HOSPITAL_NAME = "hospitalName"; //咨询师所在医院
+    public static final String USER_JD = "userJD"; //建档权限json
 
 //    //用户名
 //    public static final String USER_NAME = "user_naem";

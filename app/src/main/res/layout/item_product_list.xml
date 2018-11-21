@@ -89,8 +89,8 @@
                 android:id="@+id/discounts"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,12 +102,12 @@
                     android:id="@+id/discounts_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_white_line_box_gray"
-                    android:textColor="@color/black_50"
                     android:layout_marginRight="5dp"
+                    android:background="@drawable/bg_white_line_box_gray"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="1.00"
+                    android:textColor="@color/black_50"
                     android:textSize="14sp" />
 
                 <TextView
@@ -121,8 +121,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
                 android:layout_weight="1"
+                android:gravity="right"
                 android:text="小计："
                 android:textColor="@color/gray_49" />
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.allenliu.versionchecklib.v2.AllenVersionChecker;
 import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
 import com.mylike.his.R;
 import com.mylike.his.activity.consultant.CMainActivity;
@@ -36,7 +37,7 @@ import com.zhy.adapter.abslistview.ViewHolder;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -45,13 +46,13 @@ import butterknife.OnClick;
  * 登录
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.account_edit)
+    @BindView(R.id.account_edit)
     ClearEditText accountEdit;
-    @Bind(R.id.password_edit)
+    @BindView(R.id.password_edit)
     ClearEditText passwordEdit;
-    @Bind(R.id.login_btn)
+    @BindView(R.id.login_btn)
     TextView loginBtn;
-    @Bind(R.id.setting_btn)
+    @BindView(R.id.setting_btn)
     ImageView settingBtn;
 
     private TokenEntity tokenEntity;
@@ -208,13 +209,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             SPUtils.setCache(SPUtils.FILE_USER, SPUtils.USER_NAME, tokenEntity.getUserInfo().getUsername());//咨询师姓名
             SPUtils.setCache(SPUtils.FILE_USER, SPUtils.HOSPITAL_NAME, tokenEntity.getUserInfo().getTenantName());//咨询师所在医院
             SPUtils.setCache(SPUtils.FILE_USER, SPUtils.USER_JOB, job);//存储咨询师角色
+            SPUtils.setCache(SPUtils.FILE_USER, SPUtils.USER_JD, new Gson().toJson(tokenEntity.getAuthList()));
         }
         switch (job) {
             case Constant.JOB_XC_COUNSELOR://现场咨询师
                 startActivity(CMainActivity.class);
                 break;
             case Constant.JOB_WD_COUNSELOR://网电咨询师
-                startActivity(SearchActivity.class);
+                startActivity(SearchActivity.class, "tag", Constant.JOB_WD_COUNSELOR);
                 break;
         }
         finish();
@@ -250,6 +252,4 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
-
-
 }

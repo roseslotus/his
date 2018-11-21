@@ -28,6 +28,7 @@ import com.mylike.his.activity.consultant.SearchActivity;
 import com.mylike.his.activity.consultant.SurgeryActivity;
 import com.mylike.his.activity.consultant.VisitActivity;
 import com.mylike.his.core.BaseFragment;
+import com.mylike.his.core.Constant;
 import com.mylike.his.entity.MessageEntity;
 import com.mylike.his.entity.StatisticsEntity;
 import com.mylike.his.http.BaseBack;
@@ -47,28 +48,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by zhengluping on 2018/1/2.
  * 首页
  */
 public class CHomeFragment extends BaseFragment implements View.OnClickListener, OnRefreshListener {
-    @Bind(R.id.message_list)
+    Unbinder unbinder;
+    @BindView(R.id.message_list)
     ListView messageList;
-    @Bind(R.id.control_img)
+    @BindView(R.id.control_img)
     ImageView controlImg;
-    @Bind(R.id.message_img)
+    @BindView(R.id.message_img)
     RelativeLayout messageImg;
-    @Bind(R.id.title)
+    @BindView(R.id.title)
     RelativeLayout title;
-    @Bind(R.id.title_name)
+    @BindView(R.id.title_name)
     TextView titleName;
-    @Bind(R.id.message_not_sum)
+    @BindView(R.id.message_not_sum)
     TextView messageNotSum;
-    @Bind(R.id.refreshLayout)
+    @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
 
     private TextView hospitalSum;
@@ -91,7 +94,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_c_home, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         initView();
         initData();
         return view;
@@ -126,7 +129,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
         TextView doctorReferBtn = head.findViewById(R.id.doctor_refer_btn);//医生查询
         TextView surgeryBtn = head.findViewById(R.id.surgery_btn);//手术查询
         TextView returnVisitBtn = head.findViewById(R.id.return_visit_btn);//回访
-        TextView repertoryBtn = head.findViewById(R.id.repertory_btn);//库存查询
+        TextView bookbuildingBtn = head.findViewById(R.id.bookbuilding_btn);//库存查询
 
         //统计模块
         hospitalSum = head.findViewById(R.id.hospital_sum);//预约到院人数
@@ -151,7 +154,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
         doctorReferBtn.setOnClickListener(this);
         surgeryBtn.setOnClickListener(this);
         returnVisitBtn.setOnClickListener(this);
-        repertoryBtn.setOnClickListener(this);
+        bookbuildingBtn.setOnClickListener(this);
         hospitalSumBtn.setOnClickListener(this);
         receptionSumBtn.setOnClickListener(this);
         orderSumBtn.setOnClickListener(this);
@@ -196,6 +199,15 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
                         break;*/
                     case "8"://待支付
                         viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_orange2_left_10);
+                        break;
+                    case "9"://已跑诊
+                        viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_blue4_left_10);
+                        break;
+                    case "10"://已跳诊
+                        viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_orange3_left_10);
+                        break;
+                    case "11"://vip到院
+                        viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_purple_left_10);
                         break;
                 }
 
@@ -293,10 +305,10 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
             case R.id.return_visit_btn://回访
                 startActivity(VisitActivity.class);
                 break;
-            case R.id.repertory_btn://库存查询
-                startActivity(SearchActivity.class);//新建
+            case R.id.bookbuilding_btn://建档
+                startActivity(SearchActivity.class, "tag", Constant.JOB_XC_COUNSELOR);//新建
 //                startActivity(TestActivity.class);
-                CommonUtil.showToast("敬请期待");
+//                CommonUtil.showToast("敬请期待");
                 break;
             case R.id.hospital_sum_btn://预约到院总数
                 startActivity(HospitalAppointmentActivity.class);
@@ -347,7 +359,6 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
             @Override
             protected void onFailed(String code, String msg) {
                 refreshLayout.finishRefresh(false);
-
             }
         });
 
@@ -423,7 +434,7 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

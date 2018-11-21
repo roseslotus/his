@@ -10,6 +10,7 @@ import java.util.List;
 public class ReceptionEntity {
 
     private String endCreatetime;
+    private String endCreatetimeQ;
     private String nextLevel;
     private int total;
     private int totalPages;
@@ -17,6 +18,15 @@ public class ReceptionEntity {
     private int pageSize;
     private String nextLevelText;
     private List<ReceptionInfoEntity> list = new ArrayList<>();
+
+
+    public String getEndCreatetimeQ() {
+        return endCreatetimeQ;
+    }
+
+    public void setEndCreatetimeQ(String endCreatetimeQ) {
+        endCreatetimeQ = endCreatetimeQ;
+    }
 
     public String getNextLevelText() {
         return nextLevelText;

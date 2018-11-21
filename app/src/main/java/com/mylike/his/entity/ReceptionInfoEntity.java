@@ -27,6 +27,80 @@ public class ReceptionInfoEntity {
     private String ZXSID;
     private String ZXSNAME;
     private String canBillingFlag;
+    private String HYD;
+    private String KJB;
+    private String LYPC;
+    private String XFZJ;
+    private String XJ;
+    private String departmentId;
+    private String isVip;
+    private String isEmphasis;
+
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public String getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(String isVip) {
+        this.isVip = isVip;
+    }
+
+    public String getIsEmphasis() {
+        return isEmphasis;
+    }
+
+    public void setIsEmphasis(String isEmphasis) {
+        this.isEmphasis = isEmphasis;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public String getHYD() {
+        return HYD;
+    }
+
+    public void setHYD(String HYD) {
+        this.HYD = HYD;
+    }
+
+    public String getKJB() {
+        return KJB;
+    }
+
+    public void setKJB(String KJB) {
+        this.KJB = KJB;
+    }
+
+    public String getLYPC() {
+        return LYPC;
+    }
+
+    public void setLYPC(String LYPC) {
+        this.LYPC = LYPC;
+    }
+
+    public String getXFZJ() {
+        return XFZJ;
+    }
+
+    public void setXFZJ(String XFZJ) {
+        this.XFZJ = XFZJ;
+    }
+
+    public String getXJ() {
+        return XJ;
+    }
+
+    public void setXJ(String XJ) {
+        this.XJ = XJ;
+    }
+
 
     public String getCanBillingFlag() {
         return canBillingFlag;

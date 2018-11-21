@@ -1,28 +1,44 @@
 package com.mylike.his.activity.consultant;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mylike.his.R;
 import com.mylike.his.activity.LoginActivity;
 import com.mylike.his.core.BaseActivity;
+import com.mylike.his.core.Constant;
+import com.mylike.his.entity.TokenEntity;
+import com.mylike.his.entity.UserInfoEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
+import com.mylike.his.utils.DataUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.ClearEditText;
+import com.zhy.adapter.abslistview.CommonAdapter;
+import com.zhy.adapter.abslistview.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -31,14 +47,35 @@ import retrofit2.Response;
 
 public class SearchActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.search_btn)
+    @BindView(R.id.search_btn)
     Button searchBtn;
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.search_edit)
+    @BindView(R.id.search_edit)
     ClearEditText searchEdit;
-    @Bind(R.id.text_hint)
+    @BindView(R.id.text_hint)
     TextView textHint;
+    @BindView(R.id.tag_ll)
+    LinearLayout tagLl;
+    @BindView(R.id.update_btn)
+    Button updateBtn;
+    @BindView(R.id.exit_btn)
+    Button exitBtn;
+    @BindView(R.id.filtrate_menu)
+    LinearLayout filtrateMenu;
+    @BindView(R.id.DrawerLayout)
+    android.support.v4.widget.DrawerLayout DrawerLayout;
+    @BindView(R.id.gridView)
+    GridView gridView;
+    @BindView(R.id.menu_img)
+    ImageView menuImg;
+
+    //建档
+    private CommonAdapter commonAdapter;
+    private List<TokenEntity.authList> authLists = new ArrayList<>();
+
+    //后台返回的时间，防止手机时间不准确
+    private String time;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,9 +87,79 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             startActivity(LoginActivity.class);
             finish();
         }
+        //禁止筛选侧滑动
+        DrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        initData();
+        initView();
     }
 
-    @OnClick({R.id.search_btn, R.id.return_btn})
+    private void initView() {
+        if (getIntent().getStringExtra("tag").equals(Constant.JOB_WD_COUNSELOR)) {
+            menuImg.setVisibility(View.VISIBLE);
+        } else if (getIntent().getStringExtra("tag").equals(Constant.JOB_XC_COUNSELOR)) {
+            returnBtn.setVisibility(View.VISIBLE);
+        }
+
+        commonAdapter = new CommonAdapter<TokenEntity.authList>(SearchActivity.this, R.layout.common_item_text, authLists) {
+            @Override
+            protected void convert(ViewHolder viewHolder, TokenEntity.authList item, int position) {
+                TextView textView = viewHolder.getView(R.id.text);
+                textView.setPadding(0, 50, 0, 50);
+                textView.setText(item.getText());
+            }
+        };
+        gridView.setAdapter(commonAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
+                bundle.putString("phone", searchEdit.getText().toString());//手机号
+                bundle.putString("time", time);//时间
+                bundle.putString("tag", authLists.get(i).getAuth());//标识
+                bundle.putString("tagText", authLists.get(i).getText());//标识
+                startActivity(BookbuildingActivity.class, bundle);
+            }
+        });
+
+        searchEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                textHint.setVisibility(View.GONE);
+                gridView.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void initData() {
+        String value = SPUtils.getCache(SPUtils.FILE_USER, SPUtils.USER_JD);
+        Gson gson = new Gson();
+        authLists = gson.fromJson(value, new TypeToken<List<TokenEntity.authList>>() {
+        }.getType());
+
+        //删除 6 和 9 ，不属于建档
+//        for (TokenEntity.authList v : authLists) {
+//            if ("6".equals(v.getAuth()) || "9".equals(v.getAuth()))
+//                authLists.remove(v);
+//        }
+        Iterator<TokenEntity.authList> iterator = authLists.iterator();
+        while (iterator.hasNext()) {
+            TokenEntity.authList authList = iterator.next();
+            if ("6".equals(authList.getAuth()) || "9".equals(authList.getAuth()))
+                iterator.remove();
+        }
+
+    }
+
+    @OnClick({R.id.search_btn, R.id.return_btn, R.id.exit_btn, R.id.update_btn, R.id.menu_img})
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -63,14 +170,19 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                     CommonUtil.showToast("手机号输入有误");
                 }
                 break;
-            case R.id.return_btn:
-                View view1 = DialogUtil.hintDialog(SearchActivity.this, "是否确认退出？");
-                view1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        exitLogin();
-                    }
-                });
+            case R.id.return_btn://打开左滑菜单
+                finish();
+                break;
+            case R.id.menu_img://打开左滑菜单
+                DrawerLayout.openDrawer(filtrateMenu);
+                break;
+            case R.id.update_btn://版本更新
+                CommonUtil.updataApp(SearchActivity.this, true);
+                break;
+            case R.id.exit_btn://退出
+                DrawerLayout.closeDrawer(filtrateMenu);
+                exitLogin();
+
                 break;
         }
     }
@@ -83,13 +195,13 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
                 if ("0".equals(stringStringMap.get("isExist"))) {//如果订单不存在
-                    Intent intent = new Intent();
-                    intent.putExtra("phone", searchEdit.getText().toString());
-                    intent.putExtra("time", stringStringMap.get("buildTime"));
-                    intent.setClass(SearchActivity.this, BookbuildingActivity.class);
-                    startActivity(intent);
+                    time = stringStringMap.get("buildTime");
+                    gridView.setVisibility(View.VISIBLE);
+                    textHint.setVisibility(View.GONE);
                 } else {//如果订单存在
+                    gridView.setVisibility(View.GONE);
                     textHint.setText("由" + stringStringMap.get("creatorName") + " " + stringStringMap.get("createTime") + "已建档");
+                    textHint.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -101,6 +213,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void exitLogin() {
+        CommonUtil.showLoadProgress(this);
+
         HttpClient.getHttpApi().exitLongin().enqueue(new Callback<Map<String, String>>() {
             @Override
             public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
@@ -112,9 +226,11 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
             @Override
             public void onFailure(Call<Map<String, String>> call, Throwable t) {
-
+                DialogUtil.dismissDialog();
+                SPUtils.setCache(SPUtils.FILE_USER, SPUtils.TOKEN, "");
+                startActivity(LoginActivity.class);
+                finish();
             }
         });
-
     }
 }

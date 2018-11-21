@@ -100,8 +100,10 @@
                         android:layout_height="wrap_content">
 
                         <TableRow
+                            android:id="@+id/visitor_id_layout"
                             android:background="@drawable/bg_white_line_gray_below"
-                            android:padding="5dp">
+                            android:padding="5dp"
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -124,6 +126,62 @@
                                 android:textSize="14sp" />
                         </TableRow>
 
+                        <TableRow
+                            android:id="@+id/creator_layou"
+                            android:background="@drawable/bg_white_line_gray_below"
+                            android:padding="5dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="建档人：" />
+
+                            <AutoCompleteTextView
+                                android:id="@+id/creator_edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:completionThreshold="1"
+                                android:dropDownVerticalOffset="10dp"
+                                android:gravity="right"
+                                android:hint="输入选择建档人"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textColor="@color/black_50"
+                                android:textColorHint="@color/gray_49"
+                                android:textSize="14sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/referrer_layou"
+                            android:background="@drawable/bg_white_line_gray_below"
+                            android:padding="5dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="推荐人：" />
+
+                            <EditText
+                                android:id="@+id/referrer_edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:gravity="right"
+                                android:hint="输入选择推荐人"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:text=""
+                                android:textColor="@color/black_50"
+                                android:textColorHint="@color/gray_49"
+                                android:textSize="14sp" />
+                        </TableRow>
 
                         <TableRow
                             android:background="@drawable/bg_white_line_gray_below"
@@ -238,6 +296,7 @@
                                 android:background="@android:color/transparent"
                                 android:gravity="right"
                                 android:hint="输入年龄"
+                                android:inputType="number"
                                 android:padding="5dp"
                                 android:singleLine="true"
                                 android:text=""
@@ -539,6 +598,7 @@
                                 android:textColor="@color/gray_49" />
 
                             <EditText
+                                android:id="@+id/channel_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -547,7 +607,6 @@
                                 android:gravity="right"
                                 android:padding="5dp"
                                 android:singleLine="true"
-                                android:text="搜索建档"
                                 android:textColor="@color/gray_49"
                                 android:textSize="14sp" />
                         </TableRow>
@@ -981,6 +1040,7 @@
                         android:visibility="gone">
 
                         <TableRow
+                            android:id="@+id/user_layou"
                             android:background="@drawable/bg_white_line_gray_below"
                             android:padding="5dp">
 

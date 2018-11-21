@@ -39,8 +39,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -49,36 +50,36 @@ import butterknife.OnClick;
  * 产品选择
  */
 public class ProductActivity extends BaseActivity implements View.OnClickListener {
-
-
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.combo_btn)
+    @BindView(R.id.combo_btn)
     LinearLayout comboBtn;
-    @Bind(R.id.product_btn)
+    @BindView(R.id.product_btn)
     LinearLayout productBtn;
-    @Bind(R.id.detail_btn)
+    @BindView(R.id.detail_btn)
     LinearLayout detailBtn;
-    @Bind(R.id.screen_ll)
+    @BindView(R.id.screen_ll)
     LinearLayout screenLl;
-    @Bind(R.id.menu_list)
+    @BindView(R.id.menu_list)
     ListView menuList;
-    @Bind(R.id.sublevel_list)
+    @BindView(R.id.sublevel_list)
     ListView sublevelList;
-    @Bind(R.id.search_edit)
+    @BindView(R.id.search_edit)
     EditText searchEdit;
-    @Bind(R.id.money_text)
+    @BindView(R.id.money_text)
     TextView moneyText;
-    @Bind(R.id.submit_btn)
+    @BindView(R.id.submit_btn)
     TextView submitBtn;
-    @Bind(R.id.search_btn)
+    @BindView(R.id.search_btn)
     Button searchBtn;
-    @Bind(R.id.combo_text)
+    @BindView(R.id.combo_text)
     TextView comboText;
-    @Bind(R.id.product_text)
+    @BindView(R.id.product_text)
     TextView productText;
-    @Bind(R.id.detail_text)
+    @BindView(R.id.detail_text)
     TextView detailText;
+
+    private String departmentId;//科室id
 
     private PopupWindow projectPW;
     private String typeValue = "COMBO";
@@ -94,11 +95,9 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     private List<ProductDetailsEntity> productDetailsEntityList = new ArrayList<>();//右侧菜单数据
     private List<ProductDetailsEntity> accountList = new ArrayList<>();//挑选的产品
 
-
     @Override
     protected void onStart() {
         super.onStart();
-
         //判断是否从购物车过来，不为空则把购物车数据带过来
         if (!TextUtils.isEmpty(getIntent().getStringExtra(ShoppingCartActivity.CART_TAG))) {
             accountList.addAll((List<ProductDetailsEntity>) getIntent().getSerializableExtra("accountList"));
@@ -136,6 +135,8 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initView() {
+        departmentId = getIntent().getStringExtra("deptId");
+
         //左侧菜单列表
         commonAdapter = new CommonAdapter<ProductChildrenEntity>(this, R.layout.item_menu_list, productChildrenEntities) {
             @Override
@@ -292,7 +293,10 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
 
 
     private void initData() {
-        HttpClient.getHttpApi().getProductAll().enqueue(new BaseBack<ProductsThreeLevelEntity>() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("deptId", departmentId);//科室id
+
+        HttpClient.getHttpApi().getProductAll(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ProductsThreeLevelEntity>() {
             @Override
             protected void onSuccess(ProductsThreeLevelEntity productsThreeLevelEntity) {
                 productsThreeLevel = productsThreeLevelEntity;

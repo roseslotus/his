@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="输入姓名或手机号" />
+                    android:hint="输入搜索内容" />
 
                 <Button
                     android:id="@+id/search_btn"
@@ -156,7 +156,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     zhy:max_select="-1" />
-
 
 
                 <TextView

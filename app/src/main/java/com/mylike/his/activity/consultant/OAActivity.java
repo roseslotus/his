@@ -35,7 +35,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -45,11 +45,11 @@ import butterknife.OnClick;
  * OA审批
  */
 public class OAActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.webView)
+    @BindView(R.id.webView)
     WebView webView;
-    @Bind(R.id.prog)
+    @BindView(R.id.prog)
     ProgressBar prog;
 
     private String token;

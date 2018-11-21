@@ -10,6 +10,7 @@ import com.mylike.his.entity.ChargeInfoEntity;
 import com.mylike.his.entity.ChargeUserInfoEntity;
 import com.mylike.his.entity.ClientEntity;
 import com.mylike.his.entity.ConsumeDDEntity;
+import com.mylike.his.entity.CreatorEntity;
 import com.mylike.his.entity.DepartmentDoctorEntity;
 import com.mylike.his.entity.DepartmentEntity;
 import com.mylike.his.entity.DoctorDetailsEntity;
@@ -25,6 +26,8 @@ import com.mylike.his.entity.ProductEntity;
 import com.mylike.his.entity.ProductsThreeLevelEntity;
 import com.mylike.his.entity.ReceptionEntity;
 import com.mylike.his.entity.ReceptionNotEntity;
+import com.mylike.his.entity.ReceptionTypeEntity;
+import com.mylike.his.entity.ReferrerEntity;
 import com.mylike.his.entity.SVProjectEntity;
 import com.mylike.his.entity.StatisticsEntity;
 import com.mylike.his.entity.TokenEntity;
@@ -33,6 +36,7 @@ import com.mylike.his.entity.UserIntentionEntity;
 import com.mylike.his.entity.VersionsEntity;
 import com.mylike.his.entity.VisitEntity;
 import com.mylike.his.entity.VisitInfoEntity;
+import com.mylike.his.entity.VisitTypeEntity;
 import com.mylike.his.fragment.consultant.TaskFragment;
 
 import java.util.HashMap;
@@ -66,7 +70,7 @@ public interface ServersApi {
 
     //更新APP
     @Headers({"Domain-Name: update"})
-    @POST("http://172.16.61.222:8280/app-version/version/check_version")
+    @POST("http://uat8280.mylikesh.cn/app-version/version/check_version")
     Call<VersionsEntity> updataApp();
 
     //验证api
@@ -83,7 +87,7 @@ public interface ServersApi {
 
     //所有产品
     @POST("api/product/findType.do")
-    Call<BaseEntity<ProductsThreeLevelEntity>> getProductAll();
+    Call<BaseEntity<ProductsThreeLevelEntity>> getProductAll(@Body RequestBody body);
 
     //产品下集合
     @POST("api/product/findProduct.do")
@@ -178,11 +182,11 @@ public interface ServersApi {
     Call<BaseEntity<Map<String, String>>> deleteMessage(@Body RequestBody body);
 
     //回访列表
-    @POST("api/user/findVisitList.do")
+    @POST("api/outbound/findVisitList.do")
     Call<BaseEntity<BasePageEntity<VisitEntity>>> getVisitList(@Body RequestBody body);
 
     //回访列表详情
-    @POST("api/user/findVisitDetail.do")
+    @POST("api/outbound/findVisitDetail.do")
     Call<BaseEntity<VisitInfoEntity>> getVisitListDetails(@Body RequestBody body);
 
     //获取所有意向
@@ -245,6 +249,7 @@ public interface ServersApi {
     @POST("api/channel/checkPhone.do")
     Call<BaseEntity<Map<String, String>>> getSearchData(@Body RequestBody body);
 
+
     //获取搜索建档的所有可选信息
     @POST("api/dd/getDicMult.do")
     Call<BaseEntity<Map<String, List<BookbuildingEntity>>>> getDicMult(@Body RequestBody body);
@@ -257,5 +262,28 @@ public interface ServersApi {
     @POST("api/bill/getDoctorAndDepartmentByCust.do")
     Call<BaseEntity<List<ConsumeDDEntity>>> getDepartmentAndDoctor(@Body RequestBody body);
 
+    //建档人
+    @POST("api/channel/getBuildByOptions.do")
+    Call<BaseEntity<CreatorEntity>> getCreator();
+
+    //推荐人
+    @POST("api/channel/getUserInfoByPhoneOrNameLike.do")
+    Call<BaseEntity<ReferrerEntity>> getReferrer(@Body RequestBody body);
+
+    //接诊类型（筛选）
+    @POST("api/bill/triagelistparam.do")
+    Call<BaseEntity<List<ReceptionTypeEntity>>> getReceptionType();
+
+    //客户筛选
+    @POST("api/custom/getCustomSearchInfoData.do")
+    Call<BaseEntity<ReceptionTypeEntity>> getClientType(@Body RequestBody body);
+
+    //医生筛选
+    @POST("api/doctor/getDoctorDetailScreen.do")
+    Call<BaseEntity<List<ReceptionTypeEntity>>> getDoctorDetailScreen();
+
+    //回访筛选
+    @POST("api/outbound/getVisitType.do")
+    Call<BaseEntity<VisitTypeEntity>> getVisitType();
 
 }

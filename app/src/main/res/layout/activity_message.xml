@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/DrawerLayout"
     android:layout_width="match_parent"
@@ -106,12 +105,31 @@
                     android:layout_height="1px"
                     android:background="@color/gray_48" />
 
-                <TextView
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="时间"
-                    android:textColor="@color/black_50" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:text="时间"
+                        android:textColor="@color/black_50" />
+
+                    <TextView
+                        android:id="@+id/clear_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text="清除"
+                        android:textColor="@color/gray_49"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -120,7 +138,8 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
 
-                    <com.mylike.his.view.CheckableLinearLayout
+                    <LinearLayout
+                        android:id="@+id/start_time_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -133,20 +152,22 @@
                             android:textColor="@color/gray_49" />
 
                         <TextView
+                            android:id="@+id/start_time_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:duplicateParentState="true"
-                            android:text="2018-07-6"
-                            android:textColor="@drawable/selector_text_green" />
-                    </com.mylike.his.view.CheckableLinearLayout>
+                            android:hint="暂无"
+                            android:textColor="@drawable/selector_text_green"
+                            android:textColorHint="@color/gray_49" />
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
                         android:background="@mipmap/line_right_icon" />
 
-                    <com.mylike.his.view.CheckableLinearLayout
+                    <LinearLayout
+                        android:id="@+id/end_time_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -160,13 +181,14 @@
                             android:textColor="@color/gray_49" />
 
                         <TextView
+                            android:id="@+id/end_time_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:duplicateParentState="true"
-                            android:text="2018-07-6"
-                            android:textColor="@drawable/selector_text_green" />
-                    </com.mylike.his.view.CheckableLinearLayout>
+                            android:hint="暂无"
+                            android:textColor="@drawable/selector_text_green"
+                            android:textColorHint="@color/gray_49" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <View
@@ -174,18 +196,6 @@
                     android:layout_height="1px"
                     android:layout_marginTop="10dp"
                     android:background="@color/gray_48" />
-
-                <FrameLayout
-                    android:id="@+id/time_layout1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible" />
-
-                <FrameLayout
-                    android:id="@+id/time_layout2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible" />
             </LinearLayout>
         </ScrollView>
 

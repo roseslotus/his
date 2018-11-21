@@ -31,7 +31,7 @@ import com.mylike.his.view.BanSlidViewPager;
 
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -43,17 +43,17 @@ import retrofit2.Response;
  */
 public class CMainActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.tb_title)
+    @BindView(R.id.tb_title)
     TabLayout tbTitle;
-    @Bind(R.id.vp_content)
+    @BindView(R.id.vp_content)
     BanSlidViewPager vpContent;
-    @Bind(R.id.update_btn)
+    @BindView(R.id.update_btn)
     Button updateBtn;
-    @Bind(R.id.exit_btn)
+    @BindView(R.id.exit_btn)
     Button exitBtn;
-    @Bind(R.id.filtrate_menu)
+    @BindView(R.id.filtrate_menu)
     LinearLayout filtrateMenu;
-    @Bind(R.id.DrawerLayout)
+    @BindView(R.id.DrawerLayout)
     android.support.v4.widget.DrawerLayout DrawerLayout;
 
     private Fragment[] mFragments = new Fragment[5];
@@ -61,7 +61,6 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
     public static String GO_CHARGE = "go_charge";//跳转收费单
     public static String GO_OA = "go_oa";//跳转OA
     public static String GO_PAYMENT = "go_payment";//跳转支付
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +70,9 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
                         WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_c_main);
         ButterKnife.bind(this);
+
+        //禁止筛选侧滑动
+        DrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         if (TextUtils.isEmpty(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))) {
             startActivity(LoginActivity.class);
@@ -96,6 +98,12 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
         tbTitle.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpContent));
         vpContent.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tbTitle));
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        CommonUtil.updataApp(this, false);
     }
 
     @Override
@@ -161,7 +169,7 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.update_btn://版本更新
-                CommonUtil.updataApp(CMainActivity.this);
+                CommonUtil.updataApp(CMainActivity.this, true);
                 break;
             case R.id.exit_btn://退出
                 DrawerLayout.closeDrawer(filtrateMenu);
@@ -179,7 +187,7 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
 
     //退出登录
     private void exitLogin() {
-        DialogUtil.dismissDialog();//关闭 退出提示弹框
+//        DialogUtil.dismissDialog();//关闭 退出提示弹框
         CommonUtil.showLoadProgress(this);
 
         HttpClient.getHttpApi().exitLongin().enqueue(new Callback<Map<String, String>>() {

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,9 +20,9 @@ import butterknife.OnClick;
 
 public class MessageSettingActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.remind_management_btn)
+    @BindView(R.id.remind_management_btn)
     TextView remindManagementBtn;
 
     @Override

@@ -1,5 +1,6 @@
 package com.mylike.his.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -10,7 +11,7 @@ public class TokenEntity {
     private List<String> special_role;
     private String token;
     private UserInfoEntity userInfo;
-
+    private List<authList> authList = new ArrayList<>();
 
     public List<String> getSpecial_role() {
         return special_role;
@@ -34,5 +35,34 @@ public class TokenEntity {
 
     public void setUserInfo(UserInfoEntity userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public List<TokenEntity.authList> getAuthList() {
+        return authList;
+    }
+
+    public void setAuthList(List<TokenEntity.authList> authList) {
+        this.authList = authList;
+    }
+
+    public class authList {
+        private String auth;
+        private String text;
+
+        public String getAuth() {
+            return auth;
+        }
+
+        public void setAuth(String auth) {
+            this.auth = auth;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
     }
 }

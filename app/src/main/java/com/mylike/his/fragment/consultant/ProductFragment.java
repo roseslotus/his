@@ -35,9 +35,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import q.rorbin.verticaltablayout.VerticalTabLayout;
 
 
@@ -46,17 +47,18 @@ import q.rorbin.verticaltablayout.VerticalTabLayout;
  * 活动-产品
  */
 public class ProductFragment<T> extends BaseFragment implements View.OnClickListener {
-    @Bind(R.id.reception_tablayout)
+    Unbinder unbinder;
+    @BindView(R.id.reception_tablayout)
     VerticalTabLayout receptionTablayout;
-    @Bind(R.id.reception_viewpager)
+    @BindView(R.id.reception_viewpager)
     ViewPager receptionViewpager;
-    @Bind(R.id.combo_btn)
+    @BindView(R.id.combo_btn)
     LinearLayout comboBtn;
-    @Bind(R.id.product_btn)
+    @BindView(R.id.product_btn)
     LinearLayout productBtn;
-    @Bind(R.id.detail_btn)
+    @BindView(R.id.detail_btn)
     LinearLayout detailBtn;
-    @Bind(R.id.screen_ll)
+    @BindView(R.id.screen_ll)
     LinearLayout screenLl;
 
     private PopupWindow projectPW;
@@ -95,13 +97,16 @@ public class ProductFragment<T> extends BaseFragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         initData();
         return view;
     }
 
     private void initData() {
-        HttpClient.getHttpApi().getProductAll().enqueue(new BaseBack<ProductsThreeLevelEntity>() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("deptId", "");//筛选
+
+        HttpClient.getHttpApi().getProductAll(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ProductsThreeLevelEntity>() {
             @Override
             protected void onSuccess(ProductsThreeLevelEntity productsThreeLevelEntity) {
                 productsThreeLevel = productsThreeLevelEntity;
@@ -269,6 +274,6 @@ public class ProductFragment<T> extends BaseFragment implements View.OnClickList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 }

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -18,15 +18,15 @@ import butterknife.OnClick;
  */
 
 public class MedicalDetailsActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.medical_record_btn)
+    @BindView(R.id.medical_record_btn)
     TextView medicalRecordBtn;
-    @Bind(R.id.medical_information_btn)
+    @BindView(R.id.medical_information_btn)
     TextView medicalInformationBtn;
-    @Bind(R.id.prescription_btn)
+    @BindView(R.id.prescription_btn)
     TextView prescriptionBtn;
-    @Bind(R.id.consumption_icon)
+    @BindView(R.id.consumption_icon)
     TextView consumptionIcon;
 
     @Override

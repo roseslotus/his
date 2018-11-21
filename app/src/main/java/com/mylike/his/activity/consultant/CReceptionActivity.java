@@ -19,7 +19,7 @@
 //
 //import java.lang.reflect.Field;
 //
-//import butterknife.Bind;
+//import butterknife.BindView;
 //import butterknife.ButterKnife;
 //import butterknife.OnClick;
 //
@@ -28,11 +28,11 @@
 // * 接诊列表
 // **/
 //public class CReceptionActivity extends BaseActivity implements View.OnClickListener {
-//    @Bind(R.id.reception_tablayout)
+//    @BindView(R.id.reception_tablayout)
 //    TabLayout receptionTablayout;
-//    @Bind(R.id.reception_viewpager)
+//    @BindView(R.id.reception_viewpager)
 //    ViewPager receptionViewpager;
-//    @Bind(R.id.return_btn)
+//    @BindView(R.id.return_btn)
 //    ImageView returnBtn;
 //
 //    private String tabTitles[] = new String[]{"未接诊", "已接诊"};

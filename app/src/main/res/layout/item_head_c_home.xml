@@ -171,14 +171,14 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/repertory_btn"
+                android:id="@+id/bookbuilding_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawablePadding="5dp"
-                android:drawableTop="@mipmap/repertory_icon"
+                android:drawableTop="@mipmap/bookbuilding_icon"
                 android:gravity="center"
-                android:text="库存查询"
+                android:text="建档"
                 android:textColor="@color/black_50"
                 android:textSize="13sp" />
         </LinearLayout>

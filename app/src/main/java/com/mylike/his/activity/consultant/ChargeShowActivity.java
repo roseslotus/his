@@ -57,7 +57,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -67,28 +67,28 @@ import butterknife.OnClick;
  */
 public class ChargeShowActivity extends BaseActivity implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
 
-    @Bind(R.id.charge_list)
+    @BindView(R.id.charge_list)
     ListView chargeList;
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.refreshLayout)
+    @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @Bind(R.id.filtrate_btn)
+    @BindView(R.id.filtrate_btn)
     ImageView filtrateBtn;
-    @Bind(R.id.search_edit)
+    @BindView(R.id.search_edit)
     ClearEditText searchEdit;
-    @Bind(R.id.search_btn)
+    @BindView(R.id.search_btn)
     Button searchBtn;
 
-    @Bind(R.id.filtrate_list)
+    @BindView(R.id.filtrate_list)
     ListView filtrateList;
-    @Bind(R.id.reset_btn)
+    @BindView(R.id.reset_btn)
     Button resetBtn;
-    @Bind(R.id.confirm_btn)
+    @BindView(R.id.confirm_btn)
     Button confirmBtn;
-    @Bind(R.id.filtrate_menu)
+    @BindView(R.id.filtrate_menu)
     LinearLayout filtrateMenu;
-    @Bind(R.id.DrawerLayout)
+    @BindView(R.id.DrawerLayout)
     android.support.v4.widget.DrawerLayout DrawerLayout;
 
     private OptionsPickerView optionsPickerView;
@@ -149,7 +149,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                 viewHolder.setText(R.id.time_text, item.getFCREATETIME());//时间
                 viewHolder.setText(R.id.money_text, setDecimalFormat(item.getCFFEEALL()));//金额
                 viewHolder.setText(R.id.count_text, "共" + item.getProjectList().size() + "件商品");//商品件数
-                if (item.getDOCTORNAME().isEmpty()) {//医生为空
+                if (TextUtils.isEmpty(item.getDOCTORNAME())) {//医生为空
                     viewHolder.setText(R.id.department_text, item.getDEPTNAME());//科室
                 } else {
                     viewHolder.setText(R.id.department_text, item.getDEPTNAME() + " - " + item.getDOCTORNAME());//科室跟医生
@@ -358,29 +358,31 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
             //在第一项添加空意向，如果选择“请选择”则代表此级意向为空
             intentionEntityList2.add(new IntentionEntity("请选择"));
             //如果无意向，添加空对象，防止数据为null 导致三个选项长度不匹配造成崩溃
-            if (intentionEntities1.get(i).getChildren().size() == 0) {
+
+            if (intentionEntities1.get(i).getChildren() == null || intentionEntities1.get(i).getChildren().size() == 0) {
                 intentionEntityList3.add(intentionEntityList2);
-            }
-            for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
-                //添加二级意向
-                intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
+            } else {
+                for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
+                    //添加二级意向
+                    intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
 
-                //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
-                if (j == 0) {
-                    List<IntentionEntity> IList = new ArrayList<>();
-                    IList.add(new IntentionEntity("请选择"));
-                    intentionEntityList3.add(IList);
+                    //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
+                    if (j == 0) {
+                        List<IntentionEntity> IList = new ArrayList<>();
+                        IList.add(new IntentionEntity("请选择"));
+                        intentionEntityList3.add(IList);
+                    }
+
+                    //添加三级意向
+                    List<IntentionEntity> IList3 = new ArrayList<>();
+                    IList3.add(new IntentionEntity("请选择"));
+                    if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
+                        IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
+                    }
+                    intentionEntityList3.add(IList3);
                 }
 
-                //添加三级意向
-                List<IntentionEntity> IList3 = new ArrayList<>();
-                IList3.add(new IntentionEntity("请选择"));
-                if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
-                    IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
-                }
-                intentionEntityList3.add(IList3);
             }
-
             intentionEntities2.add(intentionEntityList2);
             intentionEntities3.add(intentionEntityList3);
         }
@@ -389,7 +391,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
         optionsPickerView = new OptionsPickerBuilder(ChargeShowActivity.this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {//选择项
-                Intention = new String[]{intentionEntities1.get(options1).getPbtid(), intentionEntities2.get(options1).get(options2).getPbtid(), intentionEntities3.get(options1).get(options2).get(options3).getPbtid()};
+                Intention = new String[]{intentionEntities1.get(options1).getPid(), intentionEntities2.get(options1).get(options2).getPid(), intentionEntities3.get(options1).get(options2).get(options3).getPid()};
                 submitData();
             }
         }).setLayoutRes(R.layout.dialog_again_consult, new CustomListener() {//自定义布局

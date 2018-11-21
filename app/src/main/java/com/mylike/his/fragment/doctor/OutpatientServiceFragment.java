@@ -13,9 +13,10 @@ import com.mylike.his.activity.doctor.MedicalShowActivity;
 import com.mylike.his.activity.doctor.VisitShowActivity;
 import com.mylike.his.core.BaseFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by zhengluping on 2018/3/12.
@@ -23,27 +24,28 @@ import butterknife.OnClick;
  */
 
 public class OutpatientServiceFragment extends BaseFragment implements View.OnClickListener {
-    @Bind(R.id.department_btn)
+    Unbinder unbinder;
+    @BindView(R.id.department_btn)
     TextView departmentBtn;
-    @Bind(R.id.my_department_btn)
+    @BindView(R.id.my_department_btn)
     TextView myDepartmentBtn;
-    @Bind(R.id.medical_record_btn)
+    @BindView(R.id.medical_record_btn)
     TextView medicalRecordBtn;
-    @Bind(R.id.medical_history_btn)
+    @BindView(R.id.medical_history_btn)
     TextView medicalHistoryBtn;
-    @Bind(R.id.visit_btn)
+    @BindView(R.id.visit_btn)
     TextView visitBtn;
-   /* @Bind(R.id.screening_text)
+   /* @BindView(R.id.screening_text)
     TextView screeningText;
-    @Bind(R.id.department_btn)
+    @BindView(R.id.department_btn)
     TextView departmentBtn;
-    @Bind(R.id.my_department_btn)
+    @BindView(R.id.my_department_btn)
     TextView myDepartmentBtn;
-    @Bind(R.id.medical_record_btn)
+    @BindView(R.id.medical_record_btn)
     TextView medicalRecordBtn;
-    @Bind(R.id.medical_history_btn)
+    @BindView(R.id.medical_history_btn)
     TextView medicalHistoryBtn;
-    @Bind(R.id.visit_btn)
+    @BindView(R.id.visit_btn)
     TextView visitBtn;*/
 
     private View view;
@@ -59,14 +61,14 @@ public class OutpatientServiceFragment extends BaseFragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_outpatient_service, null);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @OnClick({R.id.department_btn, R.id.my_department_btn, R.id.medical_record_btn, R.id.medical_history_btn, R.id.visit_btn})

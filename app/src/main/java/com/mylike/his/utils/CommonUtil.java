@@ -33,6 +33,8 @@ import com.orhanobut.logger.Logger;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
@@ -174,9 +176,24 @@ public class CommonUtil {
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+
+    //-------------------------------------------------------获取日期-------------------------------------------------------
+
+    //获取年月日
+    public static String getYMD(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
+    //获取年月日时分
+    public static String getYMDHM(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        return format.format(date);
+    }
+
     //-------------------------------------------------------App检查更新-------------------------------------------------------
 
-    public static void updataApp(final Context context) {
+    public static void updataApp(final Context context, final boolean tag) {
         HttpClient.getHttpApi().updataApp().enqueue(new Callback<VersionsEntity>() {
             @Override
             public void onResponse(Call<VersionsEntity> call, Response<VersionsEntity> response) {
@@ -215,7 +232,8 @@ public class CommonUtil {
                     builder.executeMission(context);
 
                 } else {//没有版本更新
-                    showToast("已是最新版本，无需更新");
+                    if (tag)//是否提示
+                        showToast("已是最新版本，无需更新");
                 }
             }
 

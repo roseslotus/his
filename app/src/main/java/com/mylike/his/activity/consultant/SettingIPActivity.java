@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
@@ -35,11 +35,11 @@ import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
  */
 public class SettingIPActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.add_btn)
+    @BindView(R.id.add_btn)
     TextView addBtn;
-    @Bind(R.id.ip_list)
+    @BindView(R.id.ip_list)
     ListView ipList;
 
     private String ipValue;//选中的值（ip地址+ 端口）

@@ -15,9 +15,10 @@ import com.mylike.his.activity.doctor.SurgeryScheduleActivity;
 import com.mylike.his.activity.doctor.SurgeryTableActivity;
 import com.mylike.his.core.BaseFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by zhengluping on 2018/3/12.
@@ -25,14 +26,15 @@ import butterknife.OnClick;
  */
 
 public class SurgeryFragment extends BaseFragment implements View.OnClickListener {
+    Unbinder unbinder;
 
-    @Bind(R.id.surgery_dynamic)
+    @BindView(R.id.surgery_dynamic)
     TextView surgeryDynamic;
-    @Bind(R.id.surgery_order_btn)
+    @BindView(R.id.surgery_order_btn)
     TextView surgeryOrderBtn;
-    @Bind(R.id.surgery_schedule_btn)
+    @BindView(R.id.surgery_schedule_btn)
     TextView surgeryScheduleBtn;
-    @Bind(R.id.surgery_table_btn)
+    @BindView(R.id.surgery_table_btn)
     TextView surgeryTableBtn;
     private View view;
 
@@ -40,7 +42,7 @@ public class SurgeryFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_surgery, null);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -54,7 +56,7 @@ public class SurgeryFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @OnClick({R.id.surgery_order_btn, R.id.surgery_dynamic, R.id.surgery_schedule_btn, R.id.surgery_table_btn})

@@ -21,7 +21,7 @@ import com.wx.wheelview.widget.WheelView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -31,9 +31,9 @@ import butterknife.OnClick;
  */
 public class RefundActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.refund_list)
+    @BindView(R.id.refund_list)
     ListView refundList;
-    @Bind(R.id.refund_reason_btn)
+    @BindView(R.id.refund_reason_btn)
     TextView refundReasonBtn;
     private List<String> date = new ArrayList<>();
 

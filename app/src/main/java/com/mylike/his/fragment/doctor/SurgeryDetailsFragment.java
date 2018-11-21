@@ -10,12 +10,14 @@ import com.mylike.his.R;
 import com.mylike.his.core.BaseFragment;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by zhengluping on 2018/3/12.
  */
 
 public class SurgeryDetailsFragment extends BaseFragment implements View.OnClickListener {
+    Unbinder unbinder;
 
     private View view;
 
@@ -23,7 +25,7 @@ public class SurgeryDetailsFragment extends BaseFragment implements View.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_surgery_details, null);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -37,7 +39,7 @@ public class SurgeryDetailsFragment extends BaseFragment implements View.OnClick
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override

@@ -18,18 +18,45 @@ public class ClientEntity extends BaseIndexPinyinBean {
     private String membershipLevel;
     private String activeLevel;
     private String activeLevelName;
-    private String star;
     private String comeHospitalNum;
     private String totalAmounts;
     private String cardName;
-    private String custLogo;
+    private String isVip;
+    private String isEmphasis;
+    private String starNum;
+//    private String custLogo;
 
-    public String getCustLogo() {
-        return custLogo;
+//    public String getCustLogo() {
+//        return custLogo;
+//    }
+//
+//    public void setCustLogo(String custLogo) {
+//        this.custLogo = custLogo;
+//    }
+
+
+    public String getIsVip() {
+        return isVip;
     }
 
-    public void setCustLogo(String custLogo) {
-        this.custLogo = custLogo;
+    public void setIsVip(String isVip) {
+        this.isVip = isVip;
+    }
+
+    public String getIsEmphasis() {
+        return isEmphasis;
+    }
+
+    public void setIsEmphasis(String isEmphasis) {
+        this.isEmphasis = isEmphasis;
+    }
+
+    public String getStarNum() {
+        return starNum;
+    }
+
+    public void setStarNum(String starNum) {
+        this.starNum = starNum;
     }
 
     public String getActiveLevel() {
@@ -46,14 +73,6 @@ public class ClientEntity extends BaseIndexPinyinBean {
 
     public void setActiveLevelName(String activeLevelName) {
         this.activeLevelName = activeLevelName;
-    }
-
-    public String getStar() {
-        return star;
-    }
-
-    public void setStar(String star) {
-        this.star = star;
     }
 
     public String getComeHospitalNum() {

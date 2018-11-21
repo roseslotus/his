@@ -15,7 +15,7 @@ import com.zhy.adapter.abslistview.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,7 +26,7 @@ import butterknife.OnClick;
 
 public class PrescriptionActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.prescription_list)
+    @BindView(R.id.prescription_list)
     ListView prescription_list;
 
     @Override

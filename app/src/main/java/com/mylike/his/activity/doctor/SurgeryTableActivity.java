@@ -17,7 +17,7 @@ import com.zhy.adapter.abslistview.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,9 +26,9 @@ import butterknife.OnClick;
  * 手术预约查询列表
  */
 public class SurgeryTableActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.surgery_list)
+    @BindView(R.id.surgery_list)
     ListView surgeryList;
 
     @Override

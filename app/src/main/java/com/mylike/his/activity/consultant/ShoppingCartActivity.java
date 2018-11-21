@@ -29,7 +29,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -41,15 +41,15 @@ import butterknife.OnClick;
 public class ShoppingCartActivity extends BaseActivity implements View.OnClickListener {
     public static String CART_TAG = "ShoppingCart";
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.add_btn)
+    @BindView(R.id.add_btn)
     TextView addBtn;
-    @Bind(R.id.project_list)
+    @BindView(R.id.project_list)
     ListView projectList;
-    @Bind(R.id.money_text)
+    @BindView(R.id.money_text)
     TextView moneyText;
-    @Bind(R.id.submit_btn)
+    @BindView(R.id.submit_btn)
     Button submitBtn;
 
     private double moneySum;//合计金额
@@ -201,6 +201,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                 final NumberPickerView numberPickerView = viewHolder.getView(R.id.number);
                 numberPickerView.setCurrentNum(Integer.parseInt(item.getCount()));
                 numberPickerView.setMinDefaultNum(1);
+                numberPickerView.setMaxValue(100);
                 numberPickerView.setmOnClickBtnListener(new NumberPickerView.OnClickBtnListener() {
                     @Override
                     public void textChanged(int inputText) {

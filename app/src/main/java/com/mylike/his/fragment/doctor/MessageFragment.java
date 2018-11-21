@@ -20,9 +20,10 @@ import com.zhy.adapter.abslistview.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
@@ -31,10 +32,11 @@ import butterknife.OnClick;
  */
 
 public class MessageFragment extends BaseFragment implements View.OnClickListener {
+    Unbinder unbinder;
 
-    @Bind(R.id.setting_btn)
+    @BindView(R.id.setting_btn)
     ImageView settingBtn;
-    @Bind(R.id.message_list)
+    @BindView(R.id.message_list)
     ListView messageList;
 
     private List<String> date = new ArrayList<>();
@@ -51,7 +53,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         setDate();
         messageList.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item_message_list, date) {
             @Override
@@ -154,6 +156,6 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 }

@@ -19,7 +19,7 @@ import com.mylike.his.utils.SPUtils;
 
 import java.util.HashMap;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -29,47 +29,47 @@ import butterknife.OnClick;
 
 public class VisitDetailsActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.name_text)
+    @BindView(R.id.name_text)
     TextView nameText;
-    @Bind(R.id.phone_text)
+    @BindView(R.id.phone_text)
     TextView phoneText;
-    @Bind(R.id.card_text)
+    @BindView(R.id.card_text)
     TextView cardText;
-    @Bind(R.id.tag_rl)
+    @BindView(R.id.tag_rl)
     RelativeLayout tagRl;
-    @Bind(R.id.visit_name_tv)
+    @BindView(R.id.visit_name_tv)
     TextView visitNameTv;
-    @Bind(R.id.grade_tv)
+    @BindView(R.id.grade_tv)
     TextView gradeTv;
-    @Bind(R.id.time_tv)
+    @BindView(R.id.time_tv)
     TextView timeTv;
-    @Bind(R.id.type_tv)
+    @BindView(R.id.type_tv)
     TextView typeTv;
-    @Bind(R.id.node_tv)
+    @BindView(R.id.node_tv)
     TextView nodeTv;
-    @Bind(R.id.purpose_tv)
+    @BindView(R.id.purpose_tv)
     TextView purposeTv;
-    @Bind(R.id.require_tv)
+    @BindView(R.id.require_tv)
     TextView requireTv;
-    @Bind(R.id.visit_not_ll)
+    @BindView(R.id.visit_not_ll)
     LinearLayout visitNotLl;
-    @Bind(R.id.visit_name_text)
+    @BindView(R.id.visit_name_text)
     TextView visitNameText;
-    @Bind(R.id.time_text)
+    @BindView(R.id.time_text)
     TextView timeText;
-    @Bind(R.id.type_text)
+    @BindView(R.id.type_text)
     TextView typeText;
-    @Bind(R.id.result_text)
+    @BindView(R.id.result_text)
     TextView resultText;
-    @Bind(R.id.feedback_text)
+    @BindView(R.id.feedback_text)
     TextView feedbackText;
-    @Bind(R.id.note_text)
+    @BindView(R.id.note_text)
     TextView noteText;
-    @Bind(R.id.visit_has_ll)
+    @BindView(R.id.visit_has_ll)
     LinearLayout visitHasLl;
-    @Bind(R.id.title_name)
+    @BindView(R.id.title_name)
     TextView titleName;
 
     private int visitValue;

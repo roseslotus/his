@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -46,31 +46,31 @@ import butterknife.OnClick;
  * 医生查询
  */
 public class DoctorActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.filtrate_btn)
+    @BindView(R.id.filtrate_btn)
     ImageView filtrateBtn;
-    @Bind(R.id.search_edit)
+    @BindView(R.id.search_edit)
     ClearEditText searchEdit;
-    @Bind(R.id.rv)
+    @BindView(R.id.rv)
     RecyclerView rv;
-    @Bind(R.id.indexBar)
+    @BindView(R.id.indexBar)
     IndexBar indexBar;
-    @Bind(R.id.tvSideBarHint)
+    @BindView(R.id.tvSideBarHint)
     TextView tvSideBarHint;
-    @Bind(R.id.search_btn)
+    @BindView(R.id.search_btn)
     Button searchBtn;
-    @Bind(R.id.flowlayout1)
+    @BindView(R.id.flowlayout1)
     TagFlowLayout flowlayout1;
-    @Bind(R.id.flowlayout2)
+    @BindView(R.id.flowlayout2)
     TagFlowLayout flowlayout2;
-    @Bind(R.id.reset_btn)
+    @BindView(R.id.reset_btn)
     Button resetBtn;
-    @Bind(R.id.confirm_btn)
+    @BindView(R.id.confirm_btn)
     Button confirmBtn;
-    @Bind(R.id.filtrate_menu)
+    @BindView(R.id.filtrate_menu)
     LinearLayout filtrateMenu;
-    @Bind(R.id.DrawerLayout)
+    @BindView(R.id.DrawerLayout)
     android.support.v4.widget.DrawerLayout DrawerLayout;
 
     //通讯录

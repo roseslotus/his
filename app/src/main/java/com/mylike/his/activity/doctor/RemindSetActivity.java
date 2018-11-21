@@ -16,7 +16,7 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -27,13 +27,13 @@ import butterknife.OnClick;
 public class RemindSetActivity extends BaseActivity implements View.OnClickListener {
 
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.label_1)
+    @BindView(R.id.label_1)
     TagFlowLayout label1;
-    @Bind(R.id.label_2)
+    @BindView(R.id.label_2)
     TagFlowLayout label2;
-    @Bind(R.id.label_3)
+    @BindView(R.id.label_3)
     TagFlowLayout label3;
     private List<String> date = new ArrayList<>();
 

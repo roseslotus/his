@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,13 +26,13 @@ import butterknife.OnClick;
  */
 public class PaymentActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.ali_image)
+    @BindView(R.id.ali_image)
     ImageView aliImage;
-    @Bind(R.id.wx_image)
+    @BindView(R.id.wx_image)
     ImageView wxImage;
-    @Bind(R.id.money_text)
+    @BindView(R.id.money_text)
     TextView moneyText;
 
     @Override

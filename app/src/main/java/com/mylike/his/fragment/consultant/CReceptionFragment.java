@@ -35,8 +35,9 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -44,12 +45,13 @@ import butterknife.ButterKnife;
  * 咨询师-接诊fragment
  */
 public class CReceptionFragment extends BaseFragment {
+    Unbinder unbinder;
 
     public static final String TITLE_TAG = "TITLE_TAG";
 
-    @Bind(R.id.reception_list)
+    @BindView(R.id.reception_list)
     ListView receptionList;
-    @Bind(R.id.refreshLayout)
+    @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
 
     //当前页标题
@@ -73,7 +75,7 @@ public class CReceptionFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reception, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
 //        setData();
         setViewValue();
@@ -126,35 +128,6 @@ public class CReceptionFragment extends BaseFragment {
 
                 }
             });
-
-
-//            receptionList.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item_reception_not_list, DataUtil.getData(5)) {
-//                @Override
-//                protected void convert(final ViewHolder viewHolder, String item, int position) {
-//                    LinearLayout ll = viewHolder.getView(R.id.reception_ll);
-//                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) ll.getLayoutParams();
-//                    if (position == 0) {
-//                        lp.setMargins(50, 200, 50, 0);
-//                        viewHolder.setText(R.id.wait_text, "40");
-//                        viewHolder.setTextColor(R.id.wait_text, Color.RED);
-//                    } else {
-//                        lp.setMargins(50, 30, 50, 0);
-//                    }
-//                    ll.setLayoutParams(lp);
-//
-//                    //意向列表
-////                    ListView listView = viewHolder.getView(R.id.intention_list);
-////                    listView.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item_intention_list, data3) {
-////                        @Override
-////                        protected void convert(ViewHolder viewHolder, String item, int position) {
-////                            viewHolder.setVisible(R.id.consulting_hint, false);
-////                        }
-////                    });
-////
-////                    //意向列表高度
-////                    measureListViewHeight(listView);
-//                }
-//            });
 
             receptionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -218,7 +191,6 @@ public class CReceptionFragment extends BaseFragment {
                                 @Override
                                 public void onClick(View v) {
                                     startActivity(StoredValueActivity.class, "clientId", item.getCUSTID());
-//                                    startActivity(StoredValueActivity.class);
                                 }
                             });
 
@@ -233,7 +205,6 @@ public class CReceptionFragment extends BaseFragment {
                     });
 
                     //---------底部-------------
-
                     View foot = View.inflate(getActivity(), R.layout.common_item_text, null);
                     final TextView textView = foot.findViewById(R.id.text);
                     textView.setText("您已经看见我的底线了");
@@ -247,226 +218,13 @@ public class CReceptionFragment extends BaseFragment {
 
                 }
             });
-
-
-           /* SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date curDate = new Date(System.currentTimeMillis());
-            String str = formatter.format(curDate);
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("startTime", str);
-            map.put("endTime", str);
-            map.put("pageNumber", "1");
-            map.put("pageSize", "10");
-
-            HashMap<String, String> paramsMap = new HashMap<>();
-            paramsMap.put("Content-type", "application/json;charset=UTF-8");
-            paramsMap.put("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN));
-
-            HttpClient.getHttpApi().getHasReception(paramsMap, HttpClient.getRequestBody(map)).enqueue(new BaseBack<ReceptionEntity>() {
-
-                @Override
-                protected void onSuccess(ReceptionEntity receptionEntity) {
-                    receptionList.setAdapter(new CommonAdapter<ReceptionInfoEntity>(getActivity(), R.layout.item_reception_has_list, receptionEntity.getList()) {
-                        @Override
-                        protected void convert(ViewHolder viewHolder, ReceptionInfoEntity item, int position) {
-                            String phone = item.getCFHANDSET().substring(0, 3) + "****" + item.getCFHANDSET().substring(7, 11);
-                            viewHolder.setText(R.id.user_info_text, item.getCFNAME() + "   " + phone);
-                            if (item.getREGISTERTYPE().equals("1")) {
-                                viewHolder.setText(R.id.state_text, "重咨");
-                            } else if (item.getREGISTERTYPE().equals("2")) {
-                                viewHolder.setText(R.id.state_text, "跨科");
-                            } else {
-                                viewHolder.setText(R.id.state_text, "");
-                            }
-
-                            viewHolder.setText(R.id.time_text, item.getCREATE_DATE());
-
-                            if (TextUtils.isEmpty(item.getDOCTOR_DEPARTMENT())) {
-                                viewHolder.setVisible(R.id.department_text, false);
-                            } else {
-                                viewHolder.setVisible(R.id.department_text, true);
-                                if (TextUtils.isEmpty(item.getYSNAME())) {
-                                    viewHolder.setText(R.id.department_text, item.getDOCTOR_DEPARTMENT());
-                                } else {
-                                    viewHolder.setText(R.id.department_text, item.getDOCTOR_DEPARTMENT() + " ——" + item.getYSNAME());
-                                }
-                            }
-                            LinearLayout ll = viewHolder.getView(R.id.reception_ll);
-                            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) ll.getLayoutParams();
-                            if (position == 0) {
-                                lp.setMargins(50, 200, 50, 0);
-                            } else {
-                                lp.setMargins(50, 30, 50, 0);
-                            }
-                            ll.setLayoutParams(lp);
-
-                            //储值
-                            viewHolder.setOnClickListener(R.id.stored_value_btn, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    startActivity(StoredValueActivity.class);
-                                }
-                            });
-
-                            //住院押金
-                            viewHolder.setOnClickListener(R.id.hospital_deposit_btn, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    startActivity(DepositHospitalActivity.class);
-                                }
-                            });
-                        }
-                    });
-
-                }
-
-                @Override
-                protected void onFailed(String code, String msg) {
-
-                }
-            });*/
-
-//            receptionList.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item_reception_has_list, DataUtil.getData(10)) {
-//                @Override
-//                protected void convert(final ViewHolder viewHolder, String item, int position) {
-//                    LinearLayout ll = viewHolder.getView(R.id.reception_ll);
-//                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) ll.getLayoutParams();
-//                    if (position == 0) {
-//                        lp.setMargins(50, 200, 50, 0);
-//                    } else {
-//                        lp.setMargins(50, 30, 50, 0);
-//                    }
-//                    ll.setLayoutParams(lp);
-//
-//                    //储值
-//                    viewHolder.setOnClickListener(R.id.stored_value_btn, new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            startActivity(StoredValueActivity.class);
-//                        }
-//                    });
-//
-//                    //住院押金
-//                    viewHolder.setOnClickListener(R.id.hospital_deposit_btn, new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            startActivity(DepositHospitalActivity.class);
-//                        }
-//                    });
-//
-////                    if (position == 1) {//新客
-////                        viewHolder.setImageDrawable(R.id.head_portrait_img, getActivity().getResources().getDrawable(R.mipmap.boy_icon));
-////                        viewHolder.setText(R.id.state_text, "交易完成");
-//
-////                    }
-//
-////                    //个人信息
-////                    viewHolder.setOnClickListener(R.id.personal_details_btn, new View.OnClickListener() {
-////                        @Override
-////                        public void onClick(View v) {
-////                            startActivity(CustomerDetailsActivity.class);
-////                        }
-////                    });
-//
-////                    //意向列表
-////                    ListView listView = viewHolder.getView(R.id.intention_list);
-////                    listView.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item_intention_list, data2) {
-////                        @Override
-////                        protected void convert(ViewHolder viewHolder, String item, int position) {
-////                            //重咨
-////                            if (position == 1) {
-////                                viewHolder.setVisible(R.id.consulting_hint, true);
-////                            }
-////                        }
-////                    });
-////
-////
-////                    //意向列表高度
-////                    measureListViewHeight(listView);
-////                    //解决点击内嵌listview无反应
-////                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-////                        @Override
-////                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//////                            Intent intent = new Intent(getActivity(), OrderActivity.class);
-//////                            startActivity(intent);
-////                            startActivity(OrderActivity.class);
-////                        }
-////                    });
-//                }
-////            });
-////            receptionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-////                @Override
-////                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//////                    Intent intent = new Intent(getActivity(), OrderActivity.class);
-//////                    startActivity(intent);
-////                    startActivity(OrderActivity.class);
-////
-////                }
-//            });
         }
     }
-
-//
-//    public void measureListViewHeight(ListView listView) {
-//        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-//        int screedWidth = wm.getDefaultDisplay().getWidth();
-//        ListAdapter listAdapter = listView.getAdapter();
-//        if (listAdapter == null) {
-//            return;
-//        }
-//        int totalHeight = 0;
-//        int listViewWidth = screedWidth - dip2px(getActivity(), 10);//listView在布局时的宽度
-//        int widthSpec = View.MeasureSpec.makeMeasureSpec(listViewWidth, View.MeasureSpec.AT_MOST);
-//        for (int i = 0; i < listAdapter.getCount(); i++) {
-//            View listItem = listAdapter.getView(i, null, listView);
-//            listItem.measure(widthSpec, 0);
-//
-//            int itemHeight = listItem.getMeasuredHeight();
-//            totalHeight += itemHeight;
-//        }
-//        // 减掉底部分割线的高度
-//        int historyHeight = totalHeight
-//                + (listView.getDividerHeight() * listAdapter.getCount() - 1);
-////        Log.d("Javine","listViewHeight = "+historyHeight);
-//        ViewGroup.LayoutParams params = listView.getLayoutParams();
-//        params.height = historyHeight;
-//        listView.setLayoutParams(params);
-//    }
-//
-//
-//    //设置列表高度
-//    public void setListViewHeightBasedOnChildren(ListView listView) {
-//        ListAdapter listAdapter = listView.getAdapter();
-//        if (listAdapter == null) {
-//            return;
-//        }
-//        View listItem = listAdapter.getView(0, null, listView);
-//        listItem.measure(0, 0);
-//        int listItemHeight = listItem.getMeasuredHeight();
-//        int totalHeight = listItemHeight * listAdapter.getCount();
-//
-//        ViewGroup.LayoutParams params = listView.getLayoutParams();
-//        params.height = totalHeight + (1 * (listAdapter.getCount() - 1));
-//        listView.setLayoutParams(params);
-//    }
-
-    //设置数据
-//                private void setData() {
-//                    for (int i = 0; i < 3; i++) {
-//                        data.add("aaa" + i);
-//                    }
-//                    for (int i = 0; i < 3; i++) {
-//                        data2.add("aaa" + i);
-//                    }
-//                    for (int i = 0; i < 1; i++) {
-//                        data3.add("aaa" + i);
-//                    }
-//                }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
 }

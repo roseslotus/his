@@ -17,7 +17,7 @@ import com.mylike.his.fragment.doctor.OutpatientServiceFragment;
 import com.mylike.his.fragment.doctor.SurgeryFragment;
 import com.mylike.his.view.BanSlidViewPager;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
  */
 public class DMainActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.tb_title)
+    @BindView(R.id.tb_title)
     TabLayout tbTitle;
-    @Bind(R.id.vp_content)
+    @BindView(R.id.vp_content)
     BanSlidViewPager vpContent;
 
     private Fragment[] mFragments = new Fragment[5];

@@ -15,19 +15,25 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.mcxtzhang.indexlib.IndexBar.widget.IndexBar;
 import com.mcxtzhang.indexlib.suspension.SuspensionDecoration;
 import com.mylike.his.R;
 import com.mylike.his.activity.CustomerDetailsActivity;
+import com.mylike.his.activity.consultant.ClientActivity;
 import com.mylike.his.activity.consultant.DepositHospitalActivity;
 import com.mylike.his.activity.consultant.OrderActivity;
 import com.mylike.his.activity.consultant.ProductActivity;
 import com.mylike.his.activity.consultant.StoredValueActivity;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.entity.ClientEntity;
+import com.mylike.his.entity.ConsumeDDEntity;
 import com.mylike.his.entity.DepartmentEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.ClearEditText;
@@ -43,9 +49,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
@@ -53,15 +60,16 @@ import butterknife.OnClick;
  * 客户
  */
 public class CustomerFragment extends BaseFragment implements View.OnClickListener, OnRefreshListener {
-    @Bind(R.id.search_edit)
+    Unbinder unbinder;
+    @BindView(R.id.search_edit)
     ClearEditText searchEdit;
-    @Bind(R.id.rv)
+    @BindView(R.id.rv)
     RecyclerView rv;
-    @Bind(R.id.indexBar)
+    @BindView(R.id.indexBar)
     IndexBar indexBar;
-    @Bind(R.id.tvSideBarHint)
+    @BindView(R.id.tvSideBarHint)
     TextView tvSideBarHint;
-    @Bind(R.id.refreshLayout)
+    @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     private View view;
 
@@ -72,6 +80,12 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
     private List<ClientEntity> clientEntityList = new ArrayList<>();//客户列表
     private List<DepartmentEntity> departmentEntitieList = new ArrayList<>();//科室数据
 
+    // 科室及医生
+    private OptionsPickerView ConsumePV;//消费选择器
+    private List<ConsumeDDEntity> consumeDDEntitie1 = new ArrayList<>();//科室
+    private List<List<ConsumeDDEntity>> consumeDDEntitie2 = new ArrayList<>();//医生
+
+    private String Custid;//客户id
 
     public static CustomerFragment newInstance() {
         Bundle args = new Bundle();
@@ -89,7 +103,7 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_customer, null);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         initView();
         initData();
         return view;
@@ -121,27 +135,36 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
                     holder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.boy_c_icon));
                 }
                 //级别（ 0：VIP ，1：FIP）
-                if (clientEntity.getCustLogo().equals("0")) {//vip
+                if (clientEntity.getIsVip().equals("1"))
                     holder.setVisible(R.id.vip_img, true);
-                    holder.setImageDrawable(R.id.vip_img, getResources().getDrawable(R.mipmap.vip_icon));
-
-                } else if (clientEntity.getCustLogo().equals("1")) {//fip
-                    holder.setVisible(R.id.vip_img, true);
-                    holder.setImageDrawable(R.id.vip_img, getResources().getDrawable(R.mipmap.fip_icon));
-
-                } else {//普通
+                else
                     holder.setVisible(R.id.vip_img, false);
-                }
+
+                if (clientEntity.getIsEmphasis().equals("1"))
+                    holder.setVisible(R.id.fip_img, true);
+                else
+                    holder.setVisible(R.id.fip_img, false);
+
                 //卡
-                holder.setText(R.id.card_tv, clientEntity.getCardName());
+                if (TextUtils.isEmpty(clientEntity.getCardName())) {
+                    holder.setVisible(R.id.card_tv, false);
+                } else {
+                    holder.setVisible(R.id.card_tv, true);
+                    holder.setText(R.id.card_tv, clientEntity.getCardName());
+                }
                 //活跃度
-                holder.setText(R.id.liveness_text, clientEntity.getActiveLevelName());
+                if (TextUtils.isEmpty(clientEntity.getActiveLevelName())) {
+                    holder.setVisible(R.id.liveness_text, false);
+                } else {
+                    holder.setVisible(R.id.liveness_text, true);
+                    holder.setText(R.id.liveness_text, clientEntity.getActiveLevelName());
+                }
                 //来院次数
                 holder.setText(R.id.number, clientEntity.getComeHospitalNum());
                 //消费金额
                 holder.setText(R.id.money_text, setDecimalFormat(clientEntity.getTotalAmounts()));
                 RatingBar star = holder.getView(R.id.star);
-                star.setRating(Integer.parseInt(clientEntity.getStar()));
+                star.setRating(Integer.parseInt(clientEntity.getStarNum()));
 
                 holder.setOnClickListener(R.id.content, new View.OnClickListener() {
                     @Override
@@ -155,7 +178,7 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
                 holder.setOnClickListener(R.id.expense_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        View itemView = DialogUtil.commomDialog(getActivity(), R.layout.common_item_list, 0);
+                        /*View itemView = DialogUtil.commomDialog(getActivity(), R.layout.common_item_list, 0);
                         ListView listView = itemView.findViewById(R.id.common_list);
                         listView.setBackgroundResource(R.drawable.bg_white_box_10);
                         listView.setAdapter(new com.zhy.adapter.abslistview.CommonAdapter<DepartmentEntity>(getActivity(), R.layout.common_item_text, departmentEntitieList) {
@@ -171,7 +194,10 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 getTriage(clientEntity.getCustomId(), departmentEntitieList.get(position).getDeptid());
                             }
-                        });
+                        });*/
+
+                        Custid = clientEntity.getCustomId();
+                        getDepartmentData();
                     }
                 });
                 //储值
@@ -229,7 +255,7 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
 
     //获取科室列表
     private void getDepartmentData() {
-        HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
+       /* HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
             @Override
             protected void onSuccess(List<DepartmentEntity> departmentEntities) {
                 departmentEntitieList.addAll(departmentEntities);
@@ -239,25 +265,75 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
             protected void onFailed(String code, String msg) {
 
             }
+        });*/
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Custid", Custid);
+
+        HttpClient.getHttpApi().getDepartmentAndDoctor(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ConsumeDDEntity>>() {
+            @Override
+            protected void onSuccess(List<ConsumeDDEntity> consumeDDEntities) {
+                consumeDDEntitie1.clear();
+                consumeDDEntitie1.addAll(consumeDDEntities);
+                initChannelData();
+
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+
+            }
         });
     }
 
+    //初始化科室医生二级联动数据
+    public void initChannelData() {
+        for (int i = 0; i < consumeDDEntitie1.size(); i++) {//科室
+            List<ConsumeDDEntity> doctor = new ArrayList<>();//医生容器
+            if (consumeDDEntitie1.get(i).getDoctorlist().isEmpty()) {
+                doctor.add(new ConsumeDDEntity("未分配医生"));
+            } else {
+                doctor.addAll(consumeDDEntitie1.get(i).getDoctorlist());
+            }
+            consumeDDEntitie2.add(doctor);
+        }
+
+        //初始化科室医生选择器
+        ConsumePV = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                CommonUtil.showLoadProgress(getActivity());
+                getTriage(consumeDDEntitie1.get(options1).getDepartmentid(), consumeDDEntitie2.get(options1).get(options2).getDepartmentid());
+            }
+        })
+                .setSubCalSize(14)//确认取消文字大小
+                .setContentTextSize(14)//滚轮文字大小
+                .setSubmitColor(getResources().getColor(R.color.green_50))
+                .setCancelColor(getResources().getColor(R.color.gray_49))
+                .setDividerColor(getResources().getColor(R.color.green_50))//选中线颜色
+                .setLineSpacingMultiplier((float) 2.5)//滚轮间距（此为文字高度的间距倍数）
+                .isRestoreItem(true)
+                .setTextXOffset(20, 20, 0)
+                .build();
+
+        ConsumePV.setPicker(consumeDDEntitie1, consumeDDEntitie2);//二级选择器
+        ConsumePV.show();
+    }
+
     //添加一条分诊，获取分诊id
-    private void getTriage(String Custid, String DoctorDepartment) {
+    private void getTriage(String DoctorDepartment, String doctorId) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("Custid", Custid);
         map.put("DoctorDepartment", DoctorDepartment);
+        map.put("doctorid", doctorId);
         HttpClient.getHttpApi().getTriage(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
                 // 保存/刷新分诊id
                 getSaveData(stringStringMap.get("fid"));
-                DialogUtil.dismissDialog();
             }
 
             @Override
             protected void onFailed(String code, String msg) {
-                DialogUtil.dismissDialog();
             }
         });
     }
@@ -313,6 +389,6 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 }

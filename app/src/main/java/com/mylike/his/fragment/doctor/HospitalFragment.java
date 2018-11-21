@@ -12,9 +12,10 @@ import com.mylike.his.R;
 import com.mylike.his.activity.doctor.HospitalShowActivity;
 import com.mylike.his.core.BaseFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by zhengluping on 2018/3/16.
@@ -22,10 +23,11 @@ import butterknife.OnClick;
  */
 
 public class HospitalFragment extends BaseFragment implements View.OnClickListener {
+    Unbinder unbinder;
 
-    @Bind(R.id.today_hospital_btn)
+    @BindView(R.id.today_hospital_btn)
     TextView todayHospitalBtn;
-    @Bind(R.id.out_hospital_btn)
+    @BindView(R.id.out_hospital_btn)
     TextView outHospitalBtn;
     private View view;
 
@@ -40,14 +42,14 @@ public class HospitalFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_hospital, null);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @OnClick({R.id.today_hospital_btn, R.id.out_hospital_btn})

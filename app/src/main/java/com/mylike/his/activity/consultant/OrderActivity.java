@@ -55,7 +55,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -67,65 +67,65 @@ import static com.mylike.his.activity.consultant.ShoppingCartActivity.CART_TAG;
  */
 public class OrderActivity extends BaseActivity implements View.OnClickListener, OnRefreshListener {
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.user_name)
+    @BindView(R.id.user_name)
     TextView userName;
-    @Bind(R.id.section_text)
+    @BindView(R.id.section_text)
     TextView sectionText;
-    @Bind(R.id.doctor_text)
+    @BindView(R.id.doctor_text)
     TextView doctorText;
-    @Bind(R.id.user_phone)
+    @BindView(R.id.user_phone)
     TextView userPhone;
-    @Bind(R.id.project_list)
+    @BindView(R.id.project_list)
     SListView projectList;
-    @Bind(R.id.intention_text)
+    @BindView(R.id.intention_text)
     TextView intentionText;
-    @Bind(R.id.add_intention_text)
+    @BindView(R.id.add_intention_text)
     TextView addIntentionText;
-    @Bind(R.id.tag_ll)
+    @BindView(R.id.tag_ll)
     LinearLayout tagLl;
-    @Bind(R.id.sum_text)
+    @BindView(R.id.sum_text)
     TextView sumText;
-    @Bind(R.id.save_charge_btn)
+    @BindView(R.id.save_charge_btn)
     TextView saveChargeBtn;
-    @Bind(R.id.add_charge_btn)
+    @BindView(R.id.add_charge_btn)
     TextView addChargeBtn;
-    @Bind(R.id.integral_text)
+    @BindView(R.id.integral_text)
     TextView integralText;
-    @Bind(R.id.update_btn)
+    @BindView(R.id.update_btn)
     TextView updateBtn;
-    @Bind(R.id.subscription_btn)
+    @BindView(R.id.subscription_btn)
     TextView subscriptionBtn;
-    @Bind(R.id.time_text)
+    @BindView(R.id.time_text)
     TextView timeText;
-    @Bind(R.id.time_ll)
+    @BindView(R.id.time_ll)
     LinearLayout timeLl;
-    @Bind(R.id.money_text)
+    @BindView(R.id.money_text)
     EditText moneyText;
-    @Bind(R.id.money_ll)
+    @BindView(R.id.money_ll)
     LinearLayout moneyLl;
-    @Bind(R.id.oa_box)
+    @BindView(R.id.oa_box)
     CheckBox oaBox;
-    @Bind(R.id.refreshLayout)
+    @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @Bind(R.id.remark_edit)
+    @BindView(R.id.remark_edit)
     EditText remarkEdit;
-    @Bind(R.id.integral_edit)
+    @BindView(R.id.integral_edit)
     EditText integralEdit;
-    //    @Bind(R.id.move)
+    //    @BindView(R.id.move)
 //    RadioButton move;
-//    @Bind(R.id.not_move)
+//    @BindView(R.id.not_move)
 //    RadioButton notMove;
-//    @Bind(R.id.patternPayment)
+//    @BindView(R.id.patternPayment)
 //    RadioGroup patternPayment;
-    @Bind(R.id.jian_text)
+    @BindView(R.id.jian_text)
     TextView jianText;
-    @Bind(R.id.integral_money_text)
+    @BindView(R.id.integral_money_text)
     TextView integralMoneyText;
-    @Bind(R.id.identity_edit)
+    @BindView(R.id.identity_edit)
     EditText identityEdit;
-    @Bind(R.id.clear_btn)
+    @BindView(R.id.clear_btn)
     TextView clearBtn;
 
     private OptionsPickerView optionsPickerView;
@@ -225,7 +225,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(s.toString())) {
+                String value = s.toString();
+                if (!TextUtils.isEmpty(value) && !value.equals("null")) {
                     if (s.toString().equals("0")) {
                         integralEdit.setText("");
                     } else {
@@ -309,8 +310,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 sectionText.setText(chargeUserInfoEntity.getTriageData().getKSMC());//科室
                 doctorText.setText(chargeUserInfoEntity.getTriageData().getYSMC());//医生
                 integralText.setText("共" + chargeUserInfoEntity.getTriageData().getJIFEN() + "积分");//积分
-//                String a = chargeUserInfoEntity.getTriageData().getScore();
-                integralEdit.setText(chargeUserInfoEntity.getTriageData().getScore() + "");//填写的积分
+//                integralEdit.setText(chargeUserInfoEntity.getTriageData().getScore() + "");//填写的积分
+
                 identityEdit.setText(chargeUserInfoEntity.getTriageData().getSFZH());//身份证
                 remarkEdit.setText(chargeUserInfoEntity.getTriageData().getChargebillcfremark());//备注
 
@@ -541,28 +542,29 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             //在第一项添加空意向，如果选择“请选择”则代表此级意向为空
             intentionEntityList2.add(new IntentionEntity("请选择"));
             //如果无意向，添加空对象，防止数据为null 导致三个选项长度不匹配造成崩溃
-            if (intentionEntities1.get(i).getChildren().size() == 0) {
+            if (intentionEntities1.get(i).getChildren() == null || intentionEntities1.get(i).getChildren().size() == 0) {
                 intentionEntityList3.add(intentionEntityList2);
-            }
-            for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
-                //添加二级意向
-                intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
+            } else {
+                for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
+                    //添加二级意向
+                    intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
 
-                //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
-                if (j == 0) {
-                    List<IntentionEntity> IList = new ArrayList<>();
-                    IList.add(new IntentionEntity("请选择"));
-                    intentionEntityList3.add(IList);
+                    //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
+                    if (j == 0) {
+                        List<IntentionEntity> IList = new ArrayList<>();
+                        IList.add(new IntentionEntity("请选择"));
+                        intentionEntityList3.add(IList);
+                    }
+
+                    //添加三级意向
+                    List<IntentionEntity> IList3 = new ArrayList<>();
+                    IList3.add(new IntentionEntity("请选择"));
+                    if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
+                        IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
+                    }
+
+                    intentionEntityList3.add(IList3);
                 }
-
-                //添加三级意向
-                List<IntentionEntity> IList3 = new ArrayList<>();
-                IList3.add(new IntentionEntity("请选择"));
-                if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
-                    IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
-                }
-
-                intentionEntityList3.add(IList3);
             }
             intentionEntities2.add(intentionEntityList2);
             intentionEntities3.add(intentionEntityList3);
@@ -572,16 +574,16 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         optionsPickerView = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {//选择项
-                Intention = new String[]{intentionEntities1.get(options1).getPbtid(), intentionEntities2.get(options1).get(options2).getPbtid(), intentionEntities3.get(options1).get(options2).get(options3).getPbtid()};
+                Intention = new String[]{intentionEntities1.get(options1).getPid(), intentionEntities2.get(options1).get(options2).getPid(), intentionEntities3.get(options1).get(options2).get(options3).getPid()};
                 String intentionValue = "";
-                if (!TextUtils.isEmpty(intentionEntities1.get(options1).getPbtid())) {
-                    intentionValue = intentionValue + intentionEntities1.get(options1).getPbtname();
+                if (!TextUtils.isEmpty(intentionEntities1.get(options1).getPid())) {
+                    intentionValue = intentionValue + intentionEntities1.get(options1).getPname();
                 }
-                if (!TextUtils.isEmpty(intentionEntities2.get(options1).get(options2).getPbtid())) {
-                    intentionValue = intentionValue + "/" + intentionEntities2.get(options1).get(options2).getPbtname();
+                if (!TextUtils.isEmpty(intentionEntities2.get(options1).get(options2).getPid())) {
+                    intentionValue = intentionValue + "/" + intentionEntities2.get(options1).get(options2).getPname();
                 }
-                if (!TextUtils.isEmpty(intentionEntities3.get(options1).get(options2).get(options3).getPbtid())) {
-                    intentionValue = intentionValue + "/" + intentionEntities3.get(options1).get(options2).get(options3).getPbtname();
+                if (!TextUtils.isEmpty(intentionEntities3.get(options1).get(options2).get(options3).getPid())) {
+                    intentionValue = intentionValue + "/" + intentionEntities3.get(options1).get(options2).get(options3).getPname();
                 }
                 intentionText.setText(intentionValue);
                 intentionSubmit();
@@ -767,7 +769,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 moneySum += Double.parseDouble(productDetailsEntity.getPrice1());
             }
         }
-        if (!TextUtils.isEmpty(integralEdit.getText().toString())) {
+        if (!TextUtils.isEmpty(integralEdit.getText().toString()) && !integralEdit.getText().toString().equals("null")) {
             int integral = Integer.parseInt(integralEdit.getText().toString());
             if (moneySum >= integral) {
                 moneySum -= integral;

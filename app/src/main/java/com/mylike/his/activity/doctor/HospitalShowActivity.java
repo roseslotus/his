@@ -16,7 +16,7 @@ import com.zhy.adapter.abslistview.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -25,9 +25,9 @@ import butterknife.OnClick;
  * 今日住院顾客列表
  */
 public class HospitalShowActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.hospital_list)
+    @BindView(R.id.hospital_list)
     ListView hospitalList;
 
     @Override

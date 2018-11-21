@@ -5,7 +5,17 @@ public class IntentionAddEntity {
     private String itemSecond = "";//二级id
     private String itemThird = "";//三级id
     private String intentionStr;//意向字符串
+    private String intentionIdStr;//意向id字符串
     private String remark;//备注
+
+
+    public String getIntentionIdStr() {
+        return intentionIdStr;
+    }
+
+    public void setIntentionIdStr(String intentionIdStr) {
+        this.intentionIdStr = intentionIdStr;
+    }
 
     public String getItemFirst() {
         return itemFirst;

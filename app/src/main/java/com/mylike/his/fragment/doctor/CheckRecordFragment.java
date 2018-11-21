@@ -18,17 +18,18 @@ import com.zhy.adapter.abslistview.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by zhengluping on 2018/3/15.
  * 检查记录
  */
 public class CheckRecordFragment extends BaseFragment {
+    Unbinder unbinder;
 
-
-    @Bind(R.id.check_record_list)
+    @BindView(R.id.check_record_list)
     ListView checkRecordList;
 
     private List<String> date = new ArrayList<>();
@@ -44,7 +45,7 @@ public class CheckRecordFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_check_record, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         setDate();
 
         checkRecordList.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item_check_record_list, date) {
@@ -72,6 +73,6 @@ public class CheckRecordFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 }

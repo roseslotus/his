@@ -19,8 +19,9 @@ import com.mylike.his.http.HttpClient;
 
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -28,7 +29,8 @@ import butterknife.ButterKnife;
  * 任务
  */
 public class StatisticsFragment extends BaseFragment {
-    @Bind(R.id.webView)
+    Unbinder unbinder;
+    @BindView(R.id.webView)
     WebView webView;
 
     public static StatisticsFragment newInstance() {
@@ -42,7 +44,7 @@ public class StatisticsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
@@ -90,6 +92,6 @@ public class StatisticsFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 }

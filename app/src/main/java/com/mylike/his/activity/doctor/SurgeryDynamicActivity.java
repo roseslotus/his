@@ -21,7 +21,7 @@ import com.zhy.adapter.abslistview.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -31,11 +31,11 @@ import butterknife.OnClick;
 
 public class SurgeryDynamicActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.surgery_dynamic_grid)
+    @BindView(R.id.surgery_dynamic_grid)
     ListView surgeryDynamicGrid;
-    @Bind(R.id.screening_text)
+    @BindView(R.id.screening_text)
     TextView screeningText;
 
 

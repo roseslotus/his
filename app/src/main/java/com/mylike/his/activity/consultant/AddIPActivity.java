@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
@@ -36,15 +36,15 @@ import retrofit2.Response;
  */
 public class AddIPActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.ip_edit)
+    @BindView(R.id.ip_edit)
     ClearEditText ipEdit;
-    @Bind(R.id.port_edit)
+    @BindView(R.id.port_edit)
     ClearEditText portEdit;
-    @Bind(R.id.remark_edit)
+    @BindView(R.id.remark_edit)
     ClearEditText remarkEdit;
-    @Bind(R.id.submit_btn)
+    @BindView(R.id.submit_btn)
     Button submitBtn;
 
     private String json;

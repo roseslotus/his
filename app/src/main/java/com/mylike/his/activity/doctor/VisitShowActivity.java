@@ -17,7 +17,7 @@ import com.zhy.adapter.abslistview.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -25,11 +25,11 @@ import butterknife.ButterKnife;
  */
 
 public class VisitShowActivity extends BaseActivity {
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.screening_text)
+    @BindView(R.id.screening_text)
     TextView screeningText;
-    @Bind(R.id.visit_list)
+    @BindView(R.id.visit_list)
     ListView visitList;
 
     private List<String> date = new ArrayList<>();

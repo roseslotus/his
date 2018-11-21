@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -49,64 +49,63 @@ import butterknife.OnClick;
  * 收费单详情
  */
 public class ChargeDetailsActivity extends BaseActivity implements View.OnClickListener {
-
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.name_text)
+    @BindView(R.id.name_text)
     TextView nameText;
-    @Bind(R.id.doctor_text)
+    @BindView(R.id.doctor_text)
     TextView doctorText;
-    @Bind(R.id.intention_text)
+    @BindView(R.id.intention_text)
     TextView intentionText;
-    @Bind(R.id.project_list)
+    @BindView(R.id.project_list)
     SListView projectList;
-    @Bind(R.id.discounts_text)
+    @BindView(R.id.discounts_text)
     TextView discountsText;
-    @Bind(R.id.integral_text)
+    @BindView(R.id.integral_text)
     TextView integralText;
-    @Bind(R.id.remark_text)
+    @BindView(R.id.remark_text)
     TextView remarkText;
-    @Bind(R.id.status_text)
+    @BindView(R.id.status_text)
     TextView statusText;
-    @Bind(R.id.again_consult_btn)
+    @BindView(R.id.again_consult_btn)
     Button againConsultBtn;
-    @Bind(R.id.bridge_section_btn)
+    @BindView(R.id.bridge_section_btn)
     Button bridgeSectionBtn;
-    @Bind(R.id.application_drawback_btn)
+    @BindView(R.id.application_drawback_btn)
     Button applicationDrawbackBtn;
-    @Bind(R.id.compile_btn)
+    @BindView(R.id.compile_btn)
     Button compileBtn;
-    @Bind(R.id.payment_btn)
+    @BindView(R.id.payment_btn)
     Button paymentBtn;
-    @Bind(R.id.oa_btn)
+    @BindView(R.id.oa_btn)
     Button oaBtn;
-    @Bind(R.id.doctor_ll)
+    @BindView(R.id.doctor_ll)
     LinearLayout doctorLl;
-    @Bind(R.id.intention_ll)
+    @BindView(R.id.intention_ll)
     LinearLayout intentionLl;
-    @Bind(R.id.cash_ll)
+    @BindView(R.id.cash_ll)
     LinearLayout cashLl;
-    @Bind(R.id.sv_cash)
+    @BindView(R.id.sv_cash)
     TextView svCash;
-    @Bind(R.id.sv_present)
+    @BindView(R.id.sv_present)
     TextView svPresent;
-    @Bind(R.id.sv_ll)
+    @BindView(R.id.sv_ll)
     LinearLayout svLl;
-    @Bind(R.id.discounts_ll)
+    @BindView(R.id.discounts_ll)
     LinearLayout discountsLl;
-    @Bind(R.id.integral_ll)
+    @BindView(R.id.integral_ll)
     LinearLayout integralLl;
-    @Bind(R.id.name_line)
+    @BindView(R.id.name_line)
     View nameLine;
-    @Bind(R.id.hospital_money)
+    @BindView(R.id.hospital_money)
     TextView hospitalMoney;
-    @Bind(R.id.money_text)
+    @BindView(R.id.money_text)
     TextView moneyText;
-    @Bind(R.id.money_value)
+    @BindView(R.id.money_value)
     TextView moneyValue;
-    //    @Bind(R.id.payment)
+    //    @BindView(R.id.payment)
 //    TextView payment;
-    @Bind(R.id.order_number)
+    @BindView(R.id.order_number)
     TextView orderNumber;
 
     private String fid;
@@ -406,7 +405,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
         optionsPickerView = new OptionsPickerBuilder(ChargeDetailsActivity.this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {//选择项
-                Intention = new String[]{intentionEntities1.get(options1).getPbtid(), intentionEntities2.get(options1).get(options2).getPbtid(), intentionEntities3.get(options1).get(options2).get(options3).getPbtid()};
+                Intention = new String[]{intentionEntities1.get(options1).getPid(), intentionEntities2.get(options1).get(options2).getPid(), intentionEntities3.get(options1).get(options2).get(options3).getPid()};
                 submitData();
             }
         }).setLayoutRes(R.layout.dialog_again_consult, new CustomListener() {//自定义布局

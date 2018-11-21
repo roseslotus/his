@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -45,17 +45,17 @@ import butterknife.OnClick;
  * 跨科
  */
 public class MedicineActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.intention_btn)
+    @BindView(R.id.intention_btn)
     TextView intentionBtn;
-    @Bind(R.id.remark_edit)
+    @BindView(R.id.remark_edit)
     EditText remarkEdit;
-    @Bind(R.id.submit_btn)
+    @BindView(R.id.submit_btn)
     Button submitBtn;
-    @Bind(R.id.department_spinner)
+    @BindView(R.id.department_spinner)
     Spinner departmentSpinner;
-    @Bind(R.id.doctor_spinner)
+    @BindView(R.id.doctor_spinner)
     Spinner doctorSpinner;
 
     private OptionsPickerView IntentionPV;

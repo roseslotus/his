@@ -6,7 +6,7 @@ android {
         applicationId "com.mylike.his"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 1
+        versionCode 4
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -52,7 +52,10 @@ dependencies {
     //日志
     implementation 'com.orhanobut:logger:2.2.0'
     //注解
-    implementation 'com.jakewharton:butterknife:7.0.1'
+//    implementation 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton:butterknife-compiler:8.8.1'
+
     //BGABanner 图片轮播
     implementation 'cn.bingoogolapple:bga-banner:2.1.9@aar'
     //标签
@@ -88,5 +91,8 @@ dependencies {
 
     //版本更新
     implementation 'com.allenliu.versionchecklib:library:2.1.1'
+
+    //事件传输
+    implementation 'org.greenrobot:eventbus:3.0.0'
 
 }

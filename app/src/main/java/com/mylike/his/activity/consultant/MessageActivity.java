@@ -8,14 +8,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
@@ -46,7 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -55,28 +53,34 @@ import butterknife.OnClick;
  * 消息列表
  */
 public class MessageActivity extends BaseActivity implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
-    @Bind(R.id.message_list)
+    @BindView(R.id.message_list)
     ListView messageList;
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.refreshLayout)
+    @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @Bind(R.id.filtrate_btn)
+    @BindView(R.id.filtrate_btn)
     ImageView filtrateBtn;
-    @Bind(R.id.filtrate_list)
+    @BindView(R.id.filtrate_list)
     ListView filtrateList;
-    @Bind(R.id.reset_btn)
+    @BindView(R.id.reset_btn)
     Button resetBtn;
-    @Bind(R.id.confirm_btn)
+    @BindView(R.id.confirm_btn)
     Button confirmBtn;
-    @Bind(R.id.filtrate_menu)
+    @BindView(R.id.filtrate_menu)
     LinearLayout filtrateMenu;
-    @Bind(R.id.DrawerLayout)
+    @BindView(R.id.DrawerLayout)
     android.support.v4.widget.DrawerLayout DrawerLayout;
-    @Bind(R.id.time_layout1)
-    FrameLayout timeLayout1;
-    @Bind(R.id.time_layout2)
-    FrameLayout timeLayout2;
+    @BindView(R.id.start_time_text)
+    TextView startTimeText;
+    @BindView(R.id.start_time_btn)
+    LinearLayout startTimeBtn;
+    @BindView(R.id.end_time_text)
+    TextView endTimeText;
+    @BindView(R.id.end_time_btn)
+    LinearLayout endTimeBtn;
+    @BindView(R.id.clear_text)
+    TextView clearText;
 
     private int sumPage = 1;//总也数
     private int pageSize = 10;//每页数据
@@ -116,7 +120,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setOnLoadMoreListener(this);
         //禁止筛选侧滑动
-        DrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        //DrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         //初始化适配器
         initAdapter1();
@@ -162,11 +166,20 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                     case "6":// OA已终止
                         viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_blue3_left_10);
                         break;
-                    case "7"://待扫码支付
+                    /*case "7"://待扫码支付(都变更为待支付)
                         viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_orange_left_10);
-                        break;
+                        break;*/
                     case "8"://待支付
                         viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_orange2_left_10);
+                        break;
+                    case "9"://已跑诊
+                        viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_blue4_left_10);
+                        break;
+                    case "10"://已跳诊
+                        viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_orange3_left_10);
+                        break;
+                    case "11"://vip到院
+                        viewHolder.setBackgroundRes(R.id.btnItem, R.drawable.bg_white_line_purple_left_10);
                         break;
                 }
                 viewHolder.setText(R.id.name_text, item.getMsgTypeName());//类型名称
@@ -271,10 +284,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         TimePV1 = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-            }
-        }).setLayoutRes(R.layout.item_wheel, new CustomListener() {
-            @Override
-            public void customLayout(View v) {
+                startTimeText.setText(CommonUtil.getYMD(date));
             }
         }).setType(new boolean[]{true, true, true, false, false, false})//只显示日期
                 .setSubCalSize(14)//确认取消文字大小
@@ -285,11 +295,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 .setLineSpacingMultiplier((float) 2.5)//滚轮间距（此为文字高度的间距倍数）
                 .setRangDate(startDate, endDate)//起始终止年月日设定
                 .setDate(today)//默认数据
-                .setOutSideCancelable(false)
-                .setDecorView(timeLayout1)//非dialog模式下设置容器
                 .build();
-        TimePV1.show();
-
     }
 
     //结束时间选择器
@@ -297,10 +303,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         TimePV2 = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-            }
-        }).setLayoutRes(R.layout.item_wheel, new CustomListener() {
-            @Override
-            public void customLayout(View v) {
+                endTimeText.setText(CommonUtil.getYMD(date));
             }
         }).setType(new boolean[]{true, true, true, false, false, false})//只显示日期
                 .setSubCalSize(14)//确认取消文字大小
@@ -311,20 +314,23 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
                 .setLineSpacingMultiplier((float) 2.5)//滚轮间距（此为文字高度的间距倍数）
                 .setRangDate(startDate, endDate)//起始终止年月日设定
                 .setDate(today)//默认数据
-                .setOutSideCancelable(false)
-                .setDecorView(timeLayout2)//非dialog模式下设置容器
                 .build();
-        TimePV2.show();
     }
 
     //获取消息列表数据
     private void getMessageList() {
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("pageNumber", pageNumber);
+        map1.put("pageSize", pageSize);
+        map1.put("createDateBegin", startTimeText.getText());//筛选开始时间
+        map1.put("createDateEnd", endTimeText.getText());//筛选结束时间
+
         HashMap<String, Object> map = new HashMap<>();
-        map.put("pageNumber", pageNumber);
-        map.put("pageSize", pageSize);
+        map.clear();
+        map.putAll(map1);
+        map.putAll(selectedValue);
 
         HttpClient.getHttpApi().getMessageList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<BasePageEntity<MessageEntity>>() {
-
             @Override
             protected void onSuccess(BasePageEntity<MessageEntity> messageEntityBasePageEntity) {
                 sumPage = messageEntityBasePageEntity.getTotalPages();
@@ -376,6 +382,7 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
+    //删除消息
     private void deleteMessage(String fid, final int position) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("fid", fid);
@@ -394,27 +401,39 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    @OnClick({R.id.return_btn, R.id.filtrate_btn, R.id.reset_btn, R.id.confirm_btn})
+    @OnClick({R.id.return_btn, R.id.filtrate_btn, R.id.reset_btn, R.id.confirm_btn, R.id.start_time_btn, R.id.end_time_btn, R.id.clear_text})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.reset_btn://筛选重置
                 selectedMap.clear();
                 selectedValue.clear();
+                startTimeText.setText("");
+                endTimeText.setText("");
                 commonAdapter1.notifyDataSetChanged();
                 break;
             case R.id.confirm_btn://筛选确认
-//                DrawerLayout.closeDrawer(filtrateMenu);
-//                pageNumber = 1;
-//                listAll.clear();
-//                refreshLayout.setNoMoreData(false);
-                initData();
+                DrawerLayout.closeDrawer(filtrateMenu);
+                pageNumber = 1;
+                listAll.clear();
+                refreshLayout.setNoMoreData(false);
+                getMessageList();
                 break;
             case R.id.filtrate_btn://消息筛选
-//                DrawerLayout.openDrawer(filtrateMenu);
+                DrawerLayout.openDrawer(filtrateMenu);
                 break;
             case R.id.return_btn://返回
                 finish();
+                break;
+            case R.id.start_time_btn://开始时间
+                TimePV1.show();
+                break;
+            case R.id.end_time_btn://结束时间
+                TimePV2.show();
+                break;
+            case R.id.clear_text://清除时间
+                startTimeText.setText("");
+                endTimeText.setText("");
                 break;
         }
     }

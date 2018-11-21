@@ -23,8 +23,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -32,8 +33,9 @@ import butterknife.ButterKnife;
  * 任务
  */
 public class ProductDetailsFragment extends BaseFragment {
+    Unbinder unbinder;
 
-    @Bind(R.id.product_details_list)
+    @BindView(R.id.product_details_list)
     ListView productDetailsList;
 
     //        private List<String> content;
@@ -59,7 +61,7 @@ public class ProductDetailsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_details, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         initData();
 
 
@@ -102,6 +104,6 @@ public class ProductDetailsFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
@@ -38,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -47,13 +48,14 @@ import butterknife.ButterKnife;
  * 客户详情
  */
 public class CustomerDetailsActivity extends BaseActivity {
-    @Bind(R.id.webView)
+    @BindView(R.id.webView)
     WebView webView;
-    @Bind(R.id.prog)
+    @BindView(R.id.prog)
     ProgressBar prog;
 
     private String token;
     private String customId;
+    private String fId;
 
     private String fidValue;
     private String remarkValue;
@@ -73,6 +75,7 @@ public class CustomerDetailsActivity extends BaseActivity {
         ButterKnife.bind(this);
         token = SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN);
         customId = getIntent().getStringExtra("clientId");
+        fId = getIntent().getStringExtra("fid");
 
         //创建属于主线程的handler
         handler = new Handler();
@@ -86,7 +89,6 @@ public class CustomerDetailsActivity extends BaseActivity {
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         String ipString = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);
-
 
         webView.loadUrl("http://" + ipString + "/mylike-crm/app360/index.html#/information");
 //        webView.loadUrl("http://172.16.61.222:8280/mylike-crm/app360/index.html#/information");
@@ -240,7 +242,11 @@ public class CustomerDetailsActivity extends BaseActivity {
         webView.post(new Runnable() {
             @Override
             public void run() {
-                webView.loadUrl("javascript:app('" + token + "','" + customId + "')");
+                if (TextUtils.isEmpty(getIntent().getStringExtra("tag"))) {
+                    webView.loadUrl("javascript:app('" + token + "','" + customId + "')");
+                } else {
+                    webView.loadUrl("javascript:appinquiry('" + token + "','" + customId + "','" + fId + "')");
+                }
             }
         });
     }
@@ -269,38 +275,39 @@ public class CustomerDetailsActivity extends BaseActivity {
             //在第一项添加空意向，如果选择“请选择”则代表此级意向为空
             intentionEntityList2.add(new IntentionEntity("请选择"));
             //如果无意向，添加空对象，防止数据为null 导致三个选项长度不匹配造成崩溃
-            if (intentionEntities1.get(i).getChildren().size() == 0) {
+            if (intentionEntities1.get(i).getChildren() == null) {
                 intentionEntityList3.add(intentionEntityList2);
-            }
-            for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
-                //添加二级意向
-                intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
+            } else {
+                for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
+                    //添加二级意向
+                    intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
 
-                //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
-                if (j == 0) {
-                    List<IntentionEntity> IList = new ArrayList<>();
-                    IList.add(new IntentionEntity("请选择"));
-                    intentionEntityList3.add(IList);
+                    //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
+                    if (j == 0) {
+                        List<IntentionEntity> IList = new ArrayList<>();
+                        IList.add(new IntentionEntity("请选择"));
+                        intentionEntityList3.add(IList);
+                    }
+
+                    //添加三级意向
+                    List<IntentionEntity> IList3 = new ArrayList<>();
+                    IList3.add(new IntentionEntity("请选择"));
+                    if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
+                        IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
+                    }
+                    intentionEntityList3.add(IList3);
                 }
 
-                //添加三级意向
-                List<IntentionEntity> IList3 = new ArrayList<>();
-                IList3.add(new IntentionEntity("请选择"));
-                if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
-                    IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
-                }
-                intentionEntityList3.add(IList3);
+                intentionEntities2.add(intentionEntityList2);
+                intentionEntities3.add(intentionEntityList3);
             }
-
-            intentionEntities2.add(intentionEntityList2);
-            intentionEntities3.add(intentionEntityList3);
         }
 
         //重咨弹框初始化
         optionsPickerView = new OptionsPickerBuilder(CustomerDetailsActivity.this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {//选择项
-                Intention = new String[]{intentionEntities1.get(options1).getPbtid(), intentionEntities2.get(options1).get(options2).getPbtid(), intentionEntities3.get(options1).get(options2).get(options3).getPbtid()};
+                Intention = new String[]{intentionEntities1.get(options1).getPid(), intentionEntities2.get(options1).get(options2).getPid(), intentionEntities3.get(options1).get(options2).get(options3).getPid()};
                 submitData();
             }
         }).setLayoutRes(R.layout.dialog_again_consult, new CustomListener() {//自定义布局

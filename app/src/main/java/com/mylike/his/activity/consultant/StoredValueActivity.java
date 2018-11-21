@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -43,21 +43,21 @@ import butterknife.OnClick;
  * 储值
  */
 public class StoredValueActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.cash_text)
+    @BindView(R.id.cash_text)
     EditText cashText;
-    @Bind(R.id.presenter_text)
+    @BindView(R.id.presenter_text)
     EditText presenterText;
-    @Bind(R.id.total_text)
+    @BindView(R.id.total_text)
     TextView totalText;
-    @Bind(R.id.submit_btn)
+    @BindView(R.id.submit_btn)
     Button submitBtn;
-    @Bind(R.id.remark_edit)
+    @BindView(R.id.remark_edit)
     EditText remarkEdit;
-    @Bind(R.id.project_spinner)
+    @BindView(R.id.project_spinner)
     Spinner projectSpinner;
-    @Bind(R.id.type_spinner)
+    @BindView(R.id.type_spinner)
     Spinner typeSpinner;
 
     private String clientId;//客户id

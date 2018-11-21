@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -38,15 +38,15 @@ import butterknife.OnClick;
  */
 public class HospitalAppointmentActivity extends BaseActivity implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
 
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.hospital_appointment_list)
+    @BindView(R.id.hospital_appointment_list)
     ListView hospitalAppointmentList;
-    @Bind(R.id.search_edit)
+    @BindView(R.id.search_edit)
     ClearEditText searchEdit;
-    @Bind(R.id.refreshLayout)
+    @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @Bind(R.id.search_btn)
+    @BindView(R.id.search_btn)
     Button searchBtn;
 
     private int sumPage = 1;//总也数

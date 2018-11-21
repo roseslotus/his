@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -38,17 +38,17 @@ import butterknife.OnClick;
  * 住院押金
  */
 public class DepositHospitalActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.flowlayout)
+    @BindView(R.id.flowlayout)
     TagFlowLayout flowlayout;
-    @Bind(R.id.money_edit)
+    @BindView(R.id.money_edit)
     EditText moneyEdit;
-    @Bind(R.id.remark_edit)
+    @BindView(R.id.remark_edit)
     EditText remarkEdit;
-    @Bind(R.id.submit_btn)
+    @BindView(R.id.submit_btn)
     Button submitBtn;
-    @Bind(R.id.balance_text)
+    @BindView(R.id.balance_text)
     TextView balanceText;
 
     private String clientId;//客户id

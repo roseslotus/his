@@ -88,23 +88,6 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/combo_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/combo_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="5dp"
-                        android:drawableRight="@mipmap/below_arrow_icon"
-                        android:text="套餐" />
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/product_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -119,6 +102,23 @@
                         android:drawablePadding="5dp"
                         android:drawableRight="@mipmap/below_arrow_icon"
                         android:text="产品" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/combo_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/combo_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:drawableRight="@mipmap/below_arrow_icon"
+                        android:text="套餐" />
                 </LinearLayout>
 
                 <LinearLayout

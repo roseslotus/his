@@ -17,7 +17,7 @@ import com.zhy.adapter.abslistview.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class RecordsConsumptionActivity extends BaseActivity {
 
-    @Bind(R.id.charge_list)
+    @BindView(R.id.charge_list)
     ListView chargeList;
 
     @Override

@@ -3,19 +3,26 @@ package com.mylike.his.activity.consultant;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.util.TypedValue;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -26,15 +33,18 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
+import com.mylike.his.core.Constant;
 import com.mylike.his.entity.BookbuildingEntity;
+import com.mylike.his.entity.CreatorEntity;
 import com.mylike.his.entity.IntentionAddEntity;
 import com.mylike.his.entity.IntentionEntity;
+import com.mylike.his.entity.ReferrerEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
+import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.utils.ViewUtil;
-import com.orhanobut.logger.Logger;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -51,7 +61,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -60,116 +70,135 @@ import butterknife.OnClick;
  * 建档
  */
 public class BookbuildingActivity extends BaseActivity implements View.OnClickListener {
-    /*@Bind(R.id.table1)
+    @BindView(R.id.table1)
     TableLayout table1;
-    @Bind(R.id.ll_tag1)
+    @BindView(R.id.ll_tag1)
     LinearLayout llTag1;
-    @Bind(R.id.table2)
+    @BindView(R.id.table2)
     TableLayout table2;
-    @Bind(R.id.ll_tag2)
+    @BindView(R.id.ll_tag2)
     LinearLayout llTag2;
-    @Bind(R.id.ll_tag3)
+    @BindView(R.id.ll_tag3)
     LinearLayout llTag3;
-    @Bind(R.id.ll_tag4)
+    @BindView(R.id.ll_tag4)
     LinearLayout llTag4;
-    @Bind(R.id.ll_tag5)
+    @BindView(R.id.ll_tag5)
     LinearLayout llTag5;
-    @Bind(R.id.ll_tag6)
-    LinearLayout llTag6;*/
+    @BindView(R.id.ll_tag6)
+    LinearLayout llTag6;
 
-    @Bind(R.id.table3)
+    @BindView(R.id.table3)
     TableLayout table3;
-    @Bind(R.id.table4)
+    @BindView(R.id.table4)
     TableLayout table4;
-    @Bind(R.id.table5)
+    @BindView(R.id.table5)
     TableLayout table5;
-    @Bind(R.id.table6)
+    @BindView(R.id.table6)
     TableLayout table6;
-    @Bind(R.id.return_btn)
+    @BindView(R.id.return_btn)
     ImageView returnBtn;
-    @Bind(R.id.other_btn)
+    @BindView(R.id.other_btn)
     TextView otherBtn;
-    @Bind(R.id.contact_btn)
+    @BindView(R.id.contact_btn)
     TextView contactBtn;
-    @Bind(R.id.appointment_btn)
+    @BindView(R.id.appointment_btn)
     TextView appointmentBtn;
-    @Bind(R.id.bookbuilding_btn)
+    @BindView(R.id.bookbuilding_btn)
     TextView bookbuildingBtn;
-    @Bind(R.id.Economics_spr)
+    @BindView(R.id.Economics_spr)
     Spinner EconomicsSpr;
-    @Bind(R.id.Intention_spr)
+    @BindView(R.id.Intention_spr)
     Spinner IntentionSpr;
-    @Bind(R.id.marriage_spr)
+    @BindView(R.id.marriage_spr)
     Spinner marriageSpr;
-    @Bind(R.id.Occupation_spr)
+    @BindView(R.id.Occupation_spr)
     Spinner OccupationSpr;
-    @Bind(R.id.Provinces_btn)
+    @BindView(R.id.Provinces_btn)
     EditText ProvincesBtn;
-    @Bind(R.id.birth_date_btn)
+    @BindView(R.id.birth_date_btn)
     EditText birthDateBtn;
-    @Bind(R.id.medium_btn)
+    @BindView(R.id.medium_btn)
     EditText mediumBtn;
-    @Bind(R.id.channel_btn)
+    @BindView(R.id.channel_btn)
     EditText channelBtn;
-    @Bind(R.id.flowlayout1)
+    @BindView(R.id.flowlayout1)
     TagFlowLayout flowlayout1;
-    @Bind(R.id.flowlayout2)
+    @BindView(R.id.flowlayout2)
     TagFlowLayout flowlayout2;
-    @Bind(R.id.appointment_time_btn)
+    @BindView(R.id.appointment_time_btn)
     EditText appointmentTimeBtn;
-    @Bind(R.id.add_btn)
+    @BindView(R.id.add_btn)
     TextView addBtn;
-    @Bind(R.id.intention_list)
+    @BindView(R.id.intention_list)
     ListView intentionList;
-    @Bind(R.id.phone_edit)
+    @BindView(R.id.phone_edit)
     EditText phoneEdit;
-    @Bind(R.id.user_name)
+    @BindView(R.id.user_name)
     EditText userName;
-    @Bind(R.id.creation_time)
+    @BindView(R.id.creation_time)
     EditText creationTime;
-    @Bind(R.id.name_edit)
+    @BindView(R.id.name_edit)
     EditText nameEdit;
-    @Bind(R.id.man)
+    @BindView(R.id.man)
     RadioButton man;
-    @Bind(R.id.girl)
+    @BindView(R.id.girl)
     RadioButton girl;
-    @Bind(R.id.sex)
+    @BindView(R.id.sex)
     RadioGroup sex;
-    @Bind(R.id.age_edit)
+    @BindView(R.id.age_edit)
     EditText ageEdit;
-    @Bind(R.id.address_details_edit)
+    @BindView(R.id.address_details_edit)
     EditText addressDetailsEdit;
-    @Bind(R.id.save_btn)
+    @BindView(R.id.save_btn)
     TextView saveBtn;
-    @Bind(R.id.custFeedback_edit)
+    @BindView(R.id.custFeedback_edit)
     EditText custFeedbackEdit;
-    @Bind(R.id.custSuggest_edit)
+    @BindView(R.id.custSuggest_edit)
     EditText custSuggestEdit;
-    @Bind(R.id.custBudget_edit)
+    @BindView(R.id.custBudget_edit)
     EditText custBudgetEdit;
-    @Bind(R.id.processor_price_edit)
+    @BindView(R.id.processor_price_edit)
     EditText processorPriceEdit;
-    @Bind(R.id.cfremark_edit)
+    @BindView(R.id.cfremark_edit)
     EditText cfremarkEdit;
-    @Bind(R.id.qq_edit)
+    @BindView(R.id.qq_edit)
     EditText qqEdit;
-    @Bind(R.id.wechat_edit)
+    @BindView(R.id.wechat_edit)
     EditText wechatEdit;
-    @Bind(R.id.other_contact_edit)
+    @BindView(R.id.other_contact_edit)
     EditText otherContactEdit;
-    @Bind(R.id.yes)
+    @BindView(R.id.yes)
     RadioButton yes;
-    @Bind(R.id.no)
+    @BindView(R.id.no)
     RadioButton no;
-    @Bind(R.id.big)
+    @BindView(R.id.big)
     RadioGroup big;
-    @Bind(R.id.mylike_id)
+    @BindView(R.id.mylike_id)
     EditText mylikeId;
+    @BindView(R.id.visitor_id_layout)
+    TableRow visitorIdLayout;
+    @BindView(R.id.referrer_layou)
+    TableRow referrerLayou;
+    @BindView(R.id.referrer_edit)
+    EditText referrerEdit;
+    @BindView(R.id.creator_layou)
+    TableRow creatorLayou;
+    @BindView(R.id.creator_edit)
+    AutoCompleteTextView creatorEdit;
+    @BindView(R.id.channel_text)
+    EditText channelText;
+    @BindView(R.id.user_layou)
+    TableRow userLayou;
 
     private ViewUtil viewUtil = new ViewUtil();
 
+    private String tag;//建档标识
+    private boolean inputTag = true;//输入标识（避免推荐人点击弹框内容赋值给编辑框重新搜索）
+    private String creatorValue;//建档人
+    private String referrerVlaue;//推荐人
     private String phoneValue;//手机号
     private String timeValue;//当前时间（建档时间）
+    private String channelValue;//一级渠道
     private String sexValue;//性别
     private String economicValue;//经济能力
     private Map<String, String> medium = new HashMap<>();//媒介
@@ -193,6 +222,15 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     private CommonAdapter MarriageAdapter;//婚姻
     private CommonAdapter OccupationAdapter;//职业
 
+    //建档人
+    private SimpleAdapter simpleAdapter;
+    private List<Map<String, String>> creatorEntities = new ArrayList<>();
+    //推荐人
+    private ListPopupWindow listPopupWindow;
+    private CommonAdapter referrerAdapter;
+    private List<ReferrerEntity> referrerEntities = new ArrayList<>();
+
+
     //复选框类型的数据
     private int tagValue;//复选框宽的值
     private List<BookbuildingEntity> transportEntity = new ArrayList<>();//交通
@@ -209,9 +247,9 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     //意向数据
     private OptionsPickerView IntentionPV;//意向选择器
     private List<IntentionAddEntity> intentionEntitiesList = new ArrayList<>();//添加的意向list容器
-    //    private List<IntentionEntity> intentionEntities1 = new ArrayList<>();//一级意向
-//    private List<List<IntentionEntity>> intentionEntities2 = new ArrayList<>();//二级意向
-//    private List<List<List<IntentionEntity>>> intentionEntities3 = new ArrayList<>();//三级意向
+    /*private List<IntentionEntity> intentionEntities1 = new ArrayList<>();//一级意向
+    private List<List<IntentionEntity>> intentionEntities2 = new ArrayList<>();//二级意向
+    private List<List<List<IntentionEntity>>> intentionEntities3 = new ArrayList<>();//三级意向*/
     private CommonAdapter IntentionListAdapter;
 
     // 媒介数据
@@ -254,11 +292,38 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
 
     //初始化控件
     private void initView() {
+        tag = getIntent().getStringExtra("tag");
         phoneValue = getIntent().getStringExtra("phone");
         timeValue = getIntent().getStringExtra("time");
+        channelValue = getIntent().getStringExtra("tagText");
+
+        switch (tag) {
+            case Constant.B_SS:
+                visitorIdLayout.setVisibility(View.VISIBLE);
+                break;
+            case Constant.B_SJ:
+                break;
+            case Constant.B_DS:
+                break;
+            case Constant.B_XXHZ:
+                break;
+            case Constant.B_CMMT:
+                break;
+            case Constant.B_YGTJ:
+                creatorLayou.setVisibility(View.VISIBLE);
+                userLayou.setVisibility(View.GONE);
+                setCreatorAdapter();
+                getCreatorData();
+                break;
+            case Constant.B_LDX:
+                referrerLayou.setVisibility(View.VISIBLE);
+                setReferrer();
+                break;
+        }
 
         phoneEdit.setText(phoneValue);
         creationTime.setText(timeValue);
+        channelText.setText(channelValue);
         userName.setText(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.USER_NAME));
 
         sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -337,6 +402,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
 
         Map<String, Object> map = new HashMap<>();
         map.put("domainNamespace", paramValue);
+        map.put("channelFirst", tag);
 
         //建档所需要的选择信息（有多级级菜单）
         HttpClient.getHttpApi().getDicMult(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, List<BookbuildingEntity>>>() {
@@ -394,10 +460,59 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    //获取建档人数据
+    private void getCreatorData() {
+        HttpClient.getHttpApi().getCreator().enqueue(new BaseBack<CreatorEntity>() {
+            @Override
+            protected void onSuccess(CreatorEntity creatorEntity) {
+                creatorEntities.addAll(creatorEntity.getList());
+                simpleAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+            }
+        });
+    }
+
+    //获取推荐人数据
+    private void getReferrerData(String value) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("keyWords", value);//关键字
+
+        HttpClient.getHttpApi().getReferrer(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ReferrerEntity>() {
+            @Override
+            protected void onSuccess(ReferrerEntity referrerEntity) {
+                referrerEntities.clear();
+                referrerEntities.addAll(referrerEntity.getList());
+                if (referrerEntities.isEmpty()) {
+                    listPopupWindow.dismiss();
+                } else {
+                    listPopupWindow.show();
+                }
+                referrerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+            }
+        });
+    }
+
     //保存数据
     private void saveData() {
         Map<String, String> tempCustInfo = new HashMap<>();
-        tempCustInfo.put("visitorImportId", mylikeId.getText().toString());//美莱在线访客ID
+        if (Constant.B_SS.equals(tag))//搜索建档
+            tempCustInfo.put("visitorImportId", mylikeId.getText().toString());//美莱在线访客ID
+
+        if (Constant.B_LDX.equals(tag))//老带新
+            tempCustInfo.put("frecpersonid", referrerVlaue);//推荐人id
+
+        if (Constant.B_YGTJ.equals(tag))//员工推荐
+            tempCustInfo.put("buildBy", creatorValue);//建档人id
+        else
+            tempCustInfo.put("buildBy", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.EMP_ID));//建档人id
+
         tempCustInfo.put("name", nameEdit.getText().toString());//姓名
         tempCustInfo.put("cftelephone", phoneValue);//手机号
         tempCustInfo.put("cfsex", sexValue);//性别
@@ -413,7 +528,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         tempCustInfo.put("cfbirthday", birthDateBtn.getText().toString());//出生日期
         tempCustInfo.put("cfisMarry", marriageValue);//婚姻状况
         tempCustInfo.put("occupation", occupationValue);//职业
-        tempCustInfo.put("channelFirst", "1");//一级渠道(搜索渠道为：1)
+        tempCustInfo.put("channelFirst", tag);//一级渠道
         tempCustInfo.put("channelSecond", channel.get("2"));//二级渠道
         tempCustInfo.put("channelThird", channel.get("3"));//三级渠道
         tempCustInfo.put("transport", transportValue);//交通工具
@@ -426,12 +541,11 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         tempCustInfo.put("qq", qqEdit.getText().toString());//qq号
         tempCustInfo.put("fwechat", wechatEdit.getText().toString());//微信号
         tempCustInfo.put("otherContact", otherContactEdit.getText().toString());//其他联系方式（多个分号隔开）
-        if (!TextUtils.isEmpty(appointmentTimeBtn.getText().toString())) {
+        if (!TextUtils.isEmpty(appointmentTimeBtn.getText().toString()))
             tempCustInfo.put("appointTime", appointmentTimeBtn.getText().toString() + ":00");//预约时间
-        }
         tempCustInfo.put("fisbulksale", bigValue);//是否大单
-        tempCustInfo.put("buildBy", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.EMP_ID));//建档人id
         tempCustInfo.put("buildDate", timeValue);//建档时间（yyyy-MM-dd HH:mm:ss）
+
 
         Map<String, Object> map = new HashMap<>();
         map.put("tempCustInfo", tempCustInfo);
@@ -461,7 +575,13 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 saveCheck();
                 break;
             case R.id.return_btn://返回
-                finish();
+                View v = DialogUtil.hintDialog(this, "数据未保存，是否确认退出？");
+                v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
                 break;
             case R.id.other_btn://其他信息
                 arrowsChange(table3, otherBtn);
@@ -508,9 +628,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
 
     //保存效验
     private void saveCheck() {
-        if (TextUtils.isEmpty(mylikeId.getText().toString())) {
-            CommonUtil.showToast("保存失败，请输入美莱在线访客ID");
-        } else if (TextUtils.isEmpty(nameEdit.getText().toString())) {
+        if (TextUtils.isEmpty(nameEdit.getText().toString())) {
             CommonUtil.showToast("保存失败，请输入姓名");
         } else if (TextUtils.isEmpty(sexValue)) {
             CommonUtil.showToast("保存失败，请选择性别");
@@ -522,15 +640,26 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
             CommonUtil.showToast("保存失败，请选择媒介来源");
         } else if (provinces.isEmpty()) {
             CommonUtil.showToast("保存失败，请选择省市区");
-        } else if (TextUtils.isEmpty(addressDetailsEdit.getText().toString())) {
-            CommonUtil.showToast("保存失败，输入详细地址");
         } else if (TextUtils.isEmpty(intentionDegree)) {
             CommonUtil.showToast("保存失败，请选择意向度");
         } else if (intentionEntitiesList.isEmpty()) {
             CommonUtil.showToast("保存失败，请添加意向项目");
         } else {
-            saveData();
+            if (Constant.B_SS.equals(tag) && TextUtils.isEmpty(mylikeId.getText().toString())) {
+                CommonUtil.showToast("保存失败，请输入美莱在线访客ID");
+            } else if (Constant.B_YGTJ.equals(tag) && creatorValue.isEmpty()) {
+                CommonUtil.showToast("保存失败，请输入建档人，建档人需输入后点选生效");
+            } else if (Constant.B_LDX.equals(tag) && referrerVlaue.isEmpty()) {
+                CommonUtil.showToast("保存失败，请输入推荐人，推荐人需输入后点选生效");
+            } else {
+                saveData();
+            }
         }
+
+
+        /*else if (TextUtils.isEmpty(addressDetailsEdit.getText().toString())) {
+            CommonUtil.showToast("保存失败，输入详细地址");
+        }*/
     }
 
     //改变展开项箭头
@@ -564,7 +693,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                     textView.setTextColor(getResources().getColor(R.color.black_50));
                 }
                 textView.setGravity(Gravity.RIGHT);
-                textView.setPadding(10, 30, 10, 30);
+                textView.setPadding(20, 30, 20, 30);
                 viewHolder.setText(R.id.text, item.getDomainText());
             }
         };
@@ -591,6 +720,99 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
             }
         });
         return commonAdapter;
+    }
+
+    //设置建档人下拉框
+    private void setCreatorAdapter() {
+        simpleAdapter = new SimpleAdapter(this, creatorEntities, R.layout.item_search_auto, new String[]{"empname", "empid"}, new int[]{R.id.name_text, R.id.id_text});
+        creatorEdit.setAdapter(simpleAdapter);
+
+        creatorEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //输入框有改变清空存储的值
+                creatorValue = "";
+            }
+        });
+        creatorEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                creatorEdit.showDropDown();//点击输入框显示下拉框
+            }
+        });
+        creatorEdit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView nameText = view.findViewById(R.id.name_text);
+                String nameStr = nameText.getText().toString();
+                TextView idText = view.findViewById(R.id.id_text);
+                CommonUtil.hideKeyboard(BookbuildingActivity.this);
+
+                creatorEdit.setText(nameStr);
+                creatorEdit.setSelection(nameStr.length());//将光标移至文字末尾
+                creatorValue = idText.getText().toString();
+            }
+        });
+    }
+
+    //设置推荐人下拉框
+    private void setReferrer() {
+        referrerEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (inputTag) {
+                    referrerVlaue = "";
+                    if (editable.toString().length() >= 2) {
+                        getReferrerData(editable.toString());
+                    }
+                } else {
+                    inputTag = true;
+                }
+            }
+        });
+
+        referrerAdapter = new CommonAdapter<ReferrerEntity>(this, R.layout.common_item_text, referrerEntities) {
+            @Override
+            protected void convert(ViewHolder viewHolder, ReferrerEntity item, int position) {
+                TextView textView = viewHolder.getView(R.id.text);
+                textView.setGravity(Gravity.RIGHT);
+                textView.setPadding(20, 30, 20, 30);
+                viewHolder.setText(R.id.text, item.getCfname());
+            }
+        };
+
+        listPopupWindow = new ListPopupWindow(this);
+        listPopupWindow.setAdapter(referrerAdapter);
+        listPopupWindow.setAnchorView(referrerEdit);
+        listPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                inputTag = false;
+                referrerEdit.setText(referrerEntities.get(i).getNamePhone());
+                referrerEdit.setSelection(referrerEdit.getText().toString().length());
+                referrerVlaue = referrerEntities.get(i).getId();
+                CommonUtil.hideKeyboard(BookbuildingActivity.this);
+                listPopupWindow.dismiss();
+            }
+        });
     }
 
     //设置复选标签公共适配器
@@ -671,7 +893,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 appointmentTimeBtn.setText(getTime2(date));
             }
         }).setType(new boolean[]{true, true, true, true, true, false})//隐藏秒
-                .setSubCalSize(14)//确认取消文字大小s
+                .setSubCalSize(14)//确认取消文字大小
                 .setContentTextSize(14)//滚轮文字大小
                 .setSubmitColor(getResources().getColor(R.color.green_50))//确定按钮的颜色
                 .setCancelColor(getResources().getColor(R.color.gray_49))//取消按钮的颜色
@@ -837,6 +1059,17 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         ProvincesPV.setPicker(provincesEntity1, provincesEntity2, provincesEntity3);//三级选择器
     }
 
+    @Override
+    public void onBackPressed() {
+        View v = DialogUtil.hintDialog(this, "数据未保存，是否确认退出？");
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
     //初始化意向三级联动数据
    /* private void initIntentionData() {
         for (int i = 0; i < intentionEntities1.size(); i++) {
@@ -878,17 +1111,17 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
             public void onOptionsSelect(int options1, int options2, int options3, View v) {//选择项
                 IntentionAddEntity intentionAddEntity = new IntentionAddEntity();
                 String intentionValue = "";
-                if (!TextUtils.isEmpty(intentionEntities1.get(options1).getPbtid())) {
-                    intentionAddEntity.setItemFirst(intentionEntities1.get(options1).getPbtid());
-                    intentionValue = intentionValue + intentionEntities1.get(options1).getPbtname();
+                if (!TextUtils.isEmpty(intentionEntities1.get(options1).getPid())) {
+                    intentionAddEntity.setItemFirst(intentionEntities1.get(options1).getPid());
+                    intentionValue = intentionValue + intentionEntities1.get(options1).getPname();
                 }
-                if (!TextUtils.isEmpty(intentionEntities2.get(options1).get(options2).getPbtid())) {
-                    intentionAddEntity.setItemSecond(intentionEntities2.get(options1).get(options2).getPbtid());
-                    intentionValue = intentionValue + "/" + intentionEntities2.get(options1).get(options2).getPbtname();
+                if (!TextUtils.isEmpty(intentionEntities2.get(options1).get(options2).getPid())) {
+                    intentionAddEntity.setItemSecond(intentionEntities2.get(options1).get(options2).getPid());
+                    intentionValue = intentionValue + "/" + intentionEntities2.get(options1).get(options2).getPname();
                 }
-                if (!TextUtils.isEmpty(intentionEntities3.get(options1).get(options2).get(options3).getPbtid())) {
-                    intentionAddEntity.setItemThird(intentionEntities3.get(options1).get(options2).get(options3).getPbtid());
-                    intentionValue = intentionValue + "/" + intentionEntities3.get(options1).get(options2).get(options3).getPbtname();
+                if (!TextUtils.isEmpty(intentionEntities3.get(options1).get(options2).get(options3).getPid())) {
+                    intentionAddEntity.setItemThird(intentionEntities3.get(options1).get(options2).get(options3).getPid());
+                    intentionValue = intentionValue + "/" + intentionEntities3.get(options1).get(options2).get(options3).getPname();
                 }
                 intentionAddEntity.setIntentionStr(intentionValue);
                 intentionEntitiesList.add(intentionAddEntity);

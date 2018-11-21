@@ -13,8 +13,9 @@ import com.mylike.his.utils.DataUtil;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by zhengluping on 2018/1/2.
@@ -22,8 +23,9 @@ import butterknife.ButterKnife;
  */
 
 public class DHomeFragment extends BaseFragment {
+    Unbinder unbinder;
 
-    @Bind(R.id.list_view)
+    @BindView(R.id.list_view)
     ListView listView;
 
     public static DHomeFragment newInstance() {
@@ -37,7 +39,7 @@ public class DHomeFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_d_home, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         listView.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item_work_list, DataUtil.getData(10)) {
             @Override
@@ -52,7 +54,7 @@ public class DHomeFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
 }

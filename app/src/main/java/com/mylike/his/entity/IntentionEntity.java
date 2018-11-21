@@ -10,18 +10,43 @@ import java.util.List;
  */
 
 public class IntentionEntity implements IPickerViewData {
-
-    List<IntentionEntity> children = new ArrayList<>();
-    private String pbtid="";
-    private String pbtname = "";
+    //    private String pbtid = "";
+    //    private String pbtname = "";
+    private String pname;
+    private String pid;
+    private String parentid;
     private String tenantId;
+    List<IntentionEntity> children;
 
+    public IntentionEntity(String pname) {
+        this.pname = pname;
+    }
 
     public IntentionEntity() {
     }
 
-    public IntentionEntity(String pbtname) {
-        this.pbtname = pbtname;
+    public String getParentid() {
+        return parentid;
+    }
+
+    public void setParentid(String parentid) {
+        this.parentid = parentid;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getPname() {
+        return pname;
+    }
+
+    public void setPname(String pname) {
+        this.pname = pname;
     }
 
     public List<IntentionEntity> getChildren() {
@@ -30,22 +55,6 @@ public class IntentionEntity implements IPickerViewData {
 
     public void setChildren(List<IntentionEntity> children) {
         this.children = children;
-    }
-
-    public String getPbtid() {
-        return pbtid;
-    }
-
-    public void setPbtid(String pbtid) {
-        this.pbtid = pbtid;
-    }
-
-    public String getPbtname() {
-        return pbtname;
-    }
-
-    public void setPbtname(String pbtname) {
-        this.pbtname = pbtname;
     }
 
     public String getTenantId() {
@@ -58,6 +67,6 @@ public class IntentionEntity implements IPickerViewData {
 
     @Override
     public String getPickerViewText() {
-        return pbtname;
+        return pname;
     }
 }

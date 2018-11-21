@@ -10,30 +10,31 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mylike.his.R;
-import com.mylike.his.activity.consultant.StoredValueActivity;
 import com.mylike.his.activity.consultant.VisitDetailsActivity;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.entity.BasePageEntity;
-import com.mylike.his.entity.HospitalAppointmentEntity;
-import com.mylike.his.entity.HospitalAppointmentInfoEntity;
+import com.mylike.his.entity.VisitCDEntity;
 import com.mylike.his.entity.VisitEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
-import com.mylike.his.utils.SPUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
-import com.zhy.adapter.recyclerview.wrapper.LoadMoreWrapper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -41,18 +42,17 @@ import butterknife.ButterKnife;
  * 咨询师-接诊fragment
  */
 public class VisitFragment extends BaseFragment implements OnRefreshListener, OnLoadMoreListener {
-
-    public static final String TITLE_TAG = "TITLE_TAG";
-
-
-    @Bind(R.id.refreshLayout)
-    SmartRefreshLayout refreshLayout;
-    @Bind(R.id.visit_list)
-    ListView visitList;
-
     //当前页标题
-    private String title;
+    public static final String TITLE_TAG = "TITLE_TAG";
+    View view;
+    Unbinder unbinder;
 
+    @BindView(R.id.visit_list)
+    ListView visitList;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+
+    private String title;
     private int sumPage = 1;//总也数
     private int pageSize = 10;//每页数据
     private int pageNumber = 1;//页码
@@ -60,6 +60,7 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
     private List<VisitEntity> listAll = new ArrayList<>();
     private CommonAdapter commonAdapter;
 
+    private VisitCDEntity visitCDEntity = new VisitCDEntity();
 
     public static VisitFragment newInstance(String title) {
         Bundle bundle = new Bundle();
@@ -72,65 +73,74 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        title = getArguments().getString(TITLE_TAG);
+        EventBus.getDefault().register(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_visit, container, false);
-        ButterKnife.bind(this, view);
-        initView();
+        view = inflater.inflate(R.layout.fragment_visit, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        initView(visitCDEntity);
         return view;
     }
 
-    private void initView() {
-        if (title.equals("待回访")) {//待回访
-            visitValue = 0;
-            commonAdapter = new CommonAdapter<VisitEntity>(getActivity(), R.layout.item_visit_not_list, listAll) {
-                @Override
-                protected void convert(ViewHolder viewHolder, VisitEntity item, int position) {
-                    viewHolder.setText(R.id.name_text, item.getCustomerName());
-                    viewHolder.setText(R.id.visit_name_text, item.getTaskKeyWord());
-                    viewHolder.setText(R.id.visit_type_text, item.getObType());
-                    viewHolder.setText(R.id.time_text, item.getPlanTime().substring(0, 11));
-                }
-            };
-        } else {//已回访
-            visitValue = 1;
-            commonAdapter = new CommonAdapter<VisitEntity>(getActivity(), R.layout.item_visit_has_list, listAll) {
-                @Override
-                protected void convert(ViewHolder viewHolder, VisitEntity item, int position) {
-                    viewHolder.setText(R.id.name_text, item.getCustomerName());
-                    viewHolder.setText(R.id.visit_name_text, item.getTaskKeyWord());
-                    viewHolder.setText(R.id.visit_type_text, item.getObType());
-                    viewHolder.setText(R.id.time_not_text, item.getPlanTime().substring(0, 11));
-                    viewHolder.setText(R.id.time_has_text, item.getVisitTime().substring(0, 11));
-                }
-            };
-        }
-        initData();
-        visitList.setAdapter(commonAdapter);
-        visitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("visit_tag", visitValue);
-                bundle.putString("bpd_id", listAll.get(position).getBpdId());
-                startActivity(VisitDetailsActivity.class, bundle);
+    public void initView(VisitCDEntity visitCDEntity) {
+        this.visitCDEntity = visitCDEntity;
+        if (refreshLayout != null && visitList != null) {
+            title = getArguments().getString(TITLE_TAG);
+            if (title.equals("待回访")) {//待回访
+                visitValue = 0;
+                commonAdapter = new CommonAdapter<VisitEntity>(getActivity(), R.layout.item_visit_not_list, listAll) {
+                    @Override
+                    protected void convert(ViewHolder viewHolder, VisitEntity item, int position) {
+                        viewHolder.setText(R.id.name_text, item.getCustomerName());
+                        viewHolder.setText(R.id.visit_name_text, item.getTaskKeyWord());
+                        viewHolder.setText(R.id.visit_type_text, item.getObType());
+                        viewHolder.setText(R.id.time_text, item.getPlanTime().substring(0, 11));
+                    }
+                };
+            } else {//已回访
+                visitValue = 1;
+                commonAdapter = new CommonAdapter<VisitEntity>(getActivity(), R.layout.item_visit_has_list, listAll) {
+                    @Override
+                    protected void convert(ViewHolder viewHolder, VisitEntity item, int position) {
+                        viewHolder.setText(R.id.name_text, item.getCustomerName());
+                        viewHolder.setText(R.id.visit_name_text, item.getTaskKeyWord());
+                        viewHolder.setText(R.id.visit_type_text, item.getObType());
+                        viewHolder.setText(R.id.time_not_text, item.getPlanTime().substring(0, 11));
+                        viewHolder.setText(R.id.time_has_text, item.getVisitTime().substring(0, 11));
+                    }
+                };
             }
-        });
+            initData();
+            visitList.setAdapter(commonAdapter);
+            visitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("visit_tag", visitValue);
+                    bundle.putString("bpd_id", listAll.get(position).getBpdId());
+                    startActivity(VisitDetailsActivity.class, bundle);
+                }
+            });
 
-        refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setOnLoadMoreListener(this);
-
+            refreshLayout.setOnRefreshListener(this);
+            refreshLayout.setOnLoadMoreListener(this);
+        }
     }
 
-    private void initData() {
+    public void initData() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("pageNumber", pageNumber + "");
         map.put("pageSize", pageSize + "");
         map.put("visitStatus", visitValue + "");
+        map.put("planTimeStart", visitCDEntity.getPlanTimeStart());
+        map.put("planTimeEnd", visitCDEntity.getPlanTimeEnd());
+        map.put("visitTimeStart", visitCDEntity.getVisitTimeStart());
+        map.put("visitTimeEnd", visitCDEntity.getVisitTimeEnd());
+        map.put("visitType", visitCDEntity.getVisitType());
+
         HttpClient.getHttpApi().getVisitList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<BasePageEntity<VisitEntity>>() {
             @Override
             protected void onSuccess(BasePageEntity<VisitEntity> visitEntityBasePageEntity) {
@@ -138,6 +148,7 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
                 if (sumPage == pageNumber) {
                     refreshLayout.setNoMoreData(true);
                 }
+                listAll.clear();
                 listAll.addAll(visitEntityBasePageEntity.getList());
                 commonAdapter.notifyDataSetChanged();
                 refreshLayout.finishRefresh();
@@ -172,6 +183,16 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        if (EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
+        unbinder.unbind();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updataData(VisitCDEntity visitCDEntity) {
+        this.visitCDEntity = visitCDEntity;
+        initData();
     }
 }
+
+
