@@ -82,7 +82,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     private String departmentId;//科室id
 
     private PopupWindow projectPW;
-    private String typeValue = "COMBO";
+    private String typeValue = "SUBJECT";
 
     private CommonAdapter commonAdapter;
     private CommonAdapter commonAdapter2;
@@ -180,8 +180,6 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
         sublevelList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                double money = 0;
-//                int countValue = 0;
                 ProductDetailsEntity p = productDetailsEntityList.get(position);
 
                 boolean not_equally_tag = true;
@@ -192,59 +190,40 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                         case "COMBO"://套餐
                             if (p.getPkgid().equals(productDetailsEntity.getPkgid())) {
                                 not_equally_tag = false;
-//                                if (!TextUtils.isEmpty(getIntent().getStringExtra(ShoppingCartActivity.CART_TAG))) {
-//                                    //如果是购物车过来的数据，同种产品不能做添加（为防止购物车编辑过后的价格发生改变）
-//                                    showToast("产品已存在，不能做添加");
-//                                } else {
                                 count += 1;
                                 productDetailsEntity.setCount(count + "");
-//                                }
                             }
                             break;
                         case "SUBJECT"://产品
                             if (p.getProductid().equals(productDetailsEntity.getProductid())) {
                                 not_equally_tag = false;
-//                                if (!TextUtils.isEmpty(getIntent().getStringExtra(ShoppingCartActivity.CART_TAG))) {
-//                                    //如果是购物车过来的数据，同种产品不能做添加（为防止购物车编辑过后的价格发生改变）
-//                                    showToast("产品已存在，不能做添加");
-//                                } else {
                                 count += 1;
                                 productDetailsEntity.setCount(count + "");
-//                                }
                             }
                             break;
                         case "MINUTIA"://细目
                             if (p.getChaitemCd().equals(productDetailsEntity.getChaitemCd())) {
                                 not_equally_tag = false;
-//                                if (!TextUtils.isEmpty(getIntent().getStringExtra(ShoppingCartActivity.CART_TAG))) {
-//                                    //如果是购物车过来的数据，同种产品不能做添加（为防止购物车编辑过后的价格发生改变）
-//                                    showToast("产品已存在，不能做添加");
-//                                } else {
                                 count += 1;
                                 productDetailsEntity.setCount(count + "");
-//                                }
                             }
                             break;
                     }
-//                    countValue += count;
-//                    money += (Double.parseDouble(productDetailsEntity.getPrice()) * count);
                 }
                 //没有同种产品做添加操作
                 if (not_equally_tag) {
                     switch (typeValue) {
                         case "COMBO"://套餐
-                            p.setItemLx("套餐");
+                            p.setItemLx("1");
                             break;
                         case "SUBJECT"://产品
-                            p.setItemLx("产品");
+                            p.setItemLx("2");
                             break;
                         case "MINUTIA"://细目
-                            p.setItemLx("细目");
+                            p.setItemLx("3");
                             break;
                     }
 
-//                    countValue += 1;
-//                    money += Double.parseDouble(p.getPrice());
                     p.setCount("1");//数量
                     p.setDiscount("1.00");//手动输入的折扣
                     accountList.add(p);
@@ -253,7 +232,6 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                     clickTag = false;
                     setBtnClick();
                 }
-//                startAnim(view, countValue, money);
                 startAnim(view);
             }
         });
@@ -264,7 +242,6 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     private AniManager mAniManager = new AniManager();
 
     //启动动画，购物车飞入效果
-//    public void startAnim(View v, final int countValue, final double money) {
     public void startAnim(View v) {
         int[] end_location = new int[2];
         int[] start_location = new int[2];
@@ -285,8 +262,6 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             public void setAnimEnd(AniManager a) {
                 //动画结束后的监听
                 sumData();
-//                submitBtn.setText("选好了(" + countValue + ")");
-//                moneyText.setText(new DecimalFormat("0.00").format(money) + "");
             }
         });
     }
@@ -301,9 +276,11 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             protected void onSuccess(ProductsThreeLevelEntity productsThreeLevelEntity) {
                 productsThreeLevel = productsThreeLevelEntity;
                 productChildrenEntities.clear();
-                productChildrenEntities.addAll(productsThreeLevel.getComboType().get(0).getChildren().get(0).getChildren());
-                setSublevelData(productChildrenEntities.get(0).getPid());
-                commonAdapter.notifyDataSetChanged();
+                if (productsThreeLevel.getSubjectProductType() != null && productsThreeLevel.getSubjectProductType().size() != 0) {
+                    productChildrenEntities.addAll(productsThreeLevel.getSubjectProductType().get(0).getChildren().get(0).getChildren());
+                    setSublevelData(productChildrenEntities.get(0).getPid());
+                    commonAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override

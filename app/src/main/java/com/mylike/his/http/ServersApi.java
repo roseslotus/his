@@ -11,6 +11,7 @@ import com.mylike.his.entity.ChargeUserInfoEntity;
 import com.mylike.his.entity.ClientEntity;
 import com.mylike.his.entity.ConsumeDDEntity;
 import com.mylike.his.entity.CreatorEntity;
+import com.mylike.his.entity.DepartmentDEntity;
 import com.mylike.his.entity.DepartmentDoctorEntity;
 import com.mylike.his.entity.DepartmentEntity;
 import com.mylike.his.entity.DoctorDetailsEntity;
@@ -20,6 +21,7 @@ import com.mylike.his.entity.HospitalAppointmentEntity;
 import com.mylike.his.entity.IntentionEntity;
 import com.mylike.his.entity.MessageEntity;
 import com.mylike.his.entity.MessageTypeEntity;
+import com.mylike.his.entity.PackageEntity;
 import com.mylike.his.entity.ProductChildrenEntity;
 import com.mylike.his.entity.ProductDetailsEntity;
 import com.mylike.his.entity.ProductEntity;
@@ -285,5 +287,14 @@ public interface ServersApi {
     //回访筛选
     @POST("api/outbound/getVisitType.do")
     Call<BaseEntity<VisitTypeEntity>> getVisitType();
+
+    //查询套餐下的产品
+    @POST("api/product/findPackageListProducts.do")
+    Call<BaseEntity<List<PackageEntity>>> getPackageProduct(@Body RequestBody body);
+
+    //获取所有科室所有医生
+    @POST("api/product/findDepartmentDockers.do")
+    Call<BaseEntity<DepartmentDEntity>> getDepartmentDoctor();
+
 
 }

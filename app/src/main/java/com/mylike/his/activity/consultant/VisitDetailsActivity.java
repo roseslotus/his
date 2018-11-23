@@ -1,8 +1,11 @@
 package com.mylike.his.activity.consultant;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +18,7 @@ import com.mylike.his.core.BaseActivity;
 import com.mylike.his.entity.VisitInfoEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
-import com.mylike.his.utils.SPUtils;
+import com.mylike.his.utils.CommonUtil;
 
 import java.util.HashMap;
 
@@ -71,6 +74,14 @@ public class VisitDetailsActivity extends BaseActivity implements View.OnClickLi
     LinearLayout visitHasLl;
     @BindView(R.id.title_name)
     TextView titleName;
+    @BindView(R.id.wx_text1)
+    TextView wxText1;
+    @BindView(R.id.copy_btn1)
+    TextView copyBtn1;
+    @BindView(R.id.wx_text)
+    TextView wxText;
+    @BindView(R.id.copy_btn)
+    TextView copyBtn;
 
     private int visitValue;
     private String bpdId;
@@ -78,6 +89,8 @@ public class VisitDetailsActivity extends BaseActivity implements View.OnClickLi
 
     private Drawable sex_g_icon;
     private Drawable sex_b_icon;
+
+    private String wxh = "123456";//存储微信号
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,6 +134,11 @@ public class VisitDetailsActivity extends BaseActivity implements View.OnClickLi
                 phoneText.setText(visitInfoEntity.getCustomerPhone());//客户手机号
                 cardText.setText(visitInfoEntity.getCardName());
 
+                if (TextUtils.isEmpty(visitInfoEntity.getWx())) {
+                    copyBtn.setVisibility(View.GONE);
+                    copyBtn1.setVisibility(View.GONE);
+                }
+
                 if (visitValue == 0) {//未回访详情
                     visitNotLl.setVisibility(View.VISIBLE);
                     visitHasLl.setVisibility(View.GONE);
@@ -132,7 +150,7 @@ public class VisitDetailsActivity extends BaseActivity implements View.OnClickLi
                     nodeTv.setText(visitInfoEntity.getInvokeNode());//触发节点
                     purposeTv.setText(visitInfoEntity.getVisitAims());//回访目的
                     requireTv.setText(visitInfoEntity.getVisitRequire());//回访要求
-
+                    wxText1.setText(visitInfoEntity.getWx());
 
                 } else {//已回访详情
                     visitNotLl.setVisibility(View.GONE);
@@ -143,6 +161,7 @@ public class VisitDetailsActivity extends BaseActivity implements View.OnClickLi
                     resultText.setText(visitInfoEntity.getVisitResult());//回访结果
                     feedbackText.setText(visitInfoEntity.getResultText());//回访反馈
                     noteText.setText("暂无");//短信内容
+                    wxText.setText(visitInfoEntity.getWx());
                 }
             }
 
@@ -153,7 +172,8 @@ public class VisitDetailsActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    @OnClick({R.id.return_btn, R.id.tag_rl})
+
+    @OnClick({R.id.return_btn, R.id.tag_rl, R.id.copy_btn, R.id.copy_btn1})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -162,6 +182,16 @@ public class VisitDetailsActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.return_btn:
                 finish();
+                break;
+            case R.id.copy_btn:
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setText(wxh);
+                CommonUtil.showToast("复制成功");
+                break;
+            case R.id.copy_btn1:
+                ClipboardManager cm1 = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                cm1.setText(wxh);
+                CommonUtil.showToast("复制成功");
                 break;
         }
     }

@@ -103,8 +103,6 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
     TextView moneyText;
     @BindView(R.id.money_value)
     TextView moneyValue;
-    //    @BindView(R.id.payment)
-//    TextView payment;
     @BindView(R.id.order_number)
     TextView orderNumber;
 
@@ -133,7 +131,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initView() {
-        commonAdapter = new CommonAdapter<ChargeDateilsEntity.Productlist>(this, R.layout.item_charge_product_list, productlists) {
+        commonAdapter = new CommonAdapter<ChargeDateilsEntity.Productlist>(this, R.layout.item_charge_package_list, productlists) {
             @Override
             protected void convert(ViewHolder holder, ChargeDateilsEntity.Productlist productlist, int position) {
                 holder.setText(R.id.product_name, productlist.getPNAME());
@@ -174,12 +172,6 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                     integralText.setText(chargeDateilsEntity.getInfo().getPOINTS());//积分
                 if (!TextUtils.isEmpty(chargeDateilsEntity.getInfo().getCFREMARK()))
                     remarkText.setText(chargeDateilsEntity.getInfo().getCFREMARK());//备注
-
-//                if ("1".equals(chargeDateilsEntity.getInfo().getPAY_TYPE())) {
-//                    payment.setText("移动支付");
-//                } else {
-//                    payment.setText("非移动支付");
-//                }
 
                 //判断是否储值/住院押金
                 if ("3".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER())) {
@@ -225,27 +217,6 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                         }
                         moneyValue.setText(setDecimalFormat(chargeDateilsEntity.getInfo().getFFACTMONEY()));//应付款
                         moneyText.setText("实付款");
-
-//                        String paymentValue = "";
-//                        if ("1".equals(chargeDateilsEntity.getInfo().getPAY_TYPE())) {
-//                            for (Map<String, String> value : chargeDateilsEntity.getSubjectlist()) {
-//                                if (TextUtils.isEmpty(paymentValue)) {
-//                                    paymentValue += "移动支付-" + value.get("FSUBJECTNAME");
-//                                } else {
-//                                    paymentValue += "\n移动支付-" + value.get("FSUBJECTNAME");
-//                                }
-//                            }
-//                        } else {
-//                            for (Map<String, String> value : chargeDateilsEntity.getSubjectlist()) {
-//                                if (TextUtils.isEmpty(paymentValue)) {
-//                                    paymentValue += "非移动支付—" + value.get("FSUBJECTNAME");
-//                                } else {
-//                                    paymentValue += "\n非移动支付—" + value.get("FSUBJECTNAME");
-//                                }
-//                            }
-//                        }
-//                        payment.setText(paymentValue);
-
                         break;
                     case "7"://待OA申请
                         oaBtn.setVisibility(View.VISIBLE);//OA申请

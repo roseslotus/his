@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,10 +138,10 @@ public class SurgeryActivity extends BaseActivity implements View.OnClickListene
         commonAdapter = new CommonAdapter<DoctorInfoEntity>(this, R.layout.item_surgery_list, listAll) {
             @Override
             protected void convert(ViewHolder viewHolder, DoctorInfoEntity item, int position) {
-                viewHolder.setText(R.id.department_naem, item.getDeptname().replace("美容中心",""));//科室
+                viewHolder.setText(R.id.department_naem, item.getDeptname().replace("美容中心", ""));//科室
                 viewHolder.setText(R.id.doctor_naem, item.getEmpname());//医生姓名
                 viewHolder.setText(R.id.oper_name, item.getOpername());//手术名称
-                if (item.getOperstatename().isEmpty())
+                if (TextUtils.isEmpty(item.getOperstatename()))
                     viewHolder.setVisible(R.id.oper_state_name, false);
                 else
                     viewHolder.setText(R.id.oper_state_name, "（" + item.getOperstatename() + "）");//手术状态

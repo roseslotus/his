@@ -38,9 +38,26 @@ public class ChargeUserInfoEntity {
     }
 
     public class ProductDate {
-
         private String cb;
-        private List<PInfo> cp = new ArrayList<>();
+        private List<PInfo> data = new ArrayList<>();
+
+        public String getCb() {
+            return cb;
+        }
+
+        public void setCb(String cb) {
+            this.cb = cb;
+        }
+
+        public List<PInfo> getData() {
+            return data;
+        }
+
+        public void setData(List<PInfo> data) {
+            this.data = data;
+        }
+
+        /*private List<PInfo> cp = new ArrayList<>();
         private List<PInfo> tc = new ArrayList<>();
         private List<PInfo> xm = new ArrayList<>();
 
@@ -74,7 +91,7 @@ public class ChargeUserInfoEntity {
 
         public List<PInfo> getXm() {
             return xm;
-        }
+        }*/
 
     }
 
@@ -104,6 +121,10 @@ public class ChargeUserInfoEntity {
         private String registerid;
         private String unitprice;
         private String billrebate;
+        private String department;
+        private String fdoctorid;
+        private String itemLx;
+        private List<PInfo> product = new ArrayList<>();
 
         public String getBillrebate() {
             return billrebate;
@@ -302,7 +323,40 @@ public class ChargeUserInfoEntity {
         }
 
         public void setRegisterid(String registerid) {
+
             this.registerid = registerid;
+        }
+
+        public String getItemLx() {
+            return itemLx;
+        }
+
+        public void setItemLx(String itemLx) {
+            this.itemLx = itemLx;
+        }
+
+        public List<PInfo> getProduct() {
+            return product;
+        }
+
+        public void setProduct(List<PInfo> product) {
+            this.product = product;
+        }
+
+        public String getDepartment() {
+            return department;
+        }
+
+        public void setDepartment(String department) {
+            this.department = department;
+        }
+
+        public String getFdoctorid() {
+            return fdoctorid;
+        }
+
+        public void setFdoctorid(String fdoctorid) {
+            this.fdoctorid = fdoctorid;
         }
     }
 

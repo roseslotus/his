@@ -73,13 +73,13 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
             protected void convert(final ViewHolder viewHolder, final ProductDetailsEntity item, final int position) {
                 //项目名
                 switch (item.getItemLx()) {
-                    case "套餐":
+                    case "1":
                         viewHolder.setText(R.id.product_name, item.getPkgname());
                         break;
-                    case "产品":
+                    case "2":
                         viewHolder.setText(R.id.product_name, item.getPname());
                         break;
-                    case "细目":
+                    case "3":
                         viewHolder.setText(R.id.product_name, item.getItemName());
                         break;
                 }

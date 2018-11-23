@@ -25,6 +25,7 @@ public class VisitInfoEntity {
     private String customerId;
     private String cardName;
     private String customerGender;
+    private String wx;
 
     public String getBpdId() {
         return bpdId;
@@ -184,5 +185,13 @@ public class VisitInfoEntity {
 
     public void setCustomerGender(String customerGender) {
         this.customerGender = customerGender;
+    }
+
+    public String getWx() {
+        return wx;
+    }
+
+    public void setWx(String wx) {
+        this.wx = wx;
     }
 }

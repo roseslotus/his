@@ -65,10 +65,9 @@ public class ViewUtil<T> {
 
                     intentionEntityList3.add(IList3);
                 }
-
-                intentionEntities2.add(intentionEntityList2);
-                intentionEntities3.add(intentionEntityList3);
             }
+            intentionEntities2.add(intentionEntityList2);
+            intentionEntities3.add(intentionEntityList3);
         }
 
         //初始化意向选择器

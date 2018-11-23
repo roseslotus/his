@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mylike.his.R;
+import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.CommonUtil;
@@ -212,5 +213,7 @@ public class BaseActivity extends AppCompatActivity {
         }
         startActivity(intent);
     }
+
+
 
 }

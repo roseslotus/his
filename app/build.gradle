@@ -52,7 +52,6 @@ dependencies {
     //日志
     implementation 'com.orhanobut:logger:2.2.0'
     //注解
-//    implementation 'com.jakewharton:butterknife:7.0.1'
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.jakewharton:butterknife-compiler:8.8.1'
 
@@ -73,6 +72,7 @@ dependencies {
     //滚轮
     implementation 'com.wx.wheelview:wheelview:1.3.3'//退款用到，等有时间把这个滚轮废弃
     implementation 'com.contrarywind:Android-PickerView:4.1.4'
+
     //通讯录
     implementation 'com.github.mcxtzhang:SuspensionIndexBar:V1.0.0'
     //添加商品动画效果

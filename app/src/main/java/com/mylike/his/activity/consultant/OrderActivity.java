@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -29,9 +31,13 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
+import com.mylike.his.entity.BookbuildingEntity;
 import com.mylike.his.entity.ChargeUserInfoEntity;
+import com.mylike.his.entity.DepartmentDEntity;
 import com.mylike.his.entity.IntentionEntity;
+import com.mylike.his.entity.PackageEntity;
 import com.mylike.his.entity.ProductDetailsEntity;
+import com.mylike.his.entity.TokenEntity;
 import com.mylike.his.entity.TriageInfoEntity;
 import com.mylike.his.entity.UserIntentionEntity;
 import com.mylike.his.http.BaseBack;
@@ -52,6 +58,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -63,10 +70,9 @@ import static com.mylike.his.activity.consultant.ShoppingCartActivity.CART_TAG;
 
 /**
  * Created by zhengluping on 2018/2/5.
- * 开单
+ * 填写订单
  */
 public class OrderActivity extends BaseActivity implements View.OnClickListener, OnRefreshListener {
-
     @BindView(R.id.return_btn)
     ImageView returnBtn;
     @BindView(R.id.user_name)
@@ -113,12 +119,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     EditText remarkEdit;
     @BindView(R.id.integral_edit)
     EditText integralEdit;
-    //    @BindView(R.id.move)
-//    RadioButton move;
-//    @BindView(R.id.not_move)
-//    RadioButton notMove;
-//    @BindView(R.id.patternPayment)
-//    RadioGroup patternPayment;
     @BindView(R.id.jian_text)
     TextView jianText;
     @BindView(R.id.integral_money_text)
@@ -130,27 +130,29 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
     private OptionsPickerView optionsPickerView;
 
+    //产品数据
     private CommonAdapter commonAdapter;
     private List<UserIntentionEntity> userIntentionEntityList = new ArrayList<>();//客戶意向
     private List<ProductDetailsEntity> accountList = new ArrayList<>();//挑选的产品
+
     //所有意向数据
     private List<IntentionEntity> intentionEntities1 = new ArrayList<>();
     private List<List<IntentionEntity>> intentionEntities2 = new ArrayList<>();
     private List<List<List<IntentionEntity>>> intentionEntities3 = new ArrayList<>();
 
+    //科室医生数据
+    private DepartmentDEntity departmentDEntity = new DepartmentDEntity();
 
+    private List<String> tcId = new ArrayList<>();//查询套餐id
     private String[] Intention;//意向数据
     private double moneySum;//实付款
     private String custId;//客戶id
     private String intentionId;//意向id
     private String doctorDepartment;//医生部门id
     private String doctorId;//医生id
-    private String IsCosmetology;//是否是美容科 0否1是
-    private String chargeId;//收费单id
-    //    private String ppValue;//支付方式
+    private String chargeId = "";//收费单id
     private int integralValue;//客户可用积分
     private String zxsid;
-
     private String chargeTag;//是否读取暂存数据，如果为空，则是新单；
 
     @Override
@@ -158,36 +160,45 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
-//        getCustData();//获取客户信息
         getIntentionAllData();//获取全部意向信息
-//        initIntentionData();//获取客户意向信息
 
         chargeTag = getIntent().getStringExtra("chargeTag");
         initView();
+        initDepartmentDData();
         getCustData();
+
     }
+
 
     private void initView() {
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setEnableLoadMore(false);
-        if (TextUtils.isEmpty(chargeTag))
+        if (TextUtils.isEmpty(chargeTag)) {//购物车过来的产品
             accountList.addAll((List<ProductDetailsEntity>) getIntent().getSerializableExtra("accountList"));
-        commonAdapter = new CommonAdapter<ProductDetailsEntity>(this, R.layout.item_charge_product_list, accountList) {
+            tcId.clear();
+            for (ProductDetailsEntity p : accountList) {
+                if (!TextUtils.isEmpty(p.getPkgid())) {
+                    tcId.add(p.getPkgid());
+                }
+            }
+            getPackageProductData();
+        }
+        commonAdapter = new CommonAdapter<ProductDetailsEntity>(this, R.layout.item_charge_package_list, accountList) {
             @Override
             protected void convert(ViewHolder viewHolder, ProductDetailsEntity item, final int position) {
                 switch (item.getItemLx()) {
-                    case "套餐":
+                    case "1":
                         viewHolder.setText(R.id.product_name, item.getPkgname());
                         break;
-                    case "产品":
+                    case "2":
                         viewHolder.setText(R.id.product_name, item.getPname());
                         break;
-                    case "细目":
+                    case "3":
                         viewHolder.setText(R.id.product_name, item.getItemName());
                         break;
                 }
 
-                TextView textView = viewHolder.getView(R.id.price_text);
+                final TextView textView = viewHolder.getView(R.id.price_text);
                 textView.setText(CommonUtil.setTwoNumber(item.getPrice()));
                 textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
@@ -199,20 +210,108 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     viewHolder.setText(R.id.money_count_text, new DecimalFormat("0.00").format(Double.parseDouble(item.getPrice1())));
                 }
                 viewHolder.setText(R.id.count_text, "x" + item.getCount());
+
+                ListView listView = viewHolder.getView(R.id.project_list);
+                listView.setAdapter(new CommonAdapter<PackageEntity.product>(OrderActivity.this, R.layout.item_charge_product_list, item.getSubItems()) {
+                    @Override
+                    protected void convert(ViewHolder viewHolder, final PackageEntity.product item, int position) {
+                        viewHolder.setText(R.id.name, item.getPname());
+                        viewHolder.setText(R.id.num, "x" + item.getNum());
+                        viewHolder.setText(R.id.money, item.getPrice());
+
+                        //医生下拉选项
+                        final List<DepartmentDEntity.deptDocker> deptDockerSpr = new ArrayList<>();
+                        final CommonAdapter sprAdapter = new CommonAdapter<DepartmentDEntity.deptDocker>(OrderActivity.this, R.layout.common_item_text, deptDockerSpr) {
+                            @Override
+                            protected void convert(ViewHolder viewHolder, DepartmentDEntity.deptDocker item, int position) {
+
+                                TextView textView = viewHolder.getView(R.id.text);
+                                //设置第一项“请选择颜色为灰色”
+                                if (TextUtils.isEmpty(item.getEmpId())) {
+                                    textView.setTextColor(getResources().getColor(R.color.gray_49));
+                                } else {
+                                    textView.setTextColor(getResources().getColor(R.color.black_50));
+                                }
+                                textView.setGravity(Gravity.LEFT);
+                                textView.setPadding(20, 30, 20, 30);
+                                viewHolder.setText(R.id.text, item.getEmpName());
+                            }
+                        };
+
+                        final Spinner spinner2 = viewHolder.getView(R.id.doctor_spr);
+
+                        //科室下拉选项
+                        final Spinner spinner = viewHolder.getView(R.id.department_spr);
+                        spinner.setAdapter(new CommonAdapter<DepartmentDEntity.department>(OrderActivity.this, R.layout.common_item_text, departmentDEntity.getDepartments()) {
+                            @Override
+                            protected void convert(ViewHolder viewHolder, DepartmentDEntity.department dItem, int position) {
+                                TextView textView = viewHolder.getView(R.id.text);
+                                //设置第一项“请选择颜色为灰色”
+                                if (TextUtils.isEmpty(dItem.getDeptid()) || (!TextUtils.isEmpty(item.getDepartment()))) {
+                                    textView.setTextColor(getResources().getColor(R.color.gray_49));
+                                } else {
+                                    textView.setTextColor(getResources().getColor(R.color.black_50));
+                                }
+                                textView.setGravity(Gravity.LEFT);
+                                textView.setPadding(20, 30, 20, 30);
+                                viewHolder.setText(R.id.text, dItem.getDeptname());
+                            }
+                        });
+                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                deptDockerSpr.clear();
+                                deptDockerSpr.add(new DepartmentDEntity.deptDocker("请选择"));
+                                if (!TextUtils.isEmpty(departmentDEntity.getDepartments().get(i).getDeptid()))
+                                    deptDockerSpr.addAll(departmentDEntity.getDeptDockers().get(departmentDEntity.getDepartments().get(i).getDeptid()));
+                                item.setDepartment(departmentDEntity.getDepartments().get(i).getDeptid());
+                                sprAdapter.notifyDataSetChanged();
+
+                                if (!TextUtils.isEmpty(item.getFdoctorid())) {
+                                    for (int j = 0; j < deptDockerSpr.size(); j++) {
+                                        if (item.getFdoctorid().equals(deptDockerSpr.get(j).getEmpId())) {
+                                            spinner2.setSelection(j, true);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+                        if (TextUtils.isEmpty(item.getDepartment())) {
+                            spinner.setEnabled(true);
+                        } else {
+                            for (int i = 0; i < departmentDEntity.getDepartments().size(); i++) {
+                                if (item.getDepartment().equals(departmentDEntity.getDepartments().get(i).getDeptid())) {
+                                    spinner.setSelection(i, true);
+                                    break;
+                                }
+                            }
+                            spinner.setEnabled(false);
+                        }
+
+                        spinner2.setAdapter(sprAdapter);
+                        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                item.setFdoctorid(deptDockerSpr.get(i).getEmpId());
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+                            }
+                        });
+
+
+                    }
+                });
             }
         };
         projectList.setAdapter(commonAdapter);
 
-//        patternPayment.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                if (notMove.getId() == checkedId) {
-//                    ppValue = "0";
-//                } else {
-//                    ppValue = "1";
-//                }
-//            }
-//        });
 
         integralEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -247,6 +346,23 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         });
     }
 
+    private void initDepartmentDData() {
+
+        //收费单客戶信息
+        HttpClient.getHttpApi().getDepartmentDoctor().enqueue(new BaseBack<DepartmentDEntity>() {
+            @Override
+            protected void onSuccess(DepartmentDEntity dDEntity) {
+                departmentDEntity.getDepartments().add(new DepartmentDEntity.department("请选择"));
+                departmentDEntity.getDepartments().addAll(dDEntity.getDepartments());
+                departmentDEntity.getDeptDockers().putAll(dDEntity.getDeptDockers());
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+            }
+        });
+    }
+
     private void getCustData() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("Triageid", SPUtils.getCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID));
@@ -255,9 +371,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         HttpClient.getHttpApi().getChargeUserInfo(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ChargeUserInfoEntity>() {
             @Override
             protected void onSuccess(ChargeUserInfoEntity chargeUserInfoEntity) {
-                ProductDetailsEntity pde;
                 //产品
-                if (chargeUserInfoEntity.getProductData().getCp().size() > 0) {
+                /*if (chargeUserInfoEntity.getProductData().getCp() != null && chargeUserInfoEntity.getProductData().getCp().size() > 0) {
                     for (ChargeUserInfoEntity.PInfo pInfo : chargeUserInfoEntity.getProductData().getCp()) {
                         pde = new ProductDetailsEntity();
                         pde.setPname(pInfo.getCfprojectname());
@@ -266,13 +381,13 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                         pde.setPrice(pInfo.getFproductprice());
                         pde.setPrice1(pInfo.getFsummoney());
                         pde.setPrice2(pInfo.getUnitprice());
-                        pde.setItemLx("产品");
+                        pde.setItemLx("2");
                         pde.setDiscount(pInfo.getBillrebate());
                         accountList.add(pde);
                     }
                 }
                 //套餐
-                if (chargeUserInfoEntity.getProductData().getTc().size() > 0) {
+                if (chargeUserInfoEntity.getProductData().getTc() != null && chargeUserInfoEntity.getProductData().getTc().size() > 0) {
                     for (ChargeUserInfoEntity.PInfo pInfo : chargeUserInfoEntity.getProductData().getTc()) {
                         pde = new ProductDetailsEntity();
                         pde.setPkgname(pInfo.getCfprojectname());
@@ -281,13 +396,13 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                         pde.setPrice(pInfo.getFproductprice());
                         pde.setPrice1(pInfo.getFsummoney());
                         pde.setPrice2(pInfo.getUnitprice());
-                        pde.setItemLx("套餐");
+                        pde.setItemLx("1");
                         pde.setDiscount(pInfo.getBillrebate());
                         accountList.add(pde);
                     }
                 }
                 //细目
-                if ((chargeUserInfoEntity.getProductData().getXm()).size() > 0) {
+                if (chargeUserInfoEntity.getProductData().getXm() != null && chargeUserInfoEntity.getProductData().getXm().size() > 0) {
                     for (ChargeUserInfoEntity.PInfo pInfo : chargeUserInfoEntity.getProductData().getXm()) {
                         pde = new ProductDetailsEntity();
                         pde.setItemName(pInfo.getCfprojectname());
@@ -296,12 +411,49 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                         pde.setPrice(pInfo.getFproductprice());
                         pde.setPrice1(pInfo.getFsummoney());
                         pde.setPrice2(pInfo.getUnitprice());
-                        pde.setItemLx("细目");
+                        pde.setItemLx("3");
                         pde.setDiscount(pInfo.getBillrebate());
                         accountList.add(pde);
                     }
+                }*/
+                if (chargeUserInfoEntity.getProductData().getData() != null) {
+                    ProductDetailsEntity pde;
+                    List<PackageEntity.product> list = new ArrayList<>();
+                    for (ChargeUserInfoEntity.PInfo pInfo : chargeUserInfoEntity.getProductData().getData()) {
+                        pde = new ProductDetailsEntity();
+                        if ("1".equals(pInfo.getItemLx())) {//套餐
+                            pde = new ProductDetailsEntity();
+                            pde.setPkgname(pInfo.getCfprojectname());
+                        } else if ("2".equals(pInfo.getItemLx())) {//产品
+                            pde.setPname(pInfo.getCfprojectname());
+                            pde.setProductid(pInfo.getFprojectid());
+                        } else if ("3".equals(pInfo.getItemLx())) {//细目
+                            pde.setItemName(pInfo.getCfprojectname());
+                            pde.setChaitemCd(pInfo.getFprojectid());
+                        }
+                        pde.setCount(pInfo.getCfnumbers());
+                        pde.setPrice(pInfo.getFproductprice());
+                        pde.setPrice1(pInfo.getFsummoney());
+                        pde.setPrice2(pInfo.getUnitprice());
+                        pde.setItemLx(pInfo.getItemLx());
+                        pde.setDiscount(pInfo.getBillrebate());
+                        if (pInfo.getItemLx().equals("1")) {
+                            PackageEntity.product product;
+                            for (ChargeUserInfoEntity.PInfo pInfo2 : pInfo.getProduct()) {
+                                product = new PackageEntity.product();
+                                product.setPname(pInfo2.getCfprojectname());//产品名
+                                product.setNum(pInfo2.getCfnumbers());//数量
+                                product.setPrice(pInfo2.getFproductprice());//原价
+                                product.setDepartment(pInfo2.getDepartment());//科室
+                                product.setFdoctorid(pInfo2.getFdoctorid());//医生
+                                list.add(product);
+                            }
+                            pde.setSubItems(list);
+                        }
+                        accountList.add(pde);
+                    }
+                    commonAdapter.notifyDataSetChanged();
                 }
-                commonAdapter.notifyDataSetChanged();
 
                 integralValue = chargeUserInfoEntity.getTriageData().getJIFEN();//积分
 
@@ -310,29 +462,30 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 sectionText.setText(chargeUserInfoEntity.getTriageData().getKSMC());//科室
                 doctorText.setText(chargeUserInfoEntity.getTriageData().getYSMC());//医生
                 integralText.setText("共" + chargeUserInfoEntity.getTriageData().getJIFEN() + "积分");//积分
-//                integralEdit.setText(chargeUserInfoEntity.getTriageData().getScore() + "");//填写的积分
+//              sintegralEdit.setText(chargeUserInfoEntity.getTriageData().getScore() + "");//填写的积分
 
                 identityEdit.setText(chargeUserInfoEntity.getTriageData().getSFZH());//身份证
                 remarkEdit.setText(chargeUserInfoEntity.getTriageData().getChargebillcfremark());//备注
-
-//                ppValue = chargeUserInfoEntity.getTriageData().getPayType();
-//                if ("0".equals(ppValue)) {//支付方式
-//                    notMove.setChecked(true);
-//                } else if ("1".equals(ppValue)) {
-//                    move.setChecked(true);
-//                }
 
                 if (!TextUtils.isEmpty(chargeUserInfoEntity.getTriageData().getYXID())) {
                     intentionText.setText(chargeUserInfoEntity.getTriageData().getYX());
                     intentionId = chargeUserInfoEntity.getTriageData().getYXID();
                 }
 
-                chargeId = chargeUserInfoEntity.getProductData().getCb();//收费单id
-                IsCosmetology = chargeUserInfoEntity.getIsCosmetology();//是否是美容科 0否1是
+                if (!TextUtils.isEmpty(chargeUserInfoEntity.getProductData().getCb()))
+                    chargeId = chargeUserInfoEntity.getProductData().getCb();//收费单id
                 custId = chargeUserInfoEntity.getTriageData().getKHID();//客户id
                 doctorId = chargeUserInfoEntity.getTriageData().getYSID();//医生id
                 doctorDepartment = chargeUserInfoEntity.getTriageData().getKSID();//科室id
                 zxsid = chargeUserInfoEntity.getTriageData().getZXSID();//科室id
+
+                tcId.clear();
+                for (ProductDetailsEntity p : accountList) {
+                    if (!TextUtils.isEmpty(p.getPkgid())) {
+                        tcId.add(p.getPkgid());
+                    }
+                }
+                getPackageProductData();
 
 
                 sumData();
@@ -369,10 +522,10 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
+    //客戶所有意向
     private void initIntentionData() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("custId", custId);
-        //客戶所有意向
         HttpClient.getHttpApi().getUserIntentionInfo(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<UserIntentionEntity>>() {
             @Override
             protected void onSuccess(List<UserIntentionEntity> userIntentionEntities) {
@@ -387,14 +540,40 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         });
     }
 
+    //获取意向数据
     private void getIntentionAllData() {
-        //获取意向数据
         HttpClient.getHttpApi().getIntentionAll().enqueue(new BaseBack<List<IntentionEntity>>() {
             @Override
             protected void onSuccess(List<IntentionEntity> intentionEntities) {
                 intentionEntities1.addAll(intentionEntities);
                 //初始化意向数据
                 initViewData();
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+
+            }
+        });
+    }
+
+    //获取套餐下的产品数据
+    private void getPackageProductData() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pkgIds", tcId);
+
+        HttpClient.getHttpApi().getPackageProduct(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<PackageEntity>>() {
+            @Override
+            protected void onSuccess(List<PackageEntity> packageEntities) {
+                for (ProductDetailsEntity p : accountList) {
+                    for (PackageEntity packageEntity : packageEntities) {
+                        if ((!TextUtils.isEmpty(p.getPkgid())) && p.getPkgid().equals(packageEntity.getPackageInfo().getPkgid())) {
+                            p.getSubItems().clear();
+                            p.getSubItems().addAll(packageEntity.getProducts());
+                        }
+                    }
+                }
+                commonAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -448,14 +627,10 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     CommonUtil.showToast("请先选择意向，再提交订单");
                 } else if (TextUtils.isEmpty(doctorText.getText().toString())) {
                     CommonUtil.showToast("未分配医生不能提交订单，请通知前台分配医生并下拉刷新");
-//                } else if (TextUtils.isEmpty(ppValue)) {
-//                    CommonUtil.showToast("请选择支付方式");
                 } else {
                     if (!TextUtils.isEmpty(moneyText.getText()) || !TextUtils.isEmpty(timeText.getText())) {
                         if (TextUtils.isEmpty(moneyText.getText())) {
                             CommonUtil.showToast("你选择了预约金，请填写预约金额");
-//                        } else if (TextUtils.isEmpty(timeText.getText())) {
-//                            CommonUtil.showToast("你选择了预约金，请选择预约时间");
                         } else {
                             DialogUtil.hintDialog(OrderActivity.this, "是否确认下单？").setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -499,7 +674,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 TimePickerView pvTime = new TimePickerBuilder(OrderActivity.this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
-//                        showToast(getTime(date));
                         timeText.setText(getTime(date));
                     }
                 }).setType(new boolean[]{true, true, true, true, true, false})//隐藏秒
@@ -646,7 +820,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         fenzhenshuju.put("chargebillcfremark", remarkEdit.getText().toString());
         fenzhenshuju.put("score", integralEdit.getText().toString());//积分
 
-        //产品数据
+        //产品数据(后台说要这样的数据，给后台循环一层)
         HashMap<String, Object> productshuju = new HashMap<>();
         for (int i = 0; i < accountList.size(); i++) {
             productshuju.put(i + "", accountList.get(i));
@@ -659,7 +833,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         map.put("totalMoney", sumText.getText().toString());
         map.put("zxsid", zxsid);
         map.put("billId", chargeId);
-//        map.put("payType", ppValue);//支付：0-非移动，1-移动
 
         //保存收费单
         HttpClient.getHttpApi().saveCharge(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
@@ -679,7 +852,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
 
     //提交订单
     private void addCharge() {
-
         //客户信息
         HashMap<String, Object> kehushuju = new HashMap<>();
         kehushuju.put("khid", custId);//客户id
@@ -715,14 +887,9 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         } else {
             map.put("isAppointmentMoney", "1");//是否为预约金(0-不是，1-是)
         }
-
-//        map.put("couponType", "");//优惠类型 （0-签呈优惠、1-OA特批优惠）
-//        map.put("oaId", "");//OA特批优惠的ID
-//        map.put("redeemCode", "");//兑换码
         map.put("totalRealMoney", sumText.getText().toString());//实付金额 （减去积分后的实际需要支付的金额，预约金情况下不能使用积分）
 
         map.put("remark", remarkEdit.getText().toString());//预约金备注
-//        map.put("payType", ppValue);//支付：0-非移动，1-移动
         if (oaBox.isChecked()) {
             map.put("isOA", "1");//oa：0-不走oa，1-走oa
         } else {
@@ -739,17 +906,11 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                     startActivity(CMainActivity.class, CMainActivity.GO_OA, stringStringMap.get("billId"));
 //                    startActivity(OAActivity.class, "fid", stringStringMap.get("billId"));
                 } else {
-//                    if ("1".equals(ppValue)) {//选择了移动支付
-                    //跳转支付
                     Intent intent = new Intent();
                     intent.putExtra(CMainActivity.GO_PAYMENT, stringStringMap.get("billId"));
                     intent.putExtra("money", moneySum);
                     intent.setClass(OrderActivity.this, CMainActivity.class);
                     startActivity(intent);
-//                    } else {
-                    //订单提交成功，跳转收费单列表
-//                        startActivity(CMainActivity.class, CMainActivity.GO_CHARGE, CMainActivity.GO_CHARGE);
-//                    }
                 }
             }
 
@@ -821,6 +982,13 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         if (resultCode == RESULT_OK) {
             accountList.clear();
             accountList.addAll((List<ProductDetailsEntity>) data.getExtras().get("accountList"));
+            tcId.clear();
+            for (ProductDetailsEntity p : accountList) {
+                if (!TextUtils.isEmpty(p.getPkgid())) {
+                    tcId.add(p.getPkgid());
+                }
+            }
+            getPackageProductData();
             sumData();
             commonAdapter.notifyDataSetChanged();
         }
