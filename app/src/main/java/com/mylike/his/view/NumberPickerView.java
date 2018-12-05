@@ -297,6 +297,10 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
                     //库存不足
                     warningForInventory();
                 }
+            }else{
+                mNumText.setText(String.valueOf(minDefaultNum));
+                // 小于警戒值
+                warningForMinInput();
             }
             mNumText.addTextChangedListener(this);
             mNumText.setSelection(mNumText.getText().toString().length());
@@ -384,8 +388,8 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
 
 
     /*
-    * 点击事件回调
-    * */
+     * 点击事件回调
+     * */
     public interface OnClickBtnListener {
 
         void textChanged(int inputText);

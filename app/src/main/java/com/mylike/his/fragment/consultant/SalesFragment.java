@@ -132,6 +132,8 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
     private String DateLvel = "";//底部标识
     private String EndCreatetime;//最后时间（后台需要）
     private String EndCreatetimeQ;//最后时间（后台需要）
+    private String departmentId;//科室id
+
 
     //列表数据
     private List<ReceptionInfoEntity> listAll = new ArrayList<>();
@@ -234,27 +236,42 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
             protected void convert(ViewHolder viewHolder, final ReceptionInfoEntity item, int position) {
                 viewHolder.setText(R.id.user_info_text, item.getCFNAME() + "  (" + item.getCFHANDSET() + ")");
                 //性别
-                if (item.getCFSEX().equals("0")) {
+                if (TextUtils.isEmpty(item.getCFSEX())) {
                     viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.girl_c_icon));
-                } else {
+                } else if (item.getCFSEX().equals("1")) {
                     viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.boy_c_icon));
+                } else {
+                    viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.girl_c_icon));
                 }
+//                if (item.getCFSEX().equals("0")) {
+//                    viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.girl_c_icon));
+//                } else {
+//                    viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.boy_c_icon));
+//                }
                 //级别（ 0：VIP ，1：FIP）
-               /* if (item.getCustLogo().equals("0")) {//vip
+                if (item.getIsVip().equals("1"))
                     viewHolder.setVisible(R.id.vip_img, true);
-                    viewHolder.setImageDrawable(R.id.vip_img, getResources().getDrawable(R.mipmap.vip_icon));
-
-                } else if (item.getCustLogo().equals("1")) {//fip
-                    viewHolder.setVisible(R.id.vip_img, true);
-                    viewHolder.setImageDrawable(R.id.vip_img, getResources().getDrawable(R.mipmap.fip_icon));
-
-                } else {//普通
+                else
                     viewHolder.setVisible(R.id.vip_img, false);
-                }*/
+
+                if (item.getIsEmphasis().equals("1"))
+                    viewHolder.setVisible(R.id.fip_img, true);
+                else
+                    viewHolder.setVisible(R.id.fip_img, false);
                 //卡
-                viewHolder.setText(R.id.card_tv, item.getKJB());
+                if (TextUtils.isEmpty(item.getKJB())) {
+                    viewHolder.setVisible(R.id.card_tv, false);
+                } else {
+                    viewHolder.setVisible(R.id.card_tv, true);
+                    viewHolder.setText(R.id.card_tv, item.getKJB());
+                }
                 //活跃度
-                viewHolder.setText(R.id.liveness_text, item.getHYD());
+                if (TextUtils.isEmpty(item.getHYD())) {
+                    viewHolder.setVisible(R.id.liveness_text, false);
+                } else {
+                    viewHolder.setVisible(R.id.liveness_text, true);
+                    viewHolder.setText(R.id.liveness_text, item.getHYD());
+                }
                 //来院次数
                 viewHolder.setText(R.id.number, item.getLYPC());
                 //消费金额
@@ -263,9 +280,9 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
                 RatingBar star = viewHolder.getView(R.id.star);
                 star.setRating(Integer.parseInt(item.getXJ()));
                 //重咨或跨科
-                if (item.getREGISTERTYPE().equals("1")) {//重咨
+                if (item.getREGISTERTYPE() != null && item.getREGISTERTYPE().equals("1")) {//重咨
                     viewHolder.setText(R.id.state_text, "重咨");
-                } else if (item.getREGISTERTYPE().equals("2")) {//跨科
+                } else if (item.getREGISTERTYPE() != null && item.getREGISTERTYPE().equals("2")) {//跨科
                     viewHolder.setText(R.id.state_text, "跨科");
                 } else {//正常开单
                     viewHolder.setText(R.id.state_text, "");
@@ -300,7 +317,9 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
                 viewHolder.setOnClickListener(R.id.consumption_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getSaveData(item.getFID());
+                        departmentId = item.getDepartmentId();
+                        getSaveData(item.getFID(), item.getCUSTID());
+
 
                     }
                 });
@@ -433,59 +452,68 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
 
     //获取接诊列表数据
     private void getReceptionData() {
-        String searchText = searchEdit.getText().toString();
-        Pattern pattern = Pattern.compile("[0-9]*");
-
-        HashMap<String, Object> paramQery = new HashMap<>();
-        if (pattern.matcher(searchText).matches()) {
-            paramQery.put("cfhandset", searchText);//电话
-        } else {
-            paramQery.put("cfname", searchText);//名字
-        }
-        paramQery.put("startlypc", frequencyLow.getText().toString());//最低来院频次
-        paramQery.put("endlypc", frequencyHigh.getText().toString());//最高来院频次
-        paramQery.put("startxfzj", moneyLow.getText().toString());//最低消费金额
-        paramQery.put("endxfzj", moneyHigh.getText().toString());//最高消费金额
-        paramQery.put("startTime", startTimeText.getText().toString());//开始时间
-        paramQery.put("endTime", endTimeText.getText().toString());//结束时间
-        paramQery.put("yx", yx);//意向
-        paramQery.put("cp", cp);//产品
-        paramQery.putAll(selectedValue);//多选项类型
-
         HashMap<String, Object> map = new HashMap<>();
-        map.put("pageNumber", pageNumber);
-        map.put("pageSize", pageSize);
-        map.put("DateLvel", DateLvel);
-        map.put("EndCreatetime", EndCreatetime);
-        map.put("EndCreatetimeQ", EndCreatetimeQ);
-        map.put("paramQery", paramQery);
 
+        try {
+            String searchText = searchEdit.getText().toString();
+
+            Pattern pattern = Pattern.compile("[0-9]*");
+
+            HashMap<String, Object> paramQery = new HashMap<>();
+            if (pattern.matcher(searchText).matches()) {
+                paramQery.put("cfhandset", searchText);//电话
+            } else {
+                paramQery.put("cfname", searchText);//名字
+            }
+            paramQery.put("startlypc", frequencyLow.getText().toString());//最低来院频次
+            paramQery.put("endlypc", frequencyHigh.getText().toString());//最高来院频次
+            paramQery.put("startxfzj", moneyLow.getText().toString());//最低消费金额
+            paramQery.put("endxfzj", moneyHigh.getText().toString());//最高消费金额
+            paramQery.put("startTime", startTimeText.getText().toString());//开始时间
+            paramQery.put("endTime", endTimeText.getText().toString());//结束时间
+            paramQery.put("yx", yx);//意向
+            paramQery.put("cp", cp);//产品
+            paramQery.putAll(selectedValue);//多选项类型
+
+            map.put("pageNumber", pageNumber);
+            map.put("pageSize", pageSize);
+            map.put("DateLvel", DateLvel);
+            map.put("EndCreatetime", EndCreatetime);
+            map.put("EndCreatetimeQ", EndCreatetimeQ);
+            map.put("paramQery", paramQery);
+        } catch (Exception e) {
+
+        }
 
         HttpClient.getHttpApi().getHasReception(HttpClient.getRequestBody(map)).enqueue(new BaseBack<ReceptionEntity>() {
             @Override
             protected void onSuccess(ReceptionEntity receptionEntity) {
-                EndCreatetime = receptionEntity.getEndCreatetime();
-                EndCreatetimeQ = receptionEntity.getEndCreatetimeQ();
+                try {
+                    EndCreatetime = receptionEntity.getEndCreatetime();
+                    EndCreatetimeQ = receptionEntity.getEndCreatetimeQ();
 
-                if (TextUtils.isEmpty(DateLvel))//后台需要空数据，如果空数据赋值为1；
-                    DateLvel = "1";
-                //判断是否显示页脚
-                if (receptionEntity.getNextLevel().equals(DateLvel)) {
-                    textView.setVisibility(View.GONE);
-                } else {
-                    textView.setVisibility(View.VISIBLE);
-                    textView.setText(receptionEntity.getNextLevelText());
+                    if (TextUtils.isEmpty(DateLvel))//后台需要空数据，如果空数据赋值为1；
+                        DateLvel = "1";
+                    //判断是否显示页脚
+                    if (receptionEntity.getNextLevel().equals(DateLvel)) {
+                        textView.setVisibility(View.GONE);
+                    } else {
+                        textView.setVisibility(View.VISIBLE);
+                        textView.setText(receptionEntity.getNextLevelText());
+                    }
+                    DateLvel = receptionEntity.getNextLevel();
+
+                    if (DateLvel.equals("0")) {
+                        refreshLayout.setNoMoreData(true);
+                    }
+
+                    listAll.addAll(receptionEntity.getList());
+                    commonAdapter.notifyDataSetChanged();
+                    refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadMore();
+                } catch (Exception e) {
+
                 }
-                DateLvel = receptionEntity.getNextLevel();
-
-                if (DateLvel.equals("0")) {
-                    refreshLayout.setNoMoreData(true);
-                }
-
-                listAll.addAll(receptionEntity.getList());
-                commonAdapter.notifyDataSetChanged();
-                refreshLayout.finishRefresh();
-                refreshLayout.finishLoadMore();
             }
 
             @Override
@@ -532,16 +560,17 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
     }
 
     //获取是否有暂存
-    private void getSaveData(final String Triageid) {
+    private void getSaveData(final String Triageid, final String Custid) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("Triageid", Triageid);
 
         HttpClient.getHttpApi().getSave(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, Triageid);
+                SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.RECEPTION_ID, Triageid);
+                SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.CLIENT_ID, Custid);
                 if ("0".equals(stringStringMap.get("isCacheOrder"))) {
-                    startActivity(ProductActivity.class);
+                    startActivity(ProductActivity.class, "deptId", departmentId);
                 } else {
                     startActivity(OrderActivity.class, "chargeTag", "1");
                 }

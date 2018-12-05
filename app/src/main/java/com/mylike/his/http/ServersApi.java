@@ -14,6 +14,7 @@ import com.mylike.his.entity.CreatorEntity;
 import com.mylike.his.entity.DepartmentDEntity;
 import com.mylike.his.entity.DepartmentDoctorEntity;
 import com.mylike.his.entity.DepartmentEntity;
+import com.mylike.his.entity.DiscountCouponEntity;
 import com.mylike.his.entity.DoctorDetailsEntity;
 import com.mylike.his.entity.DoctorEntity;
 import com.mylike.his.entity.HDepositEntity;
@@ -296,5 +297,12 @@ public interface ServersApi {
     @POST("api/product/findDepartmentDockers.do")
     Call<BaseEntity<DepartmentDEntity>> getDepartmentDoctor();
 
+    //获取优惠券
+    @POST("api/activity/activityCheck.do")
+    Call<BaseEntity<List<DiscountCouponEntity>>> getDiscountCoupon(@Body RequestBody body);
+
+    //获取某个优惠券
+    @POST("api/activity/matchActiveProduct.do")
+    Call<BaseEntity<DiscountCouponEntity>> getOneDiscountCoupon(@Body RequestBody body);
 
 }

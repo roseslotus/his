@@ -17,6 +17,7 @@ public class ProductDetailsEntity implements Serializable {
     private String count;//数量
     private String remark = "";//备注
     private String discount;//手动输入折扣
+    private String isgive;//是否赠送产品
     //套餐
     private String pkgid;
     private String pkgname;
@@ -148,5 +149,13 @@ public class ProductDetailsEntity implements Serializable {
 
     public void setSubItems(List<PackageEntity.product> subItems) {
         this.subItems = subItems;
+    }
+
+    public String getIsgive() {
+        return isgive;
+    }
+
+    public void setIsgive(String isgive) {
+        this.isgive = isgive;
     }
 }

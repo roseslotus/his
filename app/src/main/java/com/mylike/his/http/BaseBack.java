@@ -22,6 +22,7 @@ public abstract class BaseBack<T> implements Callback<BaseEntity<T>> {
 
     protected abstract void onFailed(String code, String msg);
 
+
     @Override
     public void onResponse(Call<BaseEntity<T>> call, Response<BaseEntity<T>> response) {
         Logger.d(response + "\n" + new Gson().toJson(response.body()));

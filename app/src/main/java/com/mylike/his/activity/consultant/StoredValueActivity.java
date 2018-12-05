@@ -137,6 +137,7 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
         HttpClient.getHttpApi().getSVProject().enqueue(new BaseBack<List<SVProjectEntity>>() {
             @Override
             protected void onSuccess(List<SVProjectEntity> svProjectEntities) {
+                svProjectEntityList.add(new SVProjectEntity("请选择"));
                 svProjectEntityList.addAll(svProjectEntities);
                 projectAdapter.notifyDataSetChanged();
             }
@@ -153,7 +154,12 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
             @Override
             protected void convert(ViewHolder viewHolder, SVProjectEntity item, int position) {
                 TextView textView = viewHolder.getView(R.id.text);
-                textView.setTextColor(getResources().getColor(R.color.black_50));
+                //设置第一项“请选择颜色为灰色”
+                if (position == 0) {
+                    textView.setTextColor(getResources().getColor(R.color.gray_49));
+                } else {
+                    textView.setTextColor(getResources().getColor(R.color.black_50));
+                }
                 textView.setGravity(Gravity.LEFT);
                 textView.setPadding(15, 30, 30, 30);
 
@@ -172,8 +178,14 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (spinner == projectSpinner) {//储值项目下拉框
-                    projectId = svProjectEntityList.get(i).getACCOUNTID();//获取项目id
-                    setTypeData();//刷新储值类型下拉数据
+                    if (!TextUtils.isEmpty(svProjectEntityList.get(i).getACCOUNTID())) {
+                        projectId = svProjectEntityList.get(i).getACCOUNTID();//获取项目id
+                        setTypeData();//刷新储值类型下拉数据
+                    } else {
+                        svTypeEntityList.clear();
+                        svTypeEntityList.add(new SVProjectEntity("请先选择项目"));
+                        typeAdapter.notifyDataSetChanged();
+                    }
                 } else if (spinner == typeSpinner) {//储值类型下拉框
                     setSelectSpinner(i);
                 }
@@ -211,6 +223,7 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
             @Override
             protected void onSuccess(List<SVProjectEntity> svProjectEntities) {
                 svTypeEntityList.clear();
+                svTypeEntityList.add(new SVProjectEntity("请选择"));
                 svTypeEntityList.addAll(svProjectEntities);
                 svTypeEntityList.add(new SVProjectEntity("其他"));//没给储值类型添加“其他”项，作为可随便编辑金额选项
 
@@ -252,6 +265,8 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
         ctFinCardrecord.put("memberid", clientId);//客户id
         ctFinCardrecord.put("accountid", projectId);//项目id
         ctFinCardrecord.put("cash", cashText.getText().toString());//储值现金金额
+
+
         if (presenterText.getText().toString().isEmpty()) {//如果赠送金额为空（注：后台没处理，不能传空）
             ctFinCardrecord.put("present", "0.00");//储值赠送金额
         } else {
@@ -262,11 +277,17 @@ public class StoredValueActivity extends BaseActivity implements View.OnClickLis
         HashMap<String, Object> map = new HashMap<>();
         map.put("ctFinCardrecord", ctFinCardrecord);//基础数据
         map.put("fConsultorId", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.EMP_ID));//咨询Id
+        if (cashText.isEnabled())//是否是其他
+            map.put("controlcode", "1");//强制线下支付（需到收银台支付）
 
         HttpClient.getHttpApi().setSV(HttpClient.getRequestBody(map)).enqueue(new BaseBack<HDepositEntity>() {
             @Override
             protected void onSuccess(HDepositEntity hDepositEntity) {
-                startActivity(CMainActivity.class, CMainActivity.GO_PAYMENT, hDepositEntity.getBillId());
+                if (cashText.isEnabled()) {
+                    startActivity(CMainActivity.class, CMainActivity.GO_CHARGE, hDepositEntity.getBillId());
+                } else {
+                    startActivity(CMainActivity.class, CMainActivity.GO_PAYMENT, hDepositEntity.getBillId());
+                }
                 CommonUtil.showToast("提交成功");
                 finish();
             }

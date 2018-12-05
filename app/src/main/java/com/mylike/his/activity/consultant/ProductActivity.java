@@ -173,7 +173,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                         viewHolder.setText(R.id.product_name, item.getItemName());
                         break;
                 }
-                viewHolder.setText(R.id.money_text, "" + item.getPrice());
+                viewHolder.setText(R.id.money_text, item.getPrice() != null ? item.getPrice().toString() : "0");
             }
         };
         sublevelList.setAdapter(commonAdapter2);
@@ -188,21 +188,21 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                     int count = Integer.parseInt(productDetailsEntity.getCount());
                     switch (typeValue) {
                         case "COMBO"://套餐
-                            if (p.getPkgid().equals(productDetailsEntity.getPkgid())) {
+                            if (p.getPkgname().equals(productDetailsEntity.getPkgname())) {
                                 not_equally_tag = false;
                                 count += 1;
                                 productDetailsEntity.setCount(count + "");
                             }
                             break;
                         case "SUBJECT"://产品
-                            if (p.getProductid().equals(productDetailsEntity.getProductid())) {
+                            if (p.getPname().equals(productDetailsEntity.getPname())) {
                                 not_equally_tag = false;
                                 count += 1;
                                 productDetailsEntity.setCount(count + "");
                             }
                             break;
                         case "MINUTIA"://细目
-                            if (p.getChaitemCd().equals(productDetailsEntity.getChaitemCd())) {
+                            if (p.getItemName().equals(productDetailsEntity.getItemName())) {
                                 not_equally_tag = false;
                                 count += 1;
                                 productDetailsEntity.setCount(count + "");
@@ -332,6 +332,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                     } else {
                         Intent intent = new Intent();
                         intent.setClass(ProductActivity.this, ShoppingCartActivity.class);
+                        intent.putExtra("deptId", departmentId);
                         intent.putExtra("accountList", (Serializable) accountList);
                         startActivity(intent);
                     }

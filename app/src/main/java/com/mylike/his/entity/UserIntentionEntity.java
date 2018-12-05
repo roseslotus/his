@@ -30,6 +30,10 @@ public class UserIntentionEntity {
     private String updateDate;
     private String updatorId;
 
+    public UserIntentionEntity(String itemData) {
+        this.itemData = itemData;
+    }
+
     public String getCreateBy() {
         return createBy;
     }

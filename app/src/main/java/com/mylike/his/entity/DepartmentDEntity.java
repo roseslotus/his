@@ -30,7 +30,7 @@ public class DepartmentDEntity {
 
     public static class department {
         private String deptcode;
-        private String deptid;
+        private String deptid = "";
         private String deptname;
         private String depttype;
         private String grade;
@@ -153,7 +153,7 @@ public class DepartmentDEntity {
     }
 
     public static class deptDocker {
-        private String empId;
+        private String empId = "";
         private String empName;
 
         public deptDocker(String empName) {

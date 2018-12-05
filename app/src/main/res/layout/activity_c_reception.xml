@@ -311,7 +311,7 @@
                     android:padding="10dp"
                     android:textColor="@color/black_50"
                     android:textColorHint="@color/gray_48" />
-
+<!--
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
@@ -419,8 +419,8 @@
                         android:textColor="@color/black_50"
                         android:textColorHint="@color/gray_48"
                         android:textSize="14sp" />
-
                 </LinearLayout>
+-->
 
             </LinearLayout>
         </ScrollView>

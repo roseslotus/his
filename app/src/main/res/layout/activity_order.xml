@@ -154,7 +154,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="55dp"
+                            android:layout_marginLeft="60dp"
                             android:layout_marginTop="3dp"
                             android:text="整形科目请填写身份证号!"
                             android:textColor="@android:color/holo_red_light"
@@ -164,6 +164,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
                             <TextView
@@ -173,7 +174,7 @@
                                 android:drawableLeft="@mipmap/emphasis_icon"
                                 android:text="意向：" />
 
-                            <TextView
+                            <!--<TextView
                                 android:id="@+id/intention_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -183,7 +184,17 @@
                                 android:drawableRight="@mipmap/below_arrow_icon"
                                 android:padding="5dp"
                                 android:text="请选择"
-                                android:textColor="@color/black_50" />
+                                android:textColor="@color/black_50" />-->
+
+                            <Spinner
+                                android:id="@+id/intention_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_white_line_box_gray"
+                                android:drawableRight="@mipmap/below_arrow_icon"
+                                android:gravity="right"
+                                android:overlapAnchor="false" />
 
                             <TextView
                                 android:id="@+id/add_intention_text"
@@ -364,20 +375,52 @@
                                    android:text="OA特批优惠"
                                    android:textColor="@color/black_50" />
                            </RadioGroup>-->
-
-                        <CheckBox
-                            android:id="@+id/oa_box"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:button="@drawable/selector_round_icon"
-                            android:padding="10dp"
-                            android:text="OA特批优惠"
-                            android:textColor="@color/black_50" />
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="参与活动：" />
+
+                            <TextView
+                                android:id="@+id/activity_name"
+                                android:layout_width="188dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="暂无"
+                                android:textColor="@color/gray_49" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="9dp"
+                                android:text="OA申请：" />
+
+                            <CheckBox
+                                android:id="@+id/oa_box"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@drawable/selector_round_icon"
+                                android:padding="10dp"
+                                android:text="OA特批优惠"
+                                android:textColor="@color/black_50" />
+
+                        </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1px"
-                            android:background="@color/gray_48" />
+                            android:background="@color/gray_47" />
 
                         <!--  <LinearLayout
                               android:layout_width="match_parent"
@@ -493,17 +536,10 @@
                         android:orientation="vertical"
                         android:padding="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="优惠劵"
-                            android:textColor="@color/green_50" />
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -538,24 +574,60 @@
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:elevation="10dp"
-            android:gravity="center_vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="应付款："
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/sum_text"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableLeft="@mipmap/money_red_icon"
-                android:text="0.00"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="18sp" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="优惠："
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/discounts_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0.00"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="应付款：" />
+
+                    <TextView
+                        android:id="@+id/sum_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@mipmap/money_red_icon"
+                        android:text="0.00"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/save_charge_btn"

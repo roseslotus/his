@@ -190,7 +190,6 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
 
         //意向选择器初始化
         initIntentionView();
-
     }
 
     private void initData() {
@@ -268,23 +267,6 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
                 holder.setOnClickListener(R.id.expense_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       /* View itemView = DialogUtil.commomDialog(ClientActivity.this, R.layout.common_item_list, 0);
-                        ListView listView = itemView.findViewById(R.id.common_list);
-                        listView.setBackgroundResource(R.drawable.bg_white_box_10);
-                        listView.setAdapter(new com.zhy.adapter.abslistview.CommonAdapter<DepartmentEntity>(ClientActivity.this, R.layout.common_item_text, departmentEntitieList) {
-                            @Override
-                            protected void convert(ViewHolder viewHolder, DepartmentEntity item, int position) {
-                                TextView textView = viewHolder.getView(R.id.text);
-                                textView.setPadding(20, 30, 20, 30);
-                                textView.setText(item.getDeptname());
-                            }
-                        });
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                getTriage(clientEntity.getCustomId(), departmentEntitieList.get(position).getDeptid());
-                            }
-                        });*/
                         Custid = clientEntity.getCustomId();
                         getDepartmentData();
                     }
@@ -421,7 +403,7 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
         map.put("endRegisterTime", endTimeText.getText().toString());//结束时间
         map.put("custItem", yxIdValue);//意向
         map.put("haveProjects", cpIdValue);//项目
-        map.putAll(selectedValue);
+        map.putAll(selectedValue);//选择的筛选条件
 
         HttpClient.getHttpApi().getClientList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ClientEntity>>() {
             @Override
@@ -480,18 +462,6 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
 
     //获取科室医生二级列表
     private void getDepartmentData() {
-       /* HttpClient.getHttpApi().getDepartmentList().enqueue(new BaseBack<List<DepartmentEntity>>() {
-            @Override
-            protected void onSuccess(List<DepartmentEntity> departmentEntities) {
-                departmentEntitieList.addAll(departmentEntities);
-            }
-
-            @Override
-            protected void onFailed(String code, String msg) {
-
-            }
-        }); */
-
         HashMap<String, Object> map = new HashMap<>();
         map.put("Custid", Custid);
 
@@ -509,11 +479,10 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
-
     }
 
     //添加一条分诊，获取分诊id
-    private void getTriage(String DoctorDepartment, String doctorId) {
+    private void getTriage(final String DoctorDepartment, String doctorId) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("Custid", Custid);
         map.put("DoctorDepartment", DoctorDepartment);
@@ -522,7 +491,7 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
                 // 保存/刷新分诊id
-                getSaveData(stringStringMap.get("fid"));
+                getSaveData(stringStringMap.get("fid"), DoctorDepartment);
             }
 
             @Override
@@ -532,16 +501,17 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
     }
 
     //获取是否有暂存数据
-    private void getSaveData(final String Triageid) {
+    private void getSaveData(final String Triageid, final String departmentId) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("Triageid", Triageid);
 
         HttpClient.getHttpApi().getSave(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, Triageid);
+                SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.RECEPTION_ID, Triageid);
+                SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.CLIENT_ID, Custid);
                 if ("0".equals(stringStringMap.get("isCacheOrder"))) {
-                    startActivity(ProductActivity.class);
+                    startActivity(ProductActivity.class, "deptId", departmentId);
                 } else {
                     startActivity(OrderActivity.class, "chargeTag", "1");
                 }
@@ -559,8 +529,9 @@ public class ClientActivity extends BaseActivity implements View.OnClickListener
         for (int i = 0; i < consumeDDEntitie1.size(); i++) {//科室
             List<ConsumeDDEntity> doctor = new ArrayList<>();//医生容器
             if (consumeDDEntitie1.get(i).getDoctorlist().isEmpty()) {
-                doctor.add(new ConsumeDDEntity("未分配医生"));
+                doctor.add(new ConsumeDDEntity("未分配过医生"));
             } else {
+                doctor.add(new ConsumeDDEntity("请选择"));
                 doctor.addAll(consumeDDEntitie1.get(i).getDoctorlist());
             }
             consumeDDEntitie2.add(doctor);

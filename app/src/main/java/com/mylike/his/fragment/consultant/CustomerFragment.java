@@ -221,7 +221,7 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
 
     private void initData() {
         getClientData();
-        getDepartmentData();
+//        getDepartmentData();
     }
 
     //获取客户列表
@@ -233,15 +233,20 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
         HttpClient.getHttpApi().getClientList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ClientEntity>>() {
             @Override
             protected void onSuccess(final List<ClientEntity> clientEntities) {
-                if (TextUtils.isEmpty(searchEdit.getHint())) {
-                    searchEdit.setHint("在全部" + clientEntities.size() + "个客人中搜索");
+                try {
+
+                    if (TextUtils.isEmpty(searchEdit.getHint())) {
+                        searchEdit.setHint("在全部" + clientEntities.size() + "个客人中搜索");
+                    }
+                    clientEntityList.clear();
+                    clientEntityList.addAll(clientEntities);
+                    commonAdapter.notifyDataSetChanged();
+                    indexBar.setmSourceDatas(clientEntityList).invalidate();
+                    mDecoration.setmDatas(clientEntityList);
+                    refreshLayout.finishRefresh();
+                } catch (Exception e) {
+
                 }
-                clientEntityList.clear();
-                clientEntityList.addAll(clientEntities);
-                commonAdapter.notifyDataSetChanged();
-                indexBar.setmSourceDatas(clientEntityList).invalidate();
-                mDecoration.setmDatas(clientEntityList);
-                refreshLayout.finishRefresh();
 
             }
 
@@ -290,8 +295,9 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
         for (int i = 0; i < consumeDDEntitie1.size(); i++) {//科室
             List<ConsumeDDEntity> doctor = new ArrayList<>();//医生容器
             if (consumeDDEntitie1.get(i).getDoctorlist().isEmpty()) {
-                doctor.add(new ConsumeDDEntity("未分配医生"));
+                doctor.add(new ConsumeDDEntity("未分配过医生"));
             } else {
+                doctor.add(new ConsumeDDEntity("请选择"));
                 doctor.addAll(consumeDDEntitie1.get(i).getDoctorlist());
             }
             consumeDDEntitie2.add(doctor);
@@ -320,7 +326,7 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
     }
 
     //添加一条分诊，获取分诊id
-    private void getTriage(String DoctorDepartment, String doctorId) {
+    private void getTriage(final String DoctorDepartment, String doctorId) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("Custid", Custid);
         map.put("DoctorDepartment", DoctorDepartment);
@@ -329,7 +335,7 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
                 // 保存/刷新分诊id
-                getSaveData(stringStringMap.get("fid"));
+                getSaveData(stringStringMap.get("fid"), DoctorDepartment);
             }
 
             @Override
@@ -338,16 +344,16 @@ public class CustomerFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
-    private void getSaveData(final String Triageid) {
+    private void getSaveData(final String Triageid, final String departmentId) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("Triageid", Triageid);
 
         HttpClient.getHttpApi().getSave(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, Triageid);
+                SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.RECEPTION_ID, Triageid);
                 if ("0".equals(stringStringMap.get("isCacheOrder"))) {
-                    startActivity(ProductActivity.class);
+                    startActivity(ProductActivity.class, "deptId", departmentId);
                 } else {
                     startActivity(OrderActivity.class, "chargeTag", "1");
                 }

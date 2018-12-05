@@ -99,6 +99,8 @@
         <activity android:name=".activity.consultant.SearchActivity"></activity>
         <!--建档-->
         <activity android:name=".activity.consultant.BookbuildingActivity"></activity>
+        <!--优惠券-->
+        <activity android:name=".activity.consultant.DiscountCouponActivity"></activity>
         <!--测试activity-->
         <activity android:name=".activity.consultant.TestActivity"></activity>
 

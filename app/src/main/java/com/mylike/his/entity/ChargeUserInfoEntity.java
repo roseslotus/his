@@ -39,6 +39,7 @@ public class ChargeUserInfoEntity {
 
     public class ProductDate {
         private String cb;
+        private String activityid;
         private List<PInfo> data = new ArrayList<>();
 
         public String getCb() {
@@ -51,6 +52,14 @@ public class ChargeUserInfoEntity {
 
         public List<PInfo> getData() {
             return data;
+        }
+
+        public String getActivityid() {
+            return activityid;
+        }
+
+        public void setActivityid(String activityid) {
+            this.activityid = activityid;
         }
 
         public void setData(List<PInfo> data) {

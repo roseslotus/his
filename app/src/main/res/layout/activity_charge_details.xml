@@ -403,10 +403,10 @@
                             android:textColor="@android:color/holo_red_light" />
 
 
-                        <Button
+                        <!--<Button
                             android:id="@+id/again_consult_btn"
                             android:layout_width="70dp"
-                            android:layout_height="25dp"
+                            android:layout_height="30dp"
                             android:background="@drawable/btn_orange50_5"
                             android:text="重咨"
                             android:textColor="@color/white"
@@ -415,7 +415,7 @@
                         <Button
                             android:id="@+id/bridge_section_btn"
                             android:layout_width="70dp"
-                            android:layout_height="25dp"
+                            android:layout_height="30dp"
                             android:layout_marginLeft="10dp"
                             android:background="@drawable/btn_blue45_5"
                             android:text="跨科"
@@ -425,7 +425,7 @@
                         <Button
                             android:id="@+id/application_drawback_btn"
                             android:layout_width="70dp"
-                            android:layout_height="25dp"
+                            android:layout_height="30dp"
                             android:layout_marginLeft="10dp"
                             android:background="@drawable/btn_green_5"
                             android:text="申请退款"
@@ -435,7 +435,7 @@
                         <Button
                             android:id="@+id/compile_btn"
                             android:layout_width="70dp"
-                            android:layout_height="25dp"
+                            android:layout_height="30dp"
                             android:layout_marginLeft="10dp"
                             android:background="@drawable/btn_green_5"
                             android:text="编辑"
@@ -445,7 +445,7 @@
                         <Button
                             android:id="@+id/payment_btn"
                             android:layout_width="70dp"
-                            android:layout_height="25dp"
+                            android:layout_height="30dp"
                             android:layout_marginLeft="10dp"
                             android:background="@drawable/btn_green_5"
                             android:text="去支付"
@@ -455,7 +455,65 @@
                         <Button
                             android:id="@+id/oa_btn"
                             android:layout_width="70dp"
-                            android:layout_height="25dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_green_5"
+                            android:text="OA申请"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />-->
+                        <Button
+                            android:id="@+id/again_consult_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/btn_orange35_5"
+                            android:text="重咨"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/bridge_section_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_blue55_5"
+                            android:text="跨科"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/application_drawback_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_green_5"
+                            android:text="申请退款"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/compile_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_green_5"
+                            android:text="编辑"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/payment_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/btn_orange80_5"
+                            android:text="去支付"
+                            android:textColor="@color/white"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/oa_btn"
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
                             android:layout_marginLeft="10dp"
                             android:background="@drawable/btn_green_5"
                             android:text="OA申请"

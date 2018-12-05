@@ -159,7 +159,7 @@ public class CustomerDetailsActivity extends BaseActivity {
         @JavascriptInterface
         public void compile(String receptionId) {
             CommonUtil.showToast("分诊" + receptionId);
-            SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, receptionId);
+            SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.RECEPTION_ID, receptionId);
             startActivity(OrderActivity.class, "chargeTag", "1");
         }
 

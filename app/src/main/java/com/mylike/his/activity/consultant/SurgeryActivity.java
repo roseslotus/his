@@ -138,14 +138,14 @@ public class SurgeryActivity extends BaseActivity implements View.OnClickListene
         commonAdapter = new CommonAdapter<DoctorInfoEntity>(this, R.layout.item_surgery_list, listAll) {
             @Override
             protected void convert(ViewHolder viewHolder, DoctorInfoEntity item, int position) {
-                viewHolder.setText(R.id.department_naem, item.getDeptname().replace("美容中心", ""));//科室
+                viewHolder.setText(R.id.department_naem, item.getDeptname() != null ? item.getDeptname().replace("美容中心", "") : "");//科室
                 viewHolder.setText(R.id.doctor_naem, item.getEmpname());//医生姓名
                 viewHolder.setText(R.id.oper_name, item.getOpername());//手术名称
                 if (TextUtils.isEmpty(item.getOperstatename()))
                     viewHolder.setVisible(R.id.oper_state_name, false);
                 else
                     viewHolder.setText(R.id.oper_state_name, "（" + item.getOperstatename() + "）");//手术状态
-                viewHolder.setText(R.id.time_text, item.getStartdate().substring(11, 16) + "-" + item.getEnddate().substring(11, 16));//时间段
+                viewHolder.setText(R.id.time_text, (TextUtils.isEmpty(item.getStartdate()) ? item.getStartdate().substring(11, 16) + "-" : "") + (TextUtils.isEmpty(item.getEnddate()) ? item.getEnddate().substring(11, 16) : ""));//时间段
                 viewHolder.setText(R.id.client_name, "顾客：" + item.getPatientname() + "(" + item.getPhoneNumber() + ")");//客户姓名+电话
                 viewHolder.setText(R.id.type_text, item.getLx());//类型
                 viewHolder.setText(R.id.sfqk_text, item.getSfqk());//是否全款

@@ -71,7 +71,15 @@ public class ChargeDateilsEntity {
         private String DISCOUNT;//优惠
         private String POINTS;//积分
         private String ISTODAY;//是否今天
+        private String CONTROLCODE;//是否走收银
 
+        public String getCONTROLCODE() {
+            return CONTROLCODE;
+        }
+
+        public void setCONTROLCODE(String CONTROLCODE) {
+            this.CONTROLCODE = CONTROLCODE;
+        }
 
         public String getCUSTID() {
             return CUSTID;

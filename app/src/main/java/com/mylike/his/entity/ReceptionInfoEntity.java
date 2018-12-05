@@ -35,7 +35,16 @@ public class ReceptionInfoEntity {
     private String departmentId;
     private String isVip;
     private String isEmphasis;
+    private String ISCHARGED;
 
+
+    public String getISCHARGED() {
+        return ISCHARGED;
+    }
+
+    public void setISCHARGED(String ISCHARGED) {
+        this.ISCHARGED = ISCHARGED;
+    }
 
     public String getDepartmentId() {
         return departmentId;

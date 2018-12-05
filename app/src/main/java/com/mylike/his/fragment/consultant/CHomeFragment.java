@@ -331,18 +331,21 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
         HttpClient.getHttpApi().getStatisticsData().enqueue(new BaseBack<StatisticsEntity>() {
             @Override
             protected void onSuccess(StatisticsEntity statisticsEntity) {
-                hospitalSum.setText(statisticsEntity.getAppointDataCount());//预约到院总数
-                receptionSum.setText(statisticsEntity.getReceiveDataCount());//接诊总数
-                orderSum.setText(statisticsEntity.getChargeBillDataCount());//开单总数
-                visitAlreadySum.setText(statisticsEntity.getPlanTaskDataCount_already());//已回访总数
-                visitWaitSum.setText(statisticsEntity.getPlanTaskDataCount_wait());//未回访总数
-                refreshLayout.finishRefresh();
+                try {
+                    hospitalSum.setText(statisticsEntity.getAppointDataCount());//预约到院总数
+                    receptionSum.setText(statisticsEntity.getReceiveDataCount());//接诊总数
+                    orderSum.setText(statisticsEntity.getChargeBillDataCount());//开单总数
+                    visitAlreadySum.setText(statisticsEntity.getPlanTaskDataCount_already());//已回访总数
+                    visitWaitSum.setText(statisticsEntity.getPlanTaskDataCount_wait());//未回访总数
+                    refreshLayout.finishRefresh();
+                } catch (Exception e) {
+
+                }
             }
 
             @Override
             protected void onFailed(String code, String msg) {
                 refreshLayout.finishRefresh(false);
-
             }
         });
 
@@ -350,10 +353,14 @@ public class CHomeFragment extends BaseFragment implements View.OnClickListener,
         HttpClient.getHttpApi().getIntradayMessageList().enqueue(new BaseBack<List<MessageEntity>>() {
             @Override
             protected void onSuccess(List<MessageEntity> messageEntities) {
-                listAll.clear();
-                listAll.addAll(messageEntities);
-                commonAdapter.notifyDataSetChanged();
-                refreshLayout.finishRefresh();
+                try {
+                    listAll.clear();
+                    listAll.addAll(messageEntities);
+                    commonAdapter.notifyDataSetChanged();
+                    refreshLayout.finishRefresh();
+                } catch (Exception e) {
+
+                }
             }
 
             @Override

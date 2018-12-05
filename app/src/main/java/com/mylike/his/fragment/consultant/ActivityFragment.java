@@ -143,7 +143,7 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
                         viewHolder.setText(R.id.product_name, item.getItemName());
                         break;
                 }
-                viewHolder.setText(R.id.money_text, item.getPrice().toString());
+                viewHolder.setText(R.id.money_text, item.getPrice() != null ? item.getPrice().toString() : "0");
             }
         };
         sublevelList.setAdapter(commonAdapter2);

@@ -12,8 +12,9 @@ public class SVProjectEntity {
     private int PRESENTMONEY;//储值金额
     private String REMARK;//储值类型拼接术语
 
-    public SVProjectEntity(String REMARK) {
-        this.REMARK = REMARK;
+    public SVProjectEntity(String name) {
+        this.REMARK = name;
+        this.ACCOUNT = name;
     }
 
     public String getACCOUNT() {

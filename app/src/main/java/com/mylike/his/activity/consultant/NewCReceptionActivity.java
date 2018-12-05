@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -53,7 +52,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,20 +64,22 @@ import butterknife.OnClick;
 public class NewCReceptionActivity extends BaseActivity implements View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
     @BindView(R.id.return_btn)
     ImageView returnBtn;
+    @BindView(R.id.filtrate_btn)
+    ImageView filtrateBtn;
     @BindView(R.id.search_edit)
     ClearEditText searchEdit;
+    @BindView(R.id.search_btn)
+    Button searchBtn;
+    @BindView(R.id.tag_ll)
+    LinearLayout tagLl;
     @BindView(R.id.reception_list)
     ListView receptionList;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.search_btn)
-    Button searchBtn;
-    @BindView(R.id.filtrate_btn)
-    ImageView filtrateBtn;
-    @BindView(R.id.tag_ll)
-    LinearLayout tagLl;
     @BindView(R.id.filtrate_list)
     SListView filtrateList;
+    @BindView(R.id.clear_text1)
+    TextView clearText1;
     @BindView(R.id.start_time_text)
     TextView startTimeText;
     @BindView(R.id.start_time_btn)
@@ -88,24 +88,6 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
     TextView endTimeText;
     @BindView(R.id.end_time_btn)
     LinearLayout endTimeBtn;
-    @BindView(R.id.frequency_low)
-    EditText frequencyLow;
-    @BindView(R.id.frequency_high)
-    EditText frequencyHigh;
-    @BindView(R.id.money_low)
-    EditText moneyLow;
-    @BindView(R.id.money_high)
-    EditText moneyHigh;
-    @BindView(R.id.reset_btn)
-    Button resetBtn;
-    @BindView(R.id.confirm_btn)
-    Button confirmBtn;
-    @BindView(R.id.filtrate_menu)
-    LinearLayout filtrateMenu;
-    @BindView(R.id.DrawerLayout)
-    android.support.v4.widget.DrawerLayout DrawerLayout;
-    @BindView(R.id.clear_text1)
-    TextView clearText1;
     @BindView(R.id.clear_text2)
     TextView clearText2;
     @BindView(R.id.yx_text)
@@ -114,7 +96,14 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
     TextView clearText3;
     @BindView(R.id.cp_text)
     TextView cpText;
-
+    @BindView(R.id.reset_btn)
+    Button resetBtn;
+    @BindView(R.id.confirm_btn)
+    Button confirmBtn;
+    @BindView(R.id.filtrate_menu)
+    LinearLayout filtrateMenu;
+    @BindView(R.id.DrawerLayout)
+    android.support.v4.widget.DrawerLayout DrawerLayout;
     private int pageSize = 10;//每页数据
     private int pageNumber = 1;//页码
     private String DateLvel = "";//底部标识
@@ -205,15 +194,23 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
             protected void convert(ViewHolder viewHolder, final ReceptionInfoEntity item, int position) {
                 viewHolder.setText(R.id.user_info_text, item.getCFNAME() + "  (" + item.getCFHANDSET() + ")");
                 //性别
-                if (item.getCFSEX() == null || item.getCFSEX().isEmpty()) {
-                    if (item.getCFSEX().equals("0")) {
-                        viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.girl_c_icon));
-                    } else {
-                        viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.boy_c_icon));
-                    }
+                if (TextUtils.isEmpty(item.getCFSEX())) {
+                    viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.girl_c_icon));
+                } else if (item.getCFSEX().equals("1")) {
+                    viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.boy_c_icon));
                 } else {
                     viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.girl_c_icon));
                 }
+//                if (TextUtils.isEmpty(item.getCFSEX())) {
+//
+//                    if (item.getCFSEX().equals("0")) {
+//                        viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.girl_c_icon));
+//                    } else {
+//                        viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.boy_c_icon));
+//                    }
+//                } else {
+//                    viewHolder.setImageDrawable(R.id.sex_img, getResources().getDrawable(R.mipmap.girl_c_icon));
+//                }
                 //级别（ 0：VIP ，1：FIP）
                 if (item.getIsVip().equals("1"))
                     viewHolder.setVisible(R.id.vip_img, true);
@@ -225,18 +222,28 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                 else
                     viewHolder.setVisible(R.id.fip_img, false);
                 //卡
-                viewHolder.setText(R.id.card_tv, item.getKJB());
+                if (TextUtils.isEmpty(item.getKJB())) {
+                    viewHolder.setVisible(R.id.card_tv, false);
+                } else {
+                    viewHolder.setVisible(R.id.card_tv, true);
+                    viewHolder.setText(R.id.card_tv, item.getKJB());
+                }
                 //活跃度
-                viewHolder.setText(R.id.liveness_text, item.getHYD());
+                if (TextUtils.isEmpty(item.getHYD())) {
+                    viewHolder.setVisible(R.id.liveness_text, false);
+                } else {
+                    viewHolder.setVisible(R.id.liveness_text, true);
+                    viewHolder.setText(R.id.liveness_text, item.getHYD());
+                }
                 //来院次数
                 viewHolder.setText(R.id.number, item.getLYPC());
                 //消费金额
                 viewHolder.setText(R.id.money_text, CommonUtil.setTwoNumber(item.getXFZJ()));
                 //星级
                 RatingBar star = viewHolder.getView(R.id.star);
-                star.setRating(Integer.parseInt(item.getXJ()));
+                star.setRating(Integer.parseInt((item.getXJ() != null ? item.getXJ() : "0")));
                 //重咨或跨科
-                if (item.getREGISTERTYPE() == null || item.getREGISTERTYPE().isEmpty()) {
+                if (item.getREGISTERTYPE() == null || TextUtils.isEmpty(item.getREGISTERTYPE())) {
                     viewHolder.setText(R.id.state_text, "");
                 } else if (item.getREGISTERTYPE().equals("1")) {//重咨
                     viewHolder.setText(R.id.state_text, "重咨");
@@ -251,7 +258,8 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                 } else {//隐藏消费
                     viewHolder.setVisible(R.id.consumption_btn, false);
                 }
-                //时间
+                //时间"2018-10-08"
+
                 viewHolder.setText(R.id.time_text, item.getCREATE_DATE().substring(0, 16));
                 //接诊状态
                 viewHolder.setText(R.id.reception_state_text, item.getKHSTATE());
@@ -276,7 +284,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                     @Override
                     public void onClick(View v) {
                         departmentId = item.getDepartmentId();
-                        getSaveData(item.getFID());
+                        getSaveData(item.getFID(), item.getCUSTID());
 
                     }
                 });
@@ -421,13 +429,12 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
 
     //获取接诊列表数据
     private void getReceptionData() {
-
         HashMap<String, Object> paramQery = new HashMap<>();
         paramQery.put("custNameOrPhone", searchEdit.getText().toString());//名字
-        paramQery.put("startlypc", frequencyLow.getText().toString());//最低来院频次
+       /* paramQery.put("startlypc", frequencyLow.getText().toString());//最低来院频次
         paramQery.put("endlypc", frequencyHigh.getText().toString());//最高来院频次
         paramQery.put("startxfzj", moneyLow.getText().toString());//最低消费金额
-        paramQery.put("endxfzj", moneyHigh.getText().toString());//最高消费金额
+        paramQery.put("endxfzj", moneyHigh.getText().toString());//最高消费金额*/
         paramQery.put("startTime", startTimeText.getText().toString());//开始时间
         paramQery.put("endTime", endTimeText.getText().toString());//结束时间
         paramQery.put("yx", yx);//意向
@@ -487,6 +494,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                     selectedValue.put(receptionTypeEntity.getId(), new HashSet<String>());
                 }
                 commonAdapter1.notifyDataSetChanged();
+
                 getReceptionData();//需要先执行完筛选循环才能获取接诊列表数据，不然字段为空后台会报异常
             }
 
@@ -513,14 +521,15 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
     }
 
     //获取是否有暂存
-    private void getSaveData(final String Triageid) {
+    private void getSaveData(final String Triageid, final String Custid) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("Triageid", Triageid);
 
         HttpClient.getHttpApi().getSave(HttpClient.getRequestBody(map)).enqueue(new BaseBack<Map<String, String>>() {
             @Override
             protected void onSuccess(Map<String, String> stringStringMap) {
-                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, Triageid);
+                SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.RECEPTION_ID, Triageid);
+                SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.CLIENT_ID, Custid);
                 if ("0".equals(stringStringMap.get("isCacheOrder"))) {
                     startActivity(ProductActivity.class, "deptId", departmentId);
                 } else {
@@ -544,6 +553,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
             case R.id.search_btn:
                 DateLvel = "";
                 pageNumber = 1;
+                EndCreatetimeQ = "";
                 listAll.clear();
                 getReceptionData();
                 break;
@@ -559,10 +569,10 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                 cpText.setText("");
                 startTimeText.setText("");
                 endTimeText.setText("");
-                frequencyLow.setText("");
+                /*frequencyLow.setText("");
                 frequencyHigh.setText("");
                 moneyLow.setText("");
-                moneyHigh.setText("");
+                moneyHigh.setText("");*/
                 commonAdapter1.notifyDataSetChanged();
                 break;
             case R.id.confirm_btn://筛选确认

@@ -147,7 +147,7 @@
                                 android:completionThreshold="1"
                                 android:dropDownVerticalOffset="10dp"
                                 android:gravity="right"
-                                android:hint="输入选择建档人"
+                                android:hint="输入建档人"
                                 android:padding="5dp"
                                 android:singleLine="true"
                                 android:textColor="@color/black_50"

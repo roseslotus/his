@@ -26,4 +26,14 @@ public class Constant {
     public final static String B_LDX = "7";//老带新
     public final static String B_YGTJ = "8";//员工推荐
 
+    //优惠券类型
+    public final static String DC_ZK = "0";//折扣
+    public final static String DC_MJ = "1";//满减
+    public final static String DC_ZS = "2";//赠送
+    public final static String DC_XX = "3";//线下签呈
+
+    //回调界面
+    public final static int RESULT_DC = 200;//优惠券返回购物车
+
+
 }

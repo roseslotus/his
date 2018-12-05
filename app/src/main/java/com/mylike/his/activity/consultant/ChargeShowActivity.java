@@ -130,7 +130,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
 
         initView();
         initChargeFiltrate();
-        initData();
+//        initData();
     }
 
     private void initView() {
@@ -165,12 +165,13 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
 //                viewHolder.setVisible(R.id.application_drawback_btn, false);//申请退款
                 viewHolder.setVisible(R.id.count_text, true);//商品数
 
-
                 //按钮显示判断
                 switch (item.getFCHARGESTATENUMBER()) {
                     case "1"://暂存
-                        viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
-                        viewHolder.setVisible(R.id.compile_btn, true);//编辑
+                        if ("1".equals(item.getISTODAY())) {
+                            viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
+                            viewHolder.setVisible(R.id.compile_btn, true);//编辑
+                        }
                         break;
                     case "3"://已结账
                         if ("1".equals(item.getFCHARGETYPENUMBER()) || "2".equals(item.getFCHARGETYPENUMBER())) {//1-消费,2-预约金
@@ -192,8 +193,10 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                         viewHolder.setVisible(R.id.payment_btn, true);//去支付
                         break;*/
                     case "2"://待支付
-                        viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
-                        viewHolder.setVisible(R.id.payment_btn, true);//去支付
+                        if ("1".equals(item.getISTODAY())) {
+                            viewHolder.setVisible(R.id.btn_ll, true);//按钮布局
+                            viewHolder.setVisible(R.id.payment_btn, true);//去支付
+                        }
                         break;
                     default:
                         if ("3".equals(item.getFCHARGETYPENUMBER()) || "5".equals(item.getFCHARGETYPENUMBER())) {//3-储值,5-预约金
@@ -230,7 +233,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                 viewHolder.setOnClickListener(R.id.compile_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, item.getCFRECEIVEID());
+                        SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.RECEPTION_ID, item.getCFRECEIVEID());
                         startActivity(OrderActivity.class, "chargeTag", "1");
                     }
                 });
@@ -238,11 +241,15 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                 viewHolder.setOnClickListener(R.id.payment_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.putExtra("fid", item.getFID());
-                        intent.putExtra("money", item.getCFFEEALL());
-                        intent.setClass(ChargeShowActivity.this, PaymentActivity.class);
-                        startActivity(intent);
+                        if (TextUtils.isEmpty(item.getCONTROLCODE())) {
+                            Intent intent = new Intent();
+                            intent.putExtra("fid", item.getFID());
+                            intent.putExtra("money", item.getCFFEEALL());
+                            intent.setClass(ChargeShowActivity.this, PaymentActivity.class);
+                            startActivity(intent);
+                        } else {
+                            CommonUtil.showToast("该订单不支持扫码支付，请到收银台付款");
+                        }
                     }
                 });
                 //OA申请
@@ -320,6 +327,8 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
                 }
                 refreshLayout.finishRefresh();
                 refreshLayout.finishLoadMore();
+                if (pageNumber == 1)
+                    listAll.clear();
                 listAll.addAll(chargeInfoEntityBasePageEntity.getList());
                 commonAdapter.notifyDataSetChanged();
             }
@@ -468,7 +477,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
 
             case R.id.search_btn://搜索
                 pageNumber = 1;
-                listAll.clear();
+//                listAll.clear();
                 refreshLayout.setNoMoreData(false);
                 initData();
                 break;
@@ -486,7 +495,7 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
             case R.id.confirm_btn://筛选确认
                 DrawerLayout.closeDrawer(filtrateMenu);
                 pageNumber = 1;
-                listAll.clear();
+//                listAll.clear();
                 refreshLayout.setNoMoreData(false);
                 initData();
                 break;
@@ -494,9 +503,18 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        pageNumber = 1;
+//        listAll.clear();
+        initData();
+    }
+
+
+    @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         pageNumber = 1;
-        listAll.clear();
+//        listAll.clear();
         initData();
     }
 

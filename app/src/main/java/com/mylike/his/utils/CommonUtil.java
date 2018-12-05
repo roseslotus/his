@@ -178,6 +178,11 @@ public class CommonUtil {
 
 
     //-------------------------------------------------------获取日期-------------------------------------------------------
+    //获取年月日
+    public static String getY(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy");
+        return format.format(date);
+    }
 
     //获取年月日
     public static String getYMD(Date date) {//可根据需要自行截取数据显示

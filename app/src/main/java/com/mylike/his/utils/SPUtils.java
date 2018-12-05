@@ -40,9 +40,11 @@ public class SPUtils {
     public static final String IP_List = "ipList";//ip列表
     public static final String IP_CHECKED = "ipChecked";//选中的ip
 
-    //分诊文件
-    public static final String FILE_RECEPTION = "cache_reception";
-    public static final String RECEPTION_ID = "reception_id";//分诊id
+    //传递文件
+//    public static final String FILE_PASS = "cache_reception";
+    public static final String FILE_PASS = "cache_pass";
+    public static final String RECEPTION_ID = "reception_id";//分诊id（存储开单页面需要的分诊id）
+    public static final String CLIENT_ID = "client_id";//客户id（存储优惠券页面需要的客户id）
 
     //极光文件
     public static final String FILE_JP = "cache_jp";

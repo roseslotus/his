@@ -30,6 +30,7 @@ public class ChargeInfoEntity {
     private String FCHARGETYPENUMBER;//消费类型 数字
     private String FCHARGETYPE;//消费类型
     private String FCREATETIME;//时间
+    private String CONTROLCODE;//是走收银
     //    private String FFACTMONEY;
     private String FID;
     //    private String FISARREARAGE;
@@ -161,6 +162,14 @@ public class ChargeInfoEntity {
 
     public void setDOCTORNAME(String DOCTORNAME) {
         this.DOCTORNAME = DOCTORNAME;
+    }
+
+    public String getCONTROLCODE() {
+        return CONTROLCODE;
+    }
+
+    public void setCONTROLCODE(String CONTROLCODE) {
+        this.CONTROLCODE = CONTROLCODE;
     }
 
     class ProjectList {

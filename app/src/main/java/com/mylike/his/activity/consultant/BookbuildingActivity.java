@@ -51,6 +51,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -293,6 +294,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         phoneValue = getIntent().getStringExtra("phone");
         timeValue = getIntent().getStringExtra("time");
         channelValue = getIntent().getStringExtra("tagText");
+        creatorValue = SPUtils.getCache(SPUtils.FILE_USER, SPUtils.EMP_ID);
 
         switch (tag) {
             case Constant.B_SS:
@@ -318,9 +320,11 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 break;
         }
 
-        phoneEdit.setText(phoneValue);
-        creationTime.setText(timeValue);
-        channelText.setText(channelValue);
+
+        phoneEdit.setText(phoneValue);//手机号
+        creationTime.setText(timeValue);//建档时间
+        channelText.setText(channelValue);//一级渠道
+        creatorEdit.setHint(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.USER_NAME));
         userName.setText(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.USER_NAME));
 
         sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -505,11 +509,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
         if (Constant.B_LDX.equals(tag))//老带新
             tempCustInfo.put("frecpersonid", referrerVlaue);//推荐人id
 
-        if (Constant.B_YGTJ.equals(tag))//员工推荐
-            tempCustInfo.put("buildBy", creatorValue);//建档人id
-        else
-            tempCustInfo.put("buildBy", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.EMP_ID));//建档人id
-
+        tempCustInfo.put("buildBy", creatorValue);//建档人id
         tempCustInfo.put("name", nameEdit.getText().toString());//姓名
         tempCustInfo.put("cftelephone", phoneValue);//手机号
         tempCustInfo.put("cfsex", sexValue);//性别
@@ -736,6 +736,8 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void afterTextChanged(Editable editable) {
                 //输入框有改变清空存储的值
+                if (!creatorEdit.getHint().toString().equals("输入建档人"))
+                    creatorEdit.setHint("输入建档人");
                 creatorValue = "";
             }
         });
@@ -859,12 +861,13 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
     private void initTimeView1() {
         //时间选择器
         Calendar startDate = Calendar.getInstance();
-        Calendar endDate = Calendar.getInstance();
+        final Calendar endDate = Calendar.getInstance();
         startDate.set(1900, 0, 1);
         TimePV1 = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 birthDateBtn.setText(getTime1(date));
+                ageEdit.setText(endDate.get(Calendar.YEAR) - Integer.parseInt(CommonUtil.getY(date)) + "");//选择生日修改年龄
             }
         }).setType(new boolean[]{true, true, true, false, false, false})//隐藏秒
                 .setSubCalSize(14)//确认取消文字大小
@@ -1005,6 +1008,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                 District.add(new BookbuildingEntity("暂无"));
                 DistrictList.add(District);//添加该省所有地区数据
             } else {
+                CityList.add(new BookbuildingEntity("请选择"));
                 for (int c = 0; c < provincesEntity1.get(i).getSub().size(); c++) {//遍历该省的所有市
                     CityList.add(provincesEntity1.get(i).getSub().get(c));//添加市
                     District = new ArrayList<>();
@@ -1012,6 +1016,7 @@ public class BookbuildingActivity extends BaseActivity implements View.OnClickLi
                     if (provincesEntity1.get(i).getSub().get(c).getSub().isEmpty()) {
                         District.add(new BookbuildingEntity("暂无"));
                     } else {
+                        District.add(new BookbuildingEntity("请选择"));
                         District.addAll(provincesEntity1.get(i).getSub().get(c).getSub());//添加区
                     }
                     DistrictList.add(District);//添加该省所有地区数据

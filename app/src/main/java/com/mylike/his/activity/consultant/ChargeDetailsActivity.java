@@ -119,6 +119,7 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
     private String remarkValue;
     private String clientId;
     private String triageId;
+    private String controlcode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -160,11 +161,16 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                 clientId = chargeDateilsEntity.getInfo().getCUSTID();//客户ID
                 triageId = chargeDateilsEntity.getInfo().getCFRECEIVEID();//分诊ID
                 nameText.setText(chargeDateilsEntity.getInfo().getCFNAME() + "  " + chargeDateilsEntity.getInfo().getCFHANDSET());//姓名+手机号
-                doctorText.setText(chargeDateilsEntity.getInfo().getFDOCTORNAME());//医生
+                if (TextUtils.isEmpty(chargeDateilsEntity.getInfo().getDEPTNAME())) {
+                    doctorText.setText(chargeDateilsEntity.getInfo().getDEPTNAME());//医生
+                } else {
+                    doctorText.setText(chargeDateilsEntity.getInfo().getDEPTNAME() + "-" + chargeDateilsEntity.getInfo().getFDOCTORNAME());//医生
+                }
                 intentionText.setText(chargeDateilsEntity.getInfo().getINTENTION());//意向
                 statusText.setText(chargeDateilsEntity.getInfo().getFCHARGESTATE());//状态
                 moneyValue.setText(setDecimalFormat(chargeDateilsEntity.getInfo().getFSHOULDMONEY()));//实付款
                 orderNumber.setText(chargeDateilsEntity.getInfo().getFNUMBER());//订单号
+                controlcode = chargeDateilsEntity.getInfo().getCONTROLCODE();//订单号
 
                 if (!TextUtils.isEmpty(chargeDateilsEntity.getInfo().getDISCOUNT()))
                     discountsText.setText(chargeDateilsEntity.getInfo().getDISCOUNT());//优惠
@@ -204,7 +210,8 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                 //按钮显示隐藏
                 switch (chargeDateilsEntity.getInfo().getFCHARGESTATENUMBER()) {
                     case "1"://暂存
-                        compileBtn.setVisibility(View.VISIBLE);//编辑
+                        if ("1".equals(chargeDateilsEntity.getInfo().getISTODAY()))
+                            compileBtn.setVisibility(View.VISIBLE);//编辑
                         break;
                     case "3"://已结账
                         if ("1".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER()) || "2".equals(chargeDateilsEntity.getInfo().getFCHARGETYPENUMBER())) {//消费/预约金
@@ -225,7 +232,8 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
 //                        paymentBtn.setVisibility(View.VISIBLE);// 去支付
 //                        break;
                     case "2"://待支付
-                        paymentBtn.setVisibility(View.VISIBLE);// 去支付
+                        if ("1".equals(chargeDateilsEntity.getInfo().getISTODAY()))
+                            paymentBtn.setVisibility(View.VISIBLE);// 去支付
                         break;
                 }
 
@@ -298,15 +306,20 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
                 startActivity(MedicineActivity.class, "fid", fid);
                 break;
             case R.id.compile_btn://编辑
-                SPUtils.setCache(SPUtils.FILE_RECEPTION, SPUtils.RECEPTION_ID, triageId);
+                SPUtils.setCache(SPUtils.FILE_PASS, SPUtils.RECEPTION_ID, triageId);
                 startActivity(OrderActivity.class, "chargeTag", "1");
                 break;
             case R.id.payment_btn://去支付
-                Intent intent = new Intent();
-                intent.putExtra("fid", fid);
-                intent.putExtra("money", "总金额");
-                intent.setClass(ChargeDetailsActivity.this, PaymentActivity.class);
-                startActivity(intent);
+                if (TextUtils.isEmpty(controlcode)) {
+                    Intent intent = new Intent();
+                    intent.putExtra("fid", fid);
+                    intent.putExtra("money", "总金额");
+                    intent.setClass(ChargeDetailsActivity.this, PaymentActivity.class);
+                    startActivity(intent);
+                } else {
+
+                }
+
                 break;
             case R.id.oa_btn://申请oa
                 startActivity(OAActivity.class, "fid", fid);
@@ -345,29 +358,30 @@ public class ChargeDetailsActivity extends BaseActivity implements View.OnClickL
             //在第一项添加空意向，如果选择“请选择”则代表此级意向为空
             intentionEntityList2.add(new IntentionEntity("请选择"));
             //如果无意向，添加空对象，防止数据为null 导致三个选项长度不匹配造成崩溃
-            if (intentionEntities1.get(i).getChildren().size() == 0) {
+            if (intentionEntities1.get(i).getChildren() == null || intentionEntities1.get(i).getChildren().size() == 0) {
                 intentionEntityList3.add(intentionEntityList2);
-            }
-            for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
-                //添加二级意向
-                intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
+            } else {
 
-                //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
-                if (j == 0) {
-                    List<IntentionEntity> IList = new ArrayList<>();
-                    IList.add(new IntentionEntity("请选择"));
-                    intentionEntityList3.add(IList);
+                for (int j = 0; j < intentionEntities1.get(i).getChildren().size(); j++) {
+                    //添加二级意向
+                    intentionEntityList2.add(intentionEntities1.get(i).getChildren().get(j));
+
+                    //如果二级意向循环第一次，这为三级意向添加一个空对象，对应二级意向的“请选择”
+                    if (j == 0) {
+                        List<IntentionEntity> IList = new ArrayList<>();
+                        IList.add(new IntentionEntity("请选择"));
+                        intentionEntityList3.add(IList);
+                    }
+
+                    //添加三级意向
+                    List<IntentionEntity> IList3 = new ArrayList<>();
+                    IList3.add(new IntentionEntity("请选择"));
+                    if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
+                        IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
+                    }
+                    intentionEntityList3.add(IList3);
                 }
-
-                //添加三级意向
-                List<IntentionEntity> IList3 = new ArrayList<>();
-                IList3.add(new IntentionEntity("请选择"));
-                if (intentionEntities1.get(i).getChildren().get(j).getChildren() != null || intentionEntities1.get(i).getChildren().get(j).getChildren().size() != 0) {
-                    IList3.addAll(intentionEntities1.get(i).getChildren().get(j).getChildren());
-                }
-                intentionEntityList3.add(IList3);
             }
-
             intentionEntities2.add(intentionEntityList2);
             intentionEntities3.add(intentionEntityList3);
         }

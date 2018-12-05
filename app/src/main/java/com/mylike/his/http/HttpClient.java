@@ -38,7 +38,7 @@ public class HttpClient {
             OkHttpClient.Builder httpClientBuiler = RetrofitUrlManager.getInstance().with(new OkHttpClient.Builder());
 
             //设置超时时间
-            httpClientBuiler.connectTimeout(3, TimeUnit.SECONDS);//连接超时,3秒
+            httpClientBuiler.connectTimeout(10, TimeUnit.SECONDS);//连接超时,3秒
             httpClientBuiler.readTimeout(30, TimeUnit.SECONDS);//读取数据超时，30秒
 
             //对所有请求添加请求头
@@ -70,10 +70,18 @@ public class HttpClient {
         return serversApi;
     }
 
-    //请求数据
+    //map参数请求数据
     public static RequestBody getRequestBody(Map<String, Object> map) {
         Gson gson = new Gson();
         String jsonStr = gson.toJson(map);
+        Logger.d(jsonStr);
+        return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonStr);
+    }
+
+    //对象
+    public static RequestBody getRequestBody(Object o) {
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(o);
         Logger.d(jsonStr);
         return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonStr);
     }
