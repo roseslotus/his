@@ -16,6 +16,7 @@
             android:layout_height="match_parent"
             android:paddingLeft="15dp"
             android:paddingRight="20dp"
+
             android:src="@mipmap/return_icon" />
 
         <TextView

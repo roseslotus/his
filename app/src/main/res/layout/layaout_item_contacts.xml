@@ -49,9 +49,9 @@
             <ImageView
                 android:id="@+id/fip_img"
                 android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:src="@mipmap/fip_icon" />
+                android:src="@mipmap/svip_icon" />
 
             <TextView
                 android:id="@+id/card_tv"

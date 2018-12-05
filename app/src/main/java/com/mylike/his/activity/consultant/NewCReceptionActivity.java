@@ -469,7 +469,9 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                 if (DateLvel.equals("0")) {
                     refreshLayout.setNoMoreData(true);
                 }
-
+                if (pageNumber == 1) {
+                    listAll.clear();
+                }
                 listAll.addAll(receptionEntity.getList());
                 commonAdapter.notifyDataSetChanged();
                 refreshLayout.finishRefresh();
@@ -554,7 +556,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
                 DateLvel = "";
                 pageNumber = 1;
                 EndCreatetimeQ = "";
-                listAll.clear();
+//                listAll.clear();
                 getReceptionData();
                 break;
             case R.id.return_btn:
@@ -578,7 +580,6 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
             case R.id.confirm_btn://筛选确认
                 DrawerLayout.closeDrawer(filtrateMenu);
                 pageNumber = 1;
-                listAll.clear();
                 refreshLayout.setNoMoreData(false);
                 getReceptionData();
                 break;
@@ -620,7 +621,7 @@ public class NewCReceptionActivity extends BaseActivity implements View.OnClickL
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         pageNumber = 1;
         DateLvel = "";
-        listAll.clear();
+//        listAll.clear();
         refreshLayout.setNoMoreData(false);
         getReceptionData();
     }

@@ -257,7 +257,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                             @Override
                             protected void convert(ViewHolder viewHolder, DepartmentDEntity.deptDocker item, int position) {
 
-                                TextView textView = viewHolder.getView(R.id.text);
+                                TextView textView = viewHolder.getView
+                                        (R.id.text);
                                 //设置第一项“请选择颜色为灰色”
                                 if (TextUtils.isEmpty(item.getEmpId())) {
                                     textView.setTextColor(getResources().getColor(R.color.gray_49));
@@ -591,8 +592,14 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().isEmpty()) {
                     sumText.setText(moneySum + "");
+                    if (!oaBox.isEnabled()) {
+                        oaBox.setChecked(true);
+                    }
                 } else {
                     sumText.setText(CommonUtil.setTwoNumber(editable.toString()));
+                    if (!oaBox.isEnabled()) {
+                        oaBox.setChecked(false);
+                    }
                 }
             }
         });
