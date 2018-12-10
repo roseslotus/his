@@ -145,7 +145,7 @@ public class SurgeryActivity extends BaseActivity implements View.OnClickListene
                     viewHolder.setVisible(R.id.oper_state_name, false);
                 else
                     viewHolder.setText(R.id.oper_state_name, "（" + item.getOperstatename() + "）");//手术状态
-                viewHolder.setText(R.id.time_text, (TextUtils.isEmpty(item.getStartdate()) ? item.getStartdate().substring(11, 16) + "-" : "") + (TextUtils.isEmpty(item.getEnddate()) ? item.getEnddate().substring(11, 16) : ""));//时间段
+                viewHolder.setText(R.id.time_text, (TextUtils.isEmpty(item.getStartdate()) ? "" : item.getStartdate().substring(11, 16) + "-") + (TextUtils.isEmpty(item.getEnddate()) ? "" : item.getEnddate().substring(11, 16)));//时间段
                 viewHolder.setText(R.id.client_name, "顾客：" + item.getPatientname() + "(" + item.getPhoneNumber() + ")");//客户姓名+电话
                 viewHolder.setText(R.id.type_text, item.getLx());//类型
                 viewHolder.setText(R.id.sfqk_text, item.getSfqk());//是否全款

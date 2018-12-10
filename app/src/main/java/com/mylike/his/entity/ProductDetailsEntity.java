@@ -17,7 +17,7 @@ public class ProductDetailsEntity implements Serializable {
     private String count;//数量
     private String remark = "";//备注
     private String discount;//手动输入折扣
-    private String isgive;//是否赠送产品
+    private String isgive = "";//是否赠送产品
     //套餐
     private String pkgid;
     private String pkgname;

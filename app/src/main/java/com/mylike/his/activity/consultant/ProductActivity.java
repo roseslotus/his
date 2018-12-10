@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,7 +27,7 @@ import com.mylike.his.entity.ProductEntity;
 import com.mylike.his.entity.ProductsThreeLevelEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
-import com.mylike.his.utils.SPUtils;
+import com.mylike.his.utils.CommonUtil;
 import com.orhanobut.logger.Logger;
 import com.paradoxie.shopanimlibrary.AniManager;
 import com.zhy.adapter.abslistview.CommonAdapter;
@@ -35,11 +37,9 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,6 +78,12 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     TextView productText;
     @BindView(R.id.detail_text)
     TextView detailText;
+    @BindView(R.id.tag_ll)
+    LinearLayout tagLl;
+    @BindView(R.id.product_list)
+    ListView productList;
+    @BindView(R.id.account_ll)
+    LinearLayout accountLl;
 
     private String departmentId;//科室id
 
@@ -86,6 +92,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
 
     private CommonAdapter commonAdapter;
     private CommonAdapter commonAdapter2;
+    private CommonAdapter commonAdapter3;
 
     private double moneySum;
     private boolean clickTag = true;
@@ -93,6 +100,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     private ProductsThreeLevelEntity productsThreeLevel = new ProductsThreeLevelEntity();//头部数据（包括左侧数据）
     private List<ProductChildrenEntity> productChildrenEntities = new ArrayList<>();//左侧菜单数据
     private List<ProductDetailsEntity> productDetailsEntityList = new ArrayList<>();//右侧菜单数据
+    private List<ProductEntity> productEntityList = new ArrayList<>();//搜索出来的产品数据
     private List<ProductDetailsEntity> accountList = new ArrayList<>();//挑选的产品
 
     @Override
@@ -106,7 +114,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             }
         } else {
             accountList.clear();
-            moneyText.setText("0.00");
+            moneyText.setText("0.0");
             clickTag = true;
         }
         //判断“选好了”是否能点击
@@ -159,9 +167,9 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
         commonAdapter2 = new CommonAdapter<ProductDetailsEntity>(this, R.layout.item_product_details_list, productDetailsEntityList) {
             @Override
             protected void convert(ViewHolder viewHolder, ProductDetailsEntity item, int position) {
-                if (!TextUtils.isEmpty(searchEdit.getText().toString())) {
-                    typeValue = productDetailsEntityList.get(position).getItemLx();
-                }
+//                if (!TextUtils.isEmpty(searchEdit.getText().toString())) {
+//                    typeValue = productDetailsEntityList.get(position).getItemLx();
+//                }
                 switch (typeValue) {
                     case "COMBO"://套餐
                         viewHolder.setText(R.id.product_name, item.getPkgname());
@@ -236,6 +244,111 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             }
         });
 
+        //搜索产品适配器
+        commonAdapter3 = new CommonAdapter<ProductEntity>(ProductActivity.this, R.layout.item_product_details_list, productEntityList) {
+            @Override
+            protected void convert(ViewHolder viewHolder, ProductEntity item, int position) {
+                switch (item.getType()) {
+                    case "COMBO"://套餐
+                        viewHolder.setText(R.id.product_name, "[套餐] " + item.getPname());
+                        break;
+                    case "SUBJECT"://产品
+                        viewHolder.setText(R.id.product_name, "[产品] " + item.getPname());
+                        break;
+                    case "MINUTIA"://细目
+                        viewHolder.setText(R.id.product_name, "[细目] " + item.getPname());
+                        break;
+                }
+                viewHolder.setText(R.id.money_text, item.getPrice() != null ? item.getPrice().toString() : "0");
+            }
+        };
+        productList.setAdapter(commonAdapter3);
+        productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ProductEntity p = productEntityList.get(i);
+                typeValue = p.getType();
+                boolean not_equally_tag = true;
+                //循环查询是否有同种产品
+                for (ProductDetailsEntity productDetailsEntity : accountList) {
+                    int count = Integer.parseInt(productDetailsEntity.getCount());
+                    switch (typeValue) {
+                        case "COMBO"://套餐
+                            if (p.getPname().equals(productDetailsEntity.getPkgname())) {
+                                not_equally_tag = false;
+                                count += 1;
+                                productDetailsEntity.setCount(count + "");
+                            }
+                            break;
+                        case "SUBJECT"://产品
+                            if (p.getPname().equals(productDetailsEntity.getPname())) {
+                                not_equally_tag = false;
+                                count += 1;
+                                productDetailsEntity.setCount(count + "");
+                            }
+                            break;
+                        case "MINUTIA"://细目
+                            if (p.getPname().equals(productDetailsEntity.getItemName())) {
+                                not_equally_tag = false;
+                                count += 1;
+                                productDetailsEntity.setCount(count + "");
+                            }
+                            break;
+                    }
+                }
+                //没有同种产品做添加操作
+                if (not_equally_tag) {
+                    ProductDetailsEntity pde = new ProductDetailsEntity();
+                    switch (typeValue) {
+                        case "COMBO"://套餐
+                            pde.setItemLx("1");
+                            pde.setPkgid(p.getPid());
+                            pde.setPkgname(p.getPname());
+                            break;
+                        case "SUBJECT"://产品
+                            pde.setItemLx("2");
+                            pde.setProductid(p.getPid());
+                            pde.setPname(p.getPname());
+                            break;
+                        case "MINUTIA"://细目
+                            pde.setItemLx("3");
+                            pde.setChaitemCd(p.getPid());
+                            pde.setItemName(p.getPname());
+                            break;
+                    }
+                    pde.setPrice(p.getPrice());
+                    pde.setPrice1(p.getPrice());
+                    pde.setPrice2(p.getPrice());
+                    pde.setCount("1");//数量
+                    pde.setDiscount("1.00");//手动输入的折扣
+                    accountList.add(pde);
+                }
+                if (clickTag) {
+                    clickTag = false;
+                    setBtnClick();
+                }
+                startAnim(view);
+            }
+        });
+
+        searchEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (TextUtils.isEmpty(editable.toString())) {
+                    productList.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private ImageView buyImg;
@@ -456,37 +569,40 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
         HttpClient.getHttpApi().getSearchProduct(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ProductEntity>>() {
             @Override
             protected void onSuccess(List<ProductEntity> productEntities) {
-                productDetailsEntityList.clear();
-                ProductDetailsEntity productDetailsEntity;
-                for (ProductEntity productEntity : productEntities) {
-                    switch (productEntity.getType()) {
-                        case "COMBO"://套餐"
-                            productDetailsEntity = new ProductDetailsEntity();
-                            productDetailsEntity.setPkgid(productEntity.getPid());
-                            productDetailsEntity.setPkgname(productEntity.getPname());
-                            productDetailsEntity.setPrice(productEntity.getPrice());
-                            productDetailsEntity.setItemLx(productEntity.getType());
-                            productDetailsEntityList.add(productDetailsEntity);
-                            break;
-                        case "SUBJECT"://产品
-                            productDetailsEntity = new ProductDetailsEntity();
-                            productDetailsEntity.setProductid(productEntity.getPid());
-                            productDetailsEntity.setPname(productEntity.getPname());
-                            productDetailsEntity.setPrice(productEntity.getPrice());
-                            productDetailsEntity.setItemLx(productEntity.getType());
-                            productDetailsEntityList.add(productDetailsEntity);
-                            break;
-                        case "MINUTIA"://细目
-                            productDetailsEntity = new ProductDetailsEntity();
-                            productDetailsEntity.setChaitemCd(productEntity.getPid());
-                            productDetailsEntity.setItemName(productEntity.getPname());
-                            productDetailsEntity.setPrice(productEntity.getPrice());
-                            productDetailsEntity.setItemLx(productEntity.getType());
-                            productDetailsEntityList.add(productDetailsEntity);
-                            break;
-                    }
-                }
-                commonAdapter2.notifyDataSetChanged();
+                productList.setVisibility(View.VISIBLE);
+                productEntityList.clear();
+                productEntityList.addAll(productEntities);
+                commonAdapter3.notifyDataSetChanged();
+//                ProductDetailsEntity productDetailsEntity;
+//                for (ProductEntity productEntity : productEntities) {
+//                    switch (productEntity.getType()) {
+//                        case "COMBO"://套餐"
+//                            productDetailsEntity = new ProductDetailsEntity();
+//                            productDetailsEntity.setPkgid(productEntity.getPid());
+//                            productDetailsEntity.setPkgname(productEntity.getPname());
+//                            productDetailsEntity.setPrice(productEntity.getPrice());
+//                            productDetailsEntity.setItemLx(productEntity.getType());
+//                            productDetailsEntityList.add(productDetailsEntity);
+//                            break;
+//                        case "SUBJECT"://产品
+//                            productDetailsEntity = new ProductDetailsEntity();
+//                            productDetailsEntity.setProductid(productEntity.getPid());
+//                            productDetailsEntity.setPname(productEntity.getPname());
+//                            productDetailsEntity.setPrice(productEntity.getPrice());
+//                            productDetailsEntity.setItemLx(productEntity.getType());
+//                            productDetailsEntityList.add(productDetailsEntity);
+//                            break;
+//                        case "MINUTIA"://细目
+//                            productDetailsEntity = new ProductDetailsEntity();
+//                            productDetailsEntity.setChaitemCd(productEntity.getPid());
+//                            productDetailsEntity.setItemName(productEntity.getPname());
+//                            productDetailsEntity.setPrice(productEntity.getPrice());
+//                            productDetailsEntity.setItemLx(productEntity.getType());
+//                            productDetailsEntityList.add(productDetailsEntity);
+//                            break;
+//                    }
+//                }
+//                commonAdapter2.notifyDataSetChanged();
             }
 
             @Override
@@ -495,15 +611,15 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    private String setDecimalFormat(String numberStr) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        if (TextUtils.isEmpty(numberStr)) {
-            numberStr = "0";
-        }
-        Double number = Double.parseDouble(numberStr);
-        decimalFormat.format(number);
-        return decimalFormat.format(number);
-    }
+//    private String setDecimalFormat(String numberStr) {
+//        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+//        if (TextUtils.isEmpty(numberStr)) {
+//            numberStr = "0";
+//        }
+//        Double number = Double.parseDouble(numberStr);
+//        decimalFormat.format(number);
+//        return decimalFormat.format(number);
+//    }
 
     private void sumData() {
         moneySum = 0;
@@ -517,7 +633,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             }
             count += Integer.parseInt(productDetailsEntity.getCount());
         }
-        moneyText.setText(setDecimalFormat(moneySum + ""));
+        moneyText.setText(CommonUtil.setTwoNumber(moneySum + ""));
         submitBtn.setText("选好了(" + count + ")");
     }
 }

@@ -73,7 +73,10 @@ public interface ServersApi {
 
     //更新APP
     @Headers({"Domain-Name: update"})
+    //测试
     @POST("http://uat8280.mylikesh.cn/app-version/version/check_version")
+    //试运行
+//    @POST("http://crmapp.shmylike.cn/app-version/version/check_version")
     Call<VersionsEntity> updataApp();
 
     //验证api

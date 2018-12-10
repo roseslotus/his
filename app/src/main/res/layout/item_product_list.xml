@@ -111,12 +111,6 @@
                         android:text="1.00"
                         android:textColor="@color/black_50"
                         android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="折"
-                        android:textColor="@color/gray_49" />
                 </LinearLayout>
 
 

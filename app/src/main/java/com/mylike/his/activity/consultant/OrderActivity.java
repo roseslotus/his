@@ -127,6 +127,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     TextView activityName;
     @BindView(R.id.discounts_text)
     TextView discountsText;
+    @BindView(R.id.yh_text)
+    TextView yhText;
 
 //    private OptionsPickerView optionsPickerView;
 
@@ -234,12 +236,12 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                 textView.setText(CommonUtil.setTwoNumber(item.getPrice()));
                 textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-                viewHolder.setText(R.id.money_text, setDecimalFormat(item.getPrice2()));
+                viewHolder.setText(R.id.money_text, CommonUtil.setTwoNumber(item.getPrice2()));
 
                 if (TextUtils.isEmpty(item.getPrice1())) {
-                    viewHolder.setText(R.id.money_count_text, new DecimalFormat("0.00").format(Double.parseDouble(item.getPrice()) * Integer.parseInt(item.getCount())));
+                    viewHolder.setText(R.id.money_count_text, new DecimalFormat("0.0").format(Double.parseDouble(item.getPrice()) * Integer.parseInt(item.getCount())));
                 } else {
-                    viewHolder.setText(R.id.money_count_text, new DecimalFormat("0.00").format(Double.parseDouble(item.getPrice1())));
+                    viewHolder.setText(R.id.money_count_text, new DecimalFormat("0.0").format(Double.parseDouble(item.getPrice1())));
                 }
                 viewHolder.setText(R.id.count_text, "x" + item.getCount());
 
@@ -592,14 +594,22 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             public void afterTextChanged(Editable editable) {
                 if (editable.toString().isEmpty()) {
                     sumText.setText(moneySum + "");
-                    if (!oaBox.isEnabled()) {
+                    yhText.setTextColor(getResources().getColor(R.color.gray_60));
+                    discountsText.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+
+                    if (departmentDEntity == null && moneyActivity != 0) {
+                        oaBox.setEnabled(false);
                         oaBox.setChecked(true);
+                    } else {
+                        oaBox.setEnabled(true);
+                        oaBox.setChecked(false);
                     }
                 } else {
                     sumText.setText(CommonUtil.setTwoNumber(editable.toString()));
-                    if (!oaBox.isEnabled()) {
-                        oaBox.setChecked(false);
-                    }
+                    yhText.setTextColor(getResources().getColor(R.color.gray_48));
+                    discountsText.setTextColor(getResources().getColor(R.color.gray_48));
+                    oaBox.setEnabled(false);
+                    oaBox.setChecked(false);
                 }
             }
         });
@@ -1113,18 +1123,18 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
             oaBox.setEnabled(false);
         }
         discountsText.setText(CommonUtil.setTwoNumber(moneyActivity));
-        sumText.setText(setDecimalFormat(moneySum + ""));
+        sumText.setText(CommonUtil.setTwoNumber(moneySum + ""));
     }
 
-    private String setDecimalFormat(String numberStr) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        if (TextUtils.isEmpty(numberStr)) {
-            numberStr = "0";
-        }
-        Double number = Double.parseDouble(numberStr);
-        decimalFormat.format(number);
-        return decimalFormat.format(number);
-    }
+//    private String setDecimalFormat(String numberStr) {
+//        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+//        if (TextUtils.isEmpty(numberStr)) {
+//            numberStr = "0";
+//        }
+//        Double number = Double.parseDouble(numberStr);
+//        decimalFormat.format(number);
+//        return decimalFormat.format(number);
+//    }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {

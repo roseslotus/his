@@ -1,13 +1,11 @@
 package com.mylike.his.activity.consultant;
 
-import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -28,13 +26,13 @@ import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.NumberPickerView;
-import com.orhanobut.logger.Logger;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.IllegalFormatCodePointException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,6 +64,10 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
     TextView activityName;
     @BindView(R.id.discounts_text)
     TextView discountsText;
+    @BindView(R.id.clear_btn)
+    ImageView clearBtn;
+    @BindView(R.id.activity_ll)
+    LinearLayout activityLl;
 
     private String departmentId;//科室id
 
@@ -124,14 +126,14 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
 
                 //划除的原价单价
                 final TextView textView = viewHolder.getView(R.id.price_text);
-                textView.setText(setDecimalFormat(item.getPrice()));
+                textView.setText(CommonUtil.setTwoNumber(item.getPrice()));
                 textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
                 if (TextUtils.isEmpty(item.getPrice2())) {
                     item.setPrice2(item.getPrice());
                     accountList.set(position, item);
                 }
-                viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));//单价
+                viewHolder.setText(R.id.money_one_text, CommonUtil.setTwoNumber(item.getPrice2()));//单价
 
                 if (TextUtils.isEmpty(item.getPrice1())) {
                     String sumberStr = (Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "";
@@ -139,10 +141,9 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                     accountList.set(position, item);
                 }
                 //编辑后的单价乘以数量，小计的总价
-                viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));//小计
+                viewHolder.setText(R.id.money_count_text, CommonUtil.setTwoNumber(item.getPrice1()));//小计
 //              viewHolder.setText(R.id.discounts_text, accountList.get(position).getDiscount());//手动输入折扣
-                viewHolder.setText(R.id.discounts_text, setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//手动输入折扣
-
+                viewHolder.setText(R.id.discounts_text, CommonUtil.setTwoNumber((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//手动输入折扣
 
                 //单价编辑
                 viewHolder.setOnClickListener(R.id.money_one_text, new View.OnClickListener() {
@@ -158,12 +159,12 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                             public void onClick(View v) {
                                 if (!contentText.getText().toString().isEmpty()) {
                                     //修改数据
-                                    item.setPrice2(setDecimalFormat(contentText.getText().toString()));//单价
+                                    item.setPrice2(CommonUtil.setTwoNumber(contentText.getText().toString()));//单价
                                     item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");//小计
-                                    item.setDiscount(setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//手动输入折扣
+                                    item.setDiscount(CommonUtil.setTwoNumber((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));//手动输入折扣
                                     //展示
-                                    viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
-                                    viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
+                                    viewHolder.setText(R.id.money_one_text, CommonUtil.setTwoNumber(item.getPrice2()));
+                                    viewHolder.setText(R.id.money_count_text, CommonUtil.setTwoNumber(item.getPrice1()));
                                     viewHolder.setText(R.id.discounts_text, item.getDiscount());//手动输入折扣
                                     accountList.set(position, item);
                                     //计算总价
@@ -173,7 +174,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                                         clearAccountList();
                                     }
                                     discountCouponEntity = null;
-                                    activityName.setText("");
+                                    activityLl.setVisibility(View.GONE);
 
                                     sumData(null);
                                 }
@@ -202,14 +203,14 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                                         clearAccountList();
                                     }
                                     discountCouponEntity = null;
-                                    activityName.setText("");
+                                    activityLl.setVisibility(View.GONE);
 
                                     item.setPrice1(contentText.getText().toString());
-                                    item.setPrice2(setDecimalFormat((Double.parseDouble(item.getPrice1()) / Integer.parseInt(item.getCount())) + ""));
-                                    item.setDiscount(setDecimalFormat((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));
+                                    item.setPrice2(CommonUtil.setTwoNumber((Double.parseDouble(item.getPrice1()) / Integer.parseInt(item.getCount())) + ""));
+                                    item.setDiscount(CommonUtil.setTwoNumber((Double.parseDouble(item.getPrice2()) / Double.parseDouble(item.getPrice())) + ""));
 
-                                    viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));
-                                    viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));
+                                    viewHolder.setText(R.id.money_count_text, CommonUtil.setTwoNumber(item.getPrice1()));
+                                    viewHolder.setText(R.id.money_one_text, CommonUtil.setTwoNumber(item.getPrice2()));
                                     viewHolder.setText(R.id.discounts_text, item.getDiscount());//折扣
                                     accountList.set(position, item);
                                     sumData(null);
@@ -238,16 +239,15 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                                         clearAccountList();
                                     }
                                     discountCouponEntity = null;
-                                    activityName.setText("");
+                                    activityLl.setVisibility(View.GONE);
 
-
-                                    item.setPrice2((Double.parseDouble(item.getPrice()) * Double.parseDouble(setDecimalFormat(contentText.getText().toString()))) + "");//单价(原价*折扣，折扣永远保持两位数)
+                                    item.setPrice2((Double.parseDouble(item.getPrice()) * Double.parseDouble(CommonUtil.setTwoNumber(contentText.getText().toString()))) + "");//单价(原价*折扣，折扣永远保持两位数)
                                     item.setPrice1((Double.parseDouble(item.getPrice2()) * Integer.parseInt(item.getCount())) + "");//小计
-                                    item.setDiscount(setDecimalFormat(contentText.getText().toString()));//折扣
+                                    item.setDiscount(CommonUtil.setTwoNumber(contentText.getText().toString()));//折扣
 
                                     viewHolder.setText(R.id.discounts_text, item.getDiscount());//折扣
-                                    viewHolder.setText(R.id.money_count_text, setDecimalFormat(item.getPrice1()));//显示小计
-                                    viewHolder.setText(R.id.money_one_text, setDecimalFormat(item.getPrice2()));//显示总价
+                                    viewHolder.setText(R.id.money_count_text, CommonUtil.setTwoNumber(item.getPrice1()));//显示小计
+                                    viewHolder.setText(R.id.money_one_text, CommonUtil.setTwoNumber(item.getPrice2()));//显示总价
                                     accountList.set(position, item);
                                     sumData(null);
                                 }
@@ -273,12 +273,12 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                                 clearAccountList();
                             }
                             discountCouponEntity = null;
-                            activityName.setText("");
+                            activityLl.setVisibility(View.GONE);
 
                         }
                         accountList.get(positionTag).setCount(inputText + "");
                         accountList.get(positionTag).setPrice1((Double.parseDouble(accountList.get(positionTag).getPrice2()) * inputText) + "");
-                        viewHolder.setText(R.id.money_count_text, setDecimalFormat(accountList.get(positionTag).getPrice1()));
+                        viewHolder.setText(R.id.money_count_text, CommonUtil.setTwoNumber(accountList.get(positionTag).getPrice1()));
 
                         if (discountCouponEntity == null)
                             sumData(null);
@@ -300,7 +300,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                         int positionTag = (Integer) numberPickerView.getTag();
                         accountList.get(positionTag).setCount(maxValue + "");
                         accountList.get(positionTag).setPrice1((Double.parseDouble(accountList.get(positionTag).getPrice2()) * maxValue) + "");
-                        viewHolder.setText(R.id.money_count_text, setDecimalFormat(accountList.get(positionTag).getPrice1()));
+                        viewHolder.setText(R.id.money_count_text, CommonUtil.setTwoNumber(accountList.get(positionTag).getPrice1()));
                         sumData(null);
                     }
                 });
@@ -322,7 +322,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                                 }
                             }
                             discountCouponEntity = null;
-                            activityName.setText("");
+                            activityLl.setVisibility(View.GONE);
                             accountList.remove(position);
 
                             sumData(null);
@@ -337,7 +337,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
         sumData(null);
     }
 
-    @OnClick({R.id.return_btn, R.id.add_btn, R.id.submit_btn, R.id.dc_btn})
+    @OnClick({R.id.return_btn, R.id.add_btn, R.id.submit_btn, R.id.dc_btn, R.id.clear_btn})
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -412,6 +412,20 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                 intent.putExtra("dcProductEntity", (Serializable) dcProductEntity);
                 startActivityForResult(intent, 1);
                 break;
+            case R.id.clear_btn:
+                //清空活动数据
+                activityLl.setVisibility(View.GONE);
+                if (discountCouponEntity != null && Constant.DC_ZS.equals(discountCouponEntity.getActivityType())) {
+                    clearAccountList();
+                    commonAdapter.notifyDataSetChanged();
+                }
+                for (ProductDetailsEntity pde : accountList) {
+                    pde.setPrice1(CommonUtil.setTwoNumber(Double.parseDouble(pde.getPrice())));
+                    pde.setPrice2(CommonUtil.setTwoNumber(Double.parseDouble(pde.getPrice1()) / Integer.parseInt(pde.getCount())));
+                    pde.setDiscount(CommonUtil.setTwoNumber("1"));
+                }
+                discountCouponEntity = null;
+                break;
         }
 
     }
@@ -426,7 +440,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
 
             //清空活动数据
             discountCouponEntity = null;
-            activityName.setText("");
+            activityLl.setVisibility(View.GONE);
 
             sumData(null);
         } else if (resultCode == Constant.RESULT_DC) {
@@ -436,7 +450,6 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
             discountCouponEntity = (DiscountCouponEntity) data.getExtras().get("discountCouponEntity");
             if (discountCouponEntity != null)
                 setDC();
-
         }
     }
 
@@ -450,7 +463,9 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    //优惠活动
     private void setDC() {
+        activityLl.setVisibility(View.VISIBLE);
         activityName.setText(discountCouponEntity.getActivityName());
 
         switch (discountCouponEntity.getActivityType()) {
@@ -570,15 +585,15 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
         commonAdapter.notifyDataSetChanged();
     }
 
-    private String setDecimalFormat(String numberStr) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        if (TextUtils.isEmpty(numberStr)) {
-            numberStr = "0";
-        }
-        Double number = Double.parseDouble(numberStr);
-        decimalFormat.format(number);
-        return decimalFormat.format(number);
-    }
+//    private String CommonUtil.setTwoNumber(String numberStr) {
+//        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+//        if (TextUtils.isEmpty(numberStr)) {
+//            numberStr = "0";
+//        }
+//        Double number = Double.parseDouble(numberStr);
+//        decimalFormat.format(number);
+//        return decimalFormat.format(number);
+//    }
 
     private void sumData(String tag) {
         moneySum = 0;
@@ -602,7 +617,7 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
         }
         moneyActivity = moneyActivity - moneySum;
         discountsText.setText(CommonUtil.setTwoNumber(moneyActivity));
-        moneyText.setText(setDecimalFormat(moneySum + ""));
+        moneyText.setText(CommonUtil.setTwoNumber(moneySum + ""));
     }
 
     @Override

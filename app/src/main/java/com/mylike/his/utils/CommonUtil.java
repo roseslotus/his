@@ -126,7 +126,7 @@ public class CommonUtil {
 
     //-------------------------------------------------------保留后两位小数-------------------------------------------------------
     public static String setTwoNumber(String numberStr) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        DecimalFormat decimalFormat = new DecimalFormat("0.0");
         if (TextUtils.isEmpty(numberStr)) {
             numberStr = "0";
         }
@@ -136,7 +136,7 @@ public class CommonUtil {
     }
 
     public static String setTwoNumber(Double number) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        DecimalFormat decimalFormat = new DecimalFormat("0.0");
         decimalFormat.format(number);
         return decimalFormat.format(number);
     }

@@ -31,7 +31,6 @@ import butterknife.OnClick;
  */
 
 public class VisitDetailsActivity extends BaseActivity implements View.OnClickListener {
-
     @BindView(R.id.return_btn)
     ImageView returnBtn;
     @BindView(R.id.name_text)

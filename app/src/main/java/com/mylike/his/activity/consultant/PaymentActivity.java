@@ -68,7 +68,7 @@ public class PaymentActivity extends BaseActivity implements View.OnClickListene
 
 
     private String setDecimalFormat(String numberStr) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        DecimalFormat decimalFormat = new DecimalFormat("0.0");
         if (TextUtils.isEmpty(numberStr)) {
             numberStr = "0";
         }
