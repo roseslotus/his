@@ -1,9 +1,13 @@
 package com.mylike.his.utils;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.nfc.Tag;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -29,6 +33,9 @@ import com.mylike.his.entity.VisitEntity;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.http.ServersApi;
 import com.orhanobut.logger.Logger;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -36,6 +43,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+
+import javax.xml.transform.Result;
 
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.ResponseBody;
@@ -198,61 +207,87 @@ public class CommonUtil {
 
     //-------------------------------------------------------App检查更新-------------------------------------------------------
 
-    public static void updataApp(final Context context, final boolean tag) {
-        HttpClient.getHttpApi().updataApp().enqueue(new Callback<VersionsEntity>() {
+    public static void updataApp(final Activity activity, final boolean tag) {
+        PgyUpdateManager.setIsForced(true);
+        PgyUpdateManager.register(activity, new UpdateManagerListener() {
             @Override
-            public void onResponse(Call<VersionsEntity> call, Response<VersionsEntity> response) {
-                Logger.d(response + "\n" + new Gson().toJson(response.body()));
-                VersionsEntity versionsEntity = response.body();
-                if (versionsEntity == null) {
-                    return;
-                }
-                int lowVersion = Integer.parseInt(versionsEntity.getLowVersion());//最低支持版本号
-                int serverVersion = Integer.parseInt(versionsEntity.getVersion());//服务器版本号
-                int localVersion = getLocalVersion(context);//应用本地版本号
-
-                //提示框
-                UIData uiData = UIData.create();
-                uiData.setDownloadUrl(versionsEntity.getFilePath());
-                uiData.setTitle("更新提示");
-                uiData.setContent("发现新版本，是否立即更新?");
-
-                //初始化
-                DownloadBuilder builder = AllenVersionChecker
-                        .getInstance()
-                        .downloadOnly(uiData)
-                        .setForceRedownload(true);
-
-                //判断是否强制更新(app低于要求的最低版本强制更新)
-                if (lowVersion > localVersion) {
-                    builder.setForceUpdateListener(new ForceUpdateListener() {
-                        @Override
-                        public void onShouldForceUpdate() {
-                            Logger.d("强制更新");
-                        }
-                    });
-                    builder.executeMission(context);
-
-                } else if (serverVersion > localVersion) { //有版本需要更新
-                    builder.executeMission(context);
-
-                } else {//没有版本更新
-                    if (tag)//是否提示
-                        showToast("已是最新版本，无需更新");
-                }
+            public void onNoUpdateAvailable() {
+                if (tag)
+                    CommonUtil.showToast("已是最新版本，无需更新");
             }
 
             @Override
-            public void onFailure(Call<VersionsEntity> call, Throwable t) {
-                Logger.d(t.getMessage());
-                if (t instanceof ConnectException) {//网络连接失败
-                    showToast("网络开小差了，请检查网络");
-                } else {
-                    showToast("喔噢~请求失败，请稍后再试");
-                }
+            public void onUpdateAvailable(String s) {
+                final AppBean appBean = getAppBeanFromString(s);
+                new AlertDialog.Builder(activity)
+                        .setCancelable(false)
+                        .setTitle("更新")
+                        .setMessage("发现新版本，是否立即更新?")
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                startDownloadTask(activity, appBean.getDownloadURL());
+                            }
+                        }).show();
             }
         });
     }
+
+//    public static void updataApp(final Context context, final boolean tag) {
+//        HttpClient.getHttpApi().updataApp().enqueue(new Callback<VersionsEntity>() {
+//            @Override
+//            public void onResponse(Call<VersionsEntity> call, Response<VersionsEntity> response) {
+//                Logger.d(response + "\n" + new Gson().toJson(response.body()));
+//                VersionsEntity versionsEntity = response.body();
+//                if (versionsEntity == null) {
+//                    return;
+//                }
+//                int lowVersion = Integer.parseInt(versionsEntity.getLowVersion());//最低支持版本号
+//                int serverVersion = Integer.parseInt(versionsEntity.getVersion());//服务器版本号
+//                int localVersion = getLocalVersion(context);//应用本地版本号
+//
+//                //提示框
+//                UIData uiData = UIData.create();
+//                uiData.setDownloadUrl(versionsEntity.getFilePath());
+//                uiData.setTitle("更新提示");
+//                uiData.setContent("发现新版本，是否立即更新?");
+//
+//                //初始化
+//                DownloadBuilder builder = AllenVersionChecker
+//                        .getInstance()
+//                        .downloadOnly(uiData)
+//                        .setForceRedownload(true);
+//
+//                //判断是否强制更新(app低于要求的最低版本强制更新)
+//                if (lowVersion > localVersion) {
+//                    builder.setForceUpdateListener(new ForceUpdateListener() {
+//                        @Override
+//                        public void onShouldForceUpdate() {
+//                            Logger.d("强制更新");
+//                        }
+//                    });
+//                    builder.executeMission(context);
+//
+//                } else if (serverVersion > localVersion) { //有版本需要更新
+//                    builder.executeMission(context);
+//
+//                } else {//没有版本更新
+//                    if (tag)//是否提示
+//                        showToast("已是最新版本，无需更新");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<VersionsEntity> call, Throwable t) {
+//                Logger.d(t.getMessage());
+//                if (t instanceof ConnectException) {//网络连接失败
+//                    showToast("网络开小差了，请检查网络");
+//                } else {
+//                    showToast("喔噢~请求失败，请稍后再试");
+//                }
+//            }
+//        });
+//    }
 
     //获取应用版本号
     private static int getLocalVersion(Context context) {

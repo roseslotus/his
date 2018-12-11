@@ -1,20 +1,22 @@
 package com.mylike.his.activity.consultant;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.allenliu.versionchecklib.v2.AllenVersionChecker;
-import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.mylike.his.R;
 import com.mylike.his.activity.LoginActivity;
 import com.mylike.his.core.BaseActivity;
@@ -25,9 +27,9 @@ import com.mylike.his.fragment.consultant.SalesFragment;
 import com.mylike.his.fragment.consultant.StatisticsFragment;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
-import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.BanSlidViewPager;
+import com.pgyersdk.update.PgyUpdateManager;
 
 import java.util.Map;
 
@@ -61,6 +63,8 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
     public static String GO_CHARGE = "go_charge";//跳转收费单
     public static String GO_OA = "go_oa";//跳转OA
     public static String GO_PAYMENT = "go_payment";//跳转支付
+
+    public boolean updataAppTag;//app是否弹无更新提示
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,7 +107,10 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onStart() {
         super.onStart();
-        CommonUtil.updataApp(this, false);
+        updataAppTag = false;
+        onPermissionRequests(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//        CommonUtil.updataApp(this, false);
+//        CommonUtil.updataApp(this);
     }
 
     @Override
@@ -169,7 +176,10 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.update_btn://版本更新
-                CommonUtil.updataApp(CMainActivity.this, true);
+                updataAppTag = true;
+                onPermissionRequests(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//                CommonUtil.updataApp(CMainActivity.this, true);
+//                CommonUtil.updataApp(CMainActivity.this);
                 break;
             case R.id.exit_btn://退出
                 DrawerLayout.closeDrawer(filtrateMenu);
@@ -207,5 +217,37 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PgyUpdateManager.unregister();
+    }
 
+    //检查存储权限
+    public void onPermissionRequests(String permission) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                //权限已有
+                CommonUtil.updataApp(this, updataAppTag);
+            } else {
+                //没有权限，申请一下
+                ActivityCompat.requestPermissions(this, new String[]{permission}, 1);
+            }
+        } else {
+            //权限已有
+            CommonUtil.updataApp(this, updataAppTag);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //权限通过
+                CommonUtil.updataApp(this, updataAppTag);
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }

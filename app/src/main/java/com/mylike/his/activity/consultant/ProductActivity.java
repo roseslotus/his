@@ -565,6 +565,8 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     private void search() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("searchContent", searchEdit.getText().toString());
+        map.put("deptId", departmentId);//科室id
+
 
         HttpClient.getHttpApi().getSearchProduct(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ProductEntity>>() {
             @Override

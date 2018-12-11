@@ -66,7 +66,8 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
         commonAdapter = new CommonAdapter<IpEntiyt>(this, R.layout.item_ip_list, ipEntiytList) {
             @Override
             protected void convert(final ViewHolder viewHolder, final IpEntiyt item, final int position) {
-                viewHolder.setText(R.id.ip_text, item.getIp() + ":" + item.getPort());//ip
+//                viewHolder.setText(R.id.ip_text, item.getIp() + ":" + item.getPort());//ip
+                viewHolder.setText(R.id.ip_text, item.getIpValue());//ip
                 viewHolder.setChecked(R.id.radio_btn, item.isChecked());//单选按钮
                 if (TextUtils.isEmpty(item.getRemark())) {//备注
                     viewHolder.setText(R.id.remark_text, "暂无备注信息");
@@ -126,28 +127,37 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
         } else if (Constant.ISSUE) {
             //---------------为了方便测试用的，正式服请屏蔽代码------------------------------
             IpEntiyt ipEntiyt = new IpEntiyt();
-            ipEntiyt.setIp("172.16.61.222");
-            ipEntiyt.setPort("8280");
-            ipEntiyt.setIpValue("172.16.61.222:8280");
-            ipEntiyt.setChecked(false);
-            ipEntiyt.setRemark("服务器地址");
-            ipEntiytList.add(ipEntiyt);
-
-            ipEntiyt = new IpEntiyt();
-            ipEntiyt.setIp("172.16.61.222");
-            ipEntiyt.setPort("8380");
-            ipEntiyt.setIpValue("172.16.61.222:8380");
-            ipEntiyt.setChecked(false);
-            ipEntiyt.setRemark("服务器地址");
-            ipEntiytList.add(ipEntiyt);
-
-            ipEntiyt = new IpEntiyt();
             ipEntiyt.setIp("172.16.61.242");
             ipEntiyt.setPort("9093");
             ipEntiyt.setIpValue("172.16.61.242:9093");
             ipEntiyt.setChecked(false);
-            ipEntiyt.setRemark("服务器地址");
+            ipEntiyt.setRemark("开发服务器地址");
             ipEntiytList.add(ipEntiyt);
+
+            ipEntiyt = new IpEntiyt();
+            ipEntiyt.setIp("172.16.61.222");
+            ipEntiyt.setPort("8280");
+            ipEntiyt.setIpValue("172.16.61.222:8280");
+            ipEntiyt.setChecked(false);
+            ipEntiyt.setRemark("测试服务器地址");
+            ipEntiytList.add(ipEntiyt);
+
+            ipEntiyt = new IpEntiyt();
+            ipEntiyt.setIp("uat8280.mylikesh.cn");
+            ipEntiyt.setPort("80");
+            ipEntiyt.setIpValue("uat8280.mylikesh.cn:80");
+            ipEntiyt.setChecked(false);
+            ipEntiyt.setRemark("外网测试服务器地址");
+            ipEntiytList.add(ipEntiyt);
+
+            ipEntiyt = new IpEntiyt();
+            ipEntiyt.setIp("crmapp.shmylike.cn");
+            ipEntiyt.setPort("80");
+            ipEntiyt.setIpValue("crmapp.shmylike.cn:80");
+            ipEntiyt.setChecked(false);
+            ipEntiyt.setRemark("外网测试服务器地址");
+            ipEntiytList.add(ipEntiyt);
+
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
             initData();
             //-------------------------------------------------------------------------------------

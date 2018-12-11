@@ -1,7 +1,11 @@
 package com.mylike.his.activity.consultant;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -29,6 +33,7 @@ import com.mylike.his.utils.DataUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.ClearEditText;
+import com.pgyersdk.update.PgyUpdateManager;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -77,6 +82,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     //后台返回的时间，防止手机时间不准确
     private String time;
 
+    public boolean updataAppTag;//app是否弹无更新提示
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setLoadProgress(false);
@@ -92,6 +100,13 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
         initData();
         initView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updataAppTag = false;
+        onPermissionRequests(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     private void initView() {
@@ -177,7 +192,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 DrawerLayout.openDrawer(filtrateMenu);
                 break;
             case R.id.update_btn://版本更新
-                CommonUtil.updataApp(SearchActivity.this, true);
+                updataAppTag = true;
+                onPermissionRequests(Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 break;
             case R.id.exit_btn://退出
                 DrawerLayout.closeDrawer(filtrateMenu);
@@ -232,5 +248,39 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PgyUpdateManager.unregister();
+    }
+
+    //检查存储权限
+    public void onPermissionRequests(String permission) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                //权限已有
+                CommonUtil.updataApp(this, updataAppTag);
+            } else {
+                //没有权限，申请一下
+                ActivityCompat.requestPermissions(this, new String[]{permission}, 1);
+            }
+        } else {
+            //权限已有
+            CommonUtil.updataApp(this, updataAppTag);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //权限通过
+                CommonUtil.updataApp(this, updataAppTag);
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

@@ -31,7 +31,6 @@ import com.mylike.his.entity.IntentionEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
-import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.view.ClearEditText;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -45,15 +44,10 @@ import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -90,6 +84,12 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
     LinearLayout filtrateMenu;
     @BindView(R.id.DrawerLayout)
     android.support.v4.widget.DrawerLayout DrawerLayout;
+    @BindView(R.id.tag_ll)
+    LinearLayout tagLl;
+    @BindView(R.id.money_low)
+    EditText moneyLow;
+    @BindView(R.id.money_high)
+    EditText moneyHigh;
 
     private OptionsPickerView optionsPickerView;
 
@@ -314,6 +314,10 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
         HashMap<String, Object> map = new HashMap<>();
         map.put("selectedValue", selectedValue);//筛选
         map.put("condition", searchEdit.getText().toString());//搜索
+        if (!TextUtils.isEmpty(moneyLow.getText().toString()))//最小金额
+            map.put("amountMin", Double.parseDouble(moneyLow.getText().toString()));
+        if (!TextUtils.isEmpty(moneyHigh.getText().toString()))//最大金额
+            map.put("amountMax", Double.parseDouble(moneyHigh.getText().toString()));
         map.put("pageNumber", pageNumber);
         map.put("pageSize", pageSize);
 
@@ -489,6 +493,8 @@ public class ChargeShowActivity extends BaseActivity implements View.OnClickList
             case R.id.reset_btn://筛选重置
                 selectedMap.clear();
                 selectedValue.clear();
+                moneyLow.setText("");
+                moneyHigh.setText("");
                 commonAdapter1.notifyDataSetChanged();
                 break;
 

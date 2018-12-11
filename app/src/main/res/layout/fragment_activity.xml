@@ -112,7 +112,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/detail_text"
@@ -155,6 +156,19 @@
                     android:paddingRight="10dp" />
             </LinearLayout>
         </LinearLayout>
+
+        <ListView
+            android:id="@+id/product_list"
+            style="@style/ListViewLineBStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/account_ll"
+            android:layout_below="@id/tag_ll"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
+
     </RelativeLayout>
 
 

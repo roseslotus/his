@@ -109,17 +109,86 @@
             android:text="筛选"
             android:textColor="@color/gray_49" />
 
-        <ListView
-            android:id="@+id/filtrate_list"
-            style="@style/ListViewNotLineStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/gray_48" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="20dp">
+
+                <com.mylike.his.view.SListView
+                    android:id="@+id/filtrate_list"
+                    style="@style/ListViewNotLineStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gray_48" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="消费金额范围" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <EditText
+                        android:id="@+id/money_low"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_gray_box_20"
+                        android:gravity="center"
+                        android:hint="最低金额"
+                        android:inputType="number"
+                        android:text=""
+                        android:textColor="@color/black_50"
+                        android:textColorHint="@color/gray_48"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="20dp"
+                        android:layout_height="1px"
+                        android:layout_margin="10dp"
+                        android:background="@color/gray_48" />
+
+                    <EditText
+                        android:id="@+id/money_high"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_gray_box_20"
+                        android:gravity="center"
+                        android:hint="最高金额"
+                        android:inputType="number"
+                        android:textColor="@color/black_50"
+                        android:textColorHint="@color/gray_48"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"

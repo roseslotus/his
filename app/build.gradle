@@ -6,8 +6,8 @@ android {
         applicationId "com.mylike.his"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 12
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //注解处理器必须明确声明
@@ -91,6 +91,8 @@ dependencies {
 
     //版本更新
     implementation 'com.allenliu.versionchecklib:library:2.1.1'
+    //蒲公英sdk
+    implementation 'com.pgyersdk:sdk:2.8.1'
 
     //事件传输
     implementation 'org.greenrobot:eventbus:3.0.0'

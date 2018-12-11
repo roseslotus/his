@@ -3,7 +3,9 @@ package com.mylike.his.fragment.consultant;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.mylike.his.R;
+import com.mylike.his.activity.consultant.ProductActivity;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.entity.ProductChildrenEntity;
 import com.mylike.his.entity.ProductDetailsEntity;
@@ -23,7 +26,6 @@ import com.mylike.his.entity.ProductEntity;
 import com.mylike.his.entity.ProductsThreeLevelEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
-import com.mylike.his.utils.SPUtils;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -70,16 +72,24 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
     TextView detailText;
 
     Unbinder unbinder;
+    @BindView(R.id.tag_ll)
+    LinearLayout tagLl;
+    @BindView(R.id.product_list)
+    ListView productList;
 
     private PopupWindow projectPW;
     private String typeValue = "COMBO";
 
     private CommonAdapter commonAdapter;
     private CommonAdapter commonAdapter2;
+    private CommonAdapter commonAdapter3;
+
 
     ProductsThreeLevelEntity productsThreeLevel = new ProductsThreeLevelEntity();//头部数据（包括左侧数据）
     List<ProductChildrenEntity> productChildrenEntities = new ArrayList<>();//左侧菜单数据
     private List<ProductDetailsEntity> productDetailsEntityList = new ArrayList<>();//右侧菜单数据
+    private List<ProductEntity> productEntityList = new ArrayList<>();//搜索出来的产品数据
+
 
     public static ActivityFragment newInstance() {
         Bundle args = new Bundle();
@@ -147,6 +157,45 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
             }
         };
         sublevelList.setAdapter(commonAdapter2);
+
+        //搜索产品适配器
+        commonAdapter3 = new CommonAdapter<ProductEntity>(getActivity(), R.layout.item_product_details_list, productEntityList) {
+            @Override
+            protected void convert(ViewHolder viewHolder, ProductEntity item, int position) {
+                viewHolder.setVisible(R.id.add_img, false);
+                switch (item.getType()) {
+                    case "COMBO"://套餐
+                        viewHolder.setText(R.id.product_name, "[套餐] " + item.getPname());
+                        break;
+                    case "SUBJECT"://产品
+                        viewHolder.setText(R.id.product_name, "[产品] " + item.getPname());
+                        break;
+                    case "MINUTIA"://细目
+                        viewHolder.setText(R.id.product_name, "[细目] " + item.getPname());
+                        break;
+                }
+                viewHolder.setText(R.id.money_text, item.getPrice() != null ? item.getPrice().toString() : "0");
+            }
+        };
+        productList.setAdapter(commonAdapter3);
+        searchEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (TextUtils.isEmpty(editable.toString())) {
+                    productList.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
 
@@ -315,6 +364,25 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
         HttpClient.getHttpApi().getSearchProduct(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ProductEntity>>() {
             @Override
             protected void onSuccess(List<ProductEntity> productEntities) {
+                productList.setVisibility(View.VISIBLE);
+                productEntityList.clear();
+                productEntityList.addAll(productEntities);
+                commonAdapter3.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+            }
+        });
+    }
+
+   /* private void search() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("searchContent", searchEdit.getText().toString());
+
+        HttpClient.getHttpApi().getSearchProduct(HttpClient.getRequestBody(map)).enqueue(new BaseBack<List<ProductEntity>>() {
+            @Override
+            protected void onSuccess(List<ProductEntity> productEntities) {
                 productDetailsEntityList.clear();
                 ProductDetailsEntity productDetailsEntity;
                 for (ProductEntity productEntity : productEntities) {
@@ -352,7 +420,7 @@ public class ActivityFragment extends BaseFragment implements View.OnClickListen
             protected void onFailed(String code, String msg) {
             }
         });
-    }
+    }*/
 
     @Override
     public void onDestroyView() {

@@ -40,7 +40,7 @@
             android:inputType="textVisiblePassword"
             android:padding="10dp"
             android:paddingLeft="10dp"
-            android:text="hm_zzx"
+            android:text="sh010098"
             android:textColor="@color/green_50"
             android:textColorHint="@color/gray_50"
             android:textCursorDrawable="@null"

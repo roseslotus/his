@@ -120,7 +120,7 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
                 @Override
                 public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
                     Map<String, String> map = response.body();
-                    if (map.get("code").equals("1000")) {//成功
+                    if (map != null && map.get("code").equals("1000")) {//成功
                         //设置值
                         ipEntiyt.setIp(ipStr);
                         ipEntiyt.setPort(portStr);
@@ -135,7 +135,7 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
                         finish();
                     } else {//失败
                         CommonUtil.dismissLoadProgress();
-                        CommonUtil.showToast(map.get("msg"));
+                        CommonUtil.showToast("ip或端口错误，请查正后再输入");
                     }
                 }
 

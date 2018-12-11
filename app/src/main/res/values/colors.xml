@@ -3,7 +3,8 @@
     <color name="tm">#00000000</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorAccent">#00B6B9</color>
 
     <color name="theme_color">#00B6B9</color>
 
