@@ -420,8 +420,8 @@ public class ShoppingCartActivity extends BaseActivity implements View.OnClickLi
                     commonAdapter.notifyDataSetChanged();
                 }
                 for (ProductDetailsEntity pde : accountList) {
-                    pde.setPrice1(CommonUtil.setTwoNumber(Double.parseDouble(pde.getPrice())));
-                    pde.setPrice2(CommonUtil.setTwoNumber(Double.parseDouble(pde.getPrice1()) / Integer.parseInt(pde.getCount())));
+                    pde.setPrice2(CommonUtil.setTwoNumber(Double.parseDouble(pde.getPrice())));
+                    pde.setPrice1(CommonUtil.setTwoNumber(Double.parseDouble(pde.getPrice2()) * Integer.parseInt(pde.getCount())));
                     pde.setDiscount(CommonUtil.setTwoNumber("1"));
                 }
                 discountCouponEntity = null;

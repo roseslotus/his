@@ -533,6 +533,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
                             List<PackageEntity.product> list = new ArrayList<>();
                             for (ChargeUserInfoEntity.PInfo pInfo2 : pInfo.getProduct()) {
                                 product = new PackageEntity.product();
+                                product.setProductid(pInfo2.getFprojectid());
                                 product.setPname(pInfo2.getCfprojectname());//产品名
                                 product.setNum(pInfo2.getCfnumbers());//数量
                                 product.setPrice(pInfo2.getFproductprice());//原价

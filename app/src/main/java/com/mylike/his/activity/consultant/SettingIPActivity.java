@@ -66,7 +66,6 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
         commonAdapter = new CommonAdapter<IpEntiyt>(this, R.layout.item_ip_list, ipEntiytList) {
             @Override
             protected void convert(final ViewHolder viewHolder, final IpEntiyt item, final int position) {
-//                viewHolder.setText(R.id.ip_text, item.getIp() + ":" + item.getPort());//ip
                 viewHolder.setText(R.id.ip_text, item.getIpValue());//ip
                 viewHolder.setChecked(R.id.radio_btn, item.isChecked());//单选按钮
                 if (TextUtils.isEmpty(item.getRemark())) {//备注
@@ -105,7 +104,7 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
                 viewHolder.setOnClickListener(R.id.btnDelete, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ipValue = "";
+                        ipValue = "";//如果有选中，notifyDataSetChanged时ipValue会重新赋值上
                         ipEntiytList.remove(position);
                         SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
                         commonAdapter.notifyDataSetChanged();
@@ -117,16 +116,33 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
         ipList.setAdapter(commonAdapter);
     }
 
-    private void initData() {
+    public void initData() {
         String json = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_List);
-        if (!TextUtils.isEmpty(json)) {
+        IpEntiyt ipEntiyt = new IpEntiyt();
+        if (!TextUtils.isEmpty(json)) {//如果数据不为空，加载数据
             ipEntiytList.clear();
             ipEntiytList.addAll((Collection<? extends IpEntiyt>) gson.fromJson(json, new TypeToken<List<IpEntiyt>>() {
             }.getType()));
             commonAdapter.notifyDataSetChanged();
-        } else if (Constant.ISSUE) {
-            //---------------为了方便测试用的，正式服请屏蔽代码------------------------------
-            IpEntiyt ipEntiyt = new IpEntiyt();
+        } else if (!Constant.ISSUE) {//第一次安装，正式版发布时预存正式服务器
+            //只有一个正式服时默认选中
+            /*ipEntiyt.setIp("hisapp.shmylike.cn");
+            ipEntiyt.setPort("80");
+            ipEntiyt.setIpValue("hisapp.shmylike.cn:80");
+            ipEntiyt.setChecked(true);
+            ipEntiyt.setRemark("上海美莱服务器");*/
+
+            ipEntiyt.setIp("172.16.61.222");
+            ipEntiyt.setPort("8280");
+            ipEntiyt.setIpValue("172.16.61.222:8280");
+            ipEntiyt.setChecked(true);
+            ipEntiyt.setRemark("内网测试服务器");
+            ipEntiytList.add(ipEntiyt);
+
+            SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipEntiyt.getIpValue());
+            RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipEntiyt.getIpValue());
+            SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
+        } else if (Constant.ISSUE) {//第一次安装，测试版发布时预存测试服务器
             ipEntiyt.setIp("172.16.61.242");
             ipEntiyt.setPort("9093");
             ipEntiyt.setIpValue("172.16.61.242:9093");
@@ -139,7 +155,7 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             ipEntiyt.setPort("8280");
             ipEntiyt.setIpValue("172.16.61.222:8280");
             ipEntiyt.setChecked(false);
-            ipEntiyt.setRemark("测试服务器地址");
+            ipEntiyt.setRemark("内网测试服务器");
             ipEntiytList.add(ipEntiyt);
 
             ipEntiyt = new IpEntiyt();
@@ -147,7 +163,7 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             ipEntiyt.setPort("80");
             ipEntiyt.setIpValue("uat8280.mylikesh.cn:80");
             ipEntiyt.setChecked(false);
-            ipEntiyt.setRemark("外网测试服务器地址");
+            ipEntiyt.setRemark("外网测试服务器");
             ipEntiytList.add(ipEntiyt);
 
             ipEntiyt = new IpEntiyt();
@@ -155,12 +171,10 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             ipEntiyt.setPort("80");
             ipEntiyt.setIpValue("crmapp.shmylike.cn:80");
             ipEntiyt.setChecked(false);
-            ipEntiyt.setRemark("外网测试服务器地址");
+            ipEntiyt.setRemark("试运行服务器");
             ipEntiytList.add(ipEntiyt);
 
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
-            initData();
-            //-------------------------------------------------------------------------------------
         }
     }
 
@@ -168,7 +182,7 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.save_btn:
+            case R.id.save_btn://保存
                 if (!TextUtils.isEmpty(ipValue)) {
                     SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipValue);
                     RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipValue);
@@ -183,12 +197,32 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
                 }
                 finish();
                 break;
-            case R.id.add_btn:
+            case R.id.add_btn://添加
                 startActivity(AddIPActivity.class);
                 break;
-            case R.id.return_btn:
+            case R.id.return_btn://返回
+                if (TextUtils.isEmpty(ipValue)) {
+                    SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, "");
+                }
+
+                if (ipEntiytList.isEmpty()) {
+                    SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, "");
+                }
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (TextUtils.isEmpty(ipValue)) {
+            SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, "");
+        }
+
+        if (ipEntiytList.isEmpty()) {
+            SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, "");
+        }
+        finish();
     }
 }

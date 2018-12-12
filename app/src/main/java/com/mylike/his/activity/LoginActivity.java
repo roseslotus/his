@@ -84,6 +84,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         } else {//token为空初始登录界面
             initView();
+
         }
     }
 
@@ -99,6 +100,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         //编辑框有内容是更改左边图标
         setDrawableleft(accountEdit, getResources().getDrawable(R.mipmap.account_icon_true), getResources().getDrawable(R.mipmap.account_icon_false));
         setDrawableleft(passwordEdit, getResources().getDrawable(R.mipmap.password_icon_true), getResources().getDrawable(R.mipmap.password_icon_false));
+
+        //初始化ip地址
+        String json = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_List);//地址列表为空
+        if (TextUtils.isEmpty(json)) {
+            SettingIPActivity settingIPActivity = new SettingIPActivity();
+            settingIPActivity.initData();
+        }
     }
 
 

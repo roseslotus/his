@@ -70,7 +70,8 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+
+
     public boolean dispatchTouchEvent(MotionEvent ev) {
         //监控触摸事件，点击文本框外部收起键盘
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
