@@ -131,7 +131,12 @@ public class VisitDetailsActivity extends BaseActivity implements View.OnClickLi
                 }
                 nameText.setText(visitInfoEntity.getCustomerName());//客户名称
                 phoneText.setText(visitInfoEntity.getCustomerPhone());//客户手机号
-                cardText.setText(visitInfoEntity.getCardName());
+                if (TextUtils.isEmpty(visitInfoEntity.getCardName())) {
+                    cardText.setVisibility(View.GONE);
+                } else {
+                    cardText.setVisibility(View.VISIBLE);
+                    cardText.setText(visitInfoEntity.getCardName());
+                }
 
                 if (TextUtils.isEmpty(visitInfoEntity.getWx())) {
                     copyBtn.setVisibility(View.GONE);
@@ -144,7 +149,7 @@ public class VisitDetailsActivity extends BaseActivity implements View.OnClickLi
 
                     visitNameTv.setText(visitInfoEntity.getKeyWord());//回访名称
                     gradeTv.setText(visitInfoEntity.getTaskLevel());//回访等级
-                    timeTv.setText(visitInfoEntity.getPlanTime().substring(0, 11));//计划时间
+                    timeTv.setText(TextUtils.isEmpty(visitInfoEntity.getPlanTime()) ? "暂无" : visitInfoEntity.getPlanTime().substring(0, 11));//计划时间
                     typeTv.setText(visitInfoEntity.getObType());//回访类型
                     nodeTv.setText(visitInfoEntity.getInvokeNode());//触发节点
                     purposeTv.setText(visitInfoEntity.getVisitAims());//回访目的

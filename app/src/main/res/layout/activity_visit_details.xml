@@ -78,9 +78,9 @@
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:paddingTop="2dp"
-                android:text="金卡"
                 android:textColor="@color/orange_40" />
         </RelativeLayout>
+
 
         <LinearLayout
             android:id="@+id/visit_not_ll"
@@ -112,15 +112,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="回访等级："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/grade_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="A级"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -129,20 +128,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="计划时间："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/time_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="A级"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -151,20 +149,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="回访类型："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/type_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="A级"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -173,20 +170,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="触发节点："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/node_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="A级"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -195,20 +191,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="回访目的："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/purpose_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="A级"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -217,20 +212,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="回访要求："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/require_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="A级"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -239,12 +233,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="微信号："
                     android:textColor="@color/gray_50" />
 
@@ -252,6 +245,8 @@
                     android:id="@+id/wx_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
                 <TextView
@@ -264,12 +259,12 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+              <LinearLayout
             android:id="@+id/visit_has_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tag_rl"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:background="@drawable/bg_white_box_10"
             android:orientation="vertical"
             android:padding="15dp"
@@ -294,14 +289,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="回访日期："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/time_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -310,19 +305,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="回访类型："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/type_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -331,19 +326,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="回访结果："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/result_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -352,19 +347,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="回访反馈："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/feedback_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
             </LinearLayout>
@@ -373,19 +368,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="短信内容："
                     android:textColor="@color/gray_50" />
 
                 <TextView
                     android:id="@+id/note_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
             </LinearLayout>
 
@@ -393,12 +388,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="10dp">
+                android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="微信号："
                     android:textColor="@color/gray_50" />
 
@@ -406,6 +400,8 @@
                     android:id="@+id/wx_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
                     android:textColor="@color/black_50" />
 
                 <TextView

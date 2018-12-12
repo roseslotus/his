@@ -43,6 +43,7 @@ import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.SPUtils;
 import com.mylike.his.utils.ViewUtil;
 import com.mylike.his.view.SListView;
+import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -163,6 +164,8 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
     private DiscountCouponEntity discountCouponEntity;
     private String zxsid;
     private String chargeTag;//是否读取暂存数据，如果为空，则是新单；
+
+    private boolean oneTag = false;//标识第一次走意向选项
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -386,7 +389,12 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener,
         intentionText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                intentionId = userIntentionEntityList.get(i).getId();
+                if (oneTag) {
+                    intentionId = userIntentionEntityList.get(i).getId();
+                    Logger.d(intentionId);
+                } else {
+                    oneTag = true;
+                }
             }
 
             @Override

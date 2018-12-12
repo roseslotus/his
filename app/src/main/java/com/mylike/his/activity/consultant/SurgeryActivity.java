@@ -185,9 +185,9 @@ public class SurgeryActivity extends BaseActivity implements View.OnClickListene
                         String str = "";
                         for (int i : selectPosSet) {
                             if (str.isEmpty())
-                                str += item.getList().get(i).getId();
+                                str += item.getList().get(i).getValue();
                             else
-                                str += "," + item.getList().get(i).getId();
+                                str += "," + item.getList().get(i).getValue();
                         }
                         selectedValue.put(item.getId(), str);
                     }

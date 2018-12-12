@@ -3,6 +3,7 @@ package com.mylike.his.fragment.consultant;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +98,7 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
                         viewHolder.setText(R.id.name_text, item.getCustomerName());
                         viewHolder.setText(R.id.visit_name_text, item.getTaskKeyWord());
                         viewHolder.setText(R.id.visit_type_text, item.getObType());
-                        viewHolder.setText(R.id.time_text, item.getPlanTime().substring(0, 11));
+                        viewHolder.setText(R.id.time_text, TextUtils.isEmpty(item.getPlanTime()) ? "暂无" : item.getPlanTime().substring(0, 11));
                     }
                 };
             } else {//已回访
@@ -108,8 +109,8 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
                         viewHolder.setText(R.id.name_text, item.getCustomerName());
                         viewHolder.setText(R.id.visit_name_text, item.getTaskKeyWord());
                         viewHolder.setText(R.id.visit_type_text, item.getObType());
-                        viewHolder.setText(R.id.time_not_text, item.getPlanTime().substring(0, 11));
-                        viewHolder.setText(R.id.time_has_text, item.getVisitTime().substring(0, 11));
+                        viewHolder.setText(R.id.time_not_text, TextUtils.isEmpty(item.getPlanTime()) ? "暂无" : item.getPlanTime().substring(0, 11));
+                        viewHolder.setText(R.id.time_has_text, TextUtils.isEmpty(item.getVisitTime()) ? "暂无" : item.getVisitTime().substring(0, 11));
                     }
                 };
             }
@@ -144,15 +145,19 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
         HttpClient.getHttpApi().getVisitList(HttpClient.getRequestBody(map)).enqueue(new BaseBack<BasePageEntity<VisitEntity>>() {
             @Override
             protected void onSuccess(BasePageEntity<VisitEntity> visitEntityBasePageEntity) {
-                sumPage = visitEntityBasePageEntity.getTotalPages();
-                if (sumPage == pageNumber) {
-                    refreshLayout.setNoMoreData(true);
+                try {
+                    sumPage = visitEntityBasePageEntity.getPages();
+                    if (sumPage == pageNumber) {
+                        refreshLayout.setNoMoreData(true);
+                    }
+                    if (pageNumber == 1)
+                        listAll.clear();
+                    listAll.addAll(visitEntityBasePageEntity.getList());
+                    commonAdapter.notifyDataSetChanged();
+                    refreshLayout.finishRefresh();
+                    refreshLayout.finishLoadMore();
+                } catch (Exception e) {
                 }
-                listAll.clear();
-                listAll.addAll(visitEntityBasePageEntity.getList());
-                commonAdapter.notifyDataSetChanged();
-                refreshLayout.finishRefresh();
-                refreshLayout.finishLoadMore();
             }
 
             @Override
@@ -166,7 +171,6 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         pageNumber = 1;
-        listAll.clear();
         initData();
     }
 
@@ -191,6 +195,8 @@ public class VisitFragment extends BaseFragment implements OnRefreshListener, On
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updataData(VisitCDEntity visitCDEntity) {
         this.visitCDEntity = visitCDEntity;
+        refreshLayout.setNoMoreData(false);
+        pageNumber = 1;
         initData();
     }
 }

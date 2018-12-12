@@ -101,7 +101,6 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
         vpContent.setAdapter(new PagerAdapter(getSupportFragmentManager()));
         tbTitle.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpContent));
         vpContent.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tbTitle));
-
     }
 
     @Override

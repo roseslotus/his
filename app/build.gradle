@@ -6,8 +6,8 @@ android {
         applicationId "com.mylike.his"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 7
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //注解处理器必须明确声明
