@@ -251,6 +251,7 @@
             android:value="f6fe2730d2bd33cf2c15abf1" /> <!--值来自开发者平台取得的AppKey-->
         <!--蒲公英key-->
         <!--测试 836e582b9f505db2f589c2e84b02be70-->
+        <!--正式 b2e9ee28384036243a3cdb76a2d079a1-->
         <meta-data
             android:name="PGYER_APPID"
             android:value="836e582b9f505db2f589c2e84b02be70"></meta-data>
