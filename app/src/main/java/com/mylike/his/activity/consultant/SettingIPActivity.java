@@ -126,23 +126,32 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             commonAdapter.notifyDataSetChanged();
         } else if (!Constant.ISSUE) {//第一次安装，正式版发布时预存正式服务器
             //只有一个正式服时默认选中
-            /*ipEntiyt.setIp("hisapp.shmylike.cn");
+            ipEntiyt.setIp("hisapp.shmylike.cn");
             ipEntiyt.setPort("80");
             ipEntiyt.setIpValue("hisapp.shmylike.cn:80");
             ipEntiyt.setChecked(true);
-            ipEntiyt.setRemark("上海美莱服务器");*/
+            ipEntiyt.setRemark("上海美莱服务器");
+            ipEntiytList.add(ipEntiyt);
 
-            ipEntiyt.setIp("172.16.61.222");
+
+            /*ipEntiyt.setIp("172.16.61.222");
             ipEntiyt.setPort("8280");
             ipEntiyt.setIpValue("172.16.61.222:8280");
             ipEntiyt.setChecked(true);
-            ipEntiyt.setRemark("内网测试服务器");
-            ipEntiytList.add(ipEntiyt);
+            ipEntiyt.setRemark("内网测试服务器");*/
 
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipEntiyt.getIpValue());
             RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipEntiyt.getIpValue());
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
         } else if (Constant.ISSUE) {//第一次安装，测试版发布时预存测试服务器
+            ipEntiyt.setIp("crmuat.shmylike.cn");
+            ipEntiyt.setPort("80");
+            ipEntiyt.setIpValue("crmuat.shmylike.cn");
+            ipEntiyt.setChecked(true);
+            ipEntiyt.setRemark("开发服务器地址");
+            ipEntiytList.add(ipEntiyt);
+
+            /*ipEntiyt = new IpEntiyt();
             ipEntiyt.setIp("172.16.61.242");
             ipEntiyt.setPort("9093");
             ipEntiyt.setIpValue("172.16.61.242:9093");
@@ -171,9 +180,11 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             ipEntiyt.setPort("80");
             ipEntiyt.setIpValue("crmapp.shmylike.cn:80");
             ipEntiyt.setChecked(false);
-            ipEntiyt.setRemark("试运行服务器");
-            ipEntiytList.add(ipEntiyt);
+            ipEntiyt.setRemark("试运行外网服务器");
+            ipEntiytList.add(ipEntiyt);*/
 
+            SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipEntiyt.getIpValue());
+            RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipEntiyt.getIpValue());
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
         }
     }

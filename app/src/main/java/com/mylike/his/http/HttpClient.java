@@ -3,7 +3,6 @@ package com.mylike.his.http;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.mylike.his.entity.IpEntiyt;
 import com.mylike.his.utils.SPUtils;
 import com.orhanobut.logger.Logger;
 
@@ -13,18 +12,17 @@ import java.util.concurrent.TimeUnit;
 
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpClient {
     private static String ip = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);//选中的ip
-    private static String BASE_URL = "http://" + ip + "/mylike-crm/";
+    private static String BASE_URL = "http://" + ip + "/mylike-crm/";//统一地址
     private static ServersApi serversApi;
 
     public static ServersApi getHttpApi() {
@@ -38,7 +36,7 @@ public class HttpClient {
             OkHttpClient.Builder httpClientBuiler = RetrofitUrlManager.getInstance().with(new OkHttpClient.Builder());
 
             //设置超时时间
-            httpClientBuiler.connectTimeout(10, TimeUnit.SECONDS);//连接超时,3秒
+            httpClientBuiler.connectTimeout(5, TimeUnit.SECONDS);//连接超时,5秒
             httpClientBuiler.readTimeout(30, TimeUnit.SECONDS);//读取数据超时，30秒
 
             //对所有请求添加请求头
@@ -74,11 +72,11 @@ public class HttpClient {
     public static RequestBody getRequestBody(Map<String, Object> map) {
         Gson gson = new Gson();
         String jsonStr = gson.toJson(map);
-        Logger.d(jsonStr);
+        Logger.d(jsonStr);//打印map数据日志
         return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonStr);
     }
 
-    //对象
+    //对象参数请求数据
     public static RequestBody getRequestBody(Object o) {
         Gson gson = new Gson();
         String jsonStr = gson.toJson(o);
@@ -86,4 +84,20 @@ public class HttpClient {
         return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), jsonStr);
     }
 
+
+  /*  public static void aa() {
+        Call call = new BaseBack<TokenEntity>() {
+            @Override
+            protected void onSuccess(TokenEntity tokenEntity) {
+                LoginActivity.this.tokenEntity = tokenEntity;
+                verifyJob(tokenEntity.getSpecial_role());// 角色判断/选择
+            }
+
+            @Override
+            protected void onFailed(String code, String msg) {
+            }
+        }
+    }*/
+
 }
+

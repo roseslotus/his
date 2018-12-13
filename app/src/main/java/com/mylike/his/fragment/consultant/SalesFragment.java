@@ -457,14 +457,17 @@ public class SalesFragment extends BaseFragment implements View.OnClickListener,
                     EndCreatetime = receptionEntity.getEndCreatetime();
                     EndCreatetimeQ = receptionEntity.getEndCreatetimeQ();
 
-                    if (TextUtils.isEmpty(DateLvel))//后台需要空数据，如果空数据赋值为1；
+                    //后台需要空数据，如果空数据赋值为1；
+                    if (TextUtils.isEmpty(DateLvel)) {
                         DateLvel = "1";
+                        listAll.clear();
+                    }
 
-                    if (pageNumber == 1) {
+                    /*if (pageNumber == 1) {
                         if (textView.getVisibility() != View.VISIBLE) {
                             listAll.clear();
                         }
-                    }
+                    }*/
                     //判断是否显示页脚
                     if (receptionEntity.getNextLevel().equals(DateLvel)) {
                         textView.setVisibility(View.GONE);

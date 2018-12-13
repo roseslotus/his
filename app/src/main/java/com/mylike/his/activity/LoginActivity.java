@@ -1,9 +1,13 @@
 package com.mylike.his.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -36,6 +40,7 @@ import com.zhy.adapter.abslistview.ViewHolder;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,6 +73,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         ButterKnife.bind(this);
 
         jumpActivity();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        onPermissionRequests(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     //判断跳转界面
@@ -169,34 +180,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     //用户角色权限验证
-    private void verifyJob(final List<String> job) {
+    private void verifyJob(final List<Map<String, String>> job) {
         if (job.isEmpty()) {
             CommonUtil.showToast("未检查出匹配的权限");
         } else {
             if (job.size() > 1) {//用户角色多余1个，就弹框选择跳转
                 View itemView = DialogUtil.commomDialog(LoginActivity.this, R.layout.dialog_job, DialogUtil.CENTER);
                 ListView listView = itemView.findViewById(R.id.job_list);
-                listView.setAdapter(new CommonAdapter<String>(LoginActivity.this, R.layout.common_item_text, job) {
+                listView.setAdapter(new CommonAdapter<Map<String, String>>(LoginActivity.this, R.layout.common_item_text, job) {
                     @Override
-                    protected void convert(ViewHolder viewHolder, String item, int position) {
+                    protected void convert(ViewHolder viewHolder, Map<String, String> item, int position) {
                         TextView textView = viewHolder.getView(R.id.text);
                         textView.setPadding(40, 40, 40, 40);
-
-                        if (Constant.JOB_XC_COUNSELOR.equals(item)) {//现场咨询师
-                            textView.setText("现场咨询师");
-                        } else if (Constant.JOB_WD_COUNSELOR.equals(item)) {//网电咨询师
-                            textView.setText("网电咨询师");
-                        }
+                        textView.setText(item.get("name"));
                     }
+
                 });
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        judgeJob(job.get(i), true);
+                        judgeJob(job.get(i).get("id"), true);
                     }
                 });
             } else {//角色只有一个时直接跳转
-                judgeJob(job.get(0), true);
+                judgeJob(job.get(0).get("id"), true);
             }
         }
     }
@@ -224,6 +231,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(CMainActivity.class);
                 break;
             case Constant.JOB_WD_COUNSELOR://网电咨询师
+                startActivity(SearchActivity.class, "tag", Constant.JOB_WD_COUNSELOR);
+                break;
+            default:
+                //3 社交咨询，4 电商咨询，5 线下合作咨询，6 传统媒体咨询
+                //3456角色权限和网电咨询师权限操作一致，在角色操作有变更之前都跳建档
                 startActivity(SearchActivity.class, "tag", Constant.JOB_WD_COUNSELOR);
                 break;
         }
@@ -259,5 +271,33 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void afterTextChanged(Editable s) {
             }
         });
+    }
+
+    //检查存储权限
+    public void onPermissionRequests(String permission) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                //权限已有
+                CommonUtil.updataApp(this, false);
+            } else {
+                //没有权限，申请一下
+                ActivityCompat.requestPermissions(this, new String[]{permission}, 1);
+            }
+        } else {
+            //权限已有
+            CommonUtil.updataApp(this, false);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //权限通过
+                CommonUtil.updataApp(this, false);
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
