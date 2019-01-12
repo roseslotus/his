@@ -78,10 +78,10 @@ public class CMainActivity extends BaseActivity implements View.OnClickListener 
         //禁止筛选侧滑动
         DrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        if (TextUtils.isEmpty(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))) {
-            startActivity(LoginActivity.class);
-            finish();
-        }
+//        if (TextUtils.isEmpty(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))) {
+//            startActivity(LoginActivity.class);
+//            finish();
+//        }
 
         if (!TextUtils.isEmpty(getIntent().getStringExtra(GO_CHARGE))) {//跳转收费单
             startActivity(ChargeShowActivity.class);

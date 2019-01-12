@@ -3,6 +3,7 @@ package com.mylike.his.http;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.mylike.his.utils.LogInterceptor;
 import com.mylike.his.utils.SPUtils;
 import com.orhanobut.logger.Logger;
 
@@ -30,6 +31,7 @@ public class HttpClient {
         if (TextUtils.isEmpty(ip)) {
             BASE_URL = "http://172.16.61.222:8280/mylike-crm/";
         }
+        BASE_URL = "https://api.mylikesh.cn/his-api/";
         if (serversApi == null) {
             //OkHttpClient.Builder httpClientBuiler = new OkHttpClient.Builder();
             //初始化请求头（满足ip变更后统一修改的需求）
@@ -40,24 +42,25 @@ public class HttpClient {
             httpClientBuiler.readTimeout(30, TimeUnit.SECONDS);//读取数据超时，30秒
 
             //对所有请求添加请求头
-            httpClientBuiler.addInterceptor(new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
-                    Request originalRequest = chain.request();
-
-                    //表示第一次登陆还没拉取过token
-                    if (TextUtils.isEmpty(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))) {
-                        return chain.proceed(originalRequest.newBuilder().header("Content-type", "application/json;charset=UTF-8").build());//执行登陆的操作
-                    }
-
-                    Request authorised = originalRequest.newBuilder()
-                            .header("Content-type", "application/json;charset=UTF-8")
-                            .header("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))
-                            .build();
-                    Response response = chain.proceed(authorised);//执行此次请求
-                    return response;
-                }
-            });
+            httpClientBuiler.addInterceptor(new LogInterceptor());
+//                    new Interceptor() {
+//                @Override
+//                public okhttp3.Response intercept(Chain chain) throws IOException {
+//                    Request originalRequest = chain.request();
+//
+//                    //表示第一次登陆还没拉取过token
+//                    if (TextUtils.isEmpty(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))) {
+//                        return chain.proceed(originalRequest.newBuilder().header("Content-type", "application/json;charset=UTF-8").build());//执行登陆的操作
+//                    }
+//
+//                    Request authorised = originalRequest.newBuilder()
+//                            .header("Content-type", "application/json;charset=UTF-8")
+//                            .header("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))
+//                            .build();
+//                    Response response = chain.proceed(authorised);//执行此次请求
+//                    return response;
+//                }
+//            });
 
             serversApi = new Retrofit.Builder()
                     .client(httpClientBuiler.build())

@@ -96,5 +96,6 @@ dependencies {
 
     //事件传输
     implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.7heaven.widgets:segmentcontrol:1.16'
 
 }

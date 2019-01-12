@@ -208,6 +208,9 @@ public class CommonUtil {
     //-------------------------------------------------------App检查更新-------------------------------------------------------
 
     public static void updataApp(final Activity activity, final boolean tag) {
+        if (true){
+            return;
+        }
         PgyUpdateManager.setIsForced(true);
         PgyUpdateManager.register(activity, new UpdateManagerListener() {
             @Override

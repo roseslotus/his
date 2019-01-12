@@ -9,6 +9,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.mylike.his.R;
+import com.mylike.his.activity.LoginActivity;
+import com.mylike.his.entity.DepartmentBean;
+import com.mylike.his.entity.LoginEntity;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.LogStrategy;
@@ -27,6 +30,7 @@ import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.jar.Attributes;
 
 import cn.jpush.android.api.JPushInterface;
@@ -38,6 +42,21 @@ import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
  */
 public class BaseApplication extends Application {
     private static Context context;
+    public static LoginEntity mLoginEntity;
+
+    public static LoginEntity getLoginEntity(){
+        if (mLoginEntity==null){
+            mLoginEntity = new LoginEntity();
+            mLoginEntity.setDepartments(new ArrayList<DepartmentBean>());
+        }
+
+        return mLoginEntity;
+    }
+
+    public static void setLoginEntity(LoginEntity loginEntity){
+        mLoginEntity = loginEntity;
+    }
+
 
 
     @Override

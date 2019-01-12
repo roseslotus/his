@@ -37,6 +37,7 @@ public class BaseActivity extends AppCompatActivity {
     private boolean isFloatingDragger = false;//是否显示悬浮球
     private boolean isStatusBarColor = true;//是否更改状态栏颜色
 
+
     //列表页脚
     private TextView textView;
 

@@ -2,6 +2,7 @@ package com.mylike.his.http;
 
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mylike.his.activity.consultant.CMainActivity;
@@ -25,7 +26,7 @@ public abstract class BaseBack<T> implements Callback<BaseEntity<T>> {
 
     @Override
     public void onResponse(Call<BaseEntity<T>> call, Response<BaseEntity<T>> response) {
-        Logger.d(response + "\n" + new Gson().toJson(response.body()));
+        Log.i(this.getClass().getSimpleName(),response + "\n" + new Gson().toJson(response.body()));
         BaseEntity<T> baseEntity = response.body();
         if (response.isSuccessful() && baseEntity != null) {
             if (baseEntity.getCode().equals("1000")) {//成功

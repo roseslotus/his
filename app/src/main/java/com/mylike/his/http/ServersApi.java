@@ -1,6 +1,7 @@
 package com.mylike.his.http;
 
 import com.mylike.his.entity.BaseEntity;
+import com.mylike.his.entity.BaseNewEntity;
 import com.mylike.his.entity.BasePageEntity;
 import com.mylike.his.entity.BookbuildingEntity;
 import com.mylike.his.entity.ChargeDateilsEntity;
@@ -11,6 +12,8 @@ import com.mylike.his.entity.ChargeUserInfoEntity;
 import com.mylike.his.entity.ClientEntity;
 import com.mylike.his.entity.ConsumeDDEntity;
 import com.mylike.his.entity.CreatorEntity;
+import com.mylike.his.entity.DaiZhenResp;
+import com.mylike.his.entity.DepCountEntity;
 import com.mylike.his.entity.DepartmentDEntity;
 import com.mylike.his.entity.DepartmentDoctorEntity;
 import com.mylike.his.entity.DepartmentEntity;
@@ -20,6 +23,7 @@ import com.mylike.his.entity.DoctorEntity;
 import com.mylike.his.entity.HDepositEntity;
 import com.mylike.his.entity.HospitalAppointmentEntity;
 import com.mylike.his.entity.IntentionEntity;
+import com.mylike.his.entity.LoginResp;
 import com.mylike.his.entity.MessageEntity;
 import com.mylike.his.entity.MessageTypeEntity;
 import com.mylike.his.entity.PackageEntity;
@@ -54,7 +58,10 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
@@ -308,4 +315,31 @@ public interface ServersApi {
     @POST("api/activity/matchActiveProduct.do")
     Call<BaseEntity<DiscountCouponEntity>> getOneDiscountCoupon(@Body RequestBody body);
 
+    //登录
+    @POST("v1.0/app/login/{username}/{password}")
+    Call<LoginResp> login(@Path("username") String username, @Path("password") String password);
+
+    //登出
+    @POST("v1.0/app/logout/{tokenId}")
+    Call<BaseNewEntity> loginOut(@Path("tokenId") String tokenId);
+
+    //修改密码
+    @POST("v1.0/app/edit/{userId}/{oldPassword}/{newPassword}")
+    Call<BaseNewEntity> modifyPwd(@Path("userId") String userId, @Path("oldPassword") String oldPassword,@Path("newPassword") String newPassword);
+
+    //今日人数总览接口
+    @GET("v1.0/depCount/{tenantId}/{depId}/{userId}")
+    Call<List<DepCountEntity>> todayPeopleViewCount(@Path("tenantId") String tenantId, @Path("depId") String depId, @Path("userId") String userId);
+
+    //待诊接口
+    @GET("v1.0/mz/wait/{tenantId}/{depId}")
+    Call<DaiZhenResp> getWoDeDaiZhenList(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                         @Query("userId") String userId,
+                                         @Query("page") Integer page,
+                                         @Query("rows") Integer rows,
+                                         @Query("date") String date,
+                                         @Query("status") int status
+    );
+
 }
+

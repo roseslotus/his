@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="12dp"
+        >
+        <TextView
+            android:id="@+id/tv_view_num"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:textSize="15sp"
+            android:text="42"
+            android:gravity="center"
+            android:textColor="#FF1D2328"
+            android:background="@drawable/shape_workbench_radus_gray" />
+        <TextView
+            android:id="@+id/tv_view_type_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="今日预约"
+            android:layout_marginTop="10dp"
+            android:textColor="#FFA7A8A9"
+            />
+    </LinearLayout>
+</LinearLayout>

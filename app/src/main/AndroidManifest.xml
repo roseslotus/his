@@ -45,6 +45,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".doctor.activity.DoctorMainActivity"></activity>
 
         <!--咨询师端-->
         <!--咨询师主页-->
@@ -164,8 +165,35 @@
         <activity android:name=".activity.doctor.RemindSetActivity"></activity>
         <!--提醒管理-->
         <activity android:name=".activity.doctor.RemindManagementActivity"></activity>
-
-
+        <!--修改密码-->
+        <activity android:name=".doctor.activity.ModifyPasswordActivity" ></activity>
+        <!--绑定手机号-->
+        <activity android:name=".doctor.activity.BindPhoneNumberActivity" ></activity>
+        <activity android:name=".doctor.activity.VersionInfoActivity"></activity>
+        <activity android:name=".doctor.activity.CustomerFilesDetailActivity"></activity>
+        <activity android:name=".doctor.activity.XiaofeijiluDetailActivity" ></activity>
+        <activity android:name=".doctor.activity.WoDeZhuyuanActivity"></activity>
+        <activity android:name=".doctor.activity.WoDeChuyuanActivity"></activity>
+        <activity android:name=".doctor.activity.ZhuyuanDetailActivity"></activity>
+        <activity android:name=".doctor.activity.ZhuyuanFeiyongDetailActivity"></activity>
+        <activity android:name=".doctor.activity.YiZhuDetailActivity"></activity>
+        <activity android:name=".doctor.activity.WoDeDaizhenActivity"></activity>
+        <activity android:name=".doctor.activity.MenZhenDetailActivity"></activity>
+        <activity android:name=".doctor.activity.ChuFangDetailActivity"></activity>
+        <activity android:name=".doctor.activity.ZhiLiaoDetailActivity"></activity>
+        <activity android:name=".doctor.activity.WoDeYuyueActivity"></activity>
+        <activity android:name=".doctor.activity.YuyueDetailActivity"></activity>
+        <activity android:name=".doctor.activity.ShouShuWoDeYuyueActivity"></activity>
+        <activity android:name=".doctor.activity.ShouShuYuyueDetailActivity"></activity>
+        <activity android:name=".doctor.activity.ShouShuWoDePaiqiActivity"></activity>
+        <activity android:name=".doctor.activity.JianChajiluBChaoDetailActivity"></activity>
+        <activity android:name=".doctor.activity.ShoushuWodePaiqiDetailActivity"></activity>
+        <activity android:name=".doctor.activity.JianChajiluDrDetailActivity"></activity>
+        <activity android:name=".doctor.activity.JianChajiluXinDianTuDetailActivity"></activity>
+        <activity android:name=".doctor.activity.JianChajiluXueChangGuiOrGanGongNengDetailActivity"></activity>
+        <activity android:name=".doctor.activity.ShouShuWoDePaiTaiActivity"></activity>
+        <activity android:name=".doctor.activity.ShoushuWodePaiTaiDetailActivity"></activity>
+        <activity android:name=".doctor.activity.ShouShuDongTaiActivity"></activity>
         <!-- Required  SDK核心功能-->
         <service
             android:name="cn.jpush.android.service.DownloadService"

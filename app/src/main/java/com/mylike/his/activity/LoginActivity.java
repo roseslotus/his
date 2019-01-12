@@ -1,10 +1,15 @@
 package com.mylike.his.activity;
 
 import android.Manifest;
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -27,7 +32,10 @@ import com.mylike.his.activity.consultant.CMainActivity;
 import com.mylike.his.activity.consultant.SearchActivity;
 import com.mylike.his.activity.consultant.SettingIPActivity;
 import com.mylike.his.core.BaseActivity;
+import com.mylike.his.core.BaseApplication;
 import com.mylike.his.core.Constant;
+import com.mylike.his.doctor.activity.DoctorMainActivity;
+import com.mylike.his.entity.LoginResp;
 import com.mylike.his.entity.TokenEntity;
 import com.mylike.his.http.BaseBack;
 import com.mylike.his.http.HttpClient;
@@ -45,6 +53,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by zhengluping on 2018/1/31.
@@ -135,7 +146,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 } else if (TextUtils.isEmpty(ip)) {
                     CommonUtil.showToast("请设置服务器地址");
                 } else {//登录
-                    longin(accountStr, passwordStr);
+                    newLogin(accountStr, passwordStr);
                 }
                 break;
 
@@ -148,6 +159,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(DMainActivity.class);
                 break;*/
         }
+    }
+    private void newLogin(String accountStr, String passwordStr){
+        CommonUtil.showLoadProgress(LoginActivity.this);
+
+        HttpClient.getHttpApi().login(accountStr,passwordStr).enqueue(new Callback<LoginResp>() {
+            @Override
+            public void onResponse(Call<LoginResp> call, Response<LoginResp> response) {
+                CommonUtil.dismissLoadProgress();
+                BaseApplication.setLoginEntity(response.body().getLoginInfo());
+                startActivity(DoctorMainActivity.class);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<LoginResp> call, Throwable t) {
+                CommonUtil.dismissLoadProgress();
+            }
+        });
     }
 
     private void longin(String accountStr, String passwordStr) {
@@ -278,15 +307,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 //权限已有
-                CommonUtil.updataApp(this, false);
+//                CommonUtil.updataApp(this, false);
             } else {
                 //没有权限，申请一下
                 ActivityCompat.requestPermissions(this, new String[]{permission}, 1);
             }
         } else {
             //权限已有
-            CommonUtil.updataApp(this, false);
+//            CommonUtil.updataApp(this, false);
         }
+
+
+
+
     }
 
     @Override

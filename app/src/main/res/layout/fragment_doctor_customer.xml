@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_47"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <LinearLayout
+            android:id="@+id/tag_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="30dp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:background="@color/doctor_green_color"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="36dp"
+            android:orientation="horizontal"
+            android:background="@drawable/shape_search_round_white"
+            android:gravity="center_vertical"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_d_search"
+                android:layout_marginLeft="9dp"
+                />
+            <com.mylike.his.view.ClearEditText
+                android:id="@+id/search_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:hint="请输入姓名/手机号/病历号"
+                android:textColorHint="#FF575757"
+                android:layout_marginLeft="9dp"
+                android:drawableRight="@mipmap/icon_d_clear_text"
+                android:textSize="14sp"
+                android:paddingRight="9dp"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                />
+
+        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="筛选"
+                android:textColor="@color/white"
+                android:layout_marginLeft="9dp"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_d_xia_la"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="7dp"
+                />
+        </LinearLayout>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tag_ll"
+            android:layout_marginTop="1dp">
+
+            <ListView
+                android:id="@+id/customer_list"
+                style="@style/ListViewNotLineStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/doctor_divide_line"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:dividerHeight="1px" />
+                android:scrollbars="none" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </RelativeLayout>
+</LinearLayout>

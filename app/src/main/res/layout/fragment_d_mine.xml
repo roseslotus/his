@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/doctor_bg_color"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="25dp"
+        android:paddingTop="35dp"
+        android:background="@color/white"
+        >
+        <com.mylike.his.view.CircleImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/head_g"
+            app:border_color="@color/white"
+            app:border_width="3dp"
+            />
+            <TextView
+                android:id="@+id/tv_nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="陈文金 美容科室"
+                android:textColor="#FF1F232B"
+                android:textSize="15sp"
+                android:layout_marginTop="12dp"
+                />
+        <TextView
+            android:id="@+id/tv_depart_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="美莱医疗机构"
+            android:textColor="#FF575757"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/tv_modify_password"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:drawableRight="@mipmap/right_arrows_icon"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="修改密码"
+            android:textColor="@color/item_doctor_tab_color"
+            android:textSize="15sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/doctor_divide_line" />
+        <TextView
+            android:id="@+id/tv_bind_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:drawableRight="@mipmap/right_arrows_icon"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="绑定手机号码"
+            android:textColor="@color/item_doctor_tab_color"
+            android:textSize="15sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/doctor_divide_line" />
+
+        <TextView
+            android:id="@+id/tv_current_version"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:drawableRight="@mipmap/right_arrows_icon"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="当前版本"
+            android:textColor="@color/item_doctor_tab_color"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_loginout"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:textSize="15sp"
+        android:textColor="#FFCF4B2F"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="退出登录"
+        android:layout_marginTop="15dp"
+        />
+</LinearLayout>
