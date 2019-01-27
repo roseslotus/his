@@ -1,5 +1,6 @@
 package com.mylike.his.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -109,6 +110,9 @@ public class LoginEntity  extends BaseNewEntity{
     }
 
     public List<DepartmentBean> getDepartments() {
+        if (departments==null){
+            departments = new ArrayList<>();
+        }
         return departments;
     }
 

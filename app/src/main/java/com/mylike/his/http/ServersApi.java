@@ -338,7 +338,10 @@ public interface ServersApi {
                                          @Query("page") Integer page,
                                          @Query("rows") Integer rows,
                                          @Query("date") String date,
-                                         @Query("status") int status
+                                         @Query("status") int status, //接诊状态  1 ：待诊2：接诊
+                                         @Query("triageTime") String triageTime,//分诊时间   desc:倒序  asc:正序
+                                         @Query("waitingTime") String waitingTime,//等待时长  desc:倒序  asc:正序
+                                         @Query("searchName") String searchName//查询条件
     );
 
 }

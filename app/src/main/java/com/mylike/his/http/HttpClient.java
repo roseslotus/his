@@ -31,7 +31,8 @@ public class HttpClient {
         if (TextUtils.isEmpty(ip)) {
             BASE_URL = "http://172.16.61.222:8280/mylike-crm/";
         }
-        BASE_URL = "https://api.mylikesh.cn/his-api/";
+//        BASE_URL = "https://api.mylikesh.cn/his-api/";
+        BASE_URL = "https://uat8280.mylikesh.cn:80/his-api/";
         if (serversApi == null) {
             //OkHttpClient.Builder httpClientBuiler = new OkHttpClient.Builder();
             //初始化请求头（满足ip变更后统一修改的需求）

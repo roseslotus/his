@@ -47,7 +47,12 @@ public class WoDeDaiZhenPresenter {
         CommonUtil.showLoadProgress(mContext);
         Calendar calendar = Calendar.getInstance();
 
-        HttpClient.getHttpApi().getWoDeDaiZhenList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(), BaseApplication.getLoginEntity().getUserId(),pageIndex,pageSize,CommonUtil.getYMD(calendar.getTime()),1).enqueue(new Callback<DaiZhenResp>() {
+        HttpClient.getHttpApi().getWoDeDaiZhenList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
+                BaseApplication.getLoginEntity().getUserId(),pageIndex,pageSize,
+                CommonUtil.getYMD(calendar.getTime()),
+                1,"desc","desc",""
+
+        ).enqueue(new Callback<DaiZhenResp>() {
             @Override
             public void onResponse(Call<DaiZhenResp> call, Response<DaiZhenResp> response) {
                 CommonUtil.dismissLoadProgress();

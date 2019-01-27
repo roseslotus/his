@@ -3,6 +3,8 @@ package com.mylike.his.utils;
 import android.os.Build;
 import android.text.TextUtils;
 
+import com.mylike.his.core.BaseApplication;
+
 import java.io.IOException;
 
 import okhttp3.Headers;
@@ -41,22 +43,24 @@ public class LogInterceptor implements Interceptor {
                 log(id, "method=" + original.method() + " url=" + original.url());
             }
         }
-        Headers headers = original.headers();
-        for (String name : headers.names()) {
-            LogUtil.info(getClass(), "header " + name + "=" + headers.get(name));
-        }
+
+
         if (Build.VERSION.SDK != null && Build.VERSION.SDK_INT > 13) {
             original = original.newBuilder().addHeader("Connection", "close").build();
         }
         //表示第一次登陆还没拉取过token
-        if (TextUtils.isEmpty(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))) {
-            original=original.newBuilder().header("Content-type", "application/json;charset=UTF-8").build();//执行登陆的操作
+        if (!TextUtils.isEmpty(BaseApplication.getLoginEntity().getToken())) {
+            original=original.newBuilder().header("token", BaseApplication.getLoginEntity().getToken()).build();//执行登陆的操作
         }
 
         original = original.newBuilder()
                 .header("Content-type", "application/json;charset=UTF-8")
-                .header("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))
+//                .header("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))
                 .build();
+        Headers headers = original.headers();
+        for (String name : headers.names()) {
+            log(id,"header " + name + "=" + headers.get(name));
+        }
         okhttp3.Response response = chain.proceed(original);
         String content = response.body().string();
         log(id, (System.currentTimeMillis() - id) + "ms << " + content);

@@ -260,6 +260,9 @@ public class WorkbenchFragment extends BaseFragment {
     }
 
     public void todayPeopleViewCount() {
+        if (mDepartmentBean == null) {
+            return;
+        }
         CommonUtil.showLoadProgress(getActivity());
 
         HttpClient.getHttpApi().todayPeopleViewCount(BaseApplication.getLoginEntity().getTenantId(), mDepartmentBean.getDepId(), BaseApplication.getLoginEntity().getUserId()).enqueue(new Callback<List<DepCountEntity>>() {
