@@ -66,6 +66,7 @@
             android:background="#FFFC9E39"
             >
             <TextView
+                android:id="@+id/tv_wode_daizheng_number"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="14sp"

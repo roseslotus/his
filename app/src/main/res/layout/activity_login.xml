@@ -39,7 +39,7 @@
             android:hint="输入您的账号"
             android:inputType="textVisiblePassword"
             android:padding="10dp"
-            android:text="sh011061"
+            android:text="sh011073"
             android:paddingLeft="10dp"
             android:textColor="@color/green_50"
             android:textColorHint="@color/gray_50"

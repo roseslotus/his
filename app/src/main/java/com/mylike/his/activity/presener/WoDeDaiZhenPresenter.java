@@ -43,13 +43,29 @@ public class WoDeDaiZhenPresenter {
         this.mContext= context;
     }
 
+    public boolean isBoy(String sex){
+       return  "男".equals(sex);
+    }
+
+    public int getVipLevelIcon(String levelName){
+        if ("金卡".equals(levelName)){
+            return R.mipmap.icon_d_vip1;
+        }else if ("银卡".equals(levelName)){
+            return R.mipmap.icon_d_vip2;
+        } else if ("时尚卡".equals(levelName)){
+            return R.mipmap.icon_d_vip3;
+        }else {
+            return R.mipmap.icon_d_vip4;
+        }
+    }
+
     public void getWoDeDaiZhenList(final ResponseListener<DaiZhenResp> listener){
         CommonUtil.showLoadProgress(mContext);
         Calendar calendar = Calendar.getInstance();
 
         HttpClient.getHttpApi().getWoDeDaiZhenList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
                 BaseApplication.getLoginEntity().getUserId(),pageIndex,pageSize,
-                CommonUtil.getYMD(calendar.getTime()),
+               "2019-01-23",
                 1,"desc","desc",""
 
         ).enqueue(new Callback<DaiZhenResp>() {
