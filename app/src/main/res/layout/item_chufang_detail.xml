@@ -13,6 +13,7 @@
         android:paddingTop="10dp"
         >
         <TextView
+            android:id="@+id/tv_project_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="上丙胺酰谷胺注射液"
@@ -20,6 +21,7 @@
             android:textSize="14sp"
             />
         <TextView
+            android:id="@+id/tv_yao_leixing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="[西药]"
@@ -32,6 +34,7 @@
             android:layout_height="1dp"
             android:layout_weight="1"></View>
         <TextView
+            android:id="@+id/tv_yongyao_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="新开立"
@@ -54,6 +57,7 @@
             android:gravity="right|center_vertical"
             />
         <TextView
+            android:id="@+id/tv_yongyao_guige"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="3% 10g:300mg"
@@ -70,6 +74,7 @@
             android:gravity="right|center_vertical"
             />
         <TextView
+            android:id="@+id/tv_yongyao_yongfa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="外用"
@@ -93,6 +98,7 @@
             android:gravity="right|center_vertical"
             />
         <TextView
+            android:id="@+id/tv_yongyao_shuliang"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="1"
@@ -109,6 +115,7 @@
             android:gravity="right|center_vertical"
             />
         <TextView
+            android:id="@+id/tv_yongyao_tianshu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3天"
@@ -132,6 +139,7 @@
             android:gravity="right|center_vertical"
             />
         <TextView
+            android:id="@+id/tv_yongyao_danwei"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="盒"
@@ -148,6 +156,7 @@
             android:gravity="right|center_vertical"
             />
         <TextView
+            android:id="@+id/tv_yongyao_pinglv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3次/天"
@@ -172,6 +181,7 @@
             android:gravity="right|center_vertical"
             />
         <TextView
+            android:id="@+id/tv_yongyao_yongliang"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:text="1g"

@@ -3,6 +3,8 @@ package com.mylike.his.http;
 import com.mylike.his.entity.BaseEntity;
 import com.mylike.his.entity.BaseNewEntity;
 import com.mylike.his.entity.BasePageEntity;
+import com.mylike.his.entity.BinLiJiLuBean;
+import com.mylike.his.entity.BinLiJiLuResp;
 import com.mylike.his.entity.BookbuildingEntity;
 import com.mylike.his.entity.ChargeDateilsEntity;
 import com.mylike.his.entity.ChargeEntity;
@@ -20,17 +22,32 @@ import com.mylike.his.entity.DepartmentEntity;
 import com.mylike.his.entity.DiscountCouponEntity;
 import com.mylike.his.entity.DoctorDetailsEntity;
 import com.mylike.his.entity.DoctorEntity;
+import com.mylike.his.entity.FenZhenInfoResp;
 import com.mylike.his.entity.HDepositEntity;
 import com.mylike.his.entity.HospitalAppointmentEntity;
+import com.mylike.his.entity.InspectRecordListBean;
 import com.mylike.his.entity.IntentionEntity;
 import com.mylike.his.entity.LoginResp;
+import com.mylike.his.entity.MenZhenChuFangJiLuBean;
+import com.mylike.his.entity.MenZhenChuFangJiLuDetailResp;
+import com.mylike.his.entity.MenZhenTreatDengJiDetailBean;
+import com.mylike.his.entity.MenZhenZhiLiaoDengJiBean;
 import com.mylike.his.entity.MessageEntity;
 import com.mylike.his.entity.MessageTypeEntity;
+import com.mylike.his.entity.MyBookingDetailResp;
+import com.mylike.his.entity.MyBookingListResp;
+import com.mylike.his.entity.OperationMyArrangementListResp;
+import com.mylike.his.entity.OperationMyBookingDetailResp;
+import com.mylike.his.entity.OperationMyBookingListResp;
+import com.mylike.his.entity.OperationMySchedulingDetailResp;
+import com.mylike.his.entity.OperationMySchedulingListResp;
+import com.mylike.his.entity.OperationPrePareResp;
 import com.mylike.his.entity.PackageEntity;
 import com.mylike.his.entity.ProductChildrenEntity;
 import com.mylike.his.entity.ProductDetailsEntity;
 import com.mylike.his.entity.ProductEntity;
 import com.mylike.his.entity.ProductsThreeLevelEntity;
+import com.mylike.his.entity.ProjectDetailListBean;
 import com.mylike.his.entity.ReceptionEntity;
 import com.mylike.his.entity.ReceptionNotEntity;
 import com.mylike.his.entity.ReceptionTypeEntity;
@@ -344,5 +361,108 @@ public interface ServersApi {
                                          @Query("searchName") String searchName//查询条件
     );
 
+    //分诊信息
+    @GET("v1.0/mz/triage/{tenantId}/{registId}")
+    Call<FenZhenInfoResp> getFenZhenInfo(@Path("tenantId") String tenantId, @Path("registId") String registId);
+
+    //病历记录
+    @GET("v1.0/mz/emr/{tenantId}/{depId}")
+    Call<List<BinLiJiLuBean>> getBinLiJiLu(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                           @Query("registId") String registId, @Query("cusId") String cusId);
+
+    //治疗登记
+    @GET("v1.0/mz/treat/{tenantId}/{depId}")
+    Call<List<MenZhenZhiLiaoDengJiBean>> getZhiLiaoDengJi(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                                          @Query("registId") String registId, @Query("cusId") String cusId);
+
+    //治疗详情
+    @GET("v1.0/mz/treat/dtl/{tenantId}/{treatId}")
+    Call<List<MenZhenTreatDengJiDetailBean>> getZhiLiaoDengJiDetail(@Path("tenantId") String tenantId, @Path("treatId") String treatId);
+
+    //处方记录
+    @GET("v1.0/mz/pres/{tenantId}/{depId}")
+    Call<List<MenZhenChuFangJiLuBean>> getChuFangJiLu(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                                        @Query("registId") String registId, @Query("cusId") String cusId);
+
+    //门诊模块 处方详情
+    @GET("v1.0/mz/pres/dtl/{tenantId}/{chuFangId}")
+    Call<MenZhenChuFangJiLuDetailResp> getChuFangJiLuDetail(@Path("tenantId") String tenantId, @Path("chuFangId") String chuFangId);
+
+
+    //门诊模块 我的预约
+    @GET("v1.0/mz/reserve/{tenantId}/{depId}")
+    Call<MyBookingListResp> getMyBookingList(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                             @Query("userId") String userId,
+                                             @Query("page") Integer page,
+                                             @Query("rows") Integer rows,
+                                             @Query("date") String date,
+                                             @Query("status") String status, //接诊状态  1 ：待诊2：接诊
+                                             @Query("searchName") String searchName//查询条件
+    );
+
+    //门诊模块 预约详情
+    @GET("v1.0/mz/maa/dtl/{tenantId}/{bookId}")
+    Call<MyBookingDetailResp> getMyBookDetail(@Path("tenantId") String tenantId, @Path("bookId") String bookId);
+
+
+    //手术模块 我的预约
+    @GET("v1.0/opera/reserve/{tenantId}/{depId}")
+    Call<OperationMyBookingListResp> getOperationMyBookList(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                                            @Query("userId") String userId,
+                                                            @Query("page") Integer page,
+                                                            @Query("rows") Integer rows,
+                                                            @Query("date") String date,
+                                                            @Query("paymentCode") String paymentCode, //筛选下拉
+                                                            @Query("searchName") String searchName,//查询条件
+                                                            @Query("creater") String creater//预约人
+    );
+
+
+
+    // 手术模块 预约详情
+    @GET("v1.0/oper/surgMaa/dtl/{tenantId}/{bookId}")
+    Call<OperationMyBookingDetailResp> getOperationMyBookDetail(@Path("tenantId") String tenantId, @Path("bookId") String bookId);
+
+    //手术模块 我的排期
+    @GET("v1.0/opera/scheduling/{tenantId}/{depId}")
+    Call<OperationMySchedulingListResp> getOperationMySchedulingList(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                                                     @Query("userId") String userId,
+                                                                     @Query("page") Integer page,
+                                                                     @Query("rows") Integer rows,
+                                                                     @Query("date") String date,
+                                                                     @Query("searchName") String searchName, //查询条件
+                                                                     @Query("code") String code//麻醉方式
+    );
+
+    // 手术模块 我的排期详情 手术详情
+    @GET("v1.0/oper/operative/dtl/{tenantId}/{operationId}")
+    Call<OperationMySchedulingDetailResp> getOperationSchedulingDetail(@Path("tenantId") String tenantId, @Path("operationId") String operationId);
+
+    // 手术模块 我的排期详情 检查记录
+    @GET("v1.0/jcjy/inspect/record/{tenantId}")
+    Call<List<InspectRecordListBean>> getInspectRecordList(@Path("tenantId") String tenantId, @Query("registId") String registId, @Query("cusId") String cusId);
+
+
+    // 手术模块 我的排期详情 项目明细
+    @GET("v1.0/oper/project/dtl/{tenantId}/{registId}")
+    Call<List<ProjectDetailListBean>> getProjectDetailList(@Path("tenantId") String tenantId, @Path("registId") String registId);
+
+
+    // 手术模块 术前准备
+    @GET("v1.0/oper/prepare/{tenantId}/{registId}")
+    Call<OperationPrePareResp> getOperationPrePare(@Path("tenantId") String tenantId, @Path("registId") String registId);
+
+    //手术模块 我的排台
+    @GET("v1.0/opera/operating/{tenantId}/{depId}")
+    Call<OperationMyArrangementListResp> getOperationMyArrangementList(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                                                       @Query("userId") String userId,
+                                                                       @Query("date") String date,
+                                                                       @Query("page") Integer page,
+                                                                       @Query("rows") Integer rows,
+                                                                       @Query("state") int state,
+                                                                       @Query("searchName") String searchName, //查询条件
+                                                                       @Query("anesthesia") String anesthesia,//麻醉方式
+                                                                       @Query("operaRoom") String operaRoom//手术室
+    );
 }
 

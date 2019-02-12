@@ -28,132 +28,7 @@
             android:textColor="@android:color/white"
             android:textSize="17sp" />
     </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="20dp"
-
-        >
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="41dp"
-            android:src="@mipmap/icon_customer_girl"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingTop="2dp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FF1F232B"
-                    android:text="赵景阳"
-                    android:textSize="14sp"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_d_boy"
-                    android:layout_marginLeft="5dp"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_d_vip1"
-                    android:layout_marginLeft="5dp"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_d_vip_flag"
-                    android:layout_marginLeft="5dp"
-                    />
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FF949595"
-                        android:text="病历号："
-                        android:textSize="12sp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FF949595"
-                        android:text="4892832939"
-                        android:textSize="12sp"
-                        />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="9dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FF949595"
-                    android:text="24岁(1996-12-16)"
-                    android:textSize="12sp"
-                    />
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FF949595"
-                        android:text="手机号："
-                        android:textSize="12sp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FF949595"
-                        android:text="1388888888"
-                        android:textSize="12sp"
-                        />
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </LinearLayout>
+    <include layout="@layout/item_detail_customer_header_info"></include>
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
@@ -185,6 +60,7 @@
                 android:text="手术名称:"
                 />
             <TextView
+                android:id="@+id/tv_project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -213,6 +89,7 @@
                 android:text="预约手术时间:"
                 />
             <TextView
+                android:id="@+id/tv_book_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -241,6 +118,7 @@
                 android:text="手术医生:"
                 />
             <TextView
+                android:id="@+id/tv_doctor_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -269,6 +147,7 @@
                 android:text="创建时间:"
                 />
             <TextView
+                android:id="@+id/tv_create_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -297,6 +176,7 @@
                 android:text="预约人:"
                 />
             <TextView
+                android:id="@+id/tv_book_people_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -325,6 +205,7 @@
                 android:text="咨询师:"
                 />
             <TextView
+                android:id="@+id/tv_answer_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -353,6 +234,7 @@
                 android:text="交费情况:"
                 />
             <TextView
+                android:id="@+id/tv_pay_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -381,6 +263,7 @@
                 android:text="门诊／住院:"
                 />
             <TextView
+                android:id="@+id/tv_whether_gohosptal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -409,6 +292,7 @@
                 android:text="麻醉方式:"
                 />
             <TextView
+                android:id="@+id/tv_hocus_method"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -437,6 +321,7 @@
                 android:text="备注:"
                 />
             <TextView
+                android:id="@+id/tv_book_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

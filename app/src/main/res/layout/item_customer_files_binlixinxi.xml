@@ -22,6 +22,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -31,6 +32,7 @@
                 />
 
             <TextView
+                android:id="@+id/tv_document_file_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -82,27 +84,29 @@
                     android:src="@mipmap/icon_yiliaodengji_yisheng"
                     />
                 <TextView
-                    android:layout_width="100dp"
+                    android:id="@+id/tv_binren_name"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="#FF424242"
-                    android:text="张小飞:"
-                    android:layout_marginLeft="10dp"
+                    android:text="张小飞"
+                    android:layout_marginLeft="5dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="#FF424242"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:text="创建："
                     />
                 <TextView
+                    android:id="@+id/tv_create_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="#FF424242"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:text="2018-11-12 13:24"
                     />
             </LinearLayout>
@@ -121,35 +125,36 @@
                     android:src="@mipmap/icon_yiliaodengji_zhiliao"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="#FF424242"
                     android:text="科室:"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     />
                 <TextView
-                    android:layout_width="64dp"
+                    android:id="@+id/tv_depart_name"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="#FF424242"
                     android:text="美容科"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="#FF424242"
-                    android:layout_marginLeft="10dp"
                     android:text="修改："
                     />
                 <TextView
+                    android:id="@+id/tv_update_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="#FF424242"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:text="2018-11-12 13:24"
                     />
             </LinearLayout>

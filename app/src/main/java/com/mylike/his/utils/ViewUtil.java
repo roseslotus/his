@@ -1,7 +1,11 @@
 package com.mylike.his.utils;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -126,5 +130,14 @@ public class ViewUtil<T> {
         if (onIntentionListener != null) {
             onIntentionListener.onOptionsSelect(intentionAddEntity);
         }
+    }
+
+    public static SpannableString getMutilTextColor(String text1,String textColor1,String text2,String textColor2){
+        String content = text1+text2;
+        SpannableString ss = new SpannableString(content);
+        // 设置字体颜色
+        ss.setSpan(new ForegroundColorSpan(Color.parseColor(textColor1)), 0, text1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(Color.parseColor(textColor2)), text1.length(),content.length() , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return ss;
     }
 }

@@ -22,6 +22,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -32,7 +33,7 @@
 
 
             <TextView
-                android:id="@+id/iv_image_right"
+                android:id="@+id/tv_project_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -48,58 +49,14 @@
             android:layout_height="1dp"
             android:background="#FFF7F7F7" />
         <LinearLayout
+            android:id="@+id/ll_child_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:gravity="center_vertical"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_yiliaodengji_yisheng"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#FF424242"
-                    android:text="上脸提肌"
-                    android:layout_marginLeft="10dp"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:gravity="center_vertical"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_yiliaodengji_zhuzhi"
-                    />
-                <TextView
-                    android:layout_width="55dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#FF424242"
-                    android:text="局部麻醉"
-                    android:layout_marginLeft="10dp"
-                    />
-            </LinearLayout>
+
 
         </LinearLayout>
 

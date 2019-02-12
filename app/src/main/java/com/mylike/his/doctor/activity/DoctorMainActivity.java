@@ -2,6 +2,7 @@ package com.mylike.his.doctor.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -48,6 +49,13 @@ public class DoctorMainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setLoadProgress(false);
         setStatusBarColor(true);
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+        .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()
+                .penaltyLog()
+                .build()
+        );
         super.onCreate(savedInstanceState);
 //        getWindow().setSoftInputMode
 //                (WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |

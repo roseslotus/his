@@ -15,130 +15,7 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/shape_xiaohuijilu_bg_item"
         >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="14dp"
-            android:paddingLeft="8dp"
-
-            >
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="41dp"
-                android:src="@mipmap/icon_customer_girl"
-                />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingLeft="5dp"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FF575757"
-                        android:text="赵景阳"
-                        android:textSize="14sp"
-                        />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_d_boy"
-                        android:layout_marginLeft="5dp"
-                        />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_d_vip1"
-                        android:layout_marginLeft="5dp"
-                        />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_d_vip_flag"
-                        android:layout_marginLeft="5dp"
-                        />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="12:00-13:00"
-                        android:textSize="12sp"
-                        android:gravity="right"
-                        android:textColor="#2CBCC1"
-                        android:layout_marginRight="8dp"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="9dp"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="24岁(1996-12-16)"
-                        android:textColor="#FF949595"
-                        android:textSize="12sp" />
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1"></View>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="未到院"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        android:paddingTop="3dp"
-                        android:paddingBottom="3dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:background="@drawable/shape_darkred_round4"
-                        android:layout_marginRight="8dp"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="9dp"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FF949595"
-                        android:text="1388888888"
-                        android:textSize="12sp"
-                        android:drawableLeft="@mipmap/icon_d_phone"
-                        android:drawablePadding="5dp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FF949595"
-                        android:text="4892832939"
-                        android:textSize="12sp"
-                        android:drawableLeft="@mipmap/icon_d_fixed_phone"
-                        android:drawablePadding="5dp"
-                        android:layout_marginLeft="10dp"
-                        />
-                </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
+        <include layout="@layout/item_customer_base_info"></include>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -152,6 +29,7 @@
             android:gravity="center_vertical"
             >
             <TextView
+                android:id="@+id/tv_project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="经典自体脂肪双侧 (含2部位吸脂)"
@@ -173,6 +51,7 @@
                 android:textColor="#FF575757"
                 android:textSize="14sp" />
             <TextView
+                android:id="@+id/tv_anesthesia_method"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="局部麻醉"
@@ -194,6 +73,7 @@
                 android:textColor="#FF575757"
                 android:textSize="14sp" />
             <TextView
+                android:id="@+id/tv_doctor_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="赵越胜"
@@ -227,6 +107,7 @@
                     android:textColor="#AEAEAE"
                     android:textSize="14sp" />
                 <TextView
+                    android:id="@+id/tv_prosthesis_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
@@ -256,7 +137,9 @@
                     android:text="皮试状态"
                     android:textColor="#AEAEAE"
                     android:textSize="14sp" />
+
                 <TextView
+                    android:id="@+id/tv_skintest_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
@@ -287,6 +170,7 @@
                     android:textColor="#AEAEAE"
                     android:textSize="14sp" />
                 <TextView
+                    android:id="@+id/tv_medicalexam_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
@@ -309,6 +193,7 @@
                 android:gravity="center"
                 >
                 <ImageView
+                    android:id="@+id/iv_test_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_shoushu_wodepaiqi_tongguo"

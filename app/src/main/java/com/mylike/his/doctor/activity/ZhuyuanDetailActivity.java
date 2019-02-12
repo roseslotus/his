@@ -55,8 +55,8 @@ public class ZhuyuanDetailActivity extends BaseActivity {
     private void setFragment() {
         mFragments[0] = ZhuyuanDetailFragment.newInstance();//首页fragment
         mFragments[1] = CustomerFilesJianchajiluFragment.newInstance();//客户fragment
-        mFragments[2] = CustomerFilesBinlixinxiFragment.newInstance();//统计fragment
-        mFragments[3] = ShoushujiluFragment.newInstance();
+        mFragments[2] = CustomerFilesBinlixinxiFragment.newInstance("","");//统计fragment
+        mFragments[3] = ShoushujiluFragment.newInstance("");
         mFragments[4] = ZhuyuanfeiyongFragment.newInstance();
         mFragments[5] = CustomerFilesKehuzhaopianFragment.newInstance();
         mFragments[6] = YiZhuFragment.newInstance();

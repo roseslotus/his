@@ -11,11 +11,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mylike.his.R;
+import com.mylike.his.core.BaseApplication;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.doctor.activity.JianChajiluBChaoDetailActivity;
 import com.mylike.his.doctor.activity.JianChajiluDrDetailActivity;
 import com.mylike.his.doctor.activity.JianChajiluXinDianTuDetailActivity;
 import com.mylike.his.doctor.activity.JianChajiluXueChangGuiOrGanGongNengDetailActivity;
+import com.mylike.his.entity.InspectRecordListBean;
+import com.mylike.his.entity.MenZhenZhiLiaoDengJiBean;
+import com.mylike.his.http.HttpClient;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -25,9 +29,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
- * 治疗登记
+ *
  * Created by thl on 2018/12/30.
  */
 
@@ -38,8 +45,8 @@ public class CustomerFilesJianchajiluFragment extends BaseFragment {
     private View view;
     private Unbinder unbinder;
 
-    private CommonAdapter<String> commonAdapter;
-    private List<String> mDatas =  new ArrayList<>();
+    private CommonAdapter<InspectRecordListBean> commonAdapter;
+    private List<InspectRecordListBean> mDatas =  new ArrayList<>();
 
     public static CustomerFilesJianchajiluFragment newInstance(){
         CustomerFilesJianchajiluFragment fragment= new CustomerFilesJianchajiluFragment();
@@ -51,15 +58,10 @@ public class CustomerFilesJianchajiluFragment extends BaseFragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_customer_files_jianchajilu, null, false);
         unbinder = ButterKnife.bind(this, rootView);
-        mDatas.add("1");
-        mDatas.add("1");
-        mDatas.add("1");
-        mDatas.add("1");
-        mDatas.add("1");
-        mDatas.add("1");
-        commonAdapter = new CommonAdapter<String>(getActivity(),R.layout.item_customer_files_jianchajilu,mDatas) {
+
+        commonAdapter = new CommonAdapter<InspectRecordListBean>(getActivity(),R.layout.item_customer_files_jianchajilu,mDatas) {
             @Override
-            protected void convert(ViewHolder holder, String item, int position) {
+            protected void convert(ViewHolder holder, InspectRecordListBean item, int position) {
 
             }
         };
@@ -86,10 +88,32 @@ public class CustomerFilesJianchajiluFragment extends BaseFragment {
 
             }
         });
-
+        getInspectRecordList();
         return rootView;
     }
 
+
+    public void getInspectRecordList() {
+//        CommonUtil.showLoadProgress(getActivity());
+        HttpClient.getHttpApi().getInspectRecordList(BaseApplication.getLoginEntity().getTenantId(),"66461e438c824fa1adf852be9b5369a5","")
+                .enqueue(new Callback<List<InspectRecordListBean>>() {
+                    @Override
+                    public void onResponse(Call<List<InspectRecordListBean>> call, Response<List<InspectRecordListBean>> response) {
+//                CommonUtil.dismissLoadProgress();
+                        mDatas.clear();
+                        if (response!=null&&response.body()!=null){
+                            mDatas.addAll(response.body());
+                        }
+                        commonAdapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<InspectRecordListBean>> call, Throwable t) {
+//                CommonUtil.dismissLoadProgress();
+                    }
+                });
+    }
 
 
     @Override

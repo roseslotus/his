@@ -1,5 +1,6 @@
 package com.mylike.his.doctor.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,12 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mylike.his.R;
-import com.mylike.his.activity.presener.WoDeDaiZhenPresenter;
+import com.mylike.his.presener.WoDeDaiZhenPresenter;
 import com.mylike.his.core.BaseActivity;
 import com.mylike.his.doctor.ResponseListener;
 import com.mylike.his.entity.CustomerMenZhenBean;
 import com.mylike.his.entity.DaiZhenResp;
 import com.mylike.his.entity.WoDeDaiZhenItemBean;
+import com.mylike.his.utils.CustomerUtil;
+import com.mylike.his.utils.ViewUtil;
 import com.mylike.his.view.ClearEditText;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -33,7 +36,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * 我的待诊
@@ -85,28 +87,18 @@ public class WoDeDaizhenActivity extends BaseActivity {
             @Override
             protected void convert(ViewHolder holder, WoDeDaiZhenItemBean item, int position) {
                 CustomerMenZhenBean customer= item.getCustomer();
-                if (customer!=null){
-                    holder.setImageResource(R.id.iv_customer_head_image,daiZhenPresenter.isBoy(customer.getSex())?R.mipmap.icon_customer_boy:R.mipmap.icon_customer_girl);
-                    holder.setText(R.id.tv_customer_name,customer.getCusName());
-                    holder.setImageResource(R.id.tv_customer_sex,daiZhenPresenter.isBoy(customer.getSex())?R.mipmap.icon_d_boy:R.mipmap.icon_d_girl);
-                    holder.setImageResource(R.id.tv_customer_vip_level,daiZhenPresenter.getVipLevelIcon(customer.getLabels().get(2).getValue()));
-                    ImageView vipFlag =holder.getView(R.id.tv_customer_vip_flag);
-                    if (customer.getLabels().get(1).getValue()!=null){
-                        vipFlag.setVisibility(View.VISIBLE);
-                    }else {
-                        vipFlag.setVisibility(View.GONE);
-                    }
-                    holder.setText(R.id.tv_customer_year_and_birth,customer.getBrithday());
-                    holder.setText(R.id.tv_customer_mobile_no,customer.getTel());
-                    holder.setText(R.id.tv_wait_time,(item.getWaitingTime()/60)+"分钟");
+                CustomerUtil.setCustomerInfo(holder,customer);
+                TextView tvWaitDialgue = holder.getView(R.id.tv_booking_time);
                     SimpleDateFormat sdf1= new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     SimpleDateFormat sdf2= new SimpleDateFormat("HH:mm");
                     try {
-                        holder.setText(R.id.tv_jiuzheng_time,sdf2.format(sdf1.parse(item.getTriageTime())));
+                        String waitTime = sdf2.format(sdf1.parse(item.getTriageTime()));
+                        tvWaitDialgue.setVisibility(View.VISIBLE);
+                        tvWaitDialgue.setText(ViewUtil.getMutilTextColor(waitTime,"#2CBCC1","["+(item.getWaitingTime()/60)+"分钟"+"]","#F35543"));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-//                    holder.setText(R.id.tv_customer_zuoji_no,customer.getBrithday());
+
                     holder.setText(R.id.tv_project_name,item.getProductsName());
                     holder.setText(R.id.tv_zhengdan_type,"是".equals(item.getType())?"初诊":"复诊");
                     TextView tvYuyue = holder.getView(R.id.tv_yuyue);
@@ -116,7 +108,6 @@ public class WoDeDaizhenActivity extends BaseActivity {
                         tvYuyue.setVisibility(View.GONE);
                     }
                     holder.setText(R.id.tv_doctor_name,item.getDoctor());
-                }
 
 
             }
@@ -127,8 +118,11 @@ public class WoDeDaizhenActivity extends BaseActivity {
     private void setListeners() {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(MenZhenDetailActivity.class);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                WoDeDaiZhenItemBean bean = mDatas.get(position);
+                Intent intent = new Intent(WoDeDaizhenActivity.this,MenZhenDetailActivity.class);
+                intent.putExtra("WoDeDaiZhenItemBean",bean);
+                startActivity(intent);
             }
         });
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {

@@ -126,6 +126,7 @@
             android:background="#FFFC9E39"
             >
             <TextView
+                android:id="@+id/tv_total_num"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -135,6 +136,7 @@
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/tv_notstart_num"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -144,6 +146,7 @@
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/tv_operating_num"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -153,6 +156,7 @@
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/tv_finished_num"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

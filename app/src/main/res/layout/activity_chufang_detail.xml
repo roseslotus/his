@@ -47,6 +47,7 @@
                 android:textSize="14sp"
                 />
             <TextView
+                android:id="@+id/tv_zhengduan_bingqing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="瘢痕，鞍鼻，痤疮，多毛"
@@ -71,6 +72,7 @@
                 android:textSize="14sp"
                 />
             <TextView
+                android:id="@+id/tv_kaili_yisheng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="张南"
@@ -90,6 +92,7 @@
                 android:textSize="14sp"
                 />
             <TextView
+                android:id="@+id/tv_kaili_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2018-05-03 15:33"
@@ -101,8 +104,7 @@
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:background="@drawable/shape_listview_bg_round4"
             ></ListView>
         <LinearLayout
@@ -118,14 +120,15 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#FF9665"
-                android:text="总计:"
+                android:text="总计:¥"
                 />
             <TextView
+                android:id="@+id/tv_cost_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#FF9665"
-                android:text="¥1971.00"
+                android:text="0.00"
                 android:layout_marginLeft="5dp"
                 />
         </LinearLayout>

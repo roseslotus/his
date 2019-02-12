@@ -1,8 +1,9 @@
 package com.mylike.his.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CustomerMenZhenBean {
+public class CustomerMenZhenBean implements Serializable {
     /**
      * id : 7264ea0e-7d0c-4ca7-a9f0-a51f18a4c2e9
      * cusName : 王雨

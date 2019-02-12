@@ -182,18 +182,19 @@
         <activity android:name=".doctor.activity.ChuFangDetailActivity"></activity>
         <activity android:name=".doctor.activity.ZhiLiaoDetailActivity"></activity>
         <activity android:name=".doctor.activity.WoDeYuyueActivity"></activity>
-        <activity android:name=".doctor.activity.YuyueDetailActivity"></activity>
-        <activity android:name=".doctor.activity.ShouShuWoDeYuyueActivity"></activity>
-        <activity android:name=".doctor.activity.ShouShuYuyueDetailActivity"></activity>
-        <activity android:name=".doctor.activity.ShouShuWoDePaiqiActivity"></activity>
+        <activity android:name=".doctor.activity.BookDetailActivity"></activity>
+        <activity android:name=".doctor.activity.OperationMyBookingActivity"></activity>
+        <activity android:name=".doctor.activity.OperationMyBookDetailActivity"></activity>
+        <activity android:name=".doctor.activity.OperationMyScheduleActivity"></activity>
         <activity android:name=".doctor.activity.JianChajiluBChaoDetailActivity"></activity>
-        <activity android:name=".doctor.activity.ShoushuWodePaiqiDetailActivity"></activity>
+        <activity android:name=".doctor.activity.OperationMySchedulingDetailActivity"></activity>
         <activity android:name=".doctor.activity.JianChajiluDrDetailActivity"></activity>
         <activity android:name=".doctor.activity.JianChajiluXinDianTuDetailActivity"></activity>
         <activity android:name=".doctor.activity.JianChajiluXueChangGuiOrGanGongNengDetailActivity"></activity>
-        <activity android:name=".doctor.activity.ShouShuWoDePaiTaiActivity"></activity>
         <activity android:name=".doctor.activity.ShoushuWodePaiTaiDetailActivity"></activity>
         <activity android:name=".doctor.activity.ShouShuDongTaiActivity"></activity>
+        <activity android:name=".doctor.activity.WoDeJieZhenActivity"></activity>
+        <activity android:name=".doctor.activity.OperationMyArrangementActivity"></activity>
         <!-- Required  SDK核心功能-->
         <service
             android:name="cn.jpush.android.service.DownloadService"

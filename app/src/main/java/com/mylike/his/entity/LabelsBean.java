@@ -1,6 +1,8 @@
 package com.mylike.his.entity;
 
-public class LabelsBean {
+import java.io.Serializable;
+
+public class LabelsBean implements Serializable {
     /**
      * name : VIP
      * value : 0

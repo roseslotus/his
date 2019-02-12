@@ -24,6 +24,7 @@ import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.utils.DialogUtil;
 import com.mylike.his.utils.CommonUtil;
 import com.mylike.his.view.FloatingDragger;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
  * Created by zhengluping on 2018/1/16.
@@ -214,6 +215,11 @@ public class BaseActivity extends AppCompatActivity {
             intent.putExtra(tag, value);
         }
         startActivity(intent);
+    }
+
+    protected void stopOver(SmartRefreshLayout mRefreshLayout){
+        mRefreshLayout.finishLoadMore();
+        mRefreshLayout.finishRefresh();
     }
 
 

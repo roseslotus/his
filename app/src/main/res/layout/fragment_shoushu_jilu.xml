@@ -26,6 +26,7 @@
                 android:text="手术名称:"
                 />
             <TextView
+                android:id="@+id/tv_operating_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -54,6 +55,7 @@
                 android:text="术式名称:"
                 />
             <TextView
+                android:id="@+id/tv_project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -82,6 +84,7 @@
                 android:text="麻醉方式:"
                 />
             <TextView
+                android:id="@+id/tv_anesthesia_method"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -110,6 +113,7 @@
                 android:text="计划时间:"
                 />
             <TextView
+                android:id="@+id/tv_plan_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -138,6 +142,7 @@
                 android:text="手术时间:"
                 />
             <TextView
+                android:id="@+id/tv_operating_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -166,6 +171,7 @@
                 android:text="备注:"
                 />
             <TextView
+                android:id="@+id/tv_book_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -202,6 +208,7 @@
                 android:text="手术室:"
                 />
             <TextView
+                android:id="@+id/tv_operation_room"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -216,6 +223,7 @@
                 android:text="台次:"
                 />
             <TextView
+                android:id="@+id/tv_stage_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -245,6 +253,7 @@
                 android:text="手术医生:"
                 />
             <TextView
+                android:id="@+id/tv_doctor_name"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -259,6 +268,7 @@
                 android:text="麻醉医师:"
                 />
             <TextView
+                android:id="@+id/tv_anesthesia_doctor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -288,6 +298,7 @@
                 android:text="助理医生:"
                 />
             <TextView
+                android:id="@+id/tv_doctor_zhuli"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -302,6 +313,7 @@
                 android:text="洗手护士:"
                 />
             <TextView
+                android:id="@+id/tv_operating_nurse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -331,6 +343,7 @@
                 android:text="巡回护士:"
                 />
             <TextView
+                android:id="@+id/tv_pratrol_nurse"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -367,6 +380,7 @@
                 android:text="是否推迟:"
                 />
             <TextView
+                android:id="@+id/tv_whether_delay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -395,6 +409,7 @@
                 android:text="推迟原因:"
                 />
             <TextView
+                android:id="@+id/tv_delay_reason"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

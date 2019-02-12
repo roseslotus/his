@@ -16,12 +16,13 @@ import android.widget.TextView;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseApplication;
 import com.mylike.his.core.BaseFragment;
+import com.mylike.his.doctor.activity.OperationMyArrangementActivity;
+import com.mylike.his.doctor.activity.OperationMyBookingActivity;
+import com.mylike.his.doctor.activity.OperationMyScheduleActivity;
 import com.mylike.his.doctor.activity.ShouShuDongTaiActivity;
-import com.mylike.his.doctor.activity.ShouShuWoDePaiTaiActivity;
-import com.mylike.his.doctor.activity.ShouShuWoDePaiqiActivity;
-import com.mylike.his.doctor.activity.ShouShuWoDeYuyueActivity;
 import com.mylike.his.doctor.activity.WoDeChuyuanActivity;
 import com.mylike.his.doctor.activity.WoDeDaizhenActivity;
+import com.mylike.his.doctor.activity.WoDeJieZhenActivity;
 import com.mylike.his.doctor.activity.WoDeYuyueActivity;
 import com.mylike.his.doctor.activity.WoDeZhuyuanActivity;
 import com.mylike.his.doctor.popup.ChoiceKeShiPopupMenu;
@@ -98,11 +99,9 @@ public class WorkbenchFragment extends BaseFragment {
                     startActivity(WoDeDaizhenActivity.class);
                 } else if (position == 1) {
                     Intent intent = new Intent(getActivity(), WoDeYuyueActivity.class);
-                    intent.putExtra("type", 1);
                     startActivity(intent);
                 } else if (position == 2) {
-                    Intent intent = new Intent(getActivity(), WoDeYuyueActivity.class);
-                    intent.putExtra("type", 2);
+                    Intent intent = new Intent(getActivity(), WoDeJieZhenActivity.class);
                     startActivity(intent);
                 }
 
@@ -112,13 +111,13 @@ public class WorkbenchFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    startActivity(ShouShuWoDeYuyueActivity.class);
+                    startActivity(OperationMyBookingActivity.class);
                 } else if (position == 1) {
-                    Intent intent = new Intent(getActivity(), ShouShuWoDePaiqiActivity.class);
+                    Intent intent = new Intent(getActivity(), OperationMyScheduleActivity.class);
                     intent.putExtra("type", 1);
                     startActivity(intent);
                 } else if (position == 2) {
-                    Intent intent = new Intent(getActivity(), ShouShuWoDePaiTaiActivity.class);
+                    Intent intent = new Intent(getActivity(), OperationMyArrangementActivity.class);
                     startActivity(intent);
                 } else {
                     startActivity(ShouShuDongTaiActivity.class);

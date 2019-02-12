@@ -28,6 +28,7 @@
                 android:text="手术名称:"
                 />
             <TextView
+                android:id="@+id/tv_project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -56,6 +57,7 @@
                 android:text="术式名称:"
                 />
             <TextView
+                android:id="@+id/tv_project_name2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -84,6 +86,7 @@
                 android:text="麻醉方式:"
                 />
             <TextView
+                android:id="@+id/tv_anesthesia_method"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -112,6 +115,7 @@
                 android:text="预约时间:"
                 />
             <TextView
+                android:id="@+id/tv_book_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -140,6 +144,7 @@
                 android:text="手术医生:"
                 />
             <TextView
+                android:id="@+id/tv_doctor_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -168,6 +173,7 @@
                 android:text="创建时间:"
                 />
             <TextView
+                android:id="@+id/tv_create_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -196,6 +202,7 @@
                 android:text="创建人:"
                 />
             <TextView
+                android:id="@+id/tv_creater_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -224,6 +231,7 @@
                 android:text="备注:"
                 />
             <TextView
+                android:id="@+id/tv_book_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

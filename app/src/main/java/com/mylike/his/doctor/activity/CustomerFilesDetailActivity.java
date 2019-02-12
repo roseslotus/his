@@ -53,7 +53,7 @@ public class CustomerFilesDetailActivity extends BaseActivity {
     private void setFragment() {
         mFragments[0] = CustomerFilesJiuZhengjiluFragment.newInstance();//首页fragment
         mFragments[1] = CustomerFilesZhiliaodengjiFragment.newInstance();//客户fragment
-        mFragments[2] = CustomerFilesBinlixinxiFragment.newInstance();//统计fragment
+        mFragments[2] = CustomerFilesBinlixinxiFragment.newInstance("","");//统计fragment
         mFragments[3] = CustomerFilesChufangjiluFragment.newInstance();
         mFragments[4] = CustomerFilesXiaofeijiluFragment.newInstance();
         mFragments[5] = CustomerFilesKehuzhaopianFragment.newInstance();

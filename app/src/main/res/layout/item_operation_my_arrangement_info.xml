@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_xiaohuijilu_bg_item"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="25dp"
+            >
+            <TextView
+                android:id="@+id/tv_operation_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="手术室：10-5"
+                android:textColor="@color/doctor_green_color"
+                />
+            <TextView
+                android:id="@+id/tv_stage_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="台次：5"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/doctor_green_color"
+                />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FFF7F7F7" />
+        <include layout="@layout/item_customer_base_info"></include>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FFF7F7F7" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:id="@+id/tv_project_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="经典自体脂肪双侧 (含2部位吸脂)"
+                android:textColor="#FF575757"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FFF7F7F7" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:gravity="center_vertical"
+            android:paddingTop="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手术医生:"
+                android:textColor="#949595"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_doctor_name"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="杜媛媛"
+                android:textColor="#FF575757"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="医生助理:"
+                android:textColor="#949595"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_doctor_zhuli"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="李婷婷"
+                android:textColor="#FF575757"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:gravity="center_vertical"
+            android:paddingTop="8dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="麻醉方式:"
+                android:textColor="#949595"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_anesthesia_method"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="局部麻醉"
+                android:textColor="#FF575757"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="麻醉医生:"
+                android:textColor="#949595"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_anesthesia_doctor"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="李婷婷"
+                android:textColor="#FF575757"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:gravity="center_vertical"
+            android:paddingTop="8dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手术护士:"
+                android:textColor="#949595"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_operating_nurse"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="杜媛媛"
+                android:textColor="#FF575757"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="巡回护士:"
+                android:textColor="#949595"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_pratrol_nurse"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="李婷婷"
+                android:textColor="#FF575757"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:paddingBottom="10dp"
+            android:gravity="center_vertical"
+            android:paddingTop="8dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手术开始:"
+                android:textColor="#949595"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_operating_start_time"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="14:22"
+                android:textColor="#2CBCC1"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手术结束:"
+                android:textColor="#949595"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_operating_end_time"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="14:22"
+                android:textColor="#2CBCC1"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
