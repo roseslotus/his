@@ -14,17 +14,23 @@ import com.mylike.his.entity.ChargeUserInfoEntity;
 import com.mylike.his.entity.ClientEntity;
 import com.mylike.his.entity.ConsumeDDEntity;
 import com.mylike.his.entity.CreatorEntity;
+import com.mylike.his.entity.CustomerListBean;
+import com.mylike.his.entity.CustomerTreatRecordListBean;
 import com.mylike.his.entity.DaiZhenResp;
 import com.mylike.his.entity.DepCountEntity;
 import com.mylike.his.entity.DepartmentDEntity;
 import com.mylike.his.entity.DepartmentDoctorEntity;
 import com.mylike.his.entity.DepartmentEntity;
 import com.mylike.his.entity.DiscountCouponEntity;
+import com.mylike.his.entity.DoctorAdviceDetailResp;
+import com.mylike.his.entity.DoctorAdviceListBean;
 import com.mylike.his.entity.DoctorDetailsEntity;
 import com.mylike.his.entity.DoctorEntity;
 import com.mylike.his.entity.FenZhenInfoResp;
 import com.mylike.his.entity.HDepositEntity;
 import com.mylike.his.entity.HospitalAppointmentEntity;
+import com.mylike.his.entity.InHospitalDetailResp;
+import com.mylike.his.entity.InHospitalSortResp;
 import com.mylike.his.entity.InspectRecordListBean;
 import com.mylike.his.entity.IntentionEntity;
 import com.mylike.his.entity.LoginResp;
@@ -33,15 +39,21 @@ import com.mylike.his.entity.MenZhenChuFangJiLuDetailResp;
 import com.mylike.his.entity.MenZhenTreatDengJiDetailBean;
 import com.mylike.his.entity.MenZhenZhiLiaoDengJiBean;
 import com.mylike.his.entity.MessageEntity;
+import com.mylike.his.entity.MessageItemListBean;
 import com.mylike.his.entity.MessageTypeEntity;
 import com.mylike.his.entity.MyBookingDetailResp;
 import com.mylike.his.entity.MyBookingListResp;
+import com.mylike.his.entity.MyInHospitalCostResp;
+import com.mylike.his.entity.MyInHospitalDetailResp;
+import com.mylike.his.entity.MyInHostpitalListResp;
 import com.mylike.his.entity.OperationMyArrangementListResp;
 import com.mylike.his.entity.OperationMyBookingDetailResp;
 import com.mylike.his.entity.OperationMyBookingListResp;
 import com.mylike.his.entity.OperationMySchedulingDetailResp;
 import com.mylike.his.entity.OperationMySchedulingListResp;
+import com.mylike.his.entity.OperationPhotoBean;
 import com.mylike.his.entity.OperationPrePareResp;
+import com.mylike.his.entity.OperationProcessResp;
 import com.mylike.his.entity.PackageEntity;
 import com.mylike.his.entity.ProductChildrenEntity;
 import com.mylike.his.entity.ProductDetailsEntity;
@@ -452,6 +464,7 @@ public interface ServersApi {
     @GET("v1.0/oper/prepare/{tenantId}/{registId}")
     Call<OperationPrePareResp> getOperationPrePare(@Path("tenantId") String tenantId, @Path("registId") String registId);
 
+
     //手术模块 我的排台
     @GET("v1.0/opera/operating/{tenantId}/{depId}")
     Call<OperationMyArrangementListResp> getOperationMyArrangementList(@Path("tenantId") String tenantId, @Path("depId") String depId,
@@ -464,5 +477,99 @@ public interface ServersApi {
                                                                        @Query("anesthesia") String anesthesia,//麻醉方式
                                                                        @Query("operaRoom") String operaRoom//手术室
     );
+
+    // 手术模块 手术进程
+    @GET("v1.0/oper/process/{tenantId}/{registId}")
+    Call<OperationProcessResp> getOperationProcess(@Path("tenantId") String tenantId, @Path("registId") String registId);
+
+    // 手术模块 医嘱
+    @GET("v1.0/zy/order/{tenantId}/{registId}")
+    Call<List<DoctorAdviceListBean>> getDoctorAdviceList(@Path("tenantId") String tenantId, @Path("registId") String registId);
+
+    // 手术模块 医嘱详细
+    @GET("v1.0/zy/order/exec/{tenantId}/{registId}")
+    Call<DoctorAdviceDetailResp> getDoctorAdviceDetail(@Path("tenantId") String tenantId, @Path("registId") String registId);
+
+    // 手术模块 客户照片
+    @GET("v1.0/photo/{tenantId}/{patientId}/{registId}")
+    Call<List<OperationPhotoBean>> getCustomerPhotoList(@Path("tenantId") String tenantId, @Path("patientId") String patientId, @Path("registId") String registId);
+
+
+    //手术模块 我的排台
+    @GET("v1.0/zy/in/{tenantId}/{depId}")
+    Call<MyInHostpitalListResp> getMyInHospital(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                                @Query("userId") String userId,
+                                                @Query("status") int status,
+                                                @Query("page") Integer page,
+                                                @Query("rows") Integer rows,
+                                                @Query("searchName") String searchName, //查询条件
+                                                @Query("code") String code,//护理级别
+                                                @Query("bednoId") String bednoId,//床位排序
+                                                @Query("inhosptimeId") String inhosptimeId//入院日期排序
+    );
+
+    // 住院 住院详情
+    @GET("v1.0/zy/in/dtl/{tenantId}/{registId}")
+    Call<MyInHospitalDetailResp> getMyInHospitalDetail(@Path("tenantId") String tenantId, @Path("registId") String registId);
+
+    // 住院 住院费用
+    @GET("v1.0/zy/bill/{tenantId}/{registId}")
+    Call<MyInHospitalCostResp> getInHospitalCost(@Path("tenantId") String tenantId, @Path("registId") String registId,
+                                                 @Query("page") Integer page,
+                                                 @Query("rows") Integer rows
+    );
+
+    // 住院 住院费用详情
+    @GET("v1.0/zy/hospitalization/expensesDetails/{tenantId}/{zysn}")
+    Call<InHospitalDetailResp> getInHospitalCostDetail(@Path("tenantId") String tenantId, @Path("zysn") String zysn,
+                                                       @Query("page") Integer page,
+                                                       @Query("rows") Integer rows
+    );
+
+    // 客户
+    @GET("v1.0/cus/{tenantId}/{depId}/{doctorId}")
+    Call<List<CustomerListBean>> getCustomerList(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                                 @Path("doctorId") String doctorId,
+                                                 @Query("page") Integer page,
+                                                 @Query("rows") Integer rows
+    );
+
+    // 就诊记录
+    @GET("v1.0/cus/record/{tenantId}/{depId}")
+    Call<List<CustomerTreatRecordListBean>> getCustomerTreatRecordList(@Path("tenantId") String tenantId, @Path("depId") String depId,
+                                                                       @Query("cusId") String cusId,
+                                                            @Query("page") Integer page,
+                                                            @Query("rows") Integer rows
+    );
+
+    //	消息读取
+    @GET("v1.0/msg/{tenantId}/{depId}")
+    Call<List<MessageItemListBean>> getMessageList(@Path("tenantId") String tenantId,
+                                                               @Query("empId") String empId,
+                                                               @Query("page") Integer page,
+                                                               @Query("rows") Integer rows
+    );
+
+    //	在院筛选和下拉
+    @GET("v1.0/zy/patidiagrec")
+    Call<InHospitalSortResp> getInHospitalSort();
+
+    //	待诊排序接口
+    @GET("v1.0/mz/regist/dropdown")
+    Call<InHospitalSortResp> getMyWaitingRegistSort();
+
+    //	我的预约筛选
+    @GET("v1.0/mz/reserve/dropdown")
+    Call<InHospitalSortResp> getMyBookSort();
+
+    //手术	我的预约筛选
+    @GET("v1.0/oper/sopOperReserve/dropdown")
+    Call<InHospitalSortResp> getOperationMyBookSort();
+
+    //手术	排期筛选
+    @GET("v1.0/oper/scheduling/dropdown")
+    Call<InHospitalSortResp> getScheduingSort();
+
+
 }
 

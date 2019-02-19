@@ -9,6 +9,9 @@ import com.mylike.his.entity.DaiZhenResp;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -25,7 +28,23 @@ public class WoDeDaiZhenPresenter extends BasePagePresenter<DaiZhenResp> {
 
     private String userId;
     private String departId;
+    private String searchName="";
+    private String triageTime;
+    private String waitingTime;
 
+    private Calendar selectCalendar;
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
+    }
+
+    public void setTriageTime(String triageTime) {
+        this.triageTime = triageTime;
+    }
+
+    public void setWaitingTime(String waitingTime) {
+        this.waitingTime = waitingTime;
+    }
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -41,6 +60,19 @@ public class WoDeDaiZhenPresenter extends BasePagePresenter<DaiZhenResp> {
 
     public WoDeDaiZhenPresenter(Context context){
        super(context);
+        selectCalendar = Calendar.getInstance();
+    }
+
+    public String formatDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(selectCalendar.getTime());
+    }
+
+    public void goPreDay(){
+        selectCalendar.add(Calendar.DAY_OF_MONTH,-1);
+    }
+    public void goNexDay(){
+        selectCalendar.add(Calendar.DATE,1);
     }
 
     @Override
@@ -50,12 +82,17 @@ public class WoDeDaiZhenPresenter extends BasePagePresenter<DaiZhenResp> {
 
     public void getWoDeDaiZhenList(final ResponseListener<DaiZhenResp> listener){
         CommonUtil.showLoadProgress(mContext);
-        Calendar calendar = Calendar.getInstance();
+        String search="";
+        try {
+            search = URLEncoder.encode(searchName,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-        HttpClient.getHttpApi().getWoDeDaiZhenList(BaseApplication.getLoginEntity().getTenantId(), TextUtils.isEmpty(departId)?BaseApplication.getLoginEntity().getDefaultDepId():departId,
-                TextUtils.isEmpty(userId)?BaseApplication.getLoginEntity().getUserId():userId,pageIndex,pageSize,
-               "2019-01-23",
-                status,"desc","desc",""
+        HttpClient.getHttpApi().getWoDeDaiZhenList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
+               userId,pageIndex,pageSize,
+               formatDate(),
+                status,triageTime,waitingTime,search
 
         ).enqueue(new Callback<DaiZhenResp>() {
             @Override

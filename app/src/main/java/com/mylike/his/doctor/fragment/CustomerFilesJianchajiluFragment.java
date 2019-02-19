@@ -20,6 +20,7 @@ import com.mylike.his.doctor.activity.JianChajiluXueChangGuiOrGanGongNengDetailA
 import com.mylike.his.entity.InspectRecordListBean;
 import com.mylike.his.entity.MenZhenZhiLiaoDengJiBean;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.Constacts;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -44,12 +45,17 @@ public class CustomerFilesJianchajiluFragment extends BaseFragment {
     ListView mListView;
     private View view;
     private Unbinder unbinder;
-
+    private String registId;
+    private String cusId;
     private CommonAdapter<InspectRecordListBean> commonAdapter;
     private List<InspectRecordListBean> mDatas =  new ArrayList<>();
 
-    public static CustomerFilesJianchajiluFragment newInstance(){
+    public static CustomerFilesJianchajiluFragment newInstance(String registId,String cusId){
         CustomerFilesJianchajiluFragment fragment= new CustomerFilesJianchajiluFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constacts.CONTENT_DATA,registId);
+        bundle.putString(Constacts.CUSID,cusId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -58,7 +64,10 @@ public class CustomerFilesJianchajiluFragment extends BaseFragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_customer_files_jianchajilu, null, false);
         unbinder = ButterKnife.bind(this, rootView);
-
+        if (getArguments() != null) {
+            registId= getArguments().getString(Constacts.CONTENT_DATA);
+            cusId = getArguments().getString(Constacts.CUSID);
+        }
         commonAdapter = new CommonAdapter<InspectRecordListBean>(getActivity(),R.layout.item_customer_files_jianchajilu,mDatas) {
             @Override
             protected void convert(ViewHolder holder, InspectRecordListBean item, int position) {
@@ -95,7 +104,7 @@ public class CustomerFilesJianchajiluFragment extends BaseFragment {
 
     public void getInspectRecordList() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getInspectRecordList(BaseApplication.getLoginEntity().getTenantId(),"66461e438c824fa1adf852be9b5369a5","")
+        HttpClient.getHttpApi().getInspectRecordList(BaseApplication.getLoginEntity().getTenantId(),registId,cusId)
                 .enqueue(new Callback<List<InspectRecordListBean>>() {
                     @Override
                     public void onResponse(Call<List<InspectRecordListBean>> call, Response<List<InspectRecordListBean>> response) {

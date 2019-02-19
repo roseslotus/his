@@ -21,6 +21,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.mylike.his.R;
+import com.mylike.his.entity.DropdownsBean;
+import com.mylike.his.entity.SelectsBean;
 import com.mylike.his.view.FlowLayout;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
 
@@ -34,14 +36,14 @@ import java.util.List;
 
 public class ChoiceZhuyuanShuaixuanPopupMenu  extends DialogFragment{
 
-    private FlowLayout llContent;
+    private LinearLayout llContent;
     private TextView mBtnSubmit;
     private TextView mBtnReset;
 
 
-    private List<String> mDatas;
+    private List<DropdownsBean> mDatas;
 
-    public ChoiceZhuyuanShuaixuanPopupMenu setDatas(List<String> datas){
+    public ChoiceZhuyuanShuaixuanPopupMenu setDatas(List<DropdownsBean> datas){
         this.mDatas=datas;
         return this;
     }
@@ -103,36 +105,50 @@ public class ChoiceZhuyuanShuaixuanPopupMenu  extends DialogFragment{
     public void addTypeBody(){
 
         llContent.removeAllViews();
-        for (final String name : mDatas) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            final TextView tvFocusName = new TextView(getActivity());
-            tvFocusName.setText(name);
-            tvFocusName.setTag(name);
-            tvFocusName.setTextSize(13);
-            tvFocusName.setGravity(Gravity.CENTER);
-            tvFocusName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    tvFocusName.setBackgroundResource(R.drawable.shape_green_round20);
-                    tvFocusName.setTextColor(Color.parseColor("#ffffff"));
-                }
-            });
+        for (final DropdownsBean bean : mDatas) {
+            if (bean.getSelects() != null) {
+                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                final TextView categoryTextView = new TextView(getActivity());
+                categoryTextView.setText(bean.getName());
+                categoryTextView.setTextSize(14);
+                llContent.addView(categoryTextView,params1);
+
+               FlowLayout flowLayout =new FlowLayout(getActivity(),null);
+               llContent.addView(flowLayout);
+
+                for (SelectsBean selectsBean : bean.getSelects()) {
+                    LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    final TextView tvFocusName = new TextView(getActivity());
+                    tvFocusName.setText(selectsBean.getValue());
+                    tvFocusName.setTag(selectsBean);
+                    tvFocusName.setTextSize(13);
+                    tvFocusName.setGravity(Gravity.CENTER);
+                    tvFocusName.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            tvFocusName.setBackgroundResource(R.drawable.shape_green_round20);
+                            tvFocusName.setTextColor(Color.parseColor("#ffffff"));
+                        }
+                    });
 
 
-                tvFocusName.setBackgroundResource(R.drawable.shape_dark_gray_round20);
-                tvFocusName.setTextColor(Color.parseColor("#575757"));
+                    tvFocusName.setBackgroundResource(R.drawable.shape_dark_gray_round20);
+                    tvFocusName.setTextColor(Color.parseColor("#575757"));
 
 
-            tvFocusName.setPadding(DensityUtil.dp2px(14),DensityUtil.dp2px(7),DensityUtil.dp2px(14),DensityUtil.dp2px(7));
+                    tvFocusName.setPadding(DensityUtil.dp2px(14),DensityUtil.dp2px(7),DensityUtil.dp2px(14),DensityUtil.dp2px(7));
 
-            LinearLayout linearLayout = new LinearLayout(getActivity());
-            linearLayout.setPadding(DensityUtil.dp2px(6), DensityUtil.dp2px(6), DensityUtil.dp2px(6), DensityUtil.dp2px(6));
-            linearLayout.addView(tvFocusName,params);
+                    LinearLayout linearLayout = new LinearLayout(getActivity());
+                    linearLayout.setPadding(DensityUtil.dp2px(6), DensityUtil.dp2px(6), DensityUtil.dp2px(6), DensityUtil.dp2px(6));
+                    linearLayout.addView(tvFocusName,params2);
 
 //            int width=searchChildListShowEntity.name.trim().length()>=0?LinearLayout.LayoutParams.WRAP_CONTENT:DensityUtil.dp2px(80);/
 
-            LinearLayout.LayoutParams llparams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-            llContent.addView(linearLayout,llparams);
+                    LinearLayout.LayoutParams llparams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                    flowLayout.addView(linearLayout,llparams);
+                }
+            }
+
         }
 
     }

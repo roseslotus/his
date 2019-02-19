@@ -49,6 +49,8 @@
                     android:layout_marginLeft="9dp"
                     android:drawableRight="@mipmap/icon_d_clear_text"
                     android:textSize="14sp"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
                     android:paddingRight="9dp"
                     android:layout_weight="1"
                     android:layout_marginRight="4dp"
@@ -85,6 +87,7 @@
             android:orientation="horizontal"
             >
             <TextView
+                android:id="@+id/tv_go_pre_day"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="14sp"
@@ -96,6 +99,7 @@
                 android:paddingRight="20dp"
                 />
             <TextView
+                android:id="@+id/tv_current_day"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -107,6 +111,7 @@
                 android:background="#55CBC9"
                 />
             <TextView
+                android:id="@+id/tv_go_next_day"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="14sp"
@@ -131,7 +136,7 @@
                 android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:text="排台总数：50"
+                android:text="排台总数：0"
                 android:gravity="center"
                 android:layout_marginLeft="20dp"
                 />
@@ -141,7 +146,7 @@
                 android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:text="已排台：30"
+                android:text="已排台：0"
                 android:gravity="center"
                 android:layout_centerInParent="true"
                 />
@@ -151,7 +156,7 @@
                 android:layout_height="match_parent"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:text="已完成：10"
+                android:text="已完成：0"
                 android:gravity="center"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"

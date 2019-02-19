@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.mylike.his.R;
 import com.mylike.his.core.BaseApplication;
 import com.mylike.his.core.BaseFragment;
+import com.mylike.his.doctor.activity.MyInHospitalActivity;
 import com.mylike.his.doctor.activity.OperationMyArrangementActivity;
 import com.mylike.his.doctor.activity.OperationMyBookingActivity;
 import com.mylike.his.doctor.activity.OperationMyScheduleActivity;
@@ -24,7 +25,6 @@ import com.mylike.his.doctor.activity.WoDeChuyuanActivity;
 import com.mylike.his.doctor.activity.WoDeDaizhenActivity;
 import com.mylike.his.doctor.activity.WoDeJieZhenActivity;
 import com.mylike.his.doctor.activity.WoDeYuyueActivity;
-import com.mylike.his.doctor.activity.WoDeZhuyuanActivity;
 import com.mylike.his.doctor.popup.ChoiceKeShiPopupMenu;
 import com.mylike.his.entity.DepCountEntity;
 import com.mylike.his.entity.DepartmentBean;
@@ -96,12 +96,26 @@ public class WorkbenchFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    startActivity(WoDeDaizhenActivity.class);
+                    Intent intent = new Intent(getActivity(), WoDeDaizhenActivity.class);
+                    intent.putExtra("type", 1);
+                    startActivity(intent);
                 } else if (position == 1) {
                     Intent intent = new Intent(getActivity(), WoDeYuyueActivity.class);
                     startActivity(intent);
                 } else if (position == 2) {
                     Intent intent = new Intent(getActivity(), WoDeJieZhenActivity.class);
+                    startActivity(intent);
+                }else  if (position == 3) {
+                    Intent intent = new Intent(getActivity(), WoDeDaizhenActivity.class);
+                    intent.putExtra("type", 2);
+                    startActivity(intent);
+                } else if (position == 4) {
+                    Intent intent = new Intent(getActivity(), WoDeYuyueActivity.class);
+                    intent.putExtra("type", 2);
+                    startActivity(intent);
+                } else if (position == 5) {
+                    Intent intent = new Intent(getActivity(), WoDeJieZhenActivity.class);
+                    intent.putExtra("type", 2);
                     startActivity(intent);
                 }
 
@@ -111,16 +125,31 @@ public class WorkbenchFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    startActivity(OperationMyBookingActivity.class);
+                    Intent intent = new Intent(getActivity(), OperationMyBookingActivity.class);
+                    intent.putExtra("type", 1);
+                    startActivity(intent);
                 } else if (position == 1) {
                     Intent intent = new Intent(getActivity(), OperationMyScheduleActivity.class);
                     intent.putExtra("type", 1);
                     startActivity(intent);
                 } else if (position == 2) {
                     Intent intent = new Intent(getActivity(), OperationMyArrangementActivity.class);
+                    intent.putExtra("type", 1);
                     startActivity(intent);
-                } else {
+                } else  if (position == 3) {
                     startActivity(ShouShuDongTaiActivity.class);
+                } else if (position == 4) {
+                    Intent intent = new Intent(getActivity(), OperationMyBookingActivity.class);
+                    intent.putExtra("type", 2);
+                    startActivity(intent);
+                } else if (position == 5) {
+                    Intent intent = new Intent(getActivity(), OperationMyScheduleActivity.class);
+                    intent.putExtra("type", 2);
+                    startActivity(intent);
+                } else if (position==6){
+                    Intent intent = new Intent(getActivity(), OperationMyArrangementActivity.class);
+                    intent.putExtra("type", 2);
+                    startActivity(intent);
                 }
 
             }
@@ -129,9 +158,21 @@ public class WorkbenchFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    startActivity(WoDeZhuyuanActivity.class);
+                    Intent intent = new Intent(getActivity(),MyInHospitalActivity.class);
+                    intent.putExtra("type", 1);
+                    startActivity(intent);
                 } else if (position == 1) {
-                    startActivity(WoDeChuyuanActivity.class);
+                    Intent intent = new Intent(getActivity(),WoDeChuyuanActivity.class);
+                    intent.putExtra("type", 1);
+                    startActivity(intent);
+                }else if (position == 2) {
+                    Intent intent = new Intent(getActivity(),MyInHospitalActivity.class);
+                    intent.putExtra("type", 2);
+                    startActivity(intent);
+                }else if (position == 3) {
+                    Intent intent = new Intent(getActivity(),WoDeChuyuanActivity.class);
+                    intent.putExtra("type", 2);
+                    startActivity(intent);
                 }
 
             }

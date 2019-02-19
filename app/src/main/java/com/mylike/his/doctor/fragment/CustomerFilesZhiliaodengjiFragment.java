@@ -20,6 +20,7 @@ import com.mylike.his.entity.BinLiJiLuBean;
 import com.mylike.his.entity.MenZhenZhiLiaoDengJiBean;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.BusnessUtil;
+import com.mylike.his.utils.Constacts;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -47,9 +48,15 @@ public class CustomerFilesZhiliaodengjiFragment extends BaseFragment {
 
     private CommonAdapter<MenZhenZhiLiaoDengJiBean> commonAdapter;
     private List<MenZhenZhiLiaoDengJiBean> mDatas =  new ArrayList<>();
+    private String registId;
+    private String cusId;
 
-    public static CustomerFilesZhiliaodengjiFragment newInstance(){
+    public static CustomerFilesZhiliaodengjiFragment newInstance(String registId,String cusId){
         CustomerFilesZhiliaodengjiFragment fragment= new CustomerFilesZhiliaodengjiFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constacts.CONTENT_DATA,registId);
+        bundle.putString(Constacts.CUSID,cusId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -58,7 +65,10 @@ public class CustomerFilesZhiliaodengjiFragment extends BaseFragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_customer_files_jiuzhengjilu, null, false);
         unbinder = ButterKnife.bind(this, rootView);
-
+        if (getArguments() != null) {
+            registId = getArguments().getString(Constacts.CONTENT_DATA);
+            cusId =getArguments().getString(Constacts.CUSID);
+        }
         commonAdapter = new CommonAdapter<MenZhenZhiLiaoDengJiBean>(getActivity(),R.layout.item_customer_files_zhiliaodengji,mDatas) {
             @Override
             protected void convert(ViewHolder holder, MenZhenZhiLiaoDengJiBean item, int position) {
@@ -81,15 +91,15 @@ public class CustomerFilesZhiliaodengjiFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        getZhiLiaoDengJi("","");
+        getZhiLiaoDengJi();
 
         return rootView;
     }
 
 
-    public void getZhiLiaoDengJi(String registId,String cusId) {
+    public void getZhiLiaoDengJi() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getZhiLiaoDengJi(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), "fb75065833b24875921f2c2971347823","")
+        HttpClient.getHttpApi().getZhiLiaoDengJi(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), registId,cusId)
                 .enqueue(new Callback<List<MenZhenZhiLiaoDengJiBean>>() {
                     @Override
                     public void onResponse(Call<List<MenZhenZhiLiaoDengJiBean>> call, Response<List<MenZhenZhiLiaoDengJiBean>> response) {

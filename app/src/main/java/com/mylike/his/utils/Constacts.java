@@ -7,4 +7,5 @@ public interface Constacts {
     int OPERATION_MY_WAIT_DIAGNOSIS=202;//手术 我的待诊
 
     String CONTENT_DATA= "content_data";
+    String CUSID= "cusid";
 }

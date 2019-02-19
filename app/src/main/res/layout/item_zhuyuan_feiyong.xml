@@ -34,6 +34,7 @@
                 android:textSize="12sp"
                 />
             <TextView
+                android:id="@+id/tv_depart_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="住院部"
@@ -45,6 +46,7 @@
                 android:layout_height="1dp"
                 android:layout_weight="1"></View>
             <TextView
+                android:id="@+id/tv_cost_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -99,6 +101,7 @@
                     android:layout_marginLeft="10dp"
                     />
                 <TextView
+                    android:id="@+id/tv_ennter_hospital_date"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -114,6 +117,7 @@
                     android:text="入院天数:"
                     />
                 <TextView
+                    android:id="@+id/tv_enter_days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -139,6 +143,7 @@
                     android:layout_marginLeft="10dp"
                     />
                 <TextView
+                    android:id="@+id/tv_deposit_amount"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -154,6 +159,7 @@
                     android:text="住院费用:"
                     />
                 <TextView
+                    android:id="@+id/tv_hospital_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -179,6 +185,7 @@
                     android:layout_marginLeft="10dp"
                     />
                 <TextView
+                    android:id="@+id/tv_free_amount"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -194,6 +201,7 @@
                     android:text="实际费用:"
                     />
                 <TextView
+                    android:id="@+id/tv_actual_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"

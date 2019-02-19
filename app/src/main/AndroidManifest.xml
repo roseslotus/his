@@ -172,11 +172,11 @@
         <activity android:name=".doctor.activity.VersionInfoActivity"></activity>
         <activity android:name=".doctor.activity.CustomerFilesDetailActivity"></activity>
         <activity android:name=".doctor.activity.XiaofeijiluDetailActivity" ></activity>
-        <activity android:name=".doctor.activity.WoDeZhuyuanActivity"></activity>
+        <activity android:name=".doctor.activity.MyInHospitalActivity"></activity>
         <activity android:name=".doctor.activity.WoDeChuyuanActivity"></activity>
         <activity android:name=".doctor.activity.ZhuyuanDetailActivity"></activity>
         <activity android:name=".doctor.activity.ZhuyuanFeiyongDetailActivity"></activity>
-        <activity android:name=".doctor.activity.YiZhuDetailActivity"></activity>
+        <activity android:name=".doctor.activity.DoctorAdviceDetailActivity"></activity>
         <activity android:name=".doctor.activity.WoDeDaizhenActivity"></activity>
         <activity android:name=".doctor.activity.MenZhenDetailActivity"></activity>
         <activity android:name=".doctor.activity.ChuFangDetailActivity"></activity>
@@ -195,6 +195,7 @@
         <activity android:name=".doctor.activity.ShouShuDongTaiActivity"></activity>
         <activity android:name=".doctor.activity.WoDeJieZhenActivity"></activity>
         <activity android:name=".doctor.activity.OperationMyArrangementActivity"></activity>
+        <activity android:name=".doctor.activity.WebViewActivity"></activity>
         <!-- Required  SDK核心功能-->
         <service
             android:name="cn.jpush.android.service.DownloadService"

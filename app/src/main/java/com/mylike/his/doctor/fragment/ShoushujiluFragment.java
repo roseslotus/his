@@ -84,7 +84,7 @@ public class ShoushujiluFragment extends BaseFragment {
 
     public void getOperationSchedulingDetail(String operationId) {
         CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getOperationSchedulingDetail(BaseApplication.getLoginEntity().getTenantId(), "32fa7d43be3b4680b12523d82563b161")
+        HttpClient.getHttpApi().getOperationSchedulingDetail(BaseApplication.getLoginEntity().getTenantId(), operationId)
                 .enqueue(new Callback<OperationMySchedulingDetailResp>() {
                     @Override
                     public void onResponse(Call<OperationMySchedulingDetailResp> call, Response<OperationMySchedulingDetailResp> response) {

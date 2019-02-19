@@ -52,6 +52,8 @@
                     android:paddingRight="9dp"
                     android:layout_weight="1"
                     android:layout_marginRight="4dp"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
                     />
 
             </LinearLayout>
@@ -90,7 +92,7 @@
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:text="总人数：50"
+                android:text="总人数：0"
                 android:gravity="center"
                 />
             <TextView
@@ -99,7 +101,7 @@
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:text="今日入院：30"
+                android:text="今日入院：0"
                 android:gravity="center"
                 />
             <TextView
@@ -108,7 +110,7 @@
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:text="待出院：10"
+                android:text="待出院：0"
                 android:gravity="center"
                 />
           <LinearLayout

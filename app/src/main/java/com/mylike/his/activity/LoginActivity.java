@@ -167,9 +167,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onResponse(Call<LoginResp> call, Response<LoginResp> response) {
                 CommonUtil.dismissLoadProgress();
-                BaseApplication.setLoginEntity(response.body().getLoginInfo());
-                startActivity(DoctorMainActivity.class);
-                finish();
+                if (response.body() != null) {
+                    BaseApplication.setLoginEntity(response.body().getLoginInfo());
+                    startActivity(DoctorMainActivity.class);
+                    finish();
+                }
+
             }
 
             @Override

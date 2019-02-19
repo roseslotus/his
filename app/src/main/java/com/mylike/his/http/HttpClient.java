@@ -26,6 +26,10 @@ public class HttpClient {
     private static String BASE_URL = "http://" + ip + "/mylike-crm/";//统一地址
     private static ServersApi serversApi;
 
+    public static String getBaseUrl() {
+        return BASE_URL;
+    }
+
     public static ServersApi getHttpApi() {
         //防止在没有选中ip时修改统一ip出现修改错位的现象
         if (TextUtils.isEmpty(ip)) {

@@ -17,8 +17,10 @@ import com.mylike.his.doctor.activity.JianChajiluBChaoDetailActivity;
 import com.mylike.his.doctor.activity.JianChajiluDrDetailActivity;
 import com.mylike.his.doctor.activity.JianChajiluXinDianTuDetailActivity;
 import com.mylike.his.doctor.activity.JianChajiluXueChangGuiOrGanGongNengDetailActivity;
+import com.mylike.his.doctor.activity.WebViewActivity;
 import com.mylike.his.entity.InspectRecordListBean;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.Constacts;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -46,9 +48,14 @@ public class CustomerFilesInspectRecordFragment extends BaseFragment {
 
     private CommonAdapter<InspectRecordListBean> commonAdapter;
     private List<InspectRecordListBean> mDatas =  new ArrayList<>();
-
-    public static CustomerFilesInspectRecordFragment newInstance(){
+    private String registId;
+    private String cusId;
+    public static CustomerFilesInspectRecordFragment newInstance(String registId,String cusId){
         CustomerFilesInspectRecordFragment fragment= new CustomerFilesInspectRecordFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constacts.CONTENT_DATA,registId);
+        bundle.putString(Constacts.CUSID,cusId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -57,6 +64,10 @@ public class CustomerFilesInspectRecordFragment extends BaseFragment {
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_customer_files_inspect_record, null, false);
         unbinder = ButterKnife.bind(this, rootView);
+        if (getArguments() != null) {
+            registId= getArguments().getString(Constacts.CONTENT_DATA);
+            cusId = getArguments().getString(Constacts.CUSID);
+        }
         commonAdapter = new CommonAdapter<InspectRecordListBean>(getActivity(),R.layout.item_customer_files_jianchajilu,mDatas) {
             @Override
             protected void convert(ViewHolder holder, InspectRecordListBean item, int position) {
@@ -71,21 +82,34 @@ public class CustomerFilesInspectRecordFragment extends BaseFragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i==0){
-                    startActivity(JianChajiluBChaoDetailActivity.class);
-                }else if (i==1){
-                    startActivity(JianChajiluDrDetailActivity.class);
-                }else if (i==2){
-                    startActivity(JianChajiluXinDianTuDetailActivity.class);
-                }else if (i==3){
-                    Intent intent =new Intent(getActivity(),JianChajiluXueChangGuiOrGanGongNengDetailActivity.class);
-                    intent.putExtra("type",1);
-                    startActivity(intent);
-                }else if (i==4){
-                    Intent intent =new Intent(getActivity(),JianChajiluXueChangGuiOrGanGongNengDetailActivity.class);
+                InspectRecordListBean bean  =mDatas.get(i);
+                if ("心电检查".equals(bean.getApplyName())){
+//                    startActivity(JianChajiluBChaoDetailActivity.class);
+                    Intent intent = new Intent(getActivity(),WebViewActivity.class);
+                    intent.putExtra("registId",bean.getApplyId());
                     intent.putExtra("type",2);
                     startActivity(intent);
+                }else if ("DR".equals(bean.getApplyName())||"B超".equals(bean.getApplyName())) {
+                    Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                    intent.putExtra("registId", bean.getApplyId());
+                    intent.putExtra("type", 1);
+                    startActivity(intent);
+                }else {
+//                    startActivity(JianChajiluBChaoDetailActivity.class);
+                        Intent intent = new Intent(getActivity(),WebViewActivity.class);
+                        intent.putExtra("registId",bean.getApplyId());
+                        intent.putExtra("type",3);
+                        startActivity(intent);
                 }
+//                else if (i==3){
+//                    Intent intent =new Intent(getActivity(),JianChajiluXueChangGuiOrGanGongNengDetailActivity.class);
+//                    intent.putExtra("type",1);
+//                    startActivity(intent);
+//                }else if (i==4){
+//                    Intent intent =new Intent(getActivity(),JianChajiluXueChangGuiOrGanGongNengDetailActivity.class);
+//                    intent.putExtra("type",2);
+//                    startActivity(intent);
+//                }
 
             }
         });
@@ -95,7 +119,7 @@ public class CustomerFilesInspectRecordFragment extends BaseFragment {
 
     public void getInspectRecordList() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getInspectRecordList(BaseApplication.getLoginEntity().getTenantId(),"66461e438c824fa1adf852be9b5369a5","")
+        HttpClient.getHttpApi().getInspectRecordList(BaseApplication.getLoginEntity().getTenantId(),registId,cusId)
                 .enqueue(new Callback<List<InspectRecordListBean>>() {
                     @Override
                     public void onResponse(Call<List<InspectRecordListBean>> call, Response<List<InspectRecordListBean>> response) {

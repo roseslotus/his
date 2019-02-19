@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.mylike.his.R;
-import com.mylike.his.presener.WoDeDaiZhenPresenter;
 import com.mylike.his.core.BaseActivity;
 import com.mylike.his.doctor.fragment.CustomerFilesBinlixinxiFragment;
 import com.mylike.his.doctor.fragment.CustomerFilesChufangjiluFragment;
@@ -41,7 +40,6 @@ public class MenZhenDetailActivity extends BaseActivity  {
     LinearLayout mLlDetailHeaderInfo;
 
     WoDeDaiZhenItemBean woDeDaiZhenItemBean;
-    private WoDeDaiZhenPresenter daiZhenPresenter;
 
     private Fragment[] mFragments = new Fragment[7];
 
@@ -53,7 +51,6 @@ public class MenZhenDetailActivity extends BaseActivity  {
         ButterKnife.bind(this);
 
         woDeDaiZhenItemBean = (WoDeDaiZhenItemBean) getIntent().getSerializableExtra("WoDeDaiZhenItemBean");
-        daiZhenPresenter = new WoDeDaiZhenPresenter(this);
         bindData();
         setFragment();
         mVpCustomer.setAdapter(new PagerAdapter(getSupportFragmentManager()));
@@ -69,9 +66,9 @@ public class MenZhenDetailActivity extends BaseActivity  {
 
     private void setFragment() {
         mFragments[0] = MenZhenFenZhenInfoFragment.newInstance(woDeDaiZhenItemBean.getRegistId());//首页fragment
-        mFragments[1] = CustomerFilesBinlixinxiFragment.newInstance(woDeDaiZhenItemBean.getRegistId(),woDeDaiZhenItemBean.getCustomer().getId());//客户fragment
-        mFragments[2] = CustomerFilesZhiliaodengjiFragment.newInstance();//统计fragment
-        mFragments[3] = CustomerFilesChufangjiluFragment.newInstance();
+        mFragments[1] = CustomerFilesBinlixinxiFragment.newInstance(woDeDaiZhenItemBean.getRegistId(),"");//客户fragment
+        mFragments[2] = CustomerFilesZhiliaodengjiFragment.newInstance(woDeDaiZhenItemBean.getRegistId(),"");//统计fragment
+        mFragments[3] = CustomerFilesChufangjiluFragment.newInstance(woDeDaiZhenItemBean.getRegistId(),"");
 
     }
 

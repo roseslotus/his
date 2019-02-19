@@ -8,6 +8,7 @@ import com.mylike.his.entity.MyBookingListResp;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -20,8 +21,22 @@ import retrofit2.Response;
 
 public class WoDeYuYuePresenter extends BasePagePresenter<MyBookingListResp> {
 
+
+    private String searchName;
+    private String userId;
+    private Calendar selectCalendar;
+
+
     public WoDeYuYuePresenter(Context context){
         super(context);
+        selectCalendar = Calendar.getInstance();
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
     }
 
     @Override
@@ -30,14 +45,28 @@ public class WoDeYuYuePresenter extends BasePagePresenter<MyBookingListResp> {
     }
 
 
+    public String formatDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(selectCalendar.getTime());
+    }
+
+    public void goPreDay(){
+        selectCalendar.add(Calendar.DAY_OF_MONTH,-1);
+    }
+    public void goNexDay(){
+        selectCalendar.add(Calendar.DATE,1);
+    }
+
+
+
+
     public void getMyBookingList(final ResponseListener<MyBookingListResp> listener){
         CommonUtil.showLoadProgress(mContext);
-        Calendar calendar = Calendar.getInstance();
 
         HttpClient.getHttpApi().getMyBookingList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
-                BaseApplication.getLoginEntity().getUserId(),pageIndex,pageSize,
-               "2019-01-24",
-                "",""
+                userId,pageIndex,pageSize,
+               formatDate(),
+                "",searchName
 
         ).enqueue(new Callback<MyBookingListResp>() {
             @Override

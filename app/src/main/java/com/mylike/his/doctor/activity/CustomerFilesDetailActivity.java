@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
@@ -19,6 +20,9 @@ import com.mylike.his.doctor.fragment.CustomerFilesJiuZhengjiluFragment;
 import com.mylike.his.doctor.fragment.CustomerFilesKehuzhaopianFragment;
 import com.mylike.his.doctor.fragment.CustomerFilesXiaofeijiluFragment;
 import com.mylike.his.doctor.fragment.CustomerFilesZhiliaodengjiFragment;
+import com.mylike.his.entity.CustomerListBean;
+import com.mylike.his.utils.Constacts;
+import com.mylike.his.utils.CustomerUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,15 +39,22 @@ public class CustomerFilesDetailActivity extends BaseActivity {
     TabLayout mTbTitle;
     @BindView(R.id.vp_customer)
     ViewPager mVpCustomer;
+    @BindView(R.id.ll_detail_header_info)
+    LinearLayout mLlDetailHeaderInfo;
 
     private Fragment[] mFragments = new Fragment[7];
+
+    CustomerListBean bean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setLoadProgress(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_files_detail);
-        ButterKnife.bind(this); setFragment();
+        ButterKnife.bind(this);
+        bean = (CustomerListBean) getIntent().getSerializableExtra(Constacts.CONTENT_DATA);
+        CustomerUtil.setCustomerDetailHeaderInfo(mLlDetailHeaderInfo,bean.getCustomer());
+        setFragment();
         mVpCustomer.setAdapter(new PagerAdapter(getSupportFragmentManager()));
         mTbTitle.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mVpCustomer));
         mVpCustomer.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTbTitle));
@@ -51,13 +62,23 @@ public class CustomerFilesDetailActivity extends BaseActivity {
 
 
     private void setFragment() {
-        mFragments[0] = CustomerFilesJiuZhengjiluFragment.newInstance();//首页fragment
-        mFragments[1] = CustomerFilesZhiliaodengjiFragment.newInstance();//客户fragment
-        mFragments[2] = CustomerFilesBinlixinxiFragment.newInstance("","");//统计fragment
-        mFragments[3] = CustomerFilesChufangjiluFragment.newInstance();
+        mFragments[0] = CustomerFilesJiuZhengjiluFragment.newInstance(bean.getCusId());//首页fragment
+        mFragments[1] = CustomerFilesZhiliaodengjiFragment.newInstance("",bean.getCusId());//客户fragment
+        mFragments[2] = CustomerFilesBinlixinxiFragment.newInstance("", bean.getCusId());//统计fragment
+        mFragments[3] = CustomerFilesChufangjiluFragment.newInstance("",bean.getCusId());
         mFragments[4] = CustomerFilesXiaofeijiluFragment.newInstance();
-        mFragments[5] = CustomerFilesKehuzhaopianFragment.newInstance();
-        mFragments[6] = CustomerFilesJianchajiluFragment.newInstance();
+        mFragments[5] = CustomerFilesKehuzhaopianFragment.newInstance("",bean.getCusId());
+        mFragments[6] = CustomerFilesJianchajiluFragment.newInstance("",bean.getCusId());
+    }
+
+    @OnClick(R.id.ll_detail_header_info)
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.ll_detail_header_info:
+                break;
+        }
     }
 
     class PagerAdapter extends FragmentPagerAdapter {

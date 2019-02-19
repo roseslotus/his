@@ -24,6 +24,7 @@
                 android:text="病床:"
                 />
             <TextView
+                android:id="@+id/tv_berth_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -52,6 +53,7 @@
                 android:text="病情:"
                 />
             <TextView
+                android:id="@+id/tv_illness_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -80,6 +82,7 @@
                 android:text="护理等级:"
                 />
             <TextView
+                android:id="@+id/tv_nurse_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -108,6 +111,7 @@
                 android:text="科室:"
                 />
             <TextView
+                android:id="@+id/tv_depart_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -136,6 +140,7 @@
                 android:text="病区:"
                 />
             <TextView
+                android:id="@+id/tv_illness_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -164,6 +169,7 @@
                 android:text="入院日期:"
                 />
             <TextView
+                android:id="@+id/tv_ennter_hospital_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -192,6 +198,7 @@
                 android:text="出院日期:"
                 />
             <TextView
+                android:id="@+id/tv_out_hospital_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -220,6 +227,7 @@
                 android:text="住院诊断:"
                 />
             <TextView
+                android:id="@+id/tv_illness_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -248,6 +256,7 @@
                 android:text="主治医生:"
                 />
             <TextView
+                android:id="@+id/tv_doctor_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -276,6 +285,7 @@
                 android:text="住院医生:"
                 />
             <TextView
+                android:id="@+id/tv_hospital_doctor_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -304,6 +314,7 @@
                 android:text="责任护士:"
                 />
             <TextView
+                android:id="@+id/tv_resident_nurse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

@@ -62,9 +62,9 @@ public class OperationMySchedulingDetailActivity extends BaseActivity {
 
     private void setFragment() {
         mFragments[0] = OperationMySchedulingDetailFragment.newInstance(data.getRegistId());//首页fragment
-        mFragments[1] = CustomerFilesInspectRecordFragment.newInstance();//客户fragment
-        mFragments[2] = XiangMuMingXiFragment.newInstance();//统计fragment
-        mFragments[3] = ShuQianZhunBeiFragment.newInstance();
+        mFragments[1] = CustomerFilesInspectRecordFragment.newInstance(data.getRegistId(),"");//客户fragment
+        mFragments[2] = XiangMuMingXiFragment.newInstance(data.getRegistId());//统计fragment
+        mFragments[3] = ShuQianZhunBeiFragment.newInstance(data.getRegistId());
 
     }
 

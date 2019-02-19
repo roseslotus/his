@@ -10,9 +10,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.mylike.his.R;
+import com.mylike.his.core.BaseApplication;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.doctor.activity.XiaofeijiluDetailActivity;
 import com.mylike.his.doctor.activity.ZhuyuanFeiyongDetailActivity;
+import com.mylike.his.entity.InHospitalCostListBean;
+import com.mylike.his.entity.MyInHospitalCostResp;
+import com.mylike.his.entity.MyInHospitalDetailResp;
+import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.Constacts;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -22,6 +28,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 治疗登记
@@ -34,12 +43,16 @@ public class ZhuyuanfeiyongFragment extends BaseFragment {
     ListView mListView;
     private View view;
     private Unbinder unbinder;
+    private String registId;
 
-    private CommonAdapter<String> commonAdapter;
-    private List<String> mDatas =  new ArrayList<>();
+    private CommonAdapter<InHospitalCostListBean> commonAdapter;
+    private List<InHospitalCostListBean> mDatas =  new ArrayList<>();
 
-    public static ZhuyuanfeiyongFragment newInstance(){
+    public static ZhuyuanfeiyongFragment newInstance(String registId){
         ZhuyuanfeiyongFragment fragment= new ZhuyuanfeiyongFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constacts.CONTENT_DATA,registId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -48,16 +61,21 @@ public class ZhuyuanfeiyongFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_customer_files_jiuzhengjilu, null, false);
         unbinder = ButterKnife.bind(this, rootView);
-        mDatas.add("1");
-        mDatas.add("1");
-        mDatas.add("1");
-        mDatas.add("1");
-        mDatas.add("1");
-        mDatas.add("1");
-        commonAdapter = new CommonAdapter<String>(getActivity(),R.layout.item_zhuyuan_feiyong,mDatas) {
-            @Override
-            protected void convert(ViewHolder holder, String item, int position) {
+        if (getArguments() != null) {
+            registId = getArguments().getString(Constacts.CONTENT_DATA);
+        }
 
+        commonAdapter = new CommonAdapter<InHospitalCostListBean>(getActivity(),R.layout.item_zhuyuan_feiyong,mDatas) {
+            @Override
+            protected void convert(ViewHolder holder, InHospitalCostListBean item, int position) {
+                holder.setText(R.id.tv_depart_name,item.getDepName());
+                holder.setText(R.id.tv_cost_status,item.getStatus());
+                holder.setText(R.id.tv_ennter_hospital_date,item.getEnterDate());
+                holder.setText(R.id.tv_enter_days,item.getDays());
+                holder.setText(R.id.tv_deposit_amount,item.getDeposit());
+                holder.setText(R.id.tv_hospital_amount,item.getFee());
+                holder.setText(R.id.tv_free_amount,item.getFree());
+                holder.setText(R.id.tv_actual_amount,item.getActualFee());
             }
         };
 
@@ -68,10 +86,30 @@ public class ZhuyuanfeiyongFragment extends BaseFragment {
                 startActivity(ZhuyuanFeiyongDetailActivity.class);
             }
         });
+        getInHospitalCost();
 
         return rootView;
     }
 
+
+    public void getInHospitalCost() {
+//        CommonUtil.showLoadProgress(getActivity());
+        HttpClient.getHttpApi().getInHospitalCost(BaseApplication.getLoginEntity().getTenantId(), registId,1,10)
+                .enqueue(new Callback<MyInHospitalCostResp>() {
+                    @Override
+                    public void onResponse(Call<MyInHospitalCostResp> call, Response<MyInHospitalCostResp> resp) {
+//                CommonUtil.dismissLoadProgress();
+                        mDatas.addAll(resp.body().getDataList());
+                        commonAdapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MyInHospitalCostResp> call, Throwable t) {
+//                CommonUtil.dismissLoadProgress();
+                    }
+                });
+    }
 
 
     @Override

@@ -91,7 +91,7 @@
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:text="总人数:50"
+                android:text="总人数:0"
                 android:gravity="center"
                 />
             <TextView
@@ -100,7 +100,7 @@
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:text="今日出院:30"
+                android:text="今日出院:0"
                 android:gravity="center"
                 />
             <TextView

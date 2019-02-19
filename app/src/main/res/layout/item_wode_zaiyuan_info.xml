@@ -25,6 +25,7 @@
             android:gravity="center_vertical"
             >
             <TextView
+                android:id="@+id/tv_illness_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="一病区"
@@ -32,6 +33,7 @@
                 android:textSize="14sp"
                 />
             <TextView
+                android:id="@+id/tv_berth_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="床位1-1"
@@ -49,6 +51,7 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" ></View>
             <TextView
+                android:id="@+id/tv_nurse_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="特级护理"
@@ -77,6 +80,7 @@
 
             >
             <ImageView
+                android:id="@+id/iv_customer_head_image"
                 android:layout_width="40dp"
                 android:layout_height="41dp"
                 android:src="@mipmap/icon_customer_girl"
@@ -96,6 +100,7 @@
                     android:gravity="center_vertical"
                     >
                     <TextView
+                        android:id="@+id/tv_customer_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#FF575757"
@@ -103,18 +108,21 @@
                         android:textSize="14sp"
                         />
                     <ImageView
+                        android:id="@+id/tv_customer_sex"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/icon_d_boy"
                         android:layout_marginLeft="5dp"
                         />
                     <ImageView
+                        android:id="@+id/tv_customer_vip_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/icon_d_vip1"
                         android:layout_marginLeft="5dp"
                         />
                     <ImageView
+                        android:id="@+id/tv_customer_vip_flag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/icon_d_vip_flag"
@@ -123,6 +131,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_customer_year_and_birth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="9dp"
@@ -136,6 +145,7 @@
                     android:layout_marginTop="9dp"
                     >
                     <TextView
+                        android:id="@+id/tv_customer_mobile_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#FF949595"
@@ -157,6 +167,7 @@
                 </LinearLayout>
             </LinearLayout>
             <ImageView
+                android:id="@+id/iv_in_hospital_status"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@mipmap/icon_jin_daichuyuan"
@@ -167,6 +178,7 @@
             android:layout_height="1dp"
             android:background="#FFF7F7F7" />
         <TextView
+            android:id="@+id/tv_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="经典自体脂肪双侧 (含2部位吸脂)"
@@ -196,6 +208,7 @@
                 android:textSize="12sp"
                 />
             <TextView
+                android:id="@+id/tv_doctor_name"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:text="杜媛媛"
@@ -211,6 +224,7 @@
                 android:textSize="12sp"
                 />
             <TextView
+                android:id="@+id/tv_resident_doctor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="李婷婷"
@@ -236,6 +250,7 @@
                 android:textSize="12sp"
                 />
             <TextView
+                android:id="@+id/tv_duty_doctor"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:text="局部麻醉"
@@ -251,6 +266,7 @@
                 android:textSize="12sp"
                 />
             <TextView
+                android:id="@+id/tv_inhospital_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2018-03-24"

@@ -17,6 +17,7 @@ import com.mylike.his.core.BaseFragment;
 import com.mylike.his.doctor.activity.ZhiLiaoDetailActivity;
 import com.mylike.his.entity.ProjectDetailListBean;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.Constacts;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -44,9 +45,12 @@ public class XiangMuMingXiFragment extends BaseFragment {
 
     private CommonAdapter<ProjectDetailListBean> commonAdapter;
     private List<ProjectDetailListBean> mDatas =  new ArrayList<>();
-
-    public static XiangMuMingXiFragment newInstance(){
+    private String registId;
+    public static XiangMuMingXiFragment newInstance(String registId){
         XiangMuMingXiFragment fragment= new XiangMuMingXiFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constacts.CONTENT_DATA,registId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -55,7 +59,9 @@ public class XiangMuMingXiFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_customer_files_jiuzhengjilu, null, false);
         unbinder = ButterKnife.bind(this, rootView);
-
+        if (getArguments() != null) {
+            registId = getArguments().getString(Constacts.CONTENT_DATA);
+        }
         commonAdapter = new CommonAdapter<ProjectDetailListBean>(getActivity(),R.layout.item_xiangmu_mingxi,mDatas) {
             @Override
             protected void convert(ViewHolder holder, ProjectDetailListBean item, int position) {
@@ -88,7 +94,7 @@ public class XiangMuMingXiFragment extends BaseFragment {
 
     public void getProjectDetailList() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getProjectDetailList(BaseApplication.getLoginEntity().getTenantId(),"32fa7d43be3b4680b12523d82563b161")
+        HttpClient.getHttpApi().getProjectDetailList(BaseApplication.getLoginEntity().getTenantId(),registId)
                 .enqueue(new Callback<List<ProjectDetailListBean>>() {
                     @Override
                     public void onResponse(Call<List<ProjectDetailListBean>> call, Response<List<ProjectDetailListBean>> response) {

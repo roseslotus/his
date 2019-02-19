@@ -38,6 +38,7 @@
                 android:text="账单日期:"
                 />
             <TextView
+                android:id="@+id/tv_bill_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -59,6 +60,7 @@
                 android:textColor="#FF8B8C90"
                 android:textSize="14sp" />
             <TextView
+                android:id="@+id/tv_whether_free"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -80,6 +82,7 @@
                 android:text="项目名称:"
                 />
             <TextView
+                android:id="@+id/tv_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -101,6 +104,7 @@
                 android:text="数量:"
                 />
             <TextView
+                android:id="@+id/tv_product_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -122,6 +126,7 @@
                 android:text="金额:"
                 />
             <TextView
+                android:id="@+id/tv_product_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -143,6 +148,7 @@
                 android:text="应收金额:"
                 />
             <TextView
+                android:id="@+id/tv_receiavle_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

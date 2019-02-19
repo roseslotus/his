@@ -19,7 +19,7 @@ import com.mylike.his.doctor.fragment.JianKangPingGuFragment;
 import com.mylike.his.doctor.fragment.ShouShuPaiTaiJinChengFragment;
 import com.mylike.his.doctor.fragment.ShouShuWenShuFragment;
 import com.mylike.his.doctor.fragment.ShoushujiluFragment;
-import com.mylike.his.doctor.fragment.YiZhuFragment;
+import com.mylike.his.doctor.fragment.DoctorAdviceFragment;
 import com.mylike.his.entity.OperationMyArrangementListBean;
 import com.mylike.his.utils.Constacts;
 import com.mylike.his.utils.CustomerUtil;
@@ -63,12 +63,12 @@ public class ShoushuWodePaiTaiDetailActivity extends BaseActivity {
 
     private void setFragment() {
         mFragments[0] = ShoushujiluFragment.newInstance(data.getRegistId());
-        mFragments[1] = ShouShuPaiTaiJinChengFragment.newInstance();//客户fragment
+        mFragments[1] = ShouShuPaiTaiJinChengFragment.newInstance(data.getRegistId());//客户fragment
         mFragments[2] = ShouShuWenShuFragment.newInstance();//统计fragment
-        mFragments[3] = CustomerFilesJianchajiluFragment.newInstance();
-        mFragments[4] = YiZhuFragment.newInstance();
+        mFragments[3] = CustomerFilesJianchajiluFragment.newInstance(data.getRegistId(),data.getCusid());
+        mFragments[4] = DoctorAdviceFragment.newInstance(data.getRegistId());
         mFragments[5] = JianKangPingGuFragment.newInstance();
-        mFragments[6] = CustomerFilesKehuzhaopianFragment.newInstance();
+        mFragments[6] = CustomerFilesKehuzhaopianFragment.newInstance(data.getRegistId(),data.getCusid());
 
     }
 

@@ -53,7 +53,6 @@ public class BookDetailActivity extends BaseActivity {
     TextView mTvBookAdvice;
 
     MyBookingItemBean myBookingItemBean;
-    WoDeYuYuePresenter woDeYuYuePresenter;
     MyBookingDetailResp myBookingDetailResp;
 
     @Override
@@ -62,7 +61,6 @@ public class BookDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yuyue_detail);
         ButterKnife.bind(this);
-        woDeYuYuePresenter = new WoDeYuYuePresenter(this);
         myBookingItemBean = (MyBookingItemBean)getIntent().getSerializableExtra("MyBookingItemBean");
         bindData();
         getMyBookDetail();

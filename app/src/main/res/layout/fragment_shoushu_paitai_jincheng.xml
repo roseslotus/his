@@ -28,6 +28,7 @@
                 android:text="术前准备:"
                 />
             <TextView
+                android:id="@+id/tv_preparation_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -56,6 +57,7 @@
                 android:text="入手术室:"
                 />
             <TextView
+                android:id="@+id/tv_ennter_opera_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -84,6 +86,7 @@
                 android:text="麻醉开始:"
                 />
             <TextView
+                android:id="@+id/tv_anesthesia_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -112,6 +115,7 @@
                 android:text="手术开始:"
                 />
             <TextView
+                android:id="@+id/tv_opera_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -140,6 +144,7 @@
                 android:text="手术结束:"
                 />
             <TextView
+                android:id="@+id/tv_opera_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -168,6 +173,7 @@
                 android:text="麻醉结束:"
                 />
             <TextView
+                android:id="@+id/tv_anesthesia_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -196,6 +202,7 @@
                 android:text="出手术室:"
                 />
             <TextView
+                android:id="@+id/tv_out_opera_room_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

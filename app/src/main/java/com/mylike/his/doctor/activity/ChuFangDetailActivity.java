@@ -14,6 +14,7 @@ import com.mylike.his.core.BaseApplication;
 import com.mylike.his.entity.MenZhenChuFangJiLuDetailResp;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
+import com.mylike.his.utils.Constacts;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -47,6 +48,7 @@ public class ChuFangDetailActivity extends BaseActivity {
     TextView mTvKailiTime;
     @BindView(R.id.tv_cost_money)
     TextView mTvCostMoney;
+    private String presId;
 
 
     private CommonAdapter<MenZhenChuFangJiLuDetailResp.DataBean> commonAdapter;
@@ -59,6 +61,7 @@ public class ChuFangDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chufang_detail);
         ButterKnife.bind(this);
+        presId = getIntent().getStringExtra(Constacts.CONTENT_DATA);
 
         commonAdapter = new CommonAdapter<MenZhenChuFangJiLuDetailResp.DataBean>(this, R.layout.item_chufang_detail, mDatas) {
             @Override
@@ -82,7 +85,7 @@ public class ChuFangDetailActivity extends BaseActivity {
 
     public void getChuFangJiLuDetail() {
         CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getChuFangJiLuDetail(BaseApplication.getLoginEntity().getTenantId(), "CF851010190123000030")
+        HttpClient.getHttpApi().getChuFangJiLuDetail(BaseApplication.getLoginEntity().getTenantId(), presId)
                 .enqueue(new Callback<MenZhenChuFangJiLuDetailResp>() {
                     @Override
                     public void onResponse(Call<MenZhenChuFangJiLuDetailResp> call, Response<MenZhenChuFangJiLuDetailResp> response) {

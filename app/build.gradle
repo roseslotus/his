@@ -97,5 +97,6 @@ dependencies {
     //事件传输
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.7heaven.widgets:segmentcontrol:1.16'
+    compile 'com.github.SuperKotlin:PictureViewer:2.0.1'  //新版本
 
 }

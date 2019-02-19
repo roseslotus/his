@@ -63,11 +63,7 @@ public class CustomerFilesBinlixinxiFragment extends BaseFragment {
         View rootView = inflater.inflate(R.layout.fragment_customer_files_jiuzhengjilu, null, false);
         unbinder = ButterKnife.bind(this, rootView);
         getBinLiJiLu(getArguments().getString("registId"),getArguments().getString("cusId"));
-//        mDatas.add(new BinLiJiLuBean());
-//        mDatas.add(new BinLiJiLuBean());
-//        mDatas.add(new BinLiJiLuBean());
-//        mDatas.add(new BinLiJiLuBean());
-//        mDatas.add(new BinLiJiLuBean());
+
         commonAdapter = new CommonAdapter<BinLiJiLuBean>(getActivity(),R.layout.item_customer_files_binlixinxi,mDatas) {
             @Override
             protected void convert(ViewHolder holder, BinLiJiLuBean item, int position) {
@@ -94,7 +90,7 @@ public class CustomerFilesBinlixinxiFragment extends BaseFragment {
 
     public void getBinLiJiLu(String registId,String cusId) {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getBinLiJiLu(BaseApplication.getLoginEntity().getTenantId(),"85101047", "a9afacc0ac2c4a8eb0b738013f09b9f5","")
+        HttpClient.getHttpApi().getBinLiJiLu(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), registId,cusId)
                 .enqueue(new Callback<List<BinLiJiLuBean>>() {
             @Override
             public void onResponse(Call<List<BinLiJiLuBean>> call, Response<List<BinLiJiLuBean>> response) {

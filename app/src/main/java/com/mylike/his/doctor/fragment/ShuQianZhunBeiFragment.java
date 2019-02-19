@@ -13,6 +13,7 @@ import com.mylike.his.core.BaseApplication;
 import com.mylike.his.core.BaseFragment;
 import com.mylike.his.entity.OperationPrePareResp;
 import com.mylike.his.http.HttpClient;
+import com.mylike.his.utils.Constacts;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,9 +37,12 @@ public class ShuQianZhunBeiFragment extends BaseFragment {
     TextView mTvMedicalexamStatus;
     private View view;
     private Unbinder unbinder;
-
-    public static ShuQianZhunBeiFragment newInstance() {
+    private String registId ;
+    public static ShuQianZhunBeiFragment newInstance(String registId) {
         ShuQianZhunBeiFragment fragment = new ShuQianZhunBeiFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constacts.CONTENT_DATA,registId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -46,6 +50,9 @@ public class ShuQianZhunBeiFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_shuqian_zhunbei, null, false);
+        if (getArguments() != null) {
+            registId = getArguments().getString(Constacts.CONTENT_DATA);
+        }
         getOperationPrePare();
         unbinder = ButterKnife.bind(this, rootView);
         getOperationPrePare();
@@ -54,7 +61,7 @@ public class ShuQianZhunBeiFragment extends BaseFragment {
 
     public void getOperationPrePare() {
 //        CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getOperationPrePare(BaseApplication.getLoginEntity().getTenantId(), "32fa7d43be3b4680b12523d82563b161")
+        HttpClient.getHttpApi().getOperationPrePare(BaseApplication.getLoginEntity().getTenantId(), registId)
                 .enqueue(new Callback<OperationPrePareResp>() {
                     @Override
                     public void onResponse(Call<OperationPrePareResp> call, Response<OperationPrePareResp> response) {

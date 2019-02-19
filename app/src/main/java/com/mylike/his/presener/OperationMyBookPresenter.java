@@ -8,6 +8,7 @@ import com.mylike.his.entity.OperationMyBookingListResp;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.CommonUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -20,8 +21,33 @@ import retrofit2.Response;
 
 public class OperationMyBookPresenter extends BasePagePresenter<OperationMyBookingListResp> {
 
+    private String userId;
+    private String searchName;
+
+    private Calendar selectCalendar;
+    public String formatDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(selectCalendar.getTime());
+    }
+
+    public void goPreDay(){
+        selectCalendar.add(Calendar.DAY_OF_MONTH,-1);
+    }
+    public void goNexDay(){
+        selectCalendar.add(Calendar.DATE,1);
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
+    }
+
     public OperationMyBookPresenter(Context context){
         super(context);
+        selectCalendar = Calendar.getInstance();
     }
 
     @Override
@@ -35,9 +61,9 @@ public class OperationMyBookPresenter extends BasePagePresenter<OperationMyBooki
         Calendar calendar = Calendar.getInstance();
 
         HttpClient.getHttpApi().getOperationMyBookList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
-                "85100310",pageIndex,pageSize,
-               "2018-11-13",
-                "","",""
+                BaseApplication.getLoginEntity().getUserId(),pageIndex,pageSize,
+               formatDate(),
+                "",searchName,""
 
         ).enqueue(new Callback<OperationMyBookingListResp>() {
             @Override

@@ -50,6 +50,8 @@
                     android:layout_marginLeft="9dp"
                     android:drawableRight="@mipmap/icon_d_clear_text"
                     android:textSize="14sp"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
                     android:paddingRight="9dp"
                     android:layout_weight="1"
                     android:layout_marginRight="4dp"

@@ -37,6 +37,7 @@
                     android:src="@mipmap/icon_xiaofeijilu_danzi"
                     />
                 <TextView
+                    android:id="@+id/tv_product_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -60,6 +61,7 @@
                     android:src="@mipmap/icon_xiaofeijilu_danzi"
                     />
                 <TextView
+                    android:id="@+id/tv_operating_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -89,19 +91,21 @@
                     android:text="术前照"
                     android:layout_marginLeft="10dp"
                     />
+
                 <TextView
+                    android:id="@+id/tv_preparation_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#FF2CBCC1"
-                    android:text="[5张]"
                     android:layout_marginLeft="2dp"
-                    />
+                    android:text="[5张]"
+                    android:textColor="#FF2CBCC1"
+                    android:textSize="12sp" />
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1" ></View>
                 <TextView
+                    android:id="@+id/tv_preparation_look"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -139,6 +143,7 @@
                     android:layout_marginLeft="10dp"
                     />
                 <TextView
+                    android:id="@+id/tv_operating_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -151,6 +156,7 @@
                     android:layout_height="1dp"
                     android:layout_weight="1" ></View>
                 <TextView
+                    android:id="@+id/tv_operating_look"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -189,6 +195,7 @@
                     android:layout_marginLeft="10dp"
                     />
                 <TextView
+                    android:id="@+id/tv_operated_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -201,6 +208,7 @@
                     android:layout_height="1dp"
                     android:layout_weight="1" ></View>
                 <TextView
+                    android:id="@+id/tv_operated_look"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"

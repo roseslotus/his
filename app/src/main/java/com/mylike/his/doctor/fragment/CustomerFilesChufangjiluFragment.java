@@ -1,5 +1,6 @@
 package com.mylike.his.doctor.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.mylike.his.entity.MenZhenChuFangJiLuBean;
 import com.mylike.his.entity.MenZhenZhiLiaoDengJiBean;
 import com.mylike.his.http.HttpClient;
 import com.mylike.his.utils.BusnessUtil;
+import com.mylike.his.utils.Constacts;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -44,30 +46,39 @@ public class CustomerFilesChufangjiluFragment extends BaseFragment {
     private View view;
     private Unbinder unbinder;
 
+
     private CommonAdapter<MenZhenChuFangJiLuBean> commonAdapter;
     private List<MenZhenChuFangJiLuBean> mDatas =  new ArrayList<>();
-
-    public static CustomerFilesChufangjiluFragment newInstance(){
+    private String registId;
+    private String cusId;
+    public static CustomerFilesChufangjiluFragment newInstance(String registId,String cusId){
         CustomerFilesChufangjiluFragment fragment= new CustomerFilesChufangjiluFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constacts.CONTENT_DATA,registId);
+        bundle.putString(Constacts.CUSID,cusId);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_customer_files_jiuzhengjilu, null, false);
         unbinder = ButterKnife.bind(this, rootView);
-        mDatas.add(new MenZhenChuFangJiLuBean());
+        if (getArguments() != null) {
+            registId = getArguments().getString(Constacts.CONTENT_DATA);
+            cusId = getArguments().getString(Constacts.CUSID);
+        }
         commonAdapter = new CommonAdapter<MenZhenChuFangJiLuBean>(getActivity(),R.layout.item_customer_files_chufangjilu,mDatas) {
             @Override
             protected void convert(ViewHolder holder, MenZhenChuFangJiLuBean item, int position) {
-//                holder.setText(R.id.tv_chufang_time,item.getPresTime());
-//                holder.setText(R.id.tv_chufang_leixing,"处方类型:"+item.getType());
-//                holder.setText(R.id.tv_chufang_yisheng,item.getDoctor());
-//                holder.setText(R.id.tv_zhenduan_wenti,item.getDiagnosis());
-//                holder.setText(R.id.tv_chufang_status,item.getStatus());
-//                TextView tvChuFangStatus = holder.getView(R.id.tv_chufang_status);
-//                BusnessUtil.setChuFangJiLuStatus(tvChuFangStatus,item.getStatus());
+                holder.setText(R.id.tv_chufang_time,item.getPresTime());
+                holder.setText(R.id.tv_chufang_leixing,"处方类型:"+item.getType());
+                holder.setText(R.id.tv_chufang_yisheng,item.getDoctor());
+                holder.setText(R.id.tv_zhenduan_wenti,item.getDiagnosis());
+                holder.setText(R.id.tv_chufang_status,item.getStatus());
+                TextView tvChuFangStatus = holder.getView(R.id.tv_chufang_status);
+                BusnessUtil.setChuFangJiLuStatus(tvChuFangStatus,item.getStatus());
             }
         };
 
@@ -75,16 +86,18 @@ public class CustomerFilesChufangjiluFragment extends BaseFragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(ChuFangDetailActivity.class);
+              Intent intent =  new Intent(getActivity(),ChuFangDetailActivity.class);
+              intent.putExtra(Constacts.CONTENT_DATA,mDatas.get(i).getPresId());
+              startActivity(intent);
             }
         });
-//        getChuFangJiLu("","");
+        getChuFangJiLu();
         return rootView;
     }
 
-    public void getChuFangJiLu(String registId,String cusId) {
+    public void getChuFangJiLu() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getChuFangJiLu(BaseApplication.getLoginEntity().getTenantId(),"85101047", "db04990eb7ae49049ac9060f3f9a4977","")
+        HttpClient.getHttpApi().getChuFangJiLu(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), registId,cusId)
                 .enqueue(new Callback<List<MenZhenChuFangJiLuBean>>() {
                     @Override
                     public void onResponse(Call<List<MenZhenChuFangJiLuBean>> call, Response<List<MenZhenChuFangJiLuBean>> response) {
