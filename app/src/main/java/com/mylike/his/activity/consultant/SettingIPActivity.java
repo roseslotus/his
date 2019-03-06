@@ -141,7 +141,7 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             ipEntiyt.setRemark("内网测试服务器");*/
 
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipEntiyt.getIpValue());
-            RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipEntiyt.getIpValue());
+            RetrofitUrlManager.getInstance().setGlobalDomain("https://" + ipEntiyt.getIpValue());
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
         } else if (Constant.ISSUE) {//第一次安装，测试版发布时预存测试服务器
             ipEntiyt.setIp("crmuat.shmylike.cn");
@@ -184,7 +184,7 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             ipEntiytList.add(ipEntiyt);*/
 
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipEntiyt.getIpValue());
-            RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipEntiyt.getIpValue());
+            RetrofitUrlManager.getInstance().setGlobalDomain("https://" + ipEntiyt.getIpValue());
             SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_List, gson.toJson(ipEntiytList));
         }
     }
@@ -196,7 +196,7 @@ public class SettingIPActivity extends BaseActivity implements View.OnClickListe
             case R.id.save_btn://保存
                 if (!TextUtils.isEmpty(ipValue)) {
                     SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, ipValue);
-                    RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipValue);
+                    RetrofitUrlManager.getInstance().setGlobalDomain("https://" + ipValue);
                 } else {//未有选中ip，清空缓存
                     SPUtils.setCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED, "");
                 }

@@ -119,7 +119,7 @@ public class CustomerFilesInspectRecordFragment extends BaseFragment {
 
     public void getInspectRecordList() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getInspectRecordList(BaseApplication.getLoginEntity().getTenantId(),registId,cusId)
+        HttpClient.getHttpApi().getInspectRecordList(BaseApplication.getLoginEntity().getTenantId(),registId,cusId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<InspectRecordListBean>>() {
                     @Override
                     public void onResponse(Call<List<InspectRecordListBean>> call, Response<List<InspectRecordListBean>> response) {

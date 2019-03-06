@@ -94,7 +94,7 @@ public class ZhuyuanfeiyongFragment extends BaseFragment {
 
     public void getInHospitalCost() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getInHospitalCost(BaseApplication.getLoginEntity().getTenantId(), registId,1,10)
+        HttpClient.getHttpApi().getInHospitalCost(BaseApplication.getLoginEntity().getTenantId(), registId,1,10,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<MyInHospitalCostResp>() {
                     @Override
                     public void onResponse(Call<MyInHospitalCostResp> call, Response<MyInHospitalCostResp> resp) {

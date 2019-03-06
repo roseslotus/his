@@ -66,7 +66,7 @@ public class WoDeYuYuePresenter extends BasePagePresenter<MyBookingListResp> {
         HttpClient.getHttpApi().getMyBookingList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
                 userId,pageIndex,pageSize,
                formatDate(),
-                "",searchName
+                "",searchName,BaseApplication.getLoginEntity().getToken()
 
         ).enqueue(new Callback<MyBookingListResp>() {
             @Override

@@ -41,7 +41,7 @@ public class CustomerListPresenter extends BasePagePresenter<List<CustomerListBe
     public void getMyInHospital(final ResponseListener<List<CustomerListBean>> listener){
         CommonUtil.showLoadProgress(mContext);
         HttpClient.getHttpApi().getCustomerList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
-                "85100954",pageIndex,pageSize
+                "85100954",pageIndex,pageSize,BaseApplication.getLoginEntity().getToken()
 
         ).enqueue(new Callback<List<CustomerListBean>>() {
             @Override

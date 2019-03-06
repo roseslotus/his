@@ -264,7 +264,7 @@ public class MyInHospitalActivity extends BaseActivity {
 
     public void getInHospitalSort() {
 //        CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getInHospitalSort().enqueue(new Callback<InHospitalSortResp>() {
+        HttpClient.getHttpApi().getInHospitalSort(BaseApplication.getLoginEntity().getToken()).enqueue(new Callback<InHospitalSortResp>() {
             @Override
             public void onResponse(Call<InHospitalSortResp> call, Response<InHospitalSortResp> response) {
 //                CommonUtil.dismissLoadProgress();

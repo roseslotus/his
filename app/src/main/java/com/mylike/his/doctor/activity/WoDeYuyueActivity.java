@@ -239,7 +239,7 @@ public class WoDeYuyueActivity extends BaseActivity {
 
     public void getMyBookSort() {
 //        CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getMyBookSort().enqueue(new Callback<InHospitalSortResp>() {
+        HttpClient.getHttpApi().getMyBookSort(BaseApplication.getLoginEntity().getToken()).enqueue(new Callback<InHospitalSortResp>() {
             @Override
             public void onResponse(Call<InHospitalSortResp> call, Response<InHospitalSortResp> response) {
 //                CommonUtil.dismissLoadProgress();

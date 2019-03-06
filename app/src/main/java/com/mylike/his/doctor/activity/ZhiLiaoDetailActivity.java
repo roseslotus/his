@@ -85,7 +85,7 @@ public class ZhiLiaoDetailActivity extends BaseActivity {
 
     public void getZhiLiaoDengJiDetail(String treatId) {
         CommonUtil.showLoadProgress(ZhiLiaoDetailActivity.this);
-        HttpClient.getHttpApi().getZhiLiaoDengJiDetail(BaseApplication.getLoginEntity().getTenantId(),treatId)
+        HttpClient.getHttpApi().getZhiLiaoDengJiDetail(BaseApplication.getLoginEntity().getTenantId(),treatId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<MenZhenTreatDengJiDetailBean>>() {
                     @Override
                     public void onResponse(Call<List<MenZhenTreatDengJiDetailBean>> call, Response<List<MenZhenTreatDengJiDetailBean>> response) {

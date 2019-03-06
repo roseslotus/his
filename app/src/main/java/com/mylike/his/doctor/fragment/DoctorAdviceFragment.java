@@ -78,7 +78,7 @@ public class DoctorAdviceFragment extends BaseFragment {
 
     public void getDoctorAdviceList() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getDoctorAdviceList(BaseApplication.getLoginEntity().getTenantId(), registId)
+        HttpClient.getHttpApi().getDoctorAdviceList(BaseApplication.getLoginEntity().getTenantId(), registId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<DoctorAdviceListBean>>() {
                     @Override
                     public void onResponse(Call<List<DoctorAdviceListBean>> call, Response<List<DoctorAdviceListBean>> resp) {

@@ -85,7 +85,7 @@ public class ChuFangDetailActivity extends BaseActivity {
 
     public void getChuFangJiLuDetail() {
         CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getChuFangJiLuDetail(BaseApplication.getLoginEntity().getTenantId(), presId)
+        HttpClient.getHttpApi().getChuFangJiLuDetail(BaseApplication.getLoginEntity().getTenantId(), presId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<MenZhenChuFangJiLuDetailResp>() {
                     @Override
                     public void onResponse(Call<MenZhenChuFangJiLuDetailResp> call, Response<MenZhenChuFangJiLuDetailResp> response) {

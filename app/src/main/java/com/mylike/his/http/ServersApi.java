@@ -116,7 +116,7 @@ public interface ServersApi {
     Call<VersionsEntity> updataApp();
 
     //验证api
-    @POST("api/user/ping.do")
+    @POST("mylike-crm/api/user/ping.do")
     Call<Map<String, String>> pingAPI();
 
     //首页统计数据
@@ -345,23 +345,23 @@ public interface ServersApi {
     Call<BaseEntity<DiscountCouponEntity>> getOneDiscountCoupon(@Body RequestBody body);
 
     //登录
-    @POST("v1.0/app/login/{username}/{password}")
+    @POST("his-api/v1.0/app/login/{username}/{password}")
     Call<LoginResp> login(@Path("username") String username, @Path("password") String password);
 
     //登出
-    @POST("v1.0/app/logout/{tokenId}")
+    @POST("his-api/v1.0/app/logout/{tokenId}")
     Call<BaseNewEntity> loginOut(@Path("tokenId") String tokenId);
 
     //修改密码
-    @POST("v1.0/app/edit/{userId}/{oldPassword}/{newPassword}")
-    Call<BaseNewEntity> modifyPwd(@Path("userId") String userId, @Path("oldPassword") String oldPassword,@Path("newPassword") String newPassword);
+    @POST("his-api/v1.0/app/edit/{userId}/{oldPassword}/{newPassword}")
+    Call<BaseNewEntity> modifyPwd(@Path("userId") String userId, @Path("oldPassword") String oldPassword,@Path("newPassword") String newPassword,@Query("token") String token);
 
     //今日人数总览接口
-    @GET("v1.0/depCount/{tenantId}/{depId}/{userId}")
-    Call<List<DepCountEntity>> todayPeopleViewCount(@Path("tenantId") String tenantId, @Path("depId") String depId, @Path("userId") String userId);
+    @GET("his-api/v1.0/depCount/{tenantId}/{depId}/{userId}")
+    Call<List<DepCountEntity>> todayPeopleViewCount(@Path("tenantId") String tenantId, @Path("depId") String depId, @Path("userId") String userId,@Query("token") String token);
 
     //待诊接口
-    @GET("v1.0/mz/wait/{tenantId}/{depId}")
+    @GET("his-api/v1.0/mz/wait/{tenantId}/{depId}")
     Call<DaiZhenResp> getWoDeDaiZhenList(@Path("tenantId") String tenantId, @Path("depId") String depId,
                                          @Query("userId") String userId,
                                          @Query("page") Integer page,
@@ -370,55 +370,57 @@ public interface ServersApi {
                                          @Query("status") int status, //接诊状态  1 ：待诊2：接诊
                                          @Query("triageTime") String triageTime,//分诊时间   desc:倒序  asc:正序
                                          @Query("waitingTime") String waitingTime,//等待时长  desc:倒序  asc:正序
-                                         @Query("searchName") String searchName//查询条件
+                                         @Query("searchName") String searchName,//查询条件
+                                         @Query("token") String token
     );
 
     //分诊信息
-    @GET("v1.0/mz/triage/{tenantId}/{registId}")
-    Call<FenZhenInfoResp> getFenZhenInfo(@Path("tenantId") String tenantId, @Path("registId") String registId);
+    @GET("his-api/v1.0/mz/triage/{tenantId}/{registId}")
+    Call<FenZhenInfoResp> getFenZhenInfo(@Path("tenantId") String tenantId, @Path("registId") String registId,@Query("token") String token);
 
     //病历记录
-    @GET("v1.0/mz/emr/{tenantId}/{depId}")
+    @GET("his-api/v1.0/mz/emr/{tenantId}/{depId}")
     Call<List<BinLiJiLuBean>> getBinLiJiLu(@Path("tenantId") String tenantId, @Path("depId") String depId,
-                                           @Query("registId") String registId, @Query("cusId") String cusId);
+                                           @Query("registId") String registId, @Query("cusId") String cusId,@Query("token") String token);
 
     //治疗登记
-    @GET("v1.0/mz/treat/{tenantId}/{depId}")
+    @GET("his-api/v1.0/mz/treat/{tenantId}/{depId}")
     Call<List<MenZhenZhiLiaoDengJiBean>> getZhiLiaoDengJi(@Path("tenantId") String tenantId, @Path("depId") String depId,
-                                                          @Query("registId") String registId, @Query("cusId") String cusId);
+                                                          @Query("registId") String registId, @Query("cusId") String cusId,@Query("token") String token);
 
     //治疗详情
-    @GET("v1.0/mz/treat/dtl/{tenantId}/{treatId}")
-    Call<List<MenZhenTreatDengJiDetailBean>> getZhiLiaoDengJiDetail(@Path("tenantId") String tenantId, @Path("treatId") String treatId);
+    @GET("his-api/v1.0/mz/treat/dtl/{tenantId}/{treatId}")
+    Call<List<MenZhenTreatDengJiDetailBean>> getZhiLiaoDengJiDetail(@Path("tenantId") String tenantId, @Path("treatId") String treatId,@Query("token") String token);
 
     //处方记录
-    @GET("v1.0/mz/pres/{tenantId}/{depId}")
+    @GET("his-api/v1.0/mz/pres/{tenantId}/{depId}")
     Call<List<MenZhenChuFangJiLuBean>> getChuFangJiLu(@Path("tenantId") String tenantId, @Path("depId") String depId,
-                                                        @Query("registId") String registId, @Query("cusId") String cusId);
+                                                        @Query("registId") String registId, @Query("cusId") String cusId,@Query("token") String token);
 
     //门诊模块 处方详情
-    @GET("v1.0/mz/pres/dtl/{tenantId}/{chuFangId}")
-    Call<MenZhenChuFangJiLuDetailResp> getChuFangJiLuDetail(@Path("tenantId") String tenantId, @Path("chuFangId") String chuFangId);
+    @GET("his-api/v1.0/mz/pres/dtl/{tenantId}/{chuFangId}")
+    Call<MenZhenChuFangJiLuDetailResp> getChuFangJiLuDetail(@Path("tenantId") String tenantId, @Path("chuFangId") String chuFangId,@Query("token") String token);
 
 
     //门诊模块 我的预约
-    @GET("v1.0/mz/reserve/{tenantId}/{depId}")
+    @GET("his-api/v1.0/mz/reserve/{tenantId}/{depId}")
     Call<MyBookingListResp> getMyBookingList(@Path("tenantId") String tenantId, @Path("depId") String depId,
                                              @Query("userId") String userId,
                                              @Query("page") Integer page,
                                              @Query("rows") Integer rows,
                                              @Query("date") String date,
                                              @Query("status") String status, //接诊状态  1 ：待诊2：接诊
-                                             @Query("searchName") String searchName//查询条件
+                                             @Query("searchName") String searchName,//查询条件
+                                             @Query("token") String token
     );
 
     //门诊模块 预约详情
-    @GET("v1.0/mz/maa/dtl/{tenantId}/{bookId}")
-    Call<MyBookingDetailResp> getMyBookDetail(@Path("tenantId") String tenantId, @Path("bookId") String bookId);
+    @GET("his-api/v1.0/mz/maa/dtl/{tenantId}/{bookId}")
+    Call<MyBookingDetailResp> getMyBookDetail(@Path("tenantId") String tenantId, @Path("bookId") String bookId,@Query("token") String token);
 
 
     //手术模块 我的预约
-    @GET("v1.0/opera/reserve/{tenantId}/{depId}")
+    @GET("his-api/v1.0/opera/reserve/{tenantId}/{depId}")
     Call<OperationMyBookingListResp> getOperationMyBookList(@Path("tenantId") String tenantId, @Path("depId") String depId,
                                                             @Query("userId") String userId,
                                                             @Query("page") Integer page,
@@ -427,46 +429,48 @@ public interface ServersApi {
                                                             @Query("paymentCode") String paymentCode, //筛选下拉
                                                             @Query("searchName") String searchName,//查询条件
                                                             @Query("creater") String creater//预约人
+                                                            ,@Query("token") String token
     );
 
 
 
     // 手术模块 预约详情
-    @GET("v1.0/oper/surgMaa/dtl/{tenantId}/{bookId}")
-    Call<OperationMyBookingDetailResp> getOperationMyBookDetail(@Path("tenantId") String tenantId, @Path("bookId") String bookId);
+    @GET("his-api/v1.0/oper/surgMaa/dtl/{tenantId}/{bookId}")
+    Call<OperationMyBookingDetailResp> getOperationMyBookDetail(@Path("tenantId") String tenantId, @Path("bookId") String bookId,@Query("token") String token);
 
     //手术模块 我的排期
-    @GET("v1.0/opera/scheduling/{tenantId}/{depId}")
+    @GET("his-api/v1.0/opera/scheduling/{tenantId}/{depId}")
     Call<OperationMySchedulingListResp> getOperationMySchedulingList(@Path("tenantId") String tenantId, @Path("depId") String depId,
                                                                      @Query("userId") String userId,
                                                                      @Query("page") Integer page,
                                                                      @Query("rows") Integer rows,
                                                                      @Query("date") String date,
                                                                      @Query("searchName") String searchName, //查询条件
-                                                                     @Query("code") String code//麻醉方式
+                                                                     @Query("code") String code,//麻醉方式
+                                                                     @Query("token") String token
     );
 
     // 手术模块 我的排期详情 手术详情
-    @GET("v1.0/oper/operative/dtl/{tenantId}/{operationId}")
-    Call<OperationMySchedulingDetailResp> getOperationSchedulingDetail(@Path("tenantId") String tenantId, @Path("operationId") String operationId);
+    @GET("his-api/v1.0/oper/operative/dtl/{tenantId}/{operationId}")
+    Call<OperationMySchedulingDetailResp> getOperationSchedulingDetail(@Path("tenantId") String tenantId, @Path("operationId") String operationId,@Query("token") String token);
 
     // 手术模块 我的排期详情 检查记录
-    @GET("v1.0/jcjy/inspect/record/{tenantId}")
-    Call<List<InspectRecordListBean>> getInspectRecordList(@Path("tenantId") String tenantId, @Query("registId") String registId, @Query("cusId") String cusId);
+    @GET("his-api/v1.0/jcjy/inspect/record/{tenantId}")
+    Call<List<InspectRecordListBean>> getInspectRecordList(@Path("tenantId") String tenantId, @Query("registId") String registId, @Query("cusId") String cusId,@Query("token") String token);
 
 
     // 手术模块 我的排期详情 项目明细
-    @GET("v1.0/oper/project/dtl/{tenantId}/{registId}")
-    Call<List<ProjectDetailListBean>> getProjectDetailList(@Path("tenantId") String tenantId, @Path("registId") String registId);
+    @GET("his-api/v1.0/oper/project/dtl/{tenantId}/{registId}")
+    Call<List<ProjectDetailListBean>> getProjectDetailList(@Path("tenantId") String tenantId, @Path("registId") String registId,@Query("token") String token);
 
 
     // 手术模块 术前准备
-    @GET("v1.0/oper/prepare/{tenantId}/{registId}")
-    Call<OperationPrePareResp> getOperationPrePare(@Path("tenantId") String tenantId, @Path("registId") String registId);
+    @GET("his-api/v1.0/oper/prepare/{tenantId}/{registId}")
+    Call<OperationPrePareResp> getOperationPrePare(@Path("tenantId") String tenantId, @Path("registId") String registId,@Query("token") String token);
 
 
     //手术模块 我的排台
-    @GET("v1.0/opera/operating/{tenantId}/{depId}")
+    @GET("his-api/v1.0/opera/operating/{tenantId}/{depId}")
     Call<OperationMyArrangementListResp> getOperationMyArrangementList(@Path("tenantId") String tenantId, @Path("depId") String depId,
                                                                        @Query("userId") String userId,
                                                                        @Query("date") String date,
@@ -475,28 +479,29 @@ public interface ServersApi {
                                                                        @Query("state") int state,
                                                                        @Query("searchName") String searchName, //查询条件
                                                                        @Query("anesthesia") String anesthesia,//麻醉方式
-                                                                       @Query("operaRoom") String operaRoom//手术室
+                                                                       @Query("operaRoom") String operaRoom,//手术室,
+                                                                       @Query("token") String token
     );
 
     // 手术模块 手术进程
-    @GET("v1.0/oper/process/{tenantId}/{registId}")
-    Call<OperationProcessResp> getOperationProcess(@Path("tenantId") String tenantId, @Path("registId") String registId);
+    @GET("his-api/v1.0/oper/process/{tenantId}/{registId}")
+    Call<OperationProcessResp> getOperationProcess(@Path("tenantId") String tenantId, @Path("registId") String registId,@Query("token") String token);
 
     // 手术模块 医嘱
-    @GET("v1.0/zy/order/{tenantId}/{registId}")
-    Call<List<DoctorAdviceListBean>> getDoctorAdviceList(@Path("tenantId") String tenantId, @Path("registId") String registId);
+    @GET("his-api/v1.0/zy/order/{tenantId}/{registId}")
+    Call<List<DoctorAdviceListBean>> getDoctorAdviceList(@Path("tenantId") String tenantId, @Path("registId") String registId,@Query("token") String token);
 
     // 手术模块 医嘱详细
-    @GET("v1.0/zy/order/exec/{tenantId}/{registId}")
-    Call<DoctorAdviceDetailResp> getDoctorAdviceDetail(@Path("tenantId") String tenantId, @Path("registId") String registId);
+    @GET("his-api/v1.0/zy/order/exec/{tenantId}/{registId}")
+    Call<DoctorAdviceDetailResp> getDoctorAdviceDetail(@Path("tenantId") String tenantId, @Path("registId") String registId,@Query("token") String token);
 
     // 手术模块 客户照片
-    @GET("v1.0/photo/{tenantId}/{patientId}/{registId}")
-    Call<List<OperationPhotoBean>> getCustomerPhotoList(@Path("tenantId") String tenantId, @Path("patientId") String patientId, @Path("registId") String registId);
+    @GET("his-api/v1.0/photo/{tenantId}/{patientId}/{registId}")
+    Call<List<OperationPhotoBean>> getCustomerPhotoList(@Path("tenantId") String tenantId, @Path("patientId") String patientId, @Path("registId") String registId,@Query("token") String token);
 
 
     //手术模块 我的排台
-    @GET("v1.0/zy/in/{tenantId}/{depId}")
+    @GET("his-api/v1.0/zy/in/{tenantId}/{depId}")
     Call<MyInHostpitalListResp> getMyInHospital(@Path("tenantId") String tenantId, @Path("depId") String depId,
                                                 @Query("userId") String userId,
                                                 @Query("status") int status,
@@ -505,70 +510,76 @@ public interface ServersApi {
                                                 @Query("searchName") String searchName, //查询条件
                                                 @Query("code") String code,//护理级别
                                                 @Query("bednoId") String bednoId,//床位排序
-                                                @Query("inhosptimeId") String inhosptimeId//入院日期排序
+                                                @Query("inhosptimeId") String inhosptimeId,//入院日期排序,
+                                                @Query("token") String token
     );
 
     // 住院 住院详情
-    @GET("v1.0/zy/in/dtl/{tenantId}/{registId}")
-    Call<MyInHospitalDetailResp> getMyInHospitalDetail(@Path("tenantId") String tenantId, @Path("registId") String registId);
+    @GET("his-api/v1.0/zy/in/dtl/{tenantId}/{registId}")
+    Call<MyInHospitalDetailResp> getMyInHospitalDetail(@Path("tenantId") String tenantId, @Path("registId") String registId,@Query("token") String token);
 
     // 住院 住院费用
-    @GET("v1.0/zy/bill/{tenantId}/{registId}")
+    @GET("his-api/v1.0/zy/bill/{tenantId}/{registId}")
     Call<MyInHospitalCostResp> getInHospitalCost(@Path("tenantId") String tenantId, @Path("registId") String registId,
                                                  @Query("page") Integer page,
-                                                 @Query("rows") Integer rows
+                                                 @Query("rows") Integer rows,
+                                                 @Query("token") String token
     );
 
     // 住院 住院费用详情
-    @GET("v1.0/zy/hospitalization/expensesDetails/{tenantId}/{zysn}")
+    @GET("his-api/v1.0/zy/hospitalization/expensesDetails/{tenantId}/{zysn}")
     Call<InHospitalDetailResp> getInHospitalCostDetail(@Path("tenantId") String tenantId, @Path("zysn") String zysn,
                                                        @Query("page") Integer page,
-                                                       @Query("rows") Integer rows
+                                                       @Query("rows") Integer rows,
+                                                       @Query("token") String token
     );
 
     // 客户
-    @GET("v1.0/cus/{tenantId}/{depId}/{doctorId}")
+    @GET("his-api/v1.0/cus/{tenantId}/{depId}/{doctorId}")
     Call<List<CustomerListBean>> getCustomerList(@Path("tenantId") String tenantId, @Path("depId") String depId,
                                                  @Path("doctorId") String doctorId,
                                                  @Query("page") Integer page,
-                                                 @Query("rows") Integer rows
+                                                 @Query("rows") Integer rows,
+                                                 @Query("token") String token
     );
 
     // 就诊记录
-    @GET("v1.0/cus/record/{tenantId}/{depId}")
+    @GET("his-api/v1.0/cus/record/{tenantId}/{depId}")
     Call<List<CustomerTreatRecordListBean>> getCustomerTreatRecordList(@Path("tenantId") String tenantId, @Path("depId") String depId,
                                                                        @Query("cusId") String cusId,
                                                             @Query("page") Integer page,
-                                                            @Query("rows") Integer rows
+                                                            @Query("rows") Integer rows,
+                                                                       @Query("token") String token
     );
 
     //	消息读取
-    @GET("v1.0/msg/{tenantId}/{depId}")
+    @GET("his-api/v1.0/msg/{tenantId}/{depId}")
     Call<List<MessageItemListBean>> getMessageList(@Path("tenantId") String tenantId,
                                                                @Query("empId") String empId,
                                                                @Query("page") Integer page,
-                                                               @Query("rows") Integer rows
+                                                               @Query("rows") Integer rows,
+                                                   @Query("token") String token
     );
 
     //	在院筛选和下拉
-    @GET("v1.0/zy/patidiagrec")
-    Call<InHospitalSortResp> getInHospitalSort();
+    @GET("his-api/v1.0/zy/patidiagrec")
+    Call<InHospitalSortResp> getInHospitalSort(@Query("token") String token);
 
     //	待诊排序接口
-    @GET("v1.0/mz/regist/dropdown")
-    Call<InHospitalSortResp> getMyWaitingRegistSort();
+    @GET("his-api/v1.0/mz/regist/dropdown")
+    Call<InHospitalSortResp> getMyWaitingRegistSort(@Query("token") String token);
 
     //	我的预约筛选
-    @GET("v1.0/mz/reserve/dropdown")
-    Call<InHospitalSortResp> getMyBookSort();
+    @GET("his-api/v1.0/mz/reserve/dropdown")
+    Call<InHospitalSortResp> getMyBookSort(@Query("token") String token);
 
     //手术	我的预约筛选
-    @GET("v1.0/oper/sopOperReserve/dropdown")
-    Call<InHospitalSortResp> getOperationMyBookSort();
+    @GET("his-api/v1.0/oper/sopOperReserve/dropdown")
+    Call<InHospitalSortResp> getOperationMyBookSort(@Query("token") String token);
 
     //手术	排期筛选
-    @GET("v1.0/oper/scheduling/dropdown")
-    Call<InHospitalSortResp> getScheduingSort();
+    @GET("his-api/v1.0/oper/scheduling/dropdown")
+    Call<InHospitalSortResp> getScheduingSort(@Query("token") String token);
 
 
 }

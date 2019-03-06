@@ -67,7 +67,7 @@ public class OperationMyArrangementPresenter extends BasePagePresenter<Operation
 
         HttpClient.getHttpApi().getOperationMyArrangementList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
                userId,formatDate(),pageIndex,pageSize,
-                status,searchName,"",""
+                status,searchName,"","",BaseApplication.getLoginEntity().getToken()
 
         ).enqueue(new Callback<OperationMyArrangementListResp>() {
             @Override

@@ -92,7 +92,7 @@ public class WoDeDaiZhenPresenter extends BasePagePresenter<DaiZhenResp> {
         HttpClient.getHttpApi().getWoDeDaiZhenList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
                userId,pageIndex,pageSize,
                formatDate(),
-                status,triageTime,waitingTime,search
+                status,triageTime,waitingTime,search,BaseApplication.getLoginEntity().getToken()
 
         ).enqueue(new Callback<DaiZhenResp>() {
             @Override

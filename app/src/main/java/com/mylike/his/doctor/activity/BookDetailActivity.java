@@ -83,7 +83,7 @@ public class BookDetailActivity extends BaseActivity {
 
     public void getMyBookDetail() {
         CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getMyBookDetail(BaseApplication.getLoginEntity().getTenantId(), myBookingItemBean.getAppId())
+        HttpClient.getHttpApi().getMyBookDetail(BaseApplication.getLoginEntity().getTenantId(), myBookingItemBean.getAppId(),BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<MyBookingDetailResp>() {
                     @Override
                     public void onResponse(Call<MyBookingDetailResp> call, Response<MyBookingDetailResp> response) {

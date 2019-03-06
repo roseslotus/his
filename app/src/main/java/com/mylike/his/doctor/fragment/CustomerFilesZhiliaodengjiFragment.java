@@ -99,7 +99,7 @@ public class CustomerFilesZhiliaodengjiFragment extends BaseFragment {
 
     public void getZhiLiaoDengJi() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getZhiLiaoDengJi(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), registId,cusId)
+        HttpClient.getHttpApi().getZhiLiaoDengJi(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), registId,cusId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<MenZhenZhiLiaoDengJiBean>>() {
                     @Override
                     public void onResponse(Call<List<MenZhenZhiLiaoDengJiBean>> call, Response<List<MenZhenZhiLiaoDengJiBean>> response) {

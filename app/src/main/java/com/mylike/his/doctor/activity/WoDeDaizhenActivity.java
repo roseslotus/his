@@ -228,7 +228,10 @@ public class WoDeDaizhenActivity extends BaseActivity {
             public void onResponse(DaiZhenResp daiZhenResp) {
                 fillData(false, daiZhenResp);
                 mDatas.clear();
-                mDatas.addAll(daiZhenResp.getDataList());
+                if (daiZhenResp != null&&daiZhenResp.getDataList()!=null) {
+                    mDatas.addAll(daiZhenResp.getDataList());
+                }
+
                 commonAdapter.notifyDataSetChanged();
                 stopOver();
             }
@@ -256,7 +259,7 @@ public class WoDeDaizhenActivity extends BaseActivity {
 
     public void getMyWaitingRegistSort() {
 //        CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getMyWaitingRegistSort().enqueue(new Callback<InHospitalSortResp>() {
+        HttpClient.getHttpApi().getMyWaitingRegistSort(BaseApplication.getLoginEntity().getToken()).enqueue(new Callback<InHospitalSortResp>() {
             @Override
             public void onResponse(Call<InHospitalSortResp> call, Response<InHospitalSortResp> response) {
 //                CommonUtil.dismissLoadProgress();

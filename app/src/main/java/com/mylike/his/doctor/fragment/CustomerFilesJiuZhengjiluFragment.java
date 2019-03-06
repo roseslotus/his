@@ -110,7 +110,7 @@ public class CustomerFilesJiuZhengjiluFragment extends BaseFragment {
 
     public void getCustomerTreatRecordList() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getCustomerTreatRecordList(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(),cusId,1,50)
+        HttpClient.getHttpApi().getCustomerTreatRecordList(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(),cusId,1,50,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<CustomerTreatRecordListBean>>() {
                     @Override
                     public void onResponse(Call<List<CustomerTreatRecordListBean>> call, Response<List<CustomerTreatRecordListBean>> response) {

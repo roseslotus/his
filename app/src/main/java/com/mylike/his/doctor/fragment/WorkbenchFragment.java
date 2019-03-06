@@ -305,8 +305,8 @@ public class WorkbenchFragment extends BaseFragment {
         }
         CommonUtil.showLoadProgress(getActivity());
 
-        HttpClient.getHttpApi().todayPeopleViewCount(BaseApplication.getLoginEntity().getTenantId(), mDepartmentBean.getDepId(), BaseApplication.getLoginEntity().getUserId()).enqueue(new Callback<List<DepCountEntity>>() {
-            @Override
+        HttpClient.getHttpApi().todayPeopleViewCount(BaseApplication.getLoginEntity().getTenantId(), mDepartmentBean.getDepId(), BaseApplication.getLoginEntity().getUserId(),BaseApplication.getLoginEntity().getToken()).enqueue(new Callback<List<DepCountEntity>>() {
+                @Override
             public void onResponse(Call<List<DepCountEntity>> call, Response<List<DepCountEntity>> response) {
                 CommonUtil.dismissLoadProgress();
                 if (response==null||response.body()==null){

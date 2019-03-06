@@ -65,7 +65,7 @@ public class ZhuyuanFeiyongDetailActivity extends BaseActivity {
 
     public void getInHospitalCostDetail() {
         CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getInHospitalCostDetail(BaseApplication.getLoginEntity().getTenantId(), "85101020190000000014",1,10)
+        HttpClient.getHttpApi().getInHospitalCostDetail(BaseApplication.getLoginEntity().getTenantId(), "85101020190000000014",1,10,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<InHospitalDetailResp>() {
                     @Override
                     public void onResponse(Call<InHospitalDetailResp> call, Response<InHospitalDetailResp> resp) {

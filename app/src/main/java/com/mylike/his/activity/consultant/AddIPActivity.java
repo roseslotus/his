@@ -112,11 +112,11 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
     private void submit(final String ipStr, final String portStr) {
         try {
             //替换http地址
-            RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipValue);
+            RetrofitUrlManager.getInstance().setGlobalDomain("https://" + ipValue);
             CommonUtil.showLoadProgress(AddIPActivity.this);
 
             //验证接口是否用
-            HttpClient.getHttpApi().pingAPI().enqueue(new Callback<Map<String, String>>() {
+            HttpClient.getPingHttpApi().pingAPI().enqueue(new Callback<Map<String, String>>() {
                 @Override
                 public void onResponse(Call<Map<String, String>> call, Response<Map<String, String>> response) {
                     Map<String, String> map = response.body();
@@ -155,6 +155,6 @@ public class AddIPActivity extends BaseActivity implements View.OnClickListener 
         super.onDestroy();
         String ipChecked = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);
         if (!TextUtils.isEmpty(ipChecked))
-            RetrofitUrlManager.getInstance().setGlobalDomain("http://" + ipChecked);
+            RetrofitUrlManager.getInstance().setGlobalDomain("https://" + ipChecked);
     }
 }

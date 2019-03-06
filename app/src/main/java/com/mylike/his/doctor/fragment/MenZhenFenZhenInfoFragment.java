@@ -63,7 +63,7 @@ public class MenZhenFenZhenInfoFragment extends BaseFragment {
 
     public void getFenZhenInfo(String registId) {
         CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getFenZhenInfo(BaseApplication.getLoginEntity().getTenantId(), registId).enqueue(new Callback<FenZhenInfoResp>() {
+        HttpClient.getHttpApi().getFenZhenInfo(BaseApplication.getLoginEntity().getTenantId(), registId,BaseApplication.getLoginEntity().getToken()).enqueue(new Callback<FenZhenInfoResp>() {
             @Override
             public void onResponse(Call<FenZhenInfoResp> call, Response<FenZhenInfoResp> response) {
                 CommonUtil.dismissLoadProgress();

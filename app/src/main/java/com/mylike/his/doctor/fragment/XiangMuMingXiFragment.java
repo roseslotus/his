@@ -94,7 +94,7 @@ public class XiangMuMingXiFragment extends BaseFragment {
 
     public void getProjectDetailList() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getProjectDetailList(BaseApplication.getLoginEntity().getTenantId(),registId)
+        HttpClient.getHttpApi().getProjectDetailList(BaseApplication.getLoginEntity().getTenantId(),registId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<ProjectDetailListBean>>() {
                     @Override
                     public void onResponse(Call<List<ProjectDetailListBean>> call, Response<List<ProjectDetailListBean>> response) {

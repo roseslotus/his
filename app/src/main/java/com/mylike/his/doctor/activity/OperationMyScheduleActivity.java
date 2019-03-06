@@ -299,7 +299,7 @@ public class OperationMyScheduleActivity extends BaseActivity {
 
     public void getScheduingSort() {
 //        CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getScheduingSort().enqueue(new Callback<InHospitalSortResp>() {
+        HttpClient.getHttpApi().getScheduingSort(BaseApplication.getLoginEntity().getToken()).enqueue(new Callback<InHospitalSortResp>() {
             @Override
             public void onResponse(Call<InHospitalSortResp> call, Response<InHospitalSortResp> response) {
 //                CommonUtil.dismissLoadProgress();

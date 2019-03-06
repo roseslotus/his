@@ -78,7 +78,7 @@ public class DoctorAdviceDetailActivity extends BaseActivity {
 
     public void getDoctorAdviceDetail(String operationId) {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getDoctorAdviceDetail(BaseApplication.getLoginEntity().getTenantId(), orderId)
+        HttpClient.getHttpApi().getDoctorAdviceDetail(BaseApplication.getLoginEntity().getTenantId(), orderId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<DoctorAdviceDetailResp>() {
                     @Override
                     public void onResponse(Call<DoctorAdviceDetailResp> call, Response<DoctorAdviceDetailResp> resp) {

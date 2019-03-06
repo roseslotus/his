@@ -79,7 +79,7 @@ public class ZhuyuanDetailFragment extends BaseFragment {
 
     public void getMyInHospitalDetail() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getMyInHospitalDetail(BaseApplication.getLoginEntity().getTenantId(), registId)
+        HttpClient.getHttpApi().getMyInHospitalDetail(BaseApplication.getLoginEntity().getTenantId(), registId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<MyInHospitalDetailResp>() {
                     @Override
                     public void onResponse(Call<MyInHospitalDetailResp> call, Response<MyInHospitalDetailResp> response) {

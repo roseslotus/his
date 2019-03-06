@@ -96,7 +96,7 @@ public class ModifyPasswordActivity extends BaseActivity {
     public void modifyPwd(String oldPwd,String newPwd){
         CommonUtil.showLoadProgress(this);
 
-        HttpClient.getHttpApi().modifyPwd(BaseApplication.getLoginEntity().getUserId(),oldPwd,newPwd).enqueue(new Callback<BaseNewEntity>() {
+        HttpClient.getHttpApi().modifyPwd(BaseApplication.getLoginEntity().getUserId(),oldPwd,newPwd,BaseApplication.getLoginEntity().getToken()).enqueue(new Callback<BaseNewEntity>() {
             @Override
             public void onResponse(Call<BaseNewEntity> call, Response<BaseNewEntity> response) {
                 CommonUtil.dismissLoadProgress();

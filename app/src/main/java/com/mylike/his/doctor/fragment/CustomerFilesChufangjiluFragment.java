@@ -97,7 +97,7 @@ public class CustomerFilesChufangjiluFragment extends BaseFragment {
 
     public void getChuFangJiLu() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getChuFangJiLu(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), registId,cusId)
+        HttpClient.getHttpApi().getChuFangJiLu(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), registId,cusId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<MenZhenChuFangJiLuBean>>() {
                     @Override
                     public void onResponse(Call<List<MenZhenChuFangJiLuBean>> call, Response<List<MenZhenChuFangJiLuBean>> response) {

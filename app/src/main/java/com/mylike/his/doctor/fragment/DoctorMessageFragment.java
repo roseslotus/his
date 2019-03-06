@@ -88,7 +88,7 @@ public class DoctorMessageFragment extends BaseFragment {
 
     public void getMessageList() {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getMessageList(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(),pageIndex,10)
+        HttpClient.getHttpApi().getMessageList(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(),pageIndex,10,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<MessageItemListBean>>() {
                     @Override
                     public void onResponse(Call<List<MessageItemListBean>> call, Response<List<MessageItemListBean>> response) {
@@ -139,6 +139,7 @@ public class DoctorMessageFragment extends BaseFragment {
         });
 
     }
+
 
 
 

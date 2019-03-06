@@ -61,7 +61,7 @@ public class ShuQianZhunBeiFragment extends BaseFragment {
 
     public void getOperationPrePare() {
 //        CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getOperationPrePare(BaseApplication.getLoginEntity().getTenantId(), registId)
+        HttpClient.getHttpApi().getOperationPrePare(BaseApplication.getLoginEntity().getTenantId(), registId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<OperationPrePareResp>() {
                     @Override
                     public void onResponse(Call<OperationPrePareResp> call, Response<OperationPrePareResp> response) {

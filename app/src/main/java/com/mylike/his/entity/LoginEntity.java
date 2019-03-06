@@ -34,7 +34,7 @@ public class LoginEntity  extends BaseNewEntity{
     private String depName;//权限科室名称
     private String sex;//性别
     private String token;//登陆token
-    private List<DepartmentBean> departments;
+    private List<DepartmentBean> depts;
     private List<PermissionsBean> permissions;
 
     public String getUserId() {
@@ -110,14 +110,14 @@ public class LoginEntity  extends BaseNewEntity{
     }
 
     public List<DepartmentBean> getDepartments() {
-        if (departments==null){
-            departments = new ArrayList<>();
+        if (depts==null){
+            depts = new ArrayList<>();
         }
-        return departments;
+        return depts;
     }
 
     public void setDepartments(List<DepartmentBean> departments) {
-        this.departments = departments;
+        this.depts = departments;
     }
 
     public List<PermissionsBean> getPermissions() {

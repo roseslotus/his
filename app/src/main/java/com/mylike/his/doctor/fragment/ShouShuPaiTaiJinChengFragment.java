@@ -71,7 +71,7 @@ public class ShouShuPaiTaiJinChengFragment extends BaseFragment {
 
     public void getOperationProcess() {
         CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getOperationProcess(BaseApplication.getLoginEntity().getTenantId(), registId)
+        HttpClient.getHttpApi().getOperationProcess(BaseApplication.getLoginEntity().getTenantId(), registId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<OperationProcessResp>() {
                     @Override
                     public void onResponse(Call<OperationProcessResp> call, Response<OperationProcessResp> response) {

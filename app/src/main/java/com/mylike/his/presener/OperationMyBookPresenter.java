@@ -63,7 +63,7 @@ public class OperationMyBookPresenter extends BasePagePresenter<OperationMyBooki
         HttpClient.getHttpApi().getOperationMyBookList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
                 BaseApplication.getLoginEntity().getUserId(),pageIndex,pageSize,
                formatDate(),
-                "",searchName,""
+                "",searchName,"",BaseApplication.getLoginEntity().getToken()
 
         ).enqueue(new Callback<OperationMyBookingListResp>() {
             @Override

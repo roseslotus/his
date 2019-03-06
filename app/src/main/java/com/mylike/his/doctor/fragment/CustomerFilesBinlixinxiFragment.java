@@ -90,7 +90,7 @@ public class CustomerFilesBinlixinxiFragment extends BaseFragment {
 
     public void getBinLiJiLu(String registId,String cusId) {
 //        CommonUtil.showLoadProgress(getActivity());
-        HttpClient.getHttpApi().getBinLiJiLu(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), registId,cusId)
+        HttpClient.getHttpApi().getBinLiJiLu(BaseApplication.getLoginEntity().getTenantId(),BaseApplication.getLoginEntity().getDefaultDepId(), registId,cusId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<BinLiJiLuBean>>() {
             @Override
             public void onResponse(Call<List<BinLiJiLuBean>> call, Response<List<BinLiJiLuBean>> response) {

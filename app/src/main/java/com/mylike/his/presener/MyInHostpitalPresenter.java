@@ -69,7 +69,7 @@ public class MyInHostpitalPresenter extends BasePagePresenter<MyInHostpitalListR
         HttpClient.getHttpApi().getMyInHospital(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
                 userId,status,pageIndex,pageSize,
                searchName,
-                code,bednoId,inhosptimeId
+                code,bednoId,inhosptimeId,BaseApplication.getLoginEntity().getToken()
 
         ).enqueue(new Callback<MyInHostpitalListResp>() {
             @Override

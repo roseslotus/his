@@ -241,7 +241,7 @@ public class OperationMyArrangementActivity extends BaseActivity {
 
     public void getOperationMyBookSort() {
 //        CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getOperationMyBookSort().enqueue(new Callback<InHospitalSortResp>() {
+        HttpClient.getHttpApi().getOperationMyBookSort(BaseApplication.getLoginEntity().getToken()).enqueue(new Callback<InHospitalSortResp>() {
             @Override
             public void onResponse(Call<InHospitalSortResp> call, Response<InHospitalSortResp> response) {
 //                CommonUtil.dismissLoadProgress();

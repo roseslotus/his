@@ -23,8 +23,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpClient {
     private static String ip = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);//选中的ip
-    private static String BASE_URL = "http://" + ip + "/mylike-crm/";//统一地址
+    private static String BASE_URL = "https://" + ip + "/";//统一地址
+
+    private static String BASE_PING_URL = "http://" + ip + "/";//统一地址
     private static ServersApi serversApi;
+    private static ServersApi serversPingApi;
 
     public static String getBaseUrl() {
         return BASE_URL;
@@ -32,10 +35,13 @@ public class HttpClient {
 
     public static ServersApi getHttpApi() {
         //防止在没有选中ip时修改统一ip出现修改错位的现象
+        ip = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);
+        BASE_URL = "https://" + ip + "/";//统一地址
         if (TextUtils.isEmpty(ip)) {
-            BASE_URL = "http://172.16.61.222:8280/mylike-crm/";
+//            BASE_URL = "http://172.16.61.222:8280/mylike-crm/";
+            BASE_URL = "https://api.mylikesh.cn/";
         }
-        BASE_URL = "https://api.mylikesh.cn/his-api/";
+//        BASE_URL = "https://api.mylikesh.cn/his-api/";
 //        BASE_URL = "https://uat8280.mylikesh.cn:80/his-api/";
         if (serversApi == null) {
             //OkHttpClient.Builder httpClientBuiler = new OkHttpClient.Builder();
@@ -73,7 +79,58 @@ public class HttpClient {
                     .baseUrl(BASE_URL)
                     .build().create(ServersApi.class);
         }
+        RetrofitUrlManager.getInstance().setGlobalDomain(BASE_URL);
         return serversApi;
+    }
+
+
+    public static ServersApi getPingHttpApi() {
+        //防止在没有选中ip时修改统一ip出现修改错位的现象
+        ip = SPUtils.getCache(SPUtils.FILE_IP, SPUtils.IP_CHECKED);
+        BASE_PING_URL = "http://" + ip + "/";//统一地址
+        if (TextUtils.isEmpty(ip)) {
+//            BASE_URL = "http://172.16.61.222:8280/mylike-crm/";
+            BASE_PING_URL = "http://api.mylikesh.cn/";
+        }
+
+        if (serversPingApi == null) {
+            //OkHttpClient.Builder httpClientBuiler = new OkHttpClient.Builder();
+            //初始化请求头（满足ip变更后统一修改的需求）
+            OkHttpClient.Builder httpClientBuiler = RetrofitUrlManager.getInstance().with(new OkHttpClient.Builder());
+
+            //设置超时时间
+            httpClientBuiler.connectTimeout(5, TimeUnit.SECONDS);//连接超时,5秒
+            httpClientBuiler.readTimeout(30, TimeUnit.SECONDS);//读取数据超时，30秒
+
+            //对所有请求添加请求头
+            httpClientBuiler.addInterceptor(new LogInterceptor());
+//                    new Interceptor() {
+//                @Override
+//                public okhttp3.Response intercept(Chain chain) throws IOException {
+//                    Request originalRequest = chain.request();
+//
+//                    //表示第一次登陆还没拉取过token
+//                    if (TextUtils.isEmpty(SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))) {
+//                        return chain.proceed(originalRequest.newBuilder().header("Content-type", "application/json;charset=UTF-8").build());//执行登陆的操作
+//                    }
+//
+//                    Request authorised = originalRequest.newBuilder()
+//                            .header("Content-type", "application/json;charset=UTF-8")
+//                            .header("token", SPUtils.getCache(SPUtils.FILE_USER, SPUtils.TOKEN))
+//                            .build();
+//                    Response response = chain.proceed(authorised);//执行此次请求
+//                    return response;
+//                }
+//            });
+
+            serversPingApi = new Retrofit.Builder()
+                    .client(httpClientBuiler.build())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BASE_PING_URL)
+                    .build().create(ServersApi.class);
+        }
+        RetrofitUrlManager.getInstance().setGlobalDomain(BASE_PING_URL);
+        return serversPingApi;
     }
 
     //map参数请求数据

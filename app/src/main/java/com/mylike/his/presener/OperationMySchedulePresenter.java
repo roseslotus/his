@@ -62,7 +62,7 @@ public class OperationMySchedulePresenter extends BasePagePresenter<OperationMyS
 
         HttpClient.getHttpApi().getOperationMySchedulingList(BaseApplication.getLoginEntity().getTenantId(), BaseApplication.getLoginEntity().getDefaultDepId(),
                 userId,pageIndex,pageSize,
-               formatDate(), searchName,""
+               formatDate(), searchName,"",BaseApplication.getLoginEntity().getToken()
 
         ).enqueue(new Callback<OperationMySchedulingListResp>() {
             @Override

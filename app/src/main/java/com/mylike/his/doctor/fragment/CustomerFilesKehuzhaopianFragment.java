@@ -119,7 +119,7 @@ public class CustomerFilesKehuzhaopianFragment extends BaseFragment {
     public void getCustomerPhotoList() {
 //        CommonUtil.showLoadProgress(getActivity());
         HttpClient.getHttpApi().getCustomerPhotoList(BaseApplication.getLoginEntity().getTenantId(),
-                cusId,registId)
+                cusId,registId,BaseApplication.getLoginEntity().getToken())
                 .enqueue(new Callback<List<OperationPhotoBean>>() {
                     @Override
                     public void onResponse(Call<List<OperationPhotoBean>> call, Response<List<OperationPhotoBean>> resp) {

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.mylike.his.R;
 import com.mylike.his.core.BaseActivity;
+import com.mylike.his.core.BaseApplication;
 import com.mylike.his.doctor.ResponseListener;
 import com.mylike.his.doctor.popup.ChoiceZhuyuanShuaixuanPopupMenu;
 import com.mylike.his.entity.CustomerMenZhenBean;
@@ -265,7 +266,7 @@ public class OperationMyBookingActivity extends BaseActivity {
 
     public void getOperationMyBookSort() {
 //        CommonUtil.showLoadProgress(this);
-        HttpClient.getHttpApi().getOperationMyBookSort().enqueue(new Callback<InHospitalSortResp>() {
+        HttpClient.getHttpApi().getOperationMyBookSort(BaseApplication.getLoginEntity().getToken()).enqueue(new Callback<InHospitalSortResp>() {
             @Override
             public void onResponse(Call<InHospitalSortResp> call, Response<InHospitalSortResp> response) {
 //                CommonUtil.dismissLoadProgress();
